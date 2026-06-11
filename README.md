@@ -1,13 +1,3 @@
-# AgentSpace · 团队协作 Agent 平台
-
-> 面向团队的多 Agent 协作工作台 —— 把代码、需求、架构、评审、测试、数据等 Agent 编排到一处，配合 Skill / Tool / Memory 与精细的权限治理，让 AI 真正融入团队研发流程。
-
-🔗 **在线演示：** https://vinniechenyu.github.io/AgentSpace/
-
-> ⚠️ 本仓库为产品原型（单文件 HTML Demo），用于交互与界面演示，数据均为示例。
-
----
-
 # AgentSpace 体验设计
 
 > 把一个「团队级 Agent 工作系统」翻译成团队成员**看得懂、控得住、信得过、留得下**的日常工作界面。
