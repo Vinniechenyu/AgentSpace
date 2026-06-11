@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aurora Ink · Demo Template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="aurora-ink.css">
+</head>
+<body>
+  <div class="app">
+    <!-- ===== 侧栏 Sidebar（浅色，发丝右描边）===== -->
+    <aside class="sidebar">
+      <div class="sb-brand-row">
+        <div class="brand-logo">◆</div>
+        <div class="brand-name">Aurora<em>Ink</em></div>
+      </div>
+      <nav class="sb-section">
+        <div class="sb-section-title">工作台</div>
+        <div class="sb-item active"><span>⬚</span><span>概览</span></div>
+        <div class="sb-item"><span>◷</span><span>任务</span></div>
+        <div class="sb-item"><span>⊞</span><span>看板</span></div>
+        <div class="sb-divider"></div>
+        <div class="sb-section-title">资源</div>
+        <div class="sb-item"><span>◰</span><span>知识库</span></div>
+        <div class="sb-item"><span>⚙</span><span>设置</span></div>
+      </nav>
+    </aside>
+
+    <!-- ===== 主内容 Main（圆角半包围白容器）===== -->
+    <main class="main">
+      <div class="page">
+        <header class="page-header">
+          <div>
+            <h1 class="page-title">概览 <span class="prism-text">Aurora Ink</span></h1>
+            <p class="page-subtitle">展示设计系统的核心组件：墨色主按钮、棱镜焦点、柔和层级卡片、语义状态色。</p>
+          </div>
+          <div class="page-actions">
+            <button class="btn btn-ghost">导出</button>
+            <button class="btn btn-primary">新建任务</button>
+          </div>
+        </header>
+
+        <!-- KPI -->
+        <div class="kpi-grid" style="margin-bottom:18px;">
+          <div class="kpi-card"><div class="kpi-label">活跃 Agent</div><div class="kpi-value">12<span class="unit">个</span></div><div class="kpi-trend up">▲ 8%</div></div>
+          <div class="kpi-card"><div class="kpi-label">今日任务</div><div class="kpi-value">48</div><div class="kpi-trend up">▲ 12%</div></div>
+          <div class="kpi-card"><div class="kpi-label">完成率</div><div class="kpi-value">92<span class="unit">%</span></div><div class="kpi-trend down">▼ 2%</div></div>
+          <div class="kpi-card"><div class="kpi-label">交付件</div><div class="kpi-value">156</div><div class="kpi-trend up">▲ 5%</div></div>
+        </div>
+
+        <!-- 卡片 + 组件演示 -->
+        <div class="card" style="margin-bottom:18px;">
+          <div class="card-header">
+            <div class="card-title"><span class="marker"></span>组件示例</div>
+            <div class="seg">
+              <button class="active">全部</button>
+              <button>进行中</button>
+              <button>已完成</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+              <span class="tag" data-kind="req">需求</span>
+              <span class="tag" data-kind="dev">开发</span>
+              <span class="tag" data-kind="test">测试</span>
+              <span class="tag" data-kind="review">评审</span>
+              <span class="tag" data-kind="priority-high">高优先级</span>
+              <span class="tag" data-kind="ai">AI</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:16px; margin-bottom:16px;">
+              <div class="avatar agent online">AI</div>
+              <div class="avatar human busy">V</div>
+              <span class="status-dot doing"></span><span style="font-size:12px;color:var(--color-text-secondary);">运行中</span>
+              <div class="switch"></div>
+              <div class="switch off"></div>
+            </div>
+            <label class="field-label">任务描述</label>
+            <textarea class="input" placeholder="描述你要让团队完成的事…"></textarea>
+          </div>
+        </div>
+
+        <!-- 表格 -->
+        <div class="card">
+          <table class="tbl">
+            <thead><tr><th>任务</th><th>负责</th><th>阶段</th><th>状态</th></tr></thead>
+            <tbody>
+              <tr><td>设计登录页</td><td>设计 Agent</td><td><span class="tag" data-kind="doc">文档</span></td><td><span class="status-dot done"></span> 完成</td></tr>
+              <tr><td>接口联调</td><td>开发 Agent</td><td><span class="tag" data-kind="dev">开发</span></td><td><span class="status-dot doing"></span> 进行中</td></tr>
+              <tr><td>回归测试</td><td>测试 Agent</td><td><span class="tag" data-kind="test">测试</span></td><td><span class="status-dot todo"></span> 待办</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
