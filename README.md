@@ -169,6 +169,20 @@ flowchart LR
 
 > 设计系统让「人人都能出 demo」的同时，「demo 看起来都像同一个产品」。
 
+### 设计规范作为可复用资产（Skill）
+
+为了让设计语言真正落地、可被任何人（设计师 / 前端 / AI）复用，Aurora Ink 被沉淀为一个**可交付的设计规范 Skill**，放在 [`aurora-ink-design/`](./aurora-ink-design/)：
+
+| 文件 | 作用 |
+| --- | --- |
+| [`SKILL.md`](./aurora-ink-design/SKILL.md) | 设计哲学、**7 条铁律**、Design Token 速查表、组件清单、交付前自检清单 |
+| [`references/aurora-ink.css`](./aurora-ink-design/references/aurora-ink.css) | drop-in 单文件样式表：全部 Design Token + 基线 + 常用组件类（唯一真相来源） |
+| [`references/template.html`](./aurora-ink-design/references/template.html) | 复制即用的起步页：外壳（浅色侧栏 + 圆角半包围白容器）+ 组件演示 |
+
+**怎么用**：做单文件 demo 时把 `aurora-ink.css` 整段内联进 `<style>`，或在多页项目里 `<link>` 引入；从 `template.html` 复制起步，对照 `SKILL.md` 末尾的自检清单交付，即可保证视觉与 AgentSpace 一致。
+
+> 体验设计的一致性不止停在 demo，而是被规范化为团队能直接拿来用的资产——把「设计规范」从文档变成「可执行的 Skill」。
+
 ---
 
 ## 8. 体验设计原则
@@ -197,8 +211,13 @@ open index.html      # macOS；其他系统用浏览器打开 index.html 即可
 
 ```
 AgentSpace/
-├── index.html   # 完整产品原型（单文件 HTML Demo）
-└── README.md    # 本文档：AgentSpace 体验设计
+├── index.html              # 完整产品原型（单文件 HTML Demo）
+├── aurora-ink-design/      # Aurora Ink 设计规范 Skill（可复用视觉资产）
+│   ├── SKILL.md            #   设计哲学 / 铁律 / Token / 组件 / 自检清单
+│   └── references/
+│       ├── aurora-ink.css  #   drop-in token + 组件样式表
+│       └── template.html   #   复制即用的起步页
+└── README.md               # 本文档：AgentSpace 体验设计
 ```
 
 ## 11. 关联文档
