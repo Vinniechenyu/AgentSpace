@@ -1142,3 +1142,12 @@ html body :is(#demo, #modalHost, .appbar) .as2-photo.as2-photo--agent.as2-photo-
 :root[data-appearance-style="liquid"] :is(#demo, #modalHost) .btn.link { color: var(--as-selected-ink) !important; }
 :root:not(.dark):not([data-theme="dark"]) { --as-text-muted: #616161; }
 :root[data-appearance-style="liquid"] #demo .minirow span { color: var(--as-text-2) !important; }
+/* ---- Icons · Lucide：24 栅格、圆角线帽；常规 1.75，小尺寸 2 保持笔画清晰 */
+svg.icon.lucide { fill: none !important; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+:is(.democrumb, .benchupdate, .benchfoot, .paletteitem, .tag, .as-tag, .ext-meta, .ms-star, .ms-later, small, .tiny) svg.icon.lucide { stroke-width: 2; }
+.demorail button svg.icon.lucide { width: 20px; height: 20px; }
+.sidenav svg.icon.lucide { width: 16px; height: 16px; }
+.btn svg.icon.lucide { width: 16px; height: 16px; }
+.btn.sm svg.icon.lucide { width: 14px; height: 14px; stroke-width: 2; }
+/* 像素主题：直角线帽，与硬边风格一致 */
+:root[data-appearance-style="pixel"] svg.icon.lucide { stroke-linecap: square; stroke-linejoin: miter; stroke-width: 2; }

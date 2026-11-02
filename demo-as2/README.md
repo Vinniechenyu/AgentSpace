@@ -37,3 +37,4 @@ cp agentspace2.0_mvp.as2.html ../index.html
 | `as2-avatars.js` | 把首字母头像替换为成员 / Agent 头像 |
 | `assets/avatars/` | 头像资源与来源说明（构建时内嵌） |
 | `assets/agentspace-logo.svg` | 品牌 logo（构建时内嵌） |
+| `lucide-extract.py` · `assets/lucide-icons.json` | 图标：从 lucide-react 按语义映射提取 Lucide 图标数据（修改映射后重新运行脚本） |

@@ -4,7 +4,7 @@
 function sidebarState(){return window.__asSidebar||(window.__asSidebar={line:null,collapsed:(()=>{try{return localStorage.getItem('as2-side-collapsed')==='1';}catch(e){return false;}})()});}
 function sidebarApplyCollapsed(){document.documentElement.dataset.side=sidebarState().collapsed?'collapsed':'open';}
 function sidebarToggle(){const st=sidebarState();st.collapsed=!st.collapsed;try{localStorage.setItem('as2-side-collapsed',st.collapsed?'1':'0');}catch(e){}sidebarApplyCollapsed();}
-const SIDEBAR_TOGGLE_ICON='<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/></svg>';
+const SIDEBAR_TOGGLE_ICON=ico('panelLeft');
 // Row position in the sidebody's padding box (what an absolutely positioned child is placed against).
 function sidebarRowTop(row,body){return Math.round(row.getBoundingClientRect().top-body.getBoundingClientRect().top-body.clientTop+body.scrollTop);}
 function sidebarSyncLine(){const body=document.querySelector('#demo .demoside .sidebody'),a=body?.querySelector('.sidenav.active'),line=body?.querySelector(':scope > .as2-nav-line');if(!a||!line)return;const top=sidebarRowTop(a,body);line.style.transform=`translateY(${top}px)`;line.style.height=a.offsetHeight+'px';const st=sidebarState();if(st.line)st.line.top=top;}

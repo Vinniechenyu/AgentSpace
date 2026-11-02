@@ -46,7 +46,7 @@ function runView(t,mode='full'){
     :t.status==='done'?`<span class="as-status" data-status="done">已验收</span>`
     :t.status==='cancelled'?`<span class="as-status" data-status="stopped">已停止 · 停在第 ${cur+1} 步</span>`:'';
   const meta=`<span class="as2-run-meta as-num">${runId}${elapsed?' · '+(running?elapsed:'用时 '+elapsed):''}</span>`;
-  const stop=running?btn(ico('pause')+'停止','cancel-task',t.id,'sm danger'):'';
+  const stop=running?btn(ico('stop')+'停止','cancel-task',t.id,'sm danger'):'';
   if(mode==='compact')return `<section class="as2-run" data-run-task="${t.id}" data-mode="compact"><div class="as2-run-head">${head}<span class="spacer"></span><span class="as-tasklist__count as-num">${done} / ${n}</span></div><div class="as-progress" ${running?'data-tone="brand"':''}><i style="width:${pct}%"></i></div></section>`;
   const listOpen=!runUIState().closed[t.id];
   const steps=plan.map(([label],k)=>{const [st,p]=states[k];return `<li class="as-tstep" data-state="${st}"><span class="as-tstep__icon" ${st==='running'?`style="--p:${Math.round(p*100)}%"`:''}></span><span class="as-tstep__label">${esc(label)}</span><span class="as-tstep__pct as-num">${st==='running'?Math.round(p*100)+'%':st==='waiting'?'需要你':st==='stopped'?'已停止':''}</span></li>`;}).join('');

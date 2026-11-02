@@ -530,6 +530,40 @@ jsrep("""if(s.view==='team')return `<div class="sidehead"><h3>Project</h3><p>云
       """if(s.view==='team')return `<div class="sidehead sidehead--switch"><button class="projectswitch" data-a="switch-project" aria-haspopup="dialog" aria-expanded="false" aria-label="切换项目（当前 ${esc(s.project)}）"><span class="projecticon">${esc(s.project[0])}</span><div class="grow"><b>${esc(s.project)}</b><small>云软件团队 · 需求与研发交付</small></div><svg class="icon as2-updown" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg></button></div><div class="sidebody">""")
 jsrep("case 'switch-project':modal('切换项目',", "case 'switch-project':if(openProjectSwitcher())break;modal('切换项目',")
 
+# ---- Icons: Lucide (assets/lucide-icons.json, from lucide-extract.py). ico(name) renders the Lucide icon
+# mapped to that name; legacy ICONS paths stay only as a fallback for names without a mapping.
+import json, html as _html
+LU = json.loads((HERE / 'assets/lucide-icons.json').read_text())
+def lucide_inner(lucide):
+    return ''.join('<%s %s/>' % (tag, ' '.join(f'{k}="{_html.escape(v)}"' for k, v in attrs.items())) for tag, attrs in LU['icons'][lucide])
+LUCIDE_SVG = {name: lucide_inner(lucide) for name, lucide in LU['map'].items()}
+ICON_OPEN = '<svg class="icon lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
+jsrep('const ico=n=>`<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONS[n]||ICONS.grid}"/></svg>`;',
+      '/* Lucide icons · ' + LU['source'] + ' */\nconst LUCIDE_SVG=' + json.dumps(LUCIDE_SVG, ensure_ascii=False) + ';\n'
+      'const ico=n=>`' + ICON_OPEN + '${LUCIDE_SVG[n]||(ICONS[n]?`<path d="${ICONS[n]}"/>`:LUCIDE_SVG.grid)}</svg>`;')
+# Meaningful icons per concept (the legacy set reused one glyph for several ideas).
+for typ, name in [('Agent', 'agent'), ('MCP 工具', 'mcp'), ('CLI 工具', 'terminal'), ('条件', 'condition'), ('人工确认', 'approve')]:
+    js = re.sub(r"(type:'%s',[^{}]*?icon:)'\w+'" % re.escape(typ), r"\1'%s'" % name, js)
+jsrep("const icons={'输入':'file','触发':'clock','Agent':'team','Skill':'spark','MCP 工具':'link','CLI 工具':'code','条件':'workflow','人工确认':'shield','输出':'bench'};",
+      "const icons={'输入':'file','触发':'clock','Agent':'agent','Skill':'spark','MCP 工具':'mcp','CLI 工具':'terminal','条件':'condition','人工确认':'approve','输出':'bench'};")
+js = js.replace("icon:'link'", "icon:'mcp'")  # every asset/node using 'link' is an MCP connection
+jsrep("[['输入','file'],['Agent','team'],['Skill','spark'],['MCP 工具','link'],['CLI 工具','code'],['条件','workflow'],['人工确认','shield'],['输出','bench']]",
+      "[['输入','file'],['Agent','agent'],['Skill','spark'],['MCP 工具','mcp'],['CLI 工具','terminal'],['条件','condition'],['人工确认','approve'],['输出','bench']]")
+# Workflow nodes saved in localStorage keep their old icon names: resolve the icon from the node type at render time.
+js = js.replace("ico(n.icon)", "ico(NODE_ICON[n.type]||n.icon)")
+jsrep("const ico=n=>", "const NODE_ICON={'输入':'file','触发':'clock','Agent':'agent','Skill':'spark','MCP 工具':'mcp','CLI 工具':'terminal','条件':'condition','人工确认':'approve','输出':'bench'};\nconst ico=n=>")
+jsrep("icons={overview:'home',observe:'search',evaluate:'check',improve:'spark',memory:'file'}",
+      "icons={overview:'home',observe:'observe',evaluate:'evaluate',improve:'improve',memory:'memory'}")
+jsrep('data-a="demo-help" title="演示说明">${ico(\'info\')', 'data-a="demo-help" title="演示说明">${ico(\'help\')')
+jsrep('<svg class="icon as2-updown" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>',
+      '${ico(\'updown\').replace(\'class="icon lucide"\',\'class="icon lucide as2-updown"\')}')
+# Static app-bar icons in the page body.
+for d, name in [('M4 6h16M4 12h16M4 18h16', 'menu'), ('M20 20l-5-5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0', 'search'),
+                ('M12 3l2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z', 'tour'), ('M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5', 'expand')]:
+    old = f'<svg class="icon" viewBox="0 0 24 24"><path d="{d}"/></svg>'
+    assert old in body, 'Missing body icon: ' + name
+    body = body.replace(old, ICON_OPEN + LUCIDE_SVG[name] + '</svg>')
+
 # Inline micro font sizes (8–10px) are below the AS2 type scale.
 js = re.sub(r'font-size:(8|9|10)px', 'font-size:11px', js)
 
