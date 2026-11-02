@@ -721,3 +721,11 @@ input[type=checkbox], input[type=radio] { accent-color: var(--as-brand) !importa
 #demo.slack-shell .wc-chips { padding: 0 0 4px !important; }
 #demo.slack-shell .wc-compose-mode { padding: 0 4px 4px !important; }
 #demo.slack-shell .co-root-label { display: inline-flex !important; width: auto !important; align-items: center; height: 20px; padding: 0 8px !important; }
+
+/* 未读计数徽标：flex 居中，固定 16px 高，最小 16px 宽（两位数自然变胶囊） */
+#demo.slack-shell .demorail .rail-unread, #demo.slack-shell .ms-unread {
+  display: inline-flex !important; align-items: center; justify-content: center; box-sizing: border-box;
+  min-width: 16px; height: 16px !important; width: auto !important; padding: 0 4px !important;
+  font: 600 10px/1 var(--as-font) !important; font-variant-numeric: tabular-nums; letter-spacing: 0; border-radius: var(--as-r-pill) !important; }
+/* 导航轨首项与右侧面板顶边对齐 */
+#demo.slack-shell .demorail { padding-top: 0 !important; }
