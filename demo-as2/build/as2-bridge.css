@@ -1250,3 +1250,47 @@ html[data-appearance-style="liquid"] body #modalHost .modal { background: rgba(2
 #demo.slack-shell .messenger-shell .ms-chat-title { display: flex !important; align-items: baseline; gap: 10px; min-width: 0; }
 #demo.slack-shell .messenger-shell .ms-chat-title h2 { font-size: 14px !important; line-height: 20px !important; font-weight: 700 !important; margin: 0 !important; white-space: nowrap; }
 #demo.slack-shell .messenger-shell .ms-chat-title p { margin: 0 !important; font-size: 12px !important; line-height: 20px !important; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+/* 内容区始终放在最后一列：侧栏隐藏（如新建工作台）时不会落进侧栏那一列 */
+#demo.slack-shell > .demoarea { grid-column: -2 / -1 !important; grid-row: 1 !important; }
+/* 新建工作台：无侧栏时内容占满（不留空列） */
+body[data-view="personal"][data-page="benchbuilder"] #demo.slack-shell.slack-shell { grid-template-columns: 68px minmax(0, 1fr) !important; }
+
+/* ---- Thread 面板：与频道同一底面，只用左侧分割线区分（不再叠一层玻璃） */
+#demo.slack-shell .threadpanel.threadpanel { background: transparent !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; box-shadow: none !important; border-left: 1px solid var(--as-border) !important; }
+
+/* ---- 数字徽标：全局统一为圆形胶囊（20 高 · 最小 20 宽 · 灰底） */
+#demo.slack-shell :is(.sidenav > small, .board-tab-count, .co-tab-count, .co-members-toggle > b, .evo-count, .ms-list-head h1 > span, .ext-page-tabs .as-num, .hub-channel-count),
+#demo.slack-shell .messenger-shell .ms-list-head h1 > span {
+  display: inline-grid !important; place-items: center; box-sizing: border-box; min-width: 20px !important; height: 20px !important; padding: 0 6px !important; margin-left: 6px;
+  border-radius: 999px !important; background: var(--as-muted-bg) !important; color: var(--as-text-muted) !important; box-shadow: none !important;
+  font-size: 11px !important; font-weight: 600 !important; line-height: 1 !important; font-variant-numeric: tabular-nums; letter-spacing: 0 !important; }
+#demo.slack-shell .sidenav > small { margin-left: auto; }
+#demo.slack-shell :is(.board-tab-count, .co-tab-count, .evo-count).active, #demo.slack-shell .active > :is(.board-tab-count, .co-tab-count, .evo-count, .as-num) { color: var(--as-text) !important; }
+:root[data-appearance-style="pixel"] #demo.slack-shell :is(.sidenav > small, .board-tab-count, .co-tab-count, .co-members-toggle > b, .evo-count, .ms-list-head h1 > span, .ext-page-tabs .as-num, .hub-channel-count) { border-radius: 0 !important; }
+/* 消息 / 通讯录列表：行与搜索框、筛选左右对齐（各 18px），选中态右侧不再贴边 */
+#demo.slack-shell .messenger-shell .ms-list-pane .ms-conversations { padding: 0 18px 18px !important; box-sizing: border-box; }
+#demo.slack-shell .messenger-shell .ms-list-pane :is(.ms-conversation, .ms-contact-item) { width: 100% !important; max-width: 100% !important; margin: 0 0 3px !important; box-sizing: border-box !important; }
+/* 标签内的数字（如「会话与版本 3」）同样使用圆形徽标 */
+#demo.slack-shell :is(.dtabs, .projecttabs, .board-main-tabs) > button > small {
+  display: inline-grid !important; place-items: center; box-sizing: border-box; min-width: 20px; height: 20px; padding: 0 6px !important; margin-left: 6px;
+  border-radius: 999px !important; background: var(--as-muted-bg) !important; color: var(--as-text-muted) !important; font-size: 11px !important; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+:root[data-appearance-style="pixel"] #demo.slack-shell :is(.dtabs, .projecttabs, .board-main-tabs) > button > small { border-radius: 0 !important; }
+/* 流光：浮层（弹出面板 / 下拉菜单 / 切换器）近不透明，与弹窗一致，避免背后内容透出 */
+html[data-appearance-style="liquid"] body :is(#demo, #modalHost, body) :is(.wc-popover, .wc-file-popover, .wc-quick-menu, .searchresult-list, .ms-menu-list, .ms-menu, .as2-switcher, .as2-menu, .toast) {
+  background: rgba(250, 251, 253, .97) !important; backdrop-filter: blur(24px) saturate(1.4) !important; -webkit-backdrop-filter: blur(24px) saturate(1.4) !important; }
+html:root[data-appearance-style="liquid"] body > :is(.as2-switcher, .as2-menu, .toast) { background: rgba(250, 251, 253, .97) !important; backdrop-filter: blur(24px) saturate(1.4) !important; -webkit-backdrop-filter: blur(24px) saturate(1.4) !important; }
+/* 新建工作台 + 菜单：文件 / 扩展 */
+#demo.slack-shell .wc-quick-menu > button { color: var(--as-text) !important; font-size: 13px !important; }
+#demo.slack-shell .wc-quick-menu > button svg.icon { color: var(--as-text-muted); }
+#demo.slack-shell .wc-quick-count { margin-left: auto; display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--as-muted-bg); color: var(--as-text-muted); font-size: 11px; font-weight: 600; }
+#demo.slack-shell .wc-composer-card .wc-chips:empty { display: none !important; }
+#demo.slack-shell .wc-composer-card .wc-chips:not(:empty) { margin: 0 0 8px !important; }
+#demo.slack-shell .wc-composer-card #wbPrompt { padding-top: 4px !important; }
+#demo.slack-shell .wc-composer-card #wbPrompt { min-height: 48px !important; }
+/* 消息：会话 / 通讯录 标签与下方搜索框左对齐（去掉额外 22px 内边距） */
+#demo.slack-shell .messenger-shell .ms-list-pane .ms-primary-tabs { padding: 0 !important; margin: 0 18px 14px !important; }
+/* 群组头像：成员头像 2×2 拼合（人员圆形 · Agent 不加底） */
+html body #demo.slack-shell .ms-avatar.ms-avatar-group { display: grid !important; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 2px; padding: 3px !important; box-sizing: border-box; overflow: hidden; background: var(--as-stage) !important; box-shadow: inset 0 0 0 1px var(--as-border) !important; }
+html body #demo.slack-shell .ms-avatar.ms-avatar-group > i { display: block !important; width: 100% !important; height: 100% !important; min-width: 0; min-height: 0; margin: 0 !important; border: 0 !important; border-radius: 50% !important; position: static !important; }
+html body #demo.slack-shell .ms-avatar.ms-avatar-group > i.as2-photo--agent { border-radius: 0 !important; background-color: transparent !important; background-size: contain !important; }
+html body #demo.slack-shell .ms-avatar.ms-avatar-group > i:nth-child(n+5) { display: none !important; }

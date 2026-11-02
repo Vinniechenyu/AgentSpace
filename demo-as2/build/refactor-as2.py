@@ -600,6 +600,14 @@ jsrep("""<div class="tiny muted ext-count">AgentCenter 资产样例 · 用于交
 # 进化中心 has no breadcrumb bar either; its visibility moves into a hint next to the title (the scope select stays).
 jsrep("""return `<div class="democrumb"><b>进化中心</b>${ico('chevron')}<span>${esc(scopeLabel)}</span><span class="spacer"></span><span>${personal?'个人私有 · 本人管理':e.scope==='all'?'按个人与项目范围隔离':'项目共享 · 成员协作'}</span></div><div class="demopage evolution-page"><header class="evo-page-head"><div><h1>进化中心</h1>""",
       """return `<div class="demopage evolution-page"><header class="evo-page-head"><div><h1>进化中心${as2Hint(`当前范围：<b>${esc(scopeLabel)}</b> · ${personal?'个人私有，仅本人管理':e.scope==='all'?'按个人与项目范围隔离':'项目共享，成员协作'}。改进生效前都需要确认。`,'关于可见范围')}</h1>""")
+# 新建工作台 composer: files and extensions live in the + menu; only 选择项目 stays below the box; no mode line.
+jsrep("""<div class="wc-compose-mode">使用 <span>${ico('bench')}AgentSpace</span> 创建工作台</div>""", "")
+jsrep("""<button class="${e.popover==='files'?'active':''}" data-a="wb2-files">${ico('file')}文件${e.files.length?`<span>${e.files.length}</span>`:''}</button><button class="${e.popover==='extensions'?'active':''}" data-a="wb2-picker" data-v="extensions">${ico('grid')}扩展${e.extensionIds.length?`<span>${e.extensionIds.length}</span>`:''}</button>""", "")
+jsrep("""<div class="wc-quick-menu"><button data-a="wb2-picker" data-v="project">${ico('team')}选择项目</button><button data-a="wb2-upload">${ico('file')}添加文件</button><button data-a="wb2-picker" data-v="extensions">${ico('grid')}引用扩展</button></div>""",
+      """<div class="wc-quick-menu"><button data-a="wb2-upload">${ico('file')}添加文件${e.files.length?`<span class="wc-quick-count">${e.files.length}</span>`:''}</button><button data-a="wb2-picker" data-v="extensions">${ico('grid')}引用扩展${e.extensionIds.length?`<span class="wc-quick-count">${e.extensionIds.length}</span>`:''}</button></div>""")
+# 消息: the new-message button uses the "new" (+) icon.
+jsrep('<button class="ms-compose-new" data-a="ms-new" title="新建消息" aria-label="新建消息">${ico(\'edit\')}</button>',
+      '<button class="ms-compose-new" data-a="ms-new" title="新建消息" aria-label="新建消息">${ico(\'plus\')}</button>')
 # 构建: recent flows and import move into the editor header.
 jsrep("function renderEditor(){", """function recentWorkflowSelect(){const records=[...s.workflowDrafts].reverse().slice(0,4),labels=new Set(records.map(r=>r.label));const opts=records.map(r=>[`workflow-open-draft|${r.id}`,r.label,s.currentWorkflowId===r.id]).concat(['质量日报生成','SpecX · 需求到交付'].filter(l=>!labels.has(l)).map(l=>[`studio|${l}`,l,!s.currentWorkflowId&&s.wfLabel===l]));return `<label class="build-context">最近流程<select aria-label="打开最近的流程" onchange="const [a,v]=this.value.split('|');action(a,v)">${opts.some(o=>o[2])?'':`<option selected disabled>${esc(s.wfLabel)}</option>`}${opts.map(([v,l,on])=>`<option value="${esc(v)}" ${on?'selected':''}>${esc(l)}</option>`).join('')}</select></label>`;}
 function renderEditor(){""")
