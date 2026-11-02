@@ -1,6 +1,6 @@
 
 // ---- Settings (AS2): global preferences grouped by what they govern.
-// Wired: theme (incl. system), density, reduced motion, unread badge, default project,
+// Wired: theme, density, reduced motion, unread badge, default project,
 // shortcuts into Evolution / Extensions / Guide, local data reset. Others are marked as mock.
 const SETTINGS_SECTIONS=[['general','通用','settings'],['appearance','外观','spark'],['notify','通知','bell'],['agent','Agent 与自主权','shield'],['memory','记忆与进化','evolution'],['extensions','扩展与权限','grid'],['shortcuts','快捷键','code'],['data','数据与隐私','file']];
 const SETTINGS_ACTIONS=[['read','读取资料与检索','safe','查询项目空间、仓库、日志'],['write','修改工作台与草稿','risky','生成新版本、改写内容，可撤销'],['send','代我发送消息','risky','在频道、Thread 或飞书中发言'],['destructive','删除或对外发布','destructive','删除数据、发布 Workflow、合入代码']];
@@ -15,7 +15,7 @@ function settingsConfig(){
   s.settings={...d,...s.settings,actions:{...d.actions,...(s.settings.actions||{})}};
   return s.settings;
 }
-function themeTone(style){const tone=APPEARANCE_STYLES[style]?.tone||'light';return tone==='auto'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):tone;}
+function themeTone(style){return APPEARANCE_STYLES[style]?.tone||'light';}
 function settingsApply(){const st=settingsConfig(),root=document.documentElement;root.dataset.density=st.density;root.dataset.motion=st.reduceMotion?'reduce':'full';root.dataset.unreadBadge=st.unreadBadge?'on':'off';root.style.setProperty('--lq-a',st.liquidA);root.style.setProperty('--lq-b',st.liquidB);pixelFontsEnsure();}
 // 像素皮肤字体：仅在选用时按需加载（Silkscreen 像素标题 + JetBrains Mono 正文；离线回退系统等宽字体）。
 function pixelFontsEnsure(){if(s?.appearance?.style!=='pixel'||document.getElementById('as2-pixel-fonts'))return;const l=document.createElement('link');l.id='as2-pixel-fonts';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Silkscreen:wght@400;700&display=swap';document.head.appendChild(l);}
@@ -109,7 +109,6 @@ function settingsAction(a,v){
   return false;
 }
 document.addEventListener('change',e=>{if(e.target.matches('#modalHost [data-setting]'))settingsSet(e.target.dataset.setting,e.target.value);});
-matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(appearanceConfig().style==='system')appearanceApply();});
 
 // ---- Input modality: focus rings are for keyboard users only (AS2 · 焦点).
 // Programmatic focus after a click (dialogs, restored focus) must not draw a ring.

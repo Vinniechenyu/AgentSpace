@@ -407,7 +407,6 @@ jsrep("""const APPEARANCE_STYLES={
 };""", """const APPEARANCE_STYLES={
   classic:{name:'浅色',tone:'light',tagline:'中性灰阶',description:'AgentSpace 2.0 默认：中性灰承载信息，墨色胶囊是唯一主操作，品牌蓝只表示选中、焦点与运行中。'},
   dark:{name:'深色',tone:'dark',tagline:'逐层提亮',description:'画布最暗、卡片逐层提亮；主按钮自动反转为浅色，状态色保持三重编码。'},
-  system:{name:'跟随系统',tone:'auto',tagline:'随系统切换',description:'跟随操作系统的浅色 / 深色设置自动切换。'},
   liquid:{name:'流光',tone:'light',tagline:'液态玻璃 · 自定义配色',description:'个性化皮肤：双色渐变底，面板与浮层为半透明液态玻璃；配色可选预设或自定义。'},
   pixel:{name:'像素',tone:'dark',tagline:'终端 · 等宽 · 像素',description:'开发者皮肤：严格中性灰、等宽字体与像素标题，直角硬边；白色表示选中，橙红表示异常。'}
 };""")
@@ -502,6 +501,9 @@ def avatar_js():
     return '\nwindow.AS2_AVATARS=' + json.dumps(data) + ';\n' + (HERE / 'as2-avatars.js').read_text()
 
 # ---- Settings: global preferences (as2-settings.js) replace the appearance-only dialog.
+# 「跟随系统」 was removed: a saved 'system' choice becomes the theme the OS is showing right now.
+jsrep("if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.style='classic';",
+      "if(s.appearance.style==='system')s.appearance.style=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'classic';if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.style='classic';")
 js = js.replace('APPEARANCE_STYLES[style].tone', 'themeTone(style)')
 jsrep("function appearanceApply(){", "function appearanceApply(){settingsApply();")
 jsrep("function action(a,v){", "function action(a,v){if(settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v))return;")
@@ -563,6 +565,10 @@ for d, name in [('M4 6h16M4 12h16M4 18h16', 'menu'), ('M20 20l-5-5M17 10a7 7 0 1
     old = f'<svg class="icon" viewBox="0 0 24 24"><path d="{d}"/></svg>'
     assert old in body, 'Missing body icon: ' + name
     body = body.replace(old, ICON_OPEN + LUCIDE_SVG[name] + '</svg>')
+
+# Sidebar footers that only hold a "返回…" button are dropped; the rail already switches spaces.
+js, n = re.subn(r"<div class=\"sidefoot\"><button data-a=\"(?:return-view|evolution-return)\">\$\{ico\('back'\)\}[^<]*</button></div>", '', js)
+assert n == 3, f'expected 3 back footers, got {n}'
 
 # Inline micro font sizes (8–10px) are below the AS2 type scale.
 js = re.sub(r'font-size:(8|9|10)px', 'font-size:11px', js)

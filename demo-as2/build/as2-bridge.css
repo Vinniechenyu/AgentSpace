@@ -1151,3 +1151,9 @@ svg.icon.lucide { fill: none !important; stroke: currentColor; stroke-width: 1.7
 .btn.sm svg.icon.lucide { width: 14px; height: 14px; stroke-width: 2; }
 /* 像素主题：直角线帽，与硬边风格一致 */
 :root[data-appearance-style="pixel"] svg.icon.lucide { stroke-linecap: square; stroke-linejoin: miter; stroke-width: 2; }
+/* 消息视图与其他视图共用 68px 导航列，切换时导航不左右跳动 */
+@media (min-width: 541px) {
+  #demo.slack-shell.slack-shell:has(.messenger-shell) { grid-template-columns: 68px minmax(0, 1fr) !important; }
+}
+/* 未读数贴近图标右上角 */
+#demo.slack-shell .demorail button .rail-unread { left: auto !important; right: 8px !important; top: 4px !important; }
