@@ -474,8 +474,6 @@ assert n == 1, 'hero anchor'
 
 # ---- 进化中心：二级菜单进入侧栏，与其他空间同一框架。
 jsrep("function evolutionSidebar(){return '';}", """function evolutionSidebar(){normalizeEvolution();const e=s.evolutionCenter,pending=evolutionRows('proposals',false).filter(p=>['pending','ready','blocked'].includes(p.status)).length,icons={overview:'home',observe:'search',evaluate:'check',improve:'spark',memory:'file'};return `<div class="sidehead"><h3>进化中心</h3><p>越用越了解你的工作偏好与目标</p></div><div class="sidebody">${EVO_TABS.map(([id,label])=>`<button class="sidenav ${e.tab===id?'active':''}" data-a="evolution-tab" data-v="${id}" ${e.tab===id?'aria-current="page"':''}>${ico(icons[id])}<span>${label}</span>${id==='improve'&&pending?`<small>${pending}</small>`:''}</button>`).join('')}</div><div class="sidefoot"><button data-a="evolution-return">${ico('back')} 返回工作现场</button></div>`;}""")
-js, n = re.subn(r'<nav class="evo-tabs".*?</nav>', '', js, count=1, flags=re.S)
-assert n == 1, 'evo tabs anchor'
 jsrep("""<time>${new Date().toLocaleDateString('zh-CN',{timeZone:'Asia/Shanghai',month:'long',day:'numeric'})}</time><button class="evo-text-btn" data-a="evolution-return">${ico('back')}返回工作现场</button>""",
       """<span>${personal?'个人私有 · 本人管理':e.scope==='all'?'按个人与项目范围隔离':'项目共享 · 成员协作'}</span>""")
 
@@ -506,11 +504,11 @@ jsrep("if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.styl
       "if(s.appearance.style==='system')s.appearance.style=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'classic';if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.style='classic';")
 js = js.replace('APPEARANCE_STYLES[style].tone', 'themeTone(style)')
 jsrep("function appearanceApply(){", "function appearanceApply(){settingsApply();")
-jsrep("function action(a,v){", "function action(a,v){if(settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v))return;")
+jsrep("function action(a,v){", "function action(a,v){if(settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v)||messageAction(a)||extensionAction(a,v))return;")
 jsrep("case 'appearance-settings':openAppearanceSettings();break;", "case 'appearance-settings':openSettings();break;")
 js = js.rstrip()
 assert js.endswith('</script></body></html>')
-js = js[:-len('</script></body></html>')] + (HERE / 'as2-settings.js').read_text() + (HERE / 'as2-run.js').read_text() + (HERE / 'as2-sidebar.js').read_text() + avatar_js() + '\n</script></body></html>'
+js = js[:-len('</script></body></html>')] + (HERE / 'as2-settings.js').read_text() + (HERE / 'as2-run.js').read_text() + (HERE / 'as2-sidebar.js').read_text() + (HERE / 'as2-message.js').read_text() + (HERE / 'as2-extensions.js').read_text() + avatar_js() + '\n</script></body></html>'
 
 # Dialog focus: never land on the close button (it would show a focus ring on open).
 jsrep('<section class="modal" role="dialog"', '<section class="modal" role="dialog" tabindex="-1"')
@@ -556,7 +554,7 @@ js = js.replace("ico(n.icon)", "ico(NODE_ICON[n.type]||n.icon)")
 jsrep("const ico=n=>", "const NODE_ICON={'输入':'file','触发':'clock','Agent':'agent','Skill':'spark','MCP 工具':'mcp','CLI 工具':'terminal','条件':'condition','人工确认':'approve','输出':'bench'};\nconst ico=n=>")
 jsrep("icons={overview:'home',observe:'search',evaluate:'check',improve:'spark',memory:'file'}",
       "icons={overview:'home',observe:'observe',evaluate:'evaluate',improve:'improve',memory:'memory'}")
-jsrep('data-a="demo-help" title="演示说明">${ico(\'info\')', 'data-a="demo-help" title="演示说明">${ico(\'help\')')
+jsrep('<button data-a="demo-help" title="演示说明">${ico(\'info\')}帮助</button>', '')  # 帮助 entry removed from the rail
 jsrep('<svg class="icon as2-updown" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>',
       '${ico(\'updown\').replace(\'class="icon lucide"\',\'class="icon lucide as2-updown"\')}')
 # Static app-bar icons in the page body.
@@ -569,6 +567,51 @@ for d, name in [('M4 6h16M4 12h16M4 18h16', 'menu'), ('M20 20l-5-5M17 10a7 7 0 1
 # Sidebar footers that only hold a "返回…" button are dropped; the rail already switches spaces.
 js, n = re.subn(r"<div class=\"sidefoot\"><button data-a=\"(?:return-view|evolution-return)\">\$\{ico\('back'\)\}[^<]*</button></div>", '', js)
 assert n == 3, f'expected 3 back footers, got {n}'
+
+jsrep('<button role="tab" id="evo-tab-${id}"', '<button role="tab" class="${e.tab===id?\'active\':\'\'}" id="evo-tab-${id}"')
+# ---- 构建 / 扩展 / 进化 are full pages: no sidebar panel; their navigation lives in the page.
+jsrep('<aside class="demoside">${renderSide()}</aside>',
+      '<aside class="demoside">${FULL_PAGE_VIEWS.includes(s.view)?\'\':renderSide()}</aside>')
+jsrep("function renderSide(){", "const FULL_PAGE_VIEWS=['studio','extensions','evolution'];\nfunction renderSide(){")
+# 扩展: installed / catalog become page tabs (scope and source are already explained on the page).
+jsrep("${tag('唯一导入来源','green')}</div>${s.extensionPage==='catalog'?renderAgentCenterCatalog():renderInstalledExtensions()}",
+      "${tag('唯一导入来源','green')}</div><nav class=\"dtabs ext-page-tabs\" aria-label=\"扩展\"><button class=\"${s.extensionPage!=='catalog'?'active':''}\" data-a=\"extensions\" data-v=\"installed\">已安装扩展<span class=\"as-num\">${s.installations.length}</span></button><button class=\"${s.extensionPage==='catalog'?'active':''}\" data-a=\"extensions\" data-v=\"catalog\">从 AgentCenter 导入</button></nav>${s.extensionPage==='catalog'?renderAgentCenterCatalog():renderInstalledExtensions()}")
+# 扩展 has no breadcrumb bar: the page title and tabs already say where you are.
+jsrep("function renderExtensions(){return `<div class=\"democrumb\"><b>扩展</b>${ico('chevron')}<span>${s.extensionPage==='catalog'?'从 AgentCenter 导入':'已安装扩展'}</span><span class=\"spacer\"></span><span>按安装范围可见</span></div>",
+      "function renderExtensions(){return `")
+# 扩展 page title is the space name; the slogan moves into the description.
+jsrep("<h1>${s.extensionPage==='catalog'?'从 AgentCenter，为工作装上好工具':'让 Agent，用上顺手的工具'}</h1><p>安装 MCP、CLI 与 Skill，选择全局或项目生效。构建 Workflow 时直接引用已安装的能力。</p>",
+      "<h1>扩展</h1><p>让 Agent，用上顺手的工具。安装 MCP、CLI 与 Skill，选择全局或项目生效，构建 Workflow 时直接引用已安装的能力。</p>")
+# 扩展 cards become compact rows (Kobra / connector-list style): icon · name + type · one-line description · meta,
+# with a switch and a ··· menu (installed) or a + button (catalog). The row itself opens details / import.
+jsrep("""<div class="extension-grid">${rows.map(i=>{const a=asset(i.assetId);return `<article class="extension-card"><div class="row between"><span class="ext-icon ${a.type.toLowerCase()}">${ico(a.icon)}</span><div class="row">${extensionTypeTag(a.type)}${tag(i.enabled?'已启用':'已停用',i.enabled?'green':'gray')}</div></div><h3>${esc(a.name)}</h3><p>${a.desc}</p><div class="ext-meta"><span>${ico('shield')} AgentCenter</span><span>v${i.version}</span></div><div class="ext-scope"><span>${ico(i.scope==='global'?'personal':'team')}${i.scope==='global'?'全局生效':esc(i.project)+' 项目'}</span><span class="tiny muted">${i.installedAt}</span></div><div class="ext-card-foot">${btn('详情与配置','ext-detail',i.id,'sm')}<span class="spacer"></span><button class="ext-text-action" data-a="ext-toggle" data-v="${i.id}">${i.enabled?'停用':'启用'}</button><button class="ext-text-action" data-a="ext-remove" data-v="${i.id}">移除</button></div></article>`;}).join('')}</div>""",
+      """<div class="extension-grid ext-list">${rows.map(i=>{const a=asset(i.assetId);return `<article class="extension-card ext-item ${i.enabled?'':'is-off'}" data-a="ext-detail" data-v="${i.id}" tabindex="0" aria-label="${esc(a.name)} · 详情与配置"><span class="ext-icon ${a.type.toLowerCase()}">${ico(a.icon)}</span><div class="ext-item-main"><div class="ext-item-title"><b>${esc(a.name)}</b>${extensionTypeTag(a.type)}${i.enabled?'':tag('已停用','gray')}</div><p title="${esc(a.desc)}">${a.desc}</p><div class="ext-item-meta"><span>${ico(i.scope==='global'?'personal':'team')}${i.scope==='global'?'全局生效':esc(i.project)+' 项目'}</span><span class="as-num">v${i.version}</span><span>${ico('shield')}AgentCenter</span></div></div><div class="ext-item-actions"><button class="as2-switch" role="switch" aria-checked="${i.enabled}" aria-label="${i.enabled?'停用':'启用'} ${esc(a.name)}" title="${i.enabled?'已启用 · 点击停用':'已停用 · 点击启用'}" data-a="ext-toggle" data-v="${i.id}"><i></i></button><button class="iconbtn ext-more" data-a="ext-menu" data-v="${i.id}" aria-label="更多操作" title="更多操作" aria-haspopup="menu" aria-expanded="false">${ico('more')}</button></div></article>`;}).join('')}</div>""")
+jsrep("""<div class="extension-grid">${rows.map(a=>`<article class="extension-card catalog-card"><div class="row between"><span class="ext-icon ${a.type.toLowerCase()}">${ico(a.icon)}</span>${extensionTypeTag(a.type)}</div><h3>${esc(a.name)}</h3><small class="muted">${a.publisher}</small><p>${a.desc}</p><div class="ext-meta"><span>${ico('shield')} AgentCenter</span><span>v${a.versions[0]}</span></div><div class="ext-card-foot">${btn('选择并导入','ext-select',a.id,'primary sm')}<span class="spacer"></span><small class="muted">可选全局 / 项目</small></div></article>`).join('')}</div>""",
+      """<div class="extension-grid ext-list">${rows.map(a=>`<article class="extension-card catalog-card ext-item" data-a="ext-select" data-v="${a.id}" tabindex="0" aria-label="${esc(a.name)} · 选择并导入"><span class="ext-icon ${a.type.toLowerCase()}">${ico(a.icon)}</span><div class="ext-item-main"><div class="ext-item-title"><b>${esc(a.name)}</b>${extensionTypeTag(a.type)}</div><p title="${esc(a.desc)}">${a.desc}</p><div class="ext-item-meta"><span>${esc(a.publisher)}</span><span class="as-num">v${a.versions[0]}</span><span>可选全局 / 项目</span></div></div><div class="ext-item-actions"><button class="iconbtn ext-add" data-a="ext-select" data-v="${a.id}" aria-label="导入 ${esc(a.name)}" title="选择并导入">${ico('plus')}</button></div></article>`).join('')}</div>""")
+# 扩展 explanations collapse into ⓘ hints instead of a banner and a note block.
+jsrep("""<h1>扩展</h1>""", """<h1>扩展${as2Hint('扩展统一从 <b>AgentCenter</b>（内部 AI 能力平台）导入，这是唯一导入来源；保留资产来源、版本和安装范围。','关于扩展来源')}</h1>""")
+jsrep("""<div class="ext-source-banner"><span class="ac-mark large">A</span><div class="grow"><b>AgentCenter · 内部 AI 能力平台</b><p>扩展统一从 AgentCenter 导入，保留资产来源、版本和安装范围。</p></div>${tag('唯一导入来源','green')}</div>""", "")
+jsrep("""<div class="tiny muted ext-count">${s.installations.filter(extensionMatches).length} 项安装 · 同一资产可分别安装到全局和不同项目</div>""",
+      """<div class="ext-count-row"><span class="tiny muted ext-count">${s.installations.filter(extensionMatches).length} 项安装</span>${as2Hint('同一资产可分别安装到全局和不同项目。<br>已启用的项目版本优先于全局版本；项目未安装或停用时，使用可用的全局版本。<br>安装范围决定可用位置，实际调用仍按授权执行。','关于安装范围')}</div>""")
+jsrep("""<div class="note ext-scope-note">${ico('info')} 已启用的项目版本优先于全局版本；项目未安装或停用时，使用可用的全局版本。安装范围决定可用位置，实际调用仍按授权执行。</div>""", "")
+js = js.replace("+' 项安装 · 同一资产可分别安装到全局和不同项目'", "+' 项安装'")
+jsrep("""<div class="tiny muted ext-count">AgentCenter 资产样例 · 用于交互演示，真实资产、版本与权限以平台为准</div>""",
+      """<div class="ext-count-row"><span class="tiny muted ext-count">${filteredCatalog().length} 个 AgentCenter 资产</span>${as2Hint('当前为资产样例，用于交互演示；真实资产、版本与权限以 AgentCenter 平台为准。','关于资产数据')}</div>""")
+# 进化中心 has no breadcrumb bar either; its visibility moves into a hint next to the title (the scope select stays).
+jsrep("""return `<div class="democrumb"><b>进化中心</b>${ico('chevron')}<span>${esc(scopeLabel)}</span><span class="spacer"></span><span>${personal?'个人私有 · 本人管理':e.scope==='all'?'按个人与项目范围隔离':'项目共享 · 成员协作'}</span></div><div class="demopage evolution-page"><header class="evo-page-head"><div><h1>进化中心</h1>""",
+      """return `<div class="demopage evolution-page"><header class="evo-page-head"><div><h1>进化中心${as2Hint(`当前范围：<b>${esc(scopeLabel)}</b> · ${personal?'个人私有，仅本人管理':e.scope==='all'?'按个人与项目范围隔离':'项目共享，成员协作'}。改进生效前都需要确认。`,'关于可见范围')}</h1>""")
+# 构建: recent flows and import move into the editor header.
+jsrep("function renderEditor(){", """function recentWorkflowSelect(){const records=[...s.workflowDrafts].reverse().slice(0,4),labels=new Set(records.map(r=>r.label));const opts=records.map(r=>[`workflow-open-draft|${r.id}`,r.label,s.currentWorkflowId===r.id]).concat(['质量日报生成','SpecX · 需求到交付'].filter(l=>!labels.has(l)).map(l=>[`studio|${l}`,l,!s.currentWorkflowId&&s.wfLabel===l]));return `<label class="build-context">最近流程<select aria-label="打开最近的流程" onchange="const [a,v]=this.value.split('|');action(a,v)">${opts.some(o=>o[2])?'':`<option selected disabled>${esc(s.wfLabel)}</option>`}${opts.map(([v,l,on])=>`<option value="${esc(v)}" ${on?'selected':''}>${esc(l)}</option>`).join('')}</select></label>`;}
+function renderEditor(){""")
+jsrep('<div class="row wf-header-actions"><label class="build-context">使用范围',
+      '<div class="row wf-header-actions">${recentWorkflowSelect()}${btn(ico(\'file\')+\'导入已有 Workflow\',\'workflow-import\',\'\',\'sm\')}<label class="build-context">使用范围')
+
+# ---- Messages: actions appear in a hover toolbar at the message's top-right instead of under every message.
+COPY_BTN = '<button data-a="message-copy" title="复制" aria-label="复制">${ico(\'copy\')}</button>'
+jsrep('{actions:`<div class="co-message-actions"><button data-a="co-message-thread" data-v="${m.sourceIndex}">${ico(\'chat\')} 回复到 Thread</button></div>`}',
+      '{actions:`<div class="ms-message-actions co-hover-actions" role="toolbar" aria-label="消息操作"><button data-a="co-message-thread" data-v="${m.sourceIndex}" title="回复到 Thread" aria-label="回复到 Thread">${ico(\'chat\')}</button>' + COPY_BTN + '</div>`}')
+js, n = re.subn(r'<button data-a="ms-message-menu"', COPY_BTN + '<button data-a="ms-message-menu"', js)
+assert n == 2, f'expected 2 message menus, got {n}'
 
 # Inline micro font sizes (8–10px) are below the AS2 type scale.
 js = re.sub(r'font-size:(8|9|10)px', 'font-size:11px', js)

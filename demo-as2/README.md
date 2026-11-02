@@ -11,7 +11,7 @@
 - **主题**：浅色、深色，以及两款个性化皮肤——「流光」（液态玻璃，6 套预设配色 + 自定义主色 / 辅色）与「像素」（开发者风：中性灰、等宽字体、像素标题、直角硬边）。
 - **侧栏**（参考 Kobra Sidebar）：选中线滑动、悬停高亮、可收起、可拖动调宽（200–360px），项目切换为锚定浮窗。
 - **头像**：Agent 使用 AgentSpace 吉祥物，成员使用 3D 人物形象（见 `build/assets/avatars/CREDITS.md`）。
-- **进化中心**：二级菜单进入侧栏，与其他空间同一框架。
+- **构建 / 扩展 / 进化**：全页面，无二级面板；导航放在页内标签与头部。
 
 数据与执行均为本地演示，保存在浏览器 localStorage；可在「设置 → 数据与隐私」重置。
 
@@ -33,6 +33,8 @@ cp agentspace2.0_mvp.as2.html ../index.html
 | `as2-bridge.css` | 把 demo 自有类名映射到 AS2 组件 |
 | `as2-settings.js` | 设置弹窗与全局偏好、输入方式（键盘才显示焦点环） |
 | `as2-run.js` | 执行过程组件：Thinking Loader、Task List、Tool Call、停止 |
+| `as2-message.js` | 消息悬浮工具栏：复制消息 |
+| `as2-extensions.js` | 扩展行卡片的「更多」菜单、ⓘ 说明提示组件 |
 | `as2-sidebar.js` | 侧栏动效、收起与拖动调宽、项目切换浮窗 |
 | `as2-avatars.js` | 把首字母头像替换为成员 / Agent 头像 |
 | `assets/avatars/` | 头像资源与来源说明（构建时内嵌） |
