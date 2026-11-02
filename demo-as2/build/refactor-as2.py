@@ -1,0 +1,517 @@
+"""Rebuild the AgentSpace 2.0 MVP demo on the AgentSpace 2.0 design system.
+
+Input : backups/agentspace2.0_mvp.before-affectui.html (untouched)
+Output: agentspace2.0_mvp.as2.html
+
+Steps
+1. Inline the design system (tokens.css + components.css) at the top of <style>.
+2. Legacy CSS: drop embedded ZCOOL fonts and the hue/glass/sketch theme variants,
+   rename legacy --as-* appearance vars to --ap-* and point them at AS2 tokens,
+   then convert every colour / radius / shadow / font literal to an AS2 token.
+3. Append as2-bridge.css: AS2 component styling for the demo's own class names.
+4. JS: appearance settings become light / dark theme (AS2 dark tokens).
+Run: python3 refactor-as2.py
+"""
+from pathlib import Path
+import colorsys, re
+
+HERE = Path(__file__).resolve().parent
+SRC = HERE / 'backups/agentspace2.0_mvp.before-affectui.html'
+OUT = HERE / 'agentspace2.0_mvp.as2.html'
+# Design system: a vendored copy next to this script wins (repo builds); else the local skill.
+DS = HERE / 'design-system' if (HERE / 'design-system/tokens.css').exists() else Path.home() / '.claude/skills/agentspace2-design-system/references'
+BRIDGE = HERE / 'as2-bridge.css'
+
+html = SRC.read_text()
+head, rest = html.split('<style>', 1)
+legacy_css, rest = rest.split('</style>', 1)
+body, script = rest.split('<script>', 1)
+
+# ---------------------------------------------------------------- CSS parsing
+def parse(css):
+    """Return list of (prelude, body) where body is str for rules, list for nested blocks."""
+    out, i, n = [], 0, len(css)
+    while i < n:
+        if css[i].isspace():
+            i += 1; continue
+        if css.startswith('/*', i):
+            j = css.find('*/', i + 2); i = n if j < 0 else j + 2; continue
+        if css.startswith('<!--', i):
+            j = css.find('-->', i); i = n if j < 0 else j + 3; continue
+        j = css.find('{', i)
+        if j < 0: break
+        prelude = re.sub(r'/\*.*?\*/', '', css[i:j], flags=re.S).strip()
+        depth, k, q = 1, j + 1, None
+        while k < n and depth:
+            c = css[k]
+            if q:
+                if c == '\\': k += 1
+                elif c == q: q = None
+            elif c in '"\'': q = c
+            elif c == '{': depth += 1
+            elif c == '}': depth -= 1
+            k += 1
+        inner = css[j + 1:k - 1]
+        if prelude.startswith(('@media', '@supports', '@container', '@layer')):
+            out.append((prelude, parse(inner)))
+        else:
+            out.append((prelude, inner))
+        i = k
+    return out
+
+def emit(rules):
+    parts = []
+    for pre, b in rules:
+        if isinstance(b, list):
+            inner = emit(b)
+            if inner: parts.append(f'{pre}{{{inner}}}')
+        elif b.strip():
+            parts.append(f'{pre}{{{b}}}')
+    return '\n'.join(parts)
+
+def split_top(s, sep):
+    out, depth, cur, q = [], 0, '', None
+    for c in s:
+        if q:
+            cur += c
+            if c == q: q = None
+            continue
+        if c in '"\'': q = c
+        elif c == '(': depth += 1
+        elif c == ')': depth -= 1
+        if c == sep and depth == 0:
+            out.append(cur); cur = ''
+        else:
+            cur += c
+    out.append(cur)
+    return out
+
+# ---------------------------------------------------------- colour → token
+FAMILY = {  # strong, soft bg, line
+    'brand': ('var(--as-brand)', 'var(--as-brand-soft)', 'var(--as-brand-line)'),
+    'done':  ('var(--as-done)', 'var(--as-done-bg)', 'var(--as-done-line)'),
+    'wait':  ('var(--as-wait)', 'var(--as-wait-bg)', 'var(--as-wait-line)'),
+    'fail':  ('var(--as-fail)', 'var(--as-fail-bg)', 'var(--as-fail-line)'),
+}
+HUE_FALLBACK = 220  # legacy hsl(var(--ap-hue) …) resolved as blue
+
+def parse_color(tok):
+    t = tok.strip().lower()
+    if t.startswith('#'):
+        h = t[1:]
+        if len(h) in (3, 4): h = ''.join(c * 2 for c in h)
+        if len(h) not in (6, 8): return None
+        r, g, b = (int(h[i:i + 2], 16) / 255 for i in (0, 2, 4))
+        a = int(h[6:8], 16) / 255 if len(h) == 8 else 1
+        return r, g, b, a
+    m = re.match(r'(rgba?|hsla?)\((.*)\)$', t, re.S)
+    if not m: return None
+    fn, args = m.groups()
+    args = args.replace('var(--ap-hue)', str(HUE_FALLBACK)).replace('var(--ap-companion-hue)', '200')
+    if 'var(' in args: return None
+    nums = [x for x in re.split(r'[\s,/]+', args.strip()) if x]
+    try:
+        if fn.startswith('rgb'):
+            r, g, b = (float(x.rstrip('%')) / (100 if x.endswith('%') else 255) for x in nums[:3])
+        else:
+            hh = float(nums[0].replace('deg', '')) / 360
+            ss, ll = float(nums[1].rstrip('%')) / 100, float(nums[2].rstrip('%')) / 100
+            r, g, b = colorsys.hls_to_rgb(hh, ll, ss)
+        a = 1
+        if len(nums) > 3:
+            a = float(nums[3].rstrip('%')) / (100 if nums[3].endswith('%') else 1)
+        return r, g, b, a
+    except (ValueError, IndexError):
+        return None
+
+def family(h, s, l):
+    if s < .14 or l > .985 or l < .06: return None
+    deg = h * 360
+    if deg < 16 or deg >= 330: return 'fail'
+    if deg < 66: return 'wait'
+    if deg < 170: return 'done'
+    return 'brand'
+
+def token_for(rgba, role):
+    r, g, b, a = rgba
+    h, l, s = colorsys.rgb_to_hls(r, g, b)
+    fam = family(h, s, l)
+    if a == 0: return 'transparent'
+    if fam is None:  # neutral
+        if role == 'text':
+            if l > .93: return '#fff' if a > .6 else 'var(--as-text-subtle)'
+            ink = 1 - (1 - l) * a if l < .5 else l
+            if ink < .2: return 'var(--as-text)'
+            if ink < .36: return 'var(--as-text-2)'
+            if ink < .62: return 'var(--as-text-muted)'
+            return 'var(--as-text-subtle)'
+        if role == 'border':
+            if l > .5:  # white-ish line (usually on dark/rail)
+                return 'var(--as-border-soft)'
+            if a < .9: return 'var(--as-border-soft)' if a < .09 else 'var(--as-border-strong)'
+            if l > .87: return 'var(--as-border)'
+            if l > .7: return 'var(--as-border-strong)'
+            return 'var(--as-text-muted)'
+        if role == 'shadow':
+            return f'rgba(0,0,0,{min(a, .12):.3g})'
+        # background / fill
+        if a < .9:
+            if l > .5:
+                return 'var(--as-card)' if a >= .55 else 'var(--as-hover)'
+            if a < .06: return 'var(--as-muted-bg)'
+            if a < .12: return 'var(--as-hover)'
+            return 'var(--as-overlay)'
+        if l >= .995: return 'var(--as-card)'
+        if l >= .978: return 'var(--as-stage)'
+        if l >= .955: return 'var(--as-bg)'
+        if l >= .86: return 'var(--as-border)'
+        if l < .3: return 'var(--as-text)'
+        return 'var(--as-text-muted)'
+    strong, soft, line = FAMILY[fam]
+    # The legacy theme used faint blue-grey tints as its neutral surfaces; in AS2 those are grey.
+    chroma = (max(r, g, b) - min(r, g, b)) * a
+    if fam == 'brand' and role in ('bg', 'border') and chroma < (.09 if role == 'border' else .075) and l > .8:
+        return token_for((l, l, l, a), role)
+    # Its text / line scale was slate blue-grey (s < .5) and navy ink: neutral in AS2.
+    if fam == 'brand' and role in ('text', 'border') and (s < .5 or l < .3):
+        return token_for((l, l, l, a), role)
+    if role == 'text':
+        if fam == 'brand':
+            if l < .22: return 'var(--as-text)'
+            return 'var(--as-selected-ink)' if l < .42 else 'var(--as-brand)'
+        return strong
+    if role == 'border':
+        return line if (l > .78 or a < .4) else strong
+    if role == 'shadow':
+        return f'rgba(0,0,0,{min(a, .1):.3g})'
+    if l > .82 or a < .3: return soft
+    if fam == 'brand' and l < .22: return 'var(--as-text)'
+    return strong
+
+COLOR_RE = re.compile(r'#[0-9a-fA-F]{3,8}\b|(?:rgba?|hsla?)\((?:[^()]|\([^()]*\))*\)')
+
+def tokenize_colors(value, role):
+    def sub(m):
+        c = parse_color(m.group(0))
+        return token_for(c, role) if c else m.group(0)
+    v = re.sub(r'rgba\(var\(--ap-panel-rgb\),[^)]*\)', 'var(--as-panel)', value)
+    return COLOR_RE.sub(sub, v)
+
+# ------------------------------------------------------ other literal maps
+RADIUS = [(4.5, 'var(--as-r-xs)'), (6.5, 'var(--as-r-sm)'), (8.5, 'var(--as-r-md)'), (11.5, 'var(--as-r-row)'),
+          (14.5, 'var(--as-r-card)'), (16.5, 'var(--as-r-dec)'), (20.5, 'var(--as-r-panel)'), (34, 'var(--as-r-input)')]
+def snap_radius(v):
+    def one(m):
+        x = float(m.group(1))
+        if x <= 1.5: return m.group(0)
+        for lim, tok in RADIUS:
+            if x <= lim: return tok
+        return 'var(--as-r-pill)'
+    return re.sub(r'(?<![\w.-])(\d+(?:\.\d+)?)px', one, v)
+
+FS = [(11.6, 'var(--as-fs-micro)'), (12.5, 'var(--as-fs-meta)'), (13.5, 'var(--as-fs-ui)'), (14.5, 'var(--as-fs-body)'),
+      (15.5, 'var(--as-fs-reading)'), (17.5, 'var(--as-fs-h3)'), (19, '18px'), (23.5, 'var(--as-fs-h2)'), (31, 'var(--as-fs-h1)')]
+def snap_fs(px):
+    for lim, tok in FS:
+        if px <= lim: return tok
+    return f'{px:g}px'
+
+POP_SEL = re.compile(r'pop|menu|toast|dropdown|tooltip|searchresult|picker|quick|suggest|scrim|drawer', re.I)
+DIALOG_SEL = re.compile(r'modal|dialog', re.I)
+
+def map_shadow(value, selector):
+    if value.strip() in ('none', 'inherit', 'initial', 'unset') or value.strip().startswith('var('):
+        return value
+    parts, keep, lift = split_top(value, ','), [], False
+    for p in parts:
+        p = p.strip()
+        if not p: continue
+        if 'inset' in p:
+            keep.append(tokenize_colors(p, 'border')); continue
+        lens = re.findall(r'-?\d*\.?\d+px|(?<![\w.#])0(?![\w.])', re.sub(COLOR_RE, '', p))
+        nums = [float(x.replace('px', '')) for x in lens]
+        blur = nums[2] if len(nums) > 2 else 0
+        spread = nums[3] if len(nums) > 3 else 0
+        if blur <= .5 and abs(nums[0] if nums else 0) < .5 and abs(nums[1] if len(nums) > 1 else 0) < .5 and spread:
+            keep.append(tokenize_colors(p, 'border'))  # ring / focus ring
+        else:
+            lift = True
+    if lift:
+        tok = ('var(--as-shadow-dialog)' if DIALOG_SEL.search(selector) else
+               'var(--as-shadow-pop)' if POP_SEL.search(selector) else 'var(--as-shadow-tile)')
+        if ':hover' in selector and tok == 'var(--as-shadow-tile)':
+            tok = 'var(--as-shadow-tile)'
+        keep.append(tok)
+    return ', '.join(keep) if keep else 'none'
+
+TEXT_PROPS = {'color', 'fill', 'stroke', 'caret-color', '-webkit-text-fill-color', 'text-decoration-color', 'column-rule-color', 'accent-color'}
+BORDER_PROPS = re.compile(r'^(border(-(top|right|bottom|left|block|inline)(-(start|end))?)?(-color)?|outline(-color)?|text-decoration|column-rule)$')
+
+def custom_prop_role(name):
+    n = name.lower()
+    if re.search(r'shadow', n): return 'shadow'
+    if re.search(r'line|outline|border|stroke', n): return 'border'
+    if re.search(r'ink|text|muted|weak|fg|link', n): return 'text'
+    return 'auto'
+
+def process_decl(prop, value, selector):
+    p = prop.strip().lower()
+    v = value
+    if p in ('backdrop-filter', '-webkit-backdrop-filter'):
+        return None
+    if p == 'font-family':
+        return prop, ('var(--as-font-mono)' if re.search(r'mono|consol|menlo|courier', v, re.I) else 'var(--as-font)') + (' !important' if '!important' in v else '')
+    if p == 'font':
+        m = re.match(r'^(.*?\d+(?:\.\d+)?px(?:/[\d.]+(?:px)?)?)\s+["\'a-zA-Z].*?(\s*!important)?$', v.strip())
+        if m:
+            size = re.search(r'(\d+(?:\.\d+)?)px', m.group(1))
+            pre = m.group(1)[:size.start()] + snap_fs(float(size.group(1))) + m.group(1)[size.end():]
+            return prop, f'{pre} var(--as-font){m.group(2) or ""}'
+        return prop, v
+    if p == 'font-size':
+        v = re.sub(r'^(\d+(?:\.\d+)?)px', lambda m: snap_fs(float(m.group(1))), v.strip())
+        return prop, v
+    if p == 'border-radius' or p.endswith('-radius'):
+        return prop, snap_radius(v)
+    if p in ('box-shadow', '-webkit-box-shadow'):
+        return prop, map_shadow(v, selector)
+    if p == 'text-shadow':
+        return prop, 'none'
+    if p == 'transform' and ':hover' in selector and 'translate' in v and 'scale' not in v:
+        return prop, 'none'
+    if p.startswith('--'):
+        role = custom_prop_role(p)
+        if role == 'shadow':
+            return prop, map_shadow(v, selector)
+        if role == 'auto':
+            def auto(m):
+                c = parse_color(m.group(0))
+                if not c: return m.group(0)
+                _, l, _ = colorsys.rgb_to_hls(*c[:3])
+                return token_for(c, 'bg' if l > .7 else 'text')
+            return prop, COLOR_RE.sub(auto, v)
+        return prop, tokenize_colors(v, role)
+    if p in TEXT_PROPS:
+        return prop, tokenize_colors(v, 'text')
+    if p == 'scrollbar-color':
+        return prop, 'var(--as-border-strong) transparent'
+    if BORDER_PROPS.match(p):
+        v = tokenize_colors(v, 'border')
+        # Hover is not selection: a hovered edge darkens to the strong neutral line, never brand.
+        if all(':hover' in part for part in split_top(selector, ',')):
+            v = v.replace('var(--as-brand-line)', 'var(--as-border-strong)').replace('var(--as-brand)', 'var(--as-border-strong)')
+        return prop, v
+    if p.startswith('background') or p in ('outline-color',):
+        return prop, tokenize_colors(v, 'bg')
+    return prop, v
+
+def process_body(body, selector):
+    out = []
+    for decl in split_top(body, ';'):
+        if ':' not in decl:
+            if decl.strip(): out.append(decl.strip())
+            continue
+        prop, value = decl.split(':', 1)
+        if not prop.strip(): continue
+        r = process_decl(prop.strip(), value.strip(), selector)
+        if r: out.append(f'{r[0]}:{r[1]}')
+    return ';'.join(out)
+
+# ------------------------------------------------- legacy appearance → AS2
+AP_ROOT = """
+--ap-hue:220;--ap-companion-hue:200;--ap-surface-alpha:1;--ap-card-alpha:1;--ap-rail-alpha:1;--ap-panel-rgb:252,252,252;
+--ap-text:var(--as-text);--ap-muted:var(--as-text-muted);--ap-weak:var(--as-text-subtle);
+--ap-accent:var(--as-brand);--ap-action:var(--as-btn-bottom);--ap-action-hover:var(--as-btn-top-hover);--ap-button-ink:var(--as-btn-ink);
+--ap-link:var(--as-brand);--ap-base:var(--as-bg);--ap-dialog:var(--as-card);--ap-input:var(--as-card);
+--ap-line:var(--as-border);--ap-line-strong:var(--as-border-strong);
+--ap-surface:var(--as-panel);--ap-card:var(--as-card);--ap-side:var(--as-bg);--ap-rail:var(--as-bg);--ap-rail-ink:var(--as-text-muted);
+--ap-selected:var(--as-selected);--ap-selected-ink:var(--as-selected-ink);--ap-hover:var(--as-hover);
+--ap-tint:var(--as-muted-bg);--ap-tint-strong:var(--as-brand-soft);--ap-bubble:var(--as-sunken);
+--ap-hero:var(--as-card);--ap-wallpaper:none;--ap-shadow:none;--ap-dialog-shadow:var(--as-shadow-dialog);--ap-backdrop:var(--as-overlay);
+--ap-play-font:var(--as-font);--ap-sketch-ink:var(--as-text);
+--ink:var(--as-text);--muted:var(--as-text-muted);--line:var(--as-border);--outline:var(--as-border-strong);
+--primary:var(--as-brand);--accent:var(--as-brand);--purple:var(--as-brand);--blue:var(--as-brand);
+--primary-soft:var(--as-brand-soft);--soft:var(--as-muted-bg);--plum:var(--as-stage);--plum2:var(--as-stage);
+--bg:var(--as-bg);--surface:var(--as-card);--success:var(--as-done);--green:var(--as-done);--teal:var(--as-done);--tealbg:var(--as-done-bg);
+--gold:var(--as-wait);--goldbg:var(--as-wait-bg);--red:var(--as-fail);--redbg:var(--as-fail-bg);--alert:var(--as-fail);--yellow:var(--as-wait);
+--radius:var(--as-r-row);--shadow:none;--shadow-hover:none;
+--nova-violet:var(--as-brand);--nova-sky:var(--as-brand);--nova-mint:var(--as-done);--nova-coral:var(--as-brand);
+--sl-ui:var(--as-font)
+"""
+
+DROP_SEL = re.compile(r'data-appearance-(style|color)=')
+
+def transform(rules):
+    out = []
+    for pre, b in rules:
+        if pre.startswith('@font-face'):
+            continue
+        if isinstance(b, list):
+            out.append((pre, transform(b))); continue
+        if pre.startswith('@keyframes') or pre.startswith('@-webkit-keyframes'):
+            out.append((pre, b)); continue  # keyframes parsed as plain body; leave as is
+        sels = [x for x in split_top(pre, ',') if not DROP_SEL.search(x)]
+        if not sels: continue
+        sel = ','.join(x.strip() for x in sels)
+        sel = sel.replace(':root[data-appearance-tone="dark"]', ':root[data-theme="dark"]')
+        if sel == ':root' and '--ap-hue:' in b:
+            out.append((sel, AP_ROOT)); continue
+        out.append((sel, process_body(b, sel)))
+    return out
+
+legacy = re.sub(r'--as-', '--ap-', legacy_css)
+legacy = re.sub(r'<!--.*?-->', '', legacy, flags=re.S)
+legacy_rules = transform(parse(legacy))
+
+# Legacy :root blocks still redefine --primary etc. – make sure the AS2 mapping wins by
+# re-asserting it last (after the legacy layer, before the bridge).
+legacy_out = emit(legacy_rules) + '\n:root{' + AP_ROOT + '}'
+legacy_out += '\n:root[data-theme="dark"]{--ap-panel-rgb:18,18,19}'
+
+tokens = (DS / 'tokens.css').read_text()
+components = (DS / 'components.css').read_text()
+bridge = BRIDGE.read_text()
+css = '\n'.join([
+    '/* ===== AgentSpace 2.0 Design System · tokens.css ===== */', tokens,
+    '/* ===== AgentSpace 2.0 Design System · components.css ===== */', components,
+    '/* ===== Legacy demo layout (tokenised by refactor-as2.py) ===== */', legacy_out,
+    '/* ===== AS2 bridge: demo classes → AS2 components ===== */', bridge,
+])
+
+# ------------------------------------------------------------------ HTML/JS
+head = head.replace('<meta name="color-scheme" content="light">', '<meta name="color-scheme" content="light dark">')
+body = re.sub(r'<template id="font-license-notices">.*?</template>', '', body, flags=re.S)
+body = body.replace('<body>', '<body class="as-root">')
+# Brand logo: embedded as an <img> data URI so the SVG's internal ids never collide with the page.
+import base64
+logo = base64.b64encode((HERE / 'assets/agentspace-logo.svg').read_bytes()).decode()
+body, n = re.subn(r'<span class="logo" aria-hidden="true"><svg.*?</svg></span>',
+                  f'<span class="logo" aria-hidden="true"><img src="data:image/svg+xml;base64,{logo}" alt=""></span>', body, count=1, flags=re.S)
+assert n == 1, 'logo anchor missing'
+
+js = script.replace('--as-', '--ap-')
+
+def jsrep(old, new, count=1):
+    global js
+    assert old in js, 'Missing JS anchor: ' + old[:80]
+    js = js.replace(old, new, count)
+
+jsrep("""const APPEARANCE_STYLES={
+  classic:{name:'经典',tone:'light',tagline:'轻盈明亮',description:'浅色玻璃面板与柔和渐变，让日常工作轻盈、有序。'},
+  dark:{name:'暗黑',tone:'dark',tagline:'静谧专注',description:'石墨底色与低亮色彩，在安静的界面中保持专注。'},
+  tech:{name:'科技',tone:'dark',tagline:'深空微光',description:'深空渐变、细密网格与微光边缘，呈现清晰的工作层次。'},
+  sketch:{name:'手绘',tone:'light',tagline:'贴纸手帐',description:'奶油纸底、手绘线条和糖果贴纸，让灵感轻松冒个泡。'}
+};""", """const APPEARANCE_STYLES={
+  classic:{name:'浅色',tone:'light',tagline:'中性灰阶',description:'AgentSpace 2.0 默认：中性灰承载信息，墨色胶囊是唯一主操作，品牌蓝只表示选中、焦点与运行中。'},
+  dark:{name:'深色',tone:'dark',tagline:'逐层提亮',description:'画布最暗、卡片逐层提亮；主按钮自动反转为浅色，状态色保持三重编码。'},
+  system:{name:'跟随系统',tone:'auto',tagline:'随系统切换',description:'跟随操作系统的浅色 / 深色设置自动切换。'}
+};""")
+jsrep("root.dataset.appearanceTone=APPEARANCE_STYLES[style].tone;",
+      "root.dataset.appearanceTone=APPEARANCE_STYLES[style].tone;root.dataset.theme=APPEARANCE_STYLES[style].tone;root.classList.toggle('dark',APPEARANCE_STYLES[style].tone==='dark');")
+# Settings: theme only (colour hue and glass transparency are not part of AS2).
+js = re.sub(r'\n\s*<h4 class="appearance-group-label appearance-color-label".*?</div>\n(?=\s*</div>\n\s*<div class="appearance-preview-column">)', '\n', js, count=1, flags=re.S)
+js = re.sub(r'\n\s*<div class="appearance-transparency">.*?\n    </div>\n(?=  </section>)', '\n', js, count=1, flags=re.S)
+jsrep('界面风格 <span>4 种风格 × 6 种颜色</span>', '界面主题 <span>AgentSpace 2.0 设计系统</span>')
+jsrep("${APPEARANCE_STYLES[style].name} · ${APPEARANCE_COLORS[color].name}主题", "${APPEARANCE_STYLES[style].name}主题")
+jsrep("themeName.textContent=APPEARANCE_STYLES[style].name+' · '+APPEARANCE_COLORS[color].name+'主题';", "themeName.textContent=APPEARANCE_STYLES[style].name+'主题';")
+js = js.replace("appearanceReset(){s.appearance={style:'classic',color:'purple',transparency:20}", "appearanceReset(){s.appearance={style:'classic',color:'blue',transparency:0}")
+# Status vocabulary follows the AS2 task layer: waiting is "需要你", running is not green.
+jsrep("wait:'待我处理'", "wait:'需要你'")
+jsrep("const statusClass={pending:'gold',running:'green',wait:'gold',review:'gold',", "const statusClass={pending:'gold',running:'blue',wait:'gold',review:'purple',")
+# "个人" uses a single-person glyph, matching the two-person "项目" icon.
+jsrep("personal:'M12 3l9 9-9 9-9-9zM12 7l5 5-5 5-5-5z'", "personal:'M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8M4 21v-1a7 7 0 0 1 7-7h2a7 7 0 0 1 7 7v1'")
+# ---- P1 visual: Chinese-only labels (English eyebrows that only repeat the title are dropped).
+for old, new in [
+    ('<div class="sidelabel">PERSONAL VIEW</div>', ''),
+    ('<small>PERSONAL VIEW</small>', ''),
+    ('<div class="sidelabel">WORKFLOW STUDIO</div>', ''),
+    ('<div class="sidelabel">MESSAGES</div>', ''),
+    ('<div class="sidelabel">EXTENSIONS</div>', ''),
+    ('<div class="kicker">WORKFLOW STUDIO · IMPORT</div>', ''),
+    ('>WORKFLOW STUDIO · 构建<', '>Workflow 编辑器<'),
+    ('<div class="wb-eyebrow">WORKBENCH CONVERSATION</div>', ''),
+    ('<div class="wc-kicker">WORKBENCH COMPOSITION</div>', ''),
+    ('UNDERSTAND · EVALUATE · IMPROVE', '理解 · 评估 · 改进'),
+    ('PERSONAL ASSISTANT · 临时任务', '临时任务'),
+    ('<span class="tiny">MY WORKBENCH</span>', '<span class="tiny">工作台</span>'),
+    ('MY WORKBENCH · V${v.version}', '工作台 · V${v.version}'),
+    ('<div class="kicker">MY SPACES</div>', ''),
+    ('<div class="evo-eyebrow">EVOLUTION CENTER</div>', ''),
+    ('<div class="kicker">DISCOVER & SUBSCRIBE</div>', ''),
+    ("<div class=\"kicker\">${personal?'MY TASKS · ACROSS PROJECTS':'PROJECT TASK BOARD'}</div>", ''),
+    ('STAGE 0${i+1}', '阶段 0${i+1}'),
+]:
+    jsrep(old, new)
+
+# ---- P1 visual: glyphs → line icons; decorative sparkles removed.
+jsrep(' <span class="side-spark">✧</span>', '', 2)
+jsrep('<div style="margin-top:8px;font-size:9px;color:var(--muted)">✦ 让好想法，变成好结果</div>', '')
+jsrep("'来，先逛一圈 ✦'", "'来，先逛一圈'")
+jsrep('<b>✦ CodeAgent 已接入</b>', '<b><span class="as-avatar as-avatar--sm" data-kind="agent">C</span>CodeAgent 已接入</b>')
+jsrep("'✦ CodeAgent 已在此话题'", "'CodeAgent 已在此话题'")
+jsrep("<span>✦</span><span>${ico('personal')}</span>", "<span>${ico('personal')}</span>")
+jsrep('data-v="${b.id}">☆ ${esc(b.title)}</button>', 'data-v="${b.id}">${ico(\'star\')}<span>${esc(b.title)}</span></button>')
+jsrep('<span class="appearance-mini-favorite">☆ 容器质量日报</span>', '<span class="appearance-mini-favorite">${ico(\'star\')}容器质量日报</span>')
+jsrep("${b.favorite?'★':'☆'}</button>", "${ico('star')}</button>")
+jsrep("'<i class=\"ms-star\">★</i>'", "`<i class=\"ms-star\">${ico('star')}</i>`")
+jsrep("'<i>★</i>'", "`<i class=\"ms-star\">${ico('star')}</i>`")
+jsrep('<div class="spark">✧</div>', '<div class="spark">${ico(\'spark\')}</div>')
+jsrep("<span>✧</span><h3>", "<span>'+ico('spark')+'</span><h3>")
+
+# ---- P1 visual: 工作台首屏 = 需要你 / 待验收 / 执行中 / 工作台 摘要（替代标语大卡）。
+js, n = re.subn(r'<section class="nova-hero" aria-label="工作概览">.*?</section>', lambda m: (
+    '<section class="as2-overview" aria-label="工作概览">${['
+    "['waiting','需要你确认',s.tasks.filter(t=>personallyRelatedTask(t)&&['pending','wait'].includes(t.status)).length,'tasks'],"
+    "['review','待验收',s.tasks.filter(t=>personallyRelatedTask(t)&&t.status==='review').length,'tasks'],"
+    "['running','执行中',running,'tasks'],"
+    "['idle','持续关注的工作台',active,'']"
+    "].map(([st,label,n,page])=>`<button class=\"as2-stat\" data-status=\"${st}\" data-a=\"${page?'nav-personal':'bench-filter'}\" data-v=\"${page||'all'}\"><span class=\"as-status\" data-status=\"${st}\">${label}</span><strong>${n}</strong></button>`).join('')}</section>"), js, count=1, flags=re.S)
+assert n == 1, 'hero anchor'
+
+# ---- 进化中心：二级菜单进入侧栏，与其他空间同一框架。
+jsrep("function evolutionSidebar(){return '';}", """function evolutionSidebar(){normalizeEvolution();const e=s.evolutionCenter,pending=evolutionRows('proposals',false).filter(p=>['pending','ready','blocked'].includes(p.status)).length,icons={overview:'home',observe:'search',evaluate:'check',improve:'spark',memory:'file'};return `<div class="sidehead"><h3>进化中心</h3><p>越用越了解你的工作偏好与目标</p></div><div class="sidebody">${EVO_TABS.map(([id,label])=>`<button class="sidenav ${e.tab===id?'active':''}" data-a="evolution-tab" data-v="${id}" ${e.tab===id?'aria-current="page"':''}>${ico(icons[id])}<span>${label}</span>${id==='improve'&&pending?`<small>${pending}</small>`:''}</button>`).join('')}</div><div class="sidefoot"><button data-a="evolution-return">${ico('back')} 返回工作现场</button></div>`;}""")
+js, n = re.subn(r'<nav class="evo-tabs".*?</nav>', '', js, count=1, flags=re.S)
+assert n == 1, 'evo tabs anchor'
+jsrep("""<time>${new Date().toLocaleDateString('zh-CN',{timeZone:'Asia/Shanghai',month:'long',day:'numeric'})}</time><button class="evo-text-btn" data-a="evolution-return">${ico('back')}返回工作现场</button>""",
+      """<span>${personal?'个人私有 · 本人管理':e.scope==='all'?'按个人与项目范围隔离':'项目共享 · 成员协作'}</span>""")
+
+# ---- 面包屑右侧只放可见范围；操作进页面标题区。
+jsrep("crumb('任务看板',btn(ico('plus')+'新建任务','board-create-menu','','sm'))", "crumb('任务看板')")
+jsrep("crumb(s.page==='project'?'项目主页':'# '+s.channel,`<span>10月28日</span>${btn(ico('plus')+'新建任务',s.page==='project'?'board-create-menu':'new-team-task','','sm')}`)",
+      "crumb(s.page==='project'?'项目主页':'# '+s.channel)")
+jsrep("${btn('打开项目讨论','channel','development')}</div>", '<div class="row">' + "${btn('打开项目讨论','channel','development')}${btn(ico('plus')+'新建任务','board-create-menu','','primary')}</div></div>")
+jsrep("""${s.workbenchReturnKey?btn(ico('back')+'返回工作台构建','wb2-return-extensions','','sm'):''}<span class="ac-source-pill"><i class="dot"></i> 来源：AgentCenter</span></div>""",
+      """<span>按安装范围可见</span></div>""")
+jsrep('<div class="kicker">TOOLS & SKILLS</div>', "${s.workbenchReturnKey?btn(ico('back')+'返回工作台构建','wb2-return-extensions','','link sm'):''}")
+jsrep('<span>作为独立草稿继续编辑</span>', '<span>草稿仅自己可见</span>')
+
+# ---- Settings: global preferences (as2-settings.js) replace the appearance-only dialog.
+js = js.replace('APPEARANCE_STYLES[style].tone', 'themeTone(style)')
+jsrep("function appearanceApply(){", "function appearanceApply(){settingsApply();")
+jsrep("function action(a,v){", "function action(a,v){if(settingsAction(a,v)||runAction(a,v))return;")
+jsrep("case 'appearance-settings':openAppearanceSettings();break;", "case 'appearance-settings':openSettings();break;")
+js = js.rstrip()
+assert js.endswith('</script></body></html>')
+js = js[:-len('</script></body></html>')] + (HERE / 'as2-settings.js').read_text() + (HERE / 'as2-run.js').read_text() + '\n</script></body></html>'
+
+# Dialog focus: never land on the close button (it would show a focus ring on open).
+jsrep('<section class="modal" role="dialog"', '<section class="modal" role="dialog" tabindex="-1"')
+jsrep("host.querySelector('input:not([type=checkbox]),textarea,button')?.focus();},30);",
+      "(host.querySelector('input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea')||host.querySelector('.modal'))?.focus({preventScroll:true});},30);")
+
+# ---- Run view: execution progress in task detail, Thread execution and task cards (as2-run.js).
+jsrep("t.run=(t.run||0)+1;", "t.run=(t.run||0)+1;t.runStartedAt=Date.now();t.runFinishedAt=null;")
+jsrep("if(!t)return;t.status='review';closeModal();", "if(!t)return;t.runFinishedAt=Date.now();t.status='review';closeModal();")
+jsrep("case 'cancel-task':t.status='cancelled';", "case 'cancel-task':t.runStopIndex=t.status==='running'?runIndex(t):(t.runStopIndex??1);t.status='cancelled';")
+jsrep("$('#modalHost .modalbody')?.insertAdjacentHTML('beforeend',taskKnowledgeSummary(t));}",
+      "$('#modalHost .aggregate-task-detail')?.insertAdjacentHTML('afterend',runView(t,'full'));$('#modalHost .modalbody')?.insertAdjacentHTML('beforeend',taskKnowledgeSummary(t));}")
+jsrep("<p>${fixed?'正在按 Spec 推进开发与测试。':'正在云端定位并修复，进度会回到当前 Thread。'}<br>演示可继续推进到结果。</p>", "${runView(t,'compact')}")
+jsrep('${renderTaskInline(t)}<div class="rule"></div><h4 style="margin-bottom:18px">执行记录与产物</h4>', '${renderTaskInline(t)}${runView(t,\'full\')}<div class="rule"></div><h4 style="margin-bottom:18px">执行记录与产物</h4>')
+jsrep("<p>Agent：CodeAgent · 环境：personal-analysis / 云端<br>目标 V${t.rev} · 验收：分析结论关联 MR 与 CI 证据</p>", "<p>Agent：CodeAgent · 环境：personal-analysis / 云端<br>目标 V${t.rev} · 验收：分析结论关联 MR 与 CI 证据</p>${runView(t,'compact')}")
+
+# Inline micro font sizes (8–10px) are below the AS2 type scale.
+js = re.sub(r'font-size:(8|9|10)px', 'font-size:11px', js)
+
+out = head + '<style>\n' + css + '\n</style>' + body + '<script>' + js
+OUT.write_text(out)
+print(f'wrote {OUT.name}: {len(out)/1024:.0f} KB (source {len(html)/1024:.0f} KB)')
