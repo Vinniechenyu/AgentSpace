@@ -195,6 +195,9 @@ def tokenize_colors(value, role):
         c = parse_color(m.group(0))
         return token_for(c, role) if c else m.group(0)
     v = re.sub(r'rgba\(var\(--ap-panel-rgb\),[^)]*\)', 'var(--as-panel)', value)
+    # Named colours were missed before (legacy `background:white` stayed white in dark themes).
+    v = re.sub(r'(?<![-\w#])white(?![-\w])', '#ffffff', v)
+    v = re.sub(r'(?<![-\w#])black(?![-\w])', '#000000', v)
     return COLOR_RE.sub(sub, v)
 
 # ------------------------------------------------------ other literal maps

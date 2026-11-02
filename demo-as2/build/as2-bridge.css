@@ -1091,3 +1091,54 @@ html body :is(#demo, #modalHost, .appbar) .as2-photo.as2-photo--agent.as2-photo-
 #demo.slack-shell .sidehead--switch .projectswitch { height: 36px !important; padding: 0 6px 0 4px !important; }
 #demo.slack-shell .sidehead--switch .projectswitch small { display: none !important; }
 #demo.slack-shell .sidehead--switch .projecticon { width: 22px !important; height: 22px !important; }
+
+/* 像素主题 · 可读性修正（全局对比度 ≥ 4.5:1）
+ * 灰阶上调：正文 #D4D4D4 / 次要 #A6A6A6 / 弱 #8A8A8A（在 #141414 上约 5:1）。
+ * 选中改为“深色抬升块 + 白字 + 1px 白描边”：保留「白色 = 选中」，避免白底配浅字或黑字落在深底。 */
+:root[data-appearance-style="pixel"] {
+  --as-text: #F0F0F0; --as-text-2: #D4D4D4; --as-text-muted: #A6A6A6; --as-text-subtle: #8A8A8A;
+  --as-selected: #262626; --as-selected-ink: #FFFFFF; --as-brand-soft: #222222;
+}
+:root[data-appearance-style="pixel"] #demo.slack-shell :is(.ms-conversation.selected, .ms-contact-item.selected, .co-thread-entry.selected, .wc-ext-row.selected,
+  .wc-project-row.selected, .co-thread-index-card.selected, .threadlink.selected, .searchresult.selected) {
+  background: #262626 !important; box-shadow: inset 0 0 0 1px #F2F2F2 !important; border-color: #F2F2F2 !important; }
+:root[data-appearance-style="pixel"] #demo.slack-shell :is(.ms-conversation.selected, .ms-contact-item.selected) :is(b, strong, .ms-conversation-title, .ms-conversation-title b) { color: #FFFFFF !important; }
+:root[data-appearance-style="pixel"] #demo.slack-shell :is(.ms-conversation.selected, .ms-contact-item.selected) :is(small, p, time, span:not(.ms-avatar):not(.ms-unread)) { color: #C8C8C8 !important; }
+/* 选中频道：去掉 > 前缀（与 # 叠在一起显得发暗），# 保持次要灰 */
+:root[data-appearance-style="pixel"] #demo.slack-shell .sidenav.active span::before { content: none !important; }
+:root[data-appearance-style="pixel"] #demo.slack-shell .sidenav > span[style] { color: var(--as-text-muted) !important; }
+:root[data-appearance-style="pixel"] #demo.slack-shell .sidenav.active > span[style] { color: var(--as-text-2) !important; }
+/* 选中分段 / 选项：反白块配黑字 */
+:root[data-appearance-style="pixel"] :is(.as-seg > button, .settings-modal .as-seg > button)[aria-checked="true"],
+:root[data-appearance-style="pixel"] #demo.slack-shell :is(.dtoolbar .dtabs, .board-status-summary, .co-members-filters, .wc-extension-filters, .wb-preview-tabs, .ms-filter-tabs) > button:is(.active, .selected, [aria-pressed="true"]) {
+  background: #F2F2F2 !important; color: #0A0A0A !important; box-shadow: none !important; }
+:root[data-appearance-style="pixel"] .as-option[aria-checked="true"], :root[data-appearance-style="pixel"] .as-autonomy > button[aria-checked="true"] {
+  background: #262626 !important; box-shadow: inset 0 0 0 1px #F2F2F2 !important; color: #FFFFFF !important; }
+:root[data-appearance-style="pixel"] .as-autonomy > button[aria-checked="true"] b { color: #FFFFFF !important; }
+:root[data-appearance-style="pixel"] .settings-nav-item.active { background: #F2F2F2 !important; color: #0A0A0A !important; box-shadow: none !important; }
+:root[data-appearance-style="pixel"] .settings-nav-item.active .icon { color: #0A0A0A !important; }
+/* 空内容时的发送钮：深灰块 + 次要灰图标 */
+:root[data-appearance-style="pixel"] #demo.slack-shell :is(.composer, .ms-composer):has(textarea:placeholder-shown) :is(.composerfoot, .ms-compose-toolbar) .btn.primary,
+:root[data-appearance-style="pixel"] #demo.slack-shell .wc-composer-card:has(textarea:placeholder-shown) .wc-send { background: #1E1E1E !important; color: var(--as-text-muted) !important; border-color: #3B3B3B !important; box-shadow: none !important; }
+/* 像素：反白选中块内的计数用黑字；危险按钮橙红底配黑字（≥ 4.5:1） */
+:root[data-appearance-style="pixel"] #demo.slack-shell .board-status-summary > button:is(.active, .selected, [aria-pressed="true"]) :is(b, span, small, i) { color: #0A0A0A !important; }
+:root[data-appearance-style="pixel"] :is(#demo, #modalHost) .btn:is(.danger, .red) { color: #0A0A0A !important; border-color: var(--px-hot) !important; }
+
+/* 深色主题 · 可读性修正：次要灰 ≥ 4.5:1，弱灰提至 56% 白 */
+:root.dark:not([data-appearance-style="pixel"]), :root[data-theme="dark"]:not([data-appearance-style="pixel"]) {
+  --as-text-muted: #A3A3A3; --as-text-subtle: rgba(255,255,255,.56); }
+/* 未读徽标：更深的红，白字 ≥ 4.5:1（浅色 / 深色通用） */
+#demo.slack-shell .demorail .rail-unread, #demo.slack-shell .ms-unread { background: #C42E1E !important; color: #FFFFFF !important; }
+/* 浅色系（浅色 / 流光）· 可读性修正：次要灰 #6B6B6B、弱灰 56% 黑（在 #F5F5F5 上 ≥ 4.5:1） */
+:root:not(.dark):not([data-theme="dark"]) { --as-text-muted: #6B6B6B; --as-text-subtle: rgba(0,0,0,.56); }
+/* 浅色系 · 状态文字加深（≥ 4.5:1） */
+:root:not(.dark):not([data-theme="dark"]) { --as-wait: #9A4D08; --as-idle: #626262; --as-code-str: #006A96; }
+.appbar .appbrand b small { color: var(--as-text-2) !important; }
+/* 流光 · 半透明面板上的文字与链接加深 */
+:root[data-appearance-style="liquid"] {
+  --as-text-muted: #595959; --as-text-subtle: rgba(0,0,0,.62);
+  --as-brand: color-mix(in srgb, var(--as-blue) 80%, black); --as-run: color-mix(in srgb, var(--as-blue) 78%, black);
+  --as-wait: color-mix(in srgb, var(--as-orange) 58%, black); --as-code-str: color-mix(in srgb, var(--as-blue) 70%, black); }
+:root[data-appearance-style="liquid"] :is(#demo, #modalHost) .btn.link { color: var(--as-selected-ink) !important; }
+:root:not(.dark):not([data-theme="dark"]) { --as-text-muted: #616161; }
+:root[data-appearance-style="liquid"] #demo .minirow span { color: var(--as-text-2) !important; }
