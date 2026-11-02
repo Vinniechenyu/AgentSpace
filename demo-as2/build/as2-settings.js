@@ -5,20 +5,27 @@
 const SETTINGS_SECTIONS=[['general','通用','settings'],['appearance','外观','spark'],['notify','通知','bell'],['agent','Agent 与自主权','shield'],['memory','记忆与进化','evolution'],['extensions','扩展与权限','grid'],['shortcuts','快捷键','code'],['data','数据与隐私','file']];
 const SETTINGS_ACTIONS=[['read','读取资料与检索','safe','查询项目空间、仓库、日志'],['write','修改工作台与草稿','risky','生成新版本、改写内容，可撤销'],['send','代我发送消息','risky','在频道、Thread 或飞书中发言'],['destructive','删除或对外发布','destructive','删除数据、发布 Workflow、合入代码']];
 // Functions, not consts: settingsApply() runs during the first render, before this block executes.
+// 流光皮肤配色：主色（冷，决定选中 / 运行 / 背景上部）+ 辅色（暖，决定等待 / 高亮 / 背景下部）。
+function liquidPalettes(){return [['blue-orange','流光 · 蓝橙','#2B76F0','#F08A3C'],['teal-violet','极光 · 青紫','#0EA5B7','#8B5CF6'],['berry-amber','莓果 · 粉金','#E0457B','#F5A524'],
+  ['mint-sky','薄荷 · 绿蓝','#12A170','#3B82F6'],['dusk','暮色 · 紫粉','#6D5DF5','#F472B6'],['graphite','石墨 · 灰银','#475569','#A3A3A3']];}
 function autonomyPresets(){return {ask:{read:'ask',write:'ask',send:'ask'},risky:{read:'auto',write:'ask',send:'ask'},auto:{read:'auto',write:'auto',send:'ask'}};}
 function settingsConfig(){
-  const d={density:'comfortable',reduceMotion:false,unreadBadge:true,needYou:'inapp',digest:true,quietHours:false,defaultAgent:'CodeAgent',autonomy:'risky',actions:{...autonomyPresets().risky},approvalTtl:'once',learn:true,retention:'90',extApproval:true};
+  const d={density:'comfortable',reduceMotion:false,unreadBadge:true,needYou:'inapp',digest:true,quietHours:false,defaultAgent:'CodeAgent',autonomy:'risky',actions:{...autonomyPresets().risky},approvalTtl:'once',learn:true,retention:'90',extApproval:true,liquidPreset:'blue-orange',liquidA:'#2B76F0',liquidB:'#F08A3C'};
   if(!s.settings||typeof s.settings!=='object')s.settings={};
   s.settings={...d,...s.settings,actions:{...d.actions,...(s.settings.actions||{})}};
   return s.settings;
 }
 function themeTone(style){const tone=APPEARANCE_STYLES[style]?.tone||'light';return tone==='auto'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):tone;}
-function settingsApply(){const st=settingsConfig(),root=document.documentElement;root.dataset.density=st.density;root.dataset.motion=st.reduceMotion?'reduce':'full';root.dataset.unreadBadge=st.unreadBadge?'on':'off';}
+function settingsApply(){const st=settingsConfig(),root=document.documentElement;root.dataset.density=st.density;root.dataset.motion=st.reduceMotion?'reduce':'full';root.dataset.unreadBadge=st.unreadBadge?'on':'off';root.style.setProperty('--lq-a',st.liquidA);root.style.setProperty('--lq-b',st.liquidB);pixelFontsEnsure();}
+// 像素皮肤字体：仅在选用时按需加载（Silkscreen 像素标题 + JetBrains Mono 正文；离线回退系统等宽字体）。
+function pixelFontsEnsure(){if(s?.appearance?.style!=='pixel'||document.getElementById('as2-pixel-fonts'))return;const l=document.createElement('link');l.id='as2-pixel-fonts';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Silkscreen:wght@400;700&display=swap';document.head.appendChild(l);}
 function settingsSet(key,value){
   const st=settingsConfig();
   if(key.startsWith('actions.'))st.actions[key.slice(8)]=value;
   else if(key==='autonomy'){st.autonomy=value;st.actions={...st.actions,...autonomyPresets()[value]};}
   else if(key==='defaultProject'){s.project=value;}
+  else if(key==='liquidPreset'){const p=liquidPalettes().find(x=>x[0]===value);st.liquidPreset=value;if(p){st.liquidA=p[2];st.liquidB=p[3];}}
+  else if(key==='liquidA'||key==='liquidB'){st[key]=value;st.liquidPreset=liquidPalettes().find(x=>x[2].toLowerCase()===st.liquidA.toLowerCase()&&x[3].toLowerCase()===st.liquidB.toLowerCase())?.[0]||'custom';}
   else st[key]=value;
   if(key.startsWith('actions.'))st.autonomy=Object.entries(autonomyPresets()).find(([,p])=>Object.entries(p).every(([k,v])=>st.actions[k]===v))?.[0]||'custom';
   save();settingsApply();if(key==='defaultProject')render();openSettings();
@@ -37,6 +44,9 @@ function settingsPane(sec){
       settingsRow('时区','任务时间、定时触发按此时区计算','<span class="settings-value">Asia/Shanghai · UTC+8</span>'))+
     settingsGroup('入门',settingsRow('产品指引','重新浏览四种工作方式：工作台、个人助理、Thread、固定流程',btn('逛一圈','settings-guide','','sm')));
   if(sec==='appearance')return settingsGroup('主题',`<div class="appearance-style-options settings-theme-options" role="group" aria-label="主题">${Object.entries(APPEARANCE_STYLES).map(([key,item])=>`<button class="appearance-style-option" data-a="appearance-style" data-v="${key}" aria-pressed="${style===key}"><span class="appearance-style-thumb" data-style="${key}" aria-hidden="true"><i></i><span><b></b><small></small><small></small></span></span><span class="appearance-style-copy"><b>${item.name}</b><small>${item.tagline}</small></span><span class="appearance-choice-check" aria-hidden="true">${ico('check')}</span></button>`).join('')}</div>`)+
+    (style==='liquid'?settingsGroup('流光配色',`<div class="liquid-swatches" role="radiogroup" aria-label="流光配色">${liquidPalettes().map(([id,name,a,b])=>`<button class="liquid-swatch" role="radio" aria-checked="${st.liquidPreset===id}" data-a="settings-set" data-v="liquidPreset|${id}" style="--a:${a};--b:${b}"><i></i><span>${name.split(' · ')[1]}</span></button>`).join('')}<button class="liquid-swatch liquid-swatch--custom" role="radio" aria-checked="${st.liquidPreset==='custom'}" data-a="settings-set" data-v="liquidPreset|custom"><i></i><span>自定义</span></button></div>`+
+      settingsRow('自定义颜色','主色用于选中、运行与背景上部；辅色用于等待、高亮与背景下部',`<span class="liquid-custom"><label class="liquid-color"><input type="color" value="${esc(st.liquidA)}" data-setting="liquidA" data-liquid-color="--lq-a" aria-label="主色">主色 <code>${esc(st.liquidA.toUpperCase())}</code></label><label class="liquid-color"><input type="color" value="${esc(st.liquidB)}" data-setting="liquidB" data-liquid-color="--lq-b" aria-label="辅色">辅色 <code>${esc(st.liquidB.toUpperCase())}</code></label></span>`),
+      '其余颜色（背景渐变、选中底色、状态色）都由这两种颜色自动推导。'):settingsGroup('',settingsRow('流光配色','选择「流光」皮肤后，可在这里切换配色或自定义主色与辅色','<span class="settings-value">需先选择流光</span>')))+
     settingsGroup('显示',
       settingsRow('界面密度','紧凑模式收紧行高与间距，一屏显示更多任务与消息',settingsSeg('density',st.density,[['comfortable','舒适'],['compact','紧凑']]))+
       settingsRow('减少动效','关闭进入动画、脉冲与闪烁效果',settingsToggle('reduceMotion',st.reduceMotion)));
@@ -85,6 +95,7 @@ function openSettings(section){
   $('#modalHost .modal').classList.add('settings-modal');appearanceApply();
 }
 function settingsAction(a,v){
+  if(a==='appearance-style'&&document.querySelector('#modalHost .settings-modal')){appearanceSelect('style',v);openSettings('appearance');return true;}
   switch(a){
     case 'settings-section':openSettings(v);return true;
     case 'settings-toggle':{const st=settingsConfig();st[v]=!st[v];save();settingsApply();openSettings();return true;}
@@ -104,3 +115,6 @@ matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{if(app
 // Programmatic focus after a click (dialogs, restored focus) must not draw a ring.
 document.addEventListener('pointerdown',()=>{document.documentElement.dataset.input='pointer';},true);
 document.addEventListener('keydown',e=>{if(['Tab','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Home','End'].includes(e.key))document.documentElement.dataset.input='keyboard';},true);
+
+// 流光自定义颜色：拖动取色时实时预览，松开（change）后保存。
+document.addEventListener('input',e=>{const v=e.target.dataset?.liquidColor;if(!v)return;document.documentElement.style.setProperty(v,e.target.value);const code=e.target.parentElement.querySelector('code');if(code)code.textContent=e.target.value.toUpperCase();});

@@ -404,7 +404,9 @@ jsrep("""const APPEARANCE_STYLES={
 };""", """const APPEARANCE_STYLES={
   classic:{name:'浅色',tone:'light',tagline:'中性灰阶',description:'AgentSpace 2.0 默认：中性灰承载信息，墨色胶囊是唯一主操作，品牌蓝只表示选中、焦点与运行中。'},
   dark:{name:'深色',tone:'dark',tagline:'逐层提亮',description:'画布最暗、卡片逐层提亮；主按钮自动反转为浅色，状态色保持三重编码。'},
-  system:{name:'跟随系统',tone:'auto',tagline:'随系统切换',description:'跟随操作系统的浅色 / 深色设置自动切换。'}
+  system:{name:'跟随系统',tone:'auto',tagline:'随系统切换',description:'跟随操作系统的浅色 / 深色设置自动切换。'},
+  liquid:{name:'流光',tone:'light',tagline:'液态玻璃 · 自定义配色',description:'个性化皮肤：双色渐变底，面板与浮层为半透明液态玻璃；配色可选预设或自定义。'},
+  pixel:{name:'像素',tone:'dark',tagline:'终端 · 等宽 · 像素',description:'开发者皮肤：严格中性灰、等宽字体与像素标题，直角硬边；白色表示选中，橙红表示异常。'}
 };""")
 jsrep("root.dataset.appearanceTone=APPEARANCE_STYLES[style].tone;",
       "root.dataset.appearanceTone=APPEARANCE_STYLES[style].tone;root.dataset.theme=APPEARANCE_STYLES[style].tone;root.classList.toggle('dark',APPEARANCE_STYLES[style].tone==='dark');")
@@ -485,14 +487,25 @@ jsrep("""${s.workbenchReturnKey?btn(ico('back')+'返回工作台构建','wb2-ret
 jsrep('<div class="kicker">TOOLS & SKILLS</div>', "${s.workbenchReturnKey?btn(ico('back')+'返回工作台构建','wb2-return-extensions','','link sm'):''}")
 jsrep('<span>作为独立草稿继续编辑</span>', '<span>草稿仅自己可见</span>')
 
+# ---- Avatars: Agent mascots + people photos, embedded as data URIs (see assets/avatars/CREDITS.md).
+def avatar_js():
+    import base64, json
+    av = HERE / 'assets/avatars'
+    data = {}
+    for name in ['CodeAgent', 'TestAgent', 'DocAgent', 'IdeaAgent']:
+        data[name] = 'data:image/png;base64,' + base64.b64encode((av / 'agents' / f'{name}.png').read_bytes()).decode()
+    for name in ['zhang', 'li', 'wang', 'chen', 'zhou', 'me']:
+        data[name] = 'data:image/png;base64,' + base64.b64encode((av / 'people' / f'{name}.png').read_bytes()).decode()
+    return '\nwindow.AS2_AVATARS=' + json.dumps(data) + ';\n' + (HERE / 'as2-avatars.js').read_text()
+
 # ---- Settings: global preferences (as2-settings.js) replace the appearance-only dialog.
 js = js.replace('APPEARANCE_STYLES[style].tone', 'themeTone(style)')
 jsrep("function appearanceApply(){", "function appearanceApply(){settingsApply();")
-jsrep("function action(a,v){", "function action(a,v){if(settingsAction(a,v)||runAction(a,v))return;")
+jsrep("function action(a,v){", "function action(a,v){if(settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v))return;")
 jsrep("case 'appearance-settings':openAppearanceSettings();break;", "case 'appearance-settings':openSettings();break;")
 js = js.rstrip()
 assert js.endswith('</script></body></html>')
-js = js[:-len('</script></body></html>')] + (HERE / 'as2-settings.js').read_text() + (HERE / 'as2-run.js').read_text() + '\n</script></body></html>'
+js = js[:-len('</script></body></html>')] + (HERE / 'as2-settings.js').read_text() + (HERE / 'as2-run.js').read_text() + (HERE / 'as2-sidebar.js').read_text() + avatar_js() + '\n</script></body></html>'
 
 # Dialog focus: never land on the close button (it would show a focus ring on open).
 jsrep('<section class="modal" role="dialog"', '<section class="modal" role="dialog" tabindex="-1"')
@@ -508,6 +521,11 @@ jsrep("$('#modalHost .modalbody')?.insertAdjacentHTML('beforeend',taskKnowledgeS
 jsrep("<p>${fixed?'正在按 Spec 推进开发与测试。':'正在云端定位并修复，进度会回到当前 Thread。'}<br>演示可继续推进到结果。</p>", "${runView(t,'compact')}")
 jsrep('${renderTaskInline(t)}<div class="rule"></div><h4 style="margin-bottom:18px">执行记录与产物</h4>', '${renderTaskInline(t)}${runView(t,\'full\')}<div class="rule"></div><h4 style="margin-bottom:18px">执行记录与产物</h4>')
 jsrep("<p>Agent：CodeAgent · 环境：personal-analysis / 云端<br>目标 V${t.rev} · 验收：分析结论关联 MR 与 CI 证据</p>", "<p>Agent：CodeAgent · 环境：personal-analysis / 云端<br>目标 V${t.rev} · 验收：分析结论关联 MR 与 CI 证据</p>${runView(t,'compact')}")
+
+# ---- Sidebar (Kobra): project switch becomes the sidebar header; switching opens an anchored popover.
+jsrep("""if(s.view==='team')return `<div class="sidehead"><h3>Project</h3><p>云软件团队 · 团队协作视图</p></div><div class="sidebody"><div class="sidelabel">当前项目</div><button class="projectswitch" data-a="switch-project"><span class="projecticon">${esc(s.project[0])}</span><div class="grow"><b>${esc(s.project)}</b><small>需求与研发交付</small></div>${ico('down')}</button>""",
+      """if(s.view==='team')return `<div class="sidehead sidehead--switch"><button class="projectswitch" data-a="switch-project" aria-haspopup="dialog" aria-expanded="false" aria-label="切换项目（当前 ${esc(s.project)}）"><span class="projecticon">${esc(s.project[0])}</span><div class="grow"><b>${esc(s.project)}</b><small>云软件团队 · 需求与研发交付</small></div><svg class="icon as2-updown" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg></button></div><div class="sidebody">""")
+jsrep("case 'switch-project':modal('切换项目',", "case 'switch-project':if(openProjectSwitcher())break;modal('切换项目',")
 
 # Inline micro font sizes (8–10px) are below the AS2 type scale.
 js = re.sub(r'font-size:(8|9|10)px', 'font-size:11px', js)
