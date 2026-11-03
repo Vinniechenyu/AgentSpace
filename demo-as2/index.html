@@ -10347,9 +10347,12 @@ function sidebarDecorate(){
   const active=body.querySelector('.sidenav.active'),key=head?.textContent.trim().slice(0,12)||'';
   let line=body.querySelector(':scope > .as2-nav-line');
   if(active){
-    if(!line){line=document.createElement('i');line.className='as2-nav-line';line.setAttribute('aria-hidden','true');body.prepend(line);}
+    const fresh=!line;
+    if(fresh){line=document.createElement('i');line.className='as2-nav-line';line.setAttribute('aria-hidden','true');body.prepend(line);}
     const top=sidebarRowTop(active,body),h=active.offsetHeight,prev=sidebarState().line;
-    if(prev&&prev.key===key&&prev.top!==top){line.style.transition='none';line.style.transform=`translateY(${prev.top}px)`;line.style.height=prev.h+'px';line.getBoundingClientRect();line.style.transition='';}
+    // A rebuilt sidebar starts from where the line was (same sidebar) or lands in place — never slides in from the top.
+    if(fresh&&!(prev&&prev.key===key&&prev.top!==top)){line.style.transition='none';line.style.transform=`translateY(${top}px)`;line.style.height=h+'px';line.getBoundingClientRect();line.style.transition='';}
+    else if(prev&&prev.key===key&&prev.top!==top){line.style.transition='none';line.style.transform=`translateY(${prev.top}px)`;line.style.height=prev.h+'px';line.getBoundingClientRect();line.style.transition='';}
     line.style.transform=`translateY(${top}px)`;line.style.height=h+'px';line.style.left=Math.max(0,active.offsetLeft-6)+'px';
     sidebarState().line={key,top,h};
     requestAnimationFrame(()=>requestAnimationFrame(sidebarSyncLine));
