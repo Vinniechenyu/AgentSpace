@@ -9066,6 +9066,13 @@ html:root body #demo.slack-shell.slack-shell .assistantwrap:has(.chatmsgs:empty)
 html:root body #demo.slack-shell.slack-shell .assistantwrap:has(.chatmsgs:empty) .suggests > button { display: flex; align-items: center; min-height: 64px; padding: 14px 16px !important; border-radius: 16px !important; border: 1px solid var(--as-border) !important; background: var(--as-card) !important; box-shadow: none !important; text-align: left; white-space: normal; font-size: 13px !important; line-height: 20px; color: var(--as-text-2) !important; }
 html:root body #demo.slack-shell.slack-shell .assistantwrap:has(.chatmsgs:empty) .suggests > button:hover { border-color: var(--as-border-strong) !important; color: var(--as-text) !important; box-shadow: 0 8px 20px -12px rgba(16,24,40,.18) !important; }
 @media (max-width: 760px) { html:root body #demo.slack-shell.slack-shell .assistantwrap:has(.chatmsgs:empty) .suggests { grid-template-columns: 1fr; } html:root body #demo.slack-shell.slack-shell .assistantwrap:has(.chatmsgs:empty) > .composer .as-hero { width: 120px; top: -52px; right: 16px; } }
+/* 会话流更紧凑：消息间距 25 → 12（hover 卡片自带 8px 内边距），同一人连续发言再收紧 */
+html:root body #demo.slack-shell.slack-shell :is(.channelmessages, .co-stream, .threadmessages, .threadcontent, .chatmsgs, .threadcontent > div) > .co-message { margin-bottom: 12px !important; }
+html:root body #demo.slack-shell.slack-shell :is(.channelmessages, .co-stream, .threadmessages, .threadcontent, .chatmsgs) > .co-message:last-child { margin-bottom: 0 !important; }
+html:root body #demo.slack-shell.slack-shell .threadcontent > :is(.co-phase, .co-divider) { margin-bottom: 12px !important; }
+html:root body #demo.slack-shell.slack-shell .co-message .co-message-meta { margin-bottom: 2px !important; }
+html:root body #demo.slack-shell.slack-shell .co-message .co-thread-entry { margin-top: 8px !important; }
+html:root body #demo.slack-shell.slack-shell .co-message .co-message-actions { margin-top: 2px !important; }
 
 
 /* ==== DevUI themes (vendor/devui-themes.css) ==== */
