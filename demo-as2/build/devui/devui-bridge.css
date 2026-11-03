@@ -1,0 +1,244 @@
+/* =====================================================================
+ * AgentSpace 2.0 demo · DevUI 多主题版（devui/DESIGN.md）
+ *
+ * 主题挂在 <body data-theme data-mode> 上（<html data-theme="dark"> 仍是 demo 自己的明暗开关）。
+ * 1. 把 AS2 的 --as-* 语义变量全部改由 --devui-* 取值 → 同一套组件随 8 套主题换值；
+ * 2. 只有「变量换值做不到」的部分写成覆盖层：玻璃材质、像素描边 / 硬投影 / 字体、DevUI 几何（按钮 / 输入 4px 圆角）。
+ * 不写死色值：一律 var(--devui-*) / var(--devui-ext-*)。
+ * ===================================================================== */
+
+/* ---------- 1. 语义映射 --as-* ← --devui-* ---------- */
+body[data-theme] {
+  /* 表面 */
+  --as-bg:            var(--devui-global-bg);
+  --as-panel:         var(--devui-base-bg);
+  --as-card:          var(--devui-base-bg);
+  --as-stage:         var(--devui-area);
+  --as-sunken:        var(--devui-area);
+  --as-overlay:       var(--devui-feedback-overlay-backdrop);
+  /* 文字 */
+  --as-text:          var(--devui-text);
+  --as-text-2:        var(--devui-text-weak);
+  --as-text-muted:    var(--devui-aide-text);
+  --as-text-subtle:   var(--devui-aide-text);
+  --as-text-invert:   var(--devui-light-text);
+  /* 边界 */
+  --as-border:        var(--devui-dividing-line);
+  --as-border-soft:   var(--devui-dividing-line);
+  --as-border-strong: var(--devui-form-control-line);
+  --as-panel-stroke:  var(--devui-dividing-line);
+  /* 交互底色 */
+  --as-hover:         var(--devui-list-item-hover-bg);
+  --as-pressed:       var(--devui-icon-hover-bg);
+  --as-muted-bg:      var(--devui-label-bg);
+  --as-selected:      var(--devui-list-item-active-bg);
+  --as-selected-ink:  var(--devui-link);
+  /* 品牌（选中 / 焦点 / 运行 / 链接） */
+  --as-brand:         var(--devui-brand);
+  --as-brand-hover:   var(--devui-brand-hover);
+  --as-brand-soft:    var(--devui-primary-bg);
+  --as-brand-line:    color-mix(in srgb, var(--devui-brand) 30%, transparent);
+  --as-focus-ring:    var(--devui-form-control-line-active);
+  --as-focus-soft:    var(--devui-form-control-interactive-outline);
+  /* 主按钮：DevUI 平铺实底（无渐变 / 无 raise） */
+  --as-btn-top:          var(--devui-primary);
+  --as-btn-bottom:       var(--devui-primary);
+  --as-btn-top-hover:    var(--devui-primary-hover);
+  --as-btn-bottom-hover: var(--devui-primary-hover);
+  --as-btn-edge-1:       var(--devui-primary);
+  --as-btn-edge-2:       var(--devui-primary);
+  --as-btn-edge-3:       var(--devui-primary);
+  --as-btn-ring:         transparent;
+  --as-btn-ink:          var(--devui-ext-on-primary);
+  --as-btn-shadow:       none;
+  --as-danger:           var(--devui-danger, var(--devui-danger-text));
+  --as-btn2-bg:          var(--devui-btn-common-bg);
+  --as-btn2-ink:         var(--devui-text);
+  /* 状态：文字 / 柔底 / 细线 */
+  --as-run:   var(--devui-info);          --as-run-bg:   var(--devui-info-bg);    --as-run-line:   var(--devui-info-line);
+  --as-wait:  var(--devui-warning-text);  --as-wait-bg:  var(--devui-warning-bg); --as-wait-line:  var(--devui-warning-line);
+  --as-done:  var(--devui-success-text);  --as-done-bg:  var(--devui-success-bg); --as-done-line:  var(--devui-success-line);
+  --as-fail:  var(--devui-danger-text);   --as-fail-bg:  var(--devui-danger-bg);  --as-fail-line:  var(--devui-danger-line);
+  --as-idle:  var(--devui-aide-text);     --as-idle-bg:  var(--devui-label-bg);   --as-idle-line:  var(--devui-line);
+  --as-review:     var(--devui-brand-active);
+  --as-review-bg:  var(--devui-primary-bg);
+  --as-review-line: var(--devui-primary-line);
+  /* 身份 / 代码 */
+  --as-id-human: var(--devui-primary-bg);   --as-id-human-ink: var(--devui-link);
+  --as-id-tool:  var(--devui-label-bg);     --as-id-tool-ink:  var(--devui-text-weak);
+  --as-id-system: var(--devui-warning-bg);  --as-id-system-ink: var(--devui-warning-text);
+  --as-code-key: var(--devui-text);  --as-code-str: var(--devui-link);  --as-code-num: var(--devui-warning-text);
+  --as-code-add: var(--devui-success-bg);  --as-code-del: var(--devui-danger-bg);
+  /* 字体 */
+  --as-font:      var(--devui-ext-font-family);
+  --as-font-mono: var(--devui-ext-font-family-mono);
+  /* 圆角：DevUI 几何（一般 4 / 卡片 8 / 大卡 16；玻璃 12/20/28；像素全 0） */
+  --as-r-xs:    var(--devui-border-radius);
+  --as-r-sm:    var(--devui-border-radius);
+  --as-r-md:    var(--devui-border-radius);
+  --as-r-row:   var(--devui-border-radius);
+  --as-r-card:  var(--devui-border-radius-card);
+  --as-r-dec:   var(--devui-border-radius-card);
+  --as-r-panel: var(--devui-border-radius-card-xl);
+  --as-r-input: var(--devui-border-radius-card-xl);
+  --as-r-pill:  var(--devui-border-radius-full);
+  /* 阴影：官方组合写法 length + color */
+  --as-ring:          0 0 0 var(--devui-ext-border-width) var(--devui-dividing-line);
+  --as-shadow-card:   var(--devui-shadow-length-base) var(--devui-light-shadow);
+  --as-shadow-tile:   var(--devui-shadow-length-base) var(--devui-light-shadow);
+  --as-shadow-panel:  none;
+  --as-shadow-pop:    var(--devui-shadow-length-connected-overlay) var(--devui-connected-overlay-shadow);
+  --as-shadow-dialog: var(--devui-shadow-length-fullscreen-overlay) var(--devui-feedback-overlay-shadow);
+  /* 动效 */
+  --as-dur-fast:   var(--devui-animation-duration-fast);
+  --as-dur:        var(--devui-animation-duration-base);
+  --as-dur-state:  var(--devui-animation-duration-base);
+  --as-dur-expand: var(--devui-animation-duration-slow);
+  --as-dur-enter:  var(--devui-animation-duration-slow);
+  --as-ease:       var(--devui-animation-ease-out);
+  --as-ease-raise: var(--devui-animation-ease-in-out);
+  font-family: var(--devui-ext-font-family);
+}
+/* 像素风：列表选中为黄色光标，选中文字用墨色 */
+body[data-theme="as-pixel"] { --as-selected-ink: var(--devui-list-item-active-text); }
+
+/* ---------- 2. 页面底图 ---------- */
+html body[data-theme] { background: var(--devui-ext-backdrop) !important; background-attachment: fixed !important; color: var(--devui-text); }
+html body[data-theme] .appbar { background: transparent !important; }
+
+/* ---------- 3. DevUI 几何：按钮 / 输入 / 浮层 ---------- */
+body[data-theme] :is(#demo, #modalHost) .btn { border-radius: var(--devui-border-radius) !important; padding: var(--devui-btn-padding) !important; }
+body[data-theme] :is(#demo, #modalHost) .btn.sm { padding: var(--devui-btn-sm-padding) !important; }
+body[data-theme] :is(#demo, #modalHost) .btn:not(.primary):not(.link):not(.danger):not(.red) {
+  background: var(--devui-btn-common-bg) !important; color: var(--devui-text) !important;
+  border: var(--devui-ext-border-width) solid var(--devui-btn-common-border-color) !important; box-shadow: none !important; }
+body[data-theme] :is(#demo, #modalHost) .btn:not(.primary):not(.link):not(.danger):not(.red):hover {
+  background: var(--devui-btn-common-bg-hover) !important; color: var(--devui-btn-common-color-hover) !important; border-color: var(--devui-btn-common-border-color-hover) !important; }
+body[data-theme] :is(#demo, #modalHost) .btn.primary { background: var(--devui-primary) !important; color: var(--devui-ext-on-primary) !important; border: var(--devui-ext-border-width) solid var(--devui-primary) !important; box-shadow: none !important; }
+body[data-theme] :is(#demo, #modalHost) .btn.primary:hover { background: var(--devui-primary-hover) !important; border-color: var(--devui-primary-hover) !important; }
+body[data-theme] :is(#demo, #modalHost) .btn.primary:active { background: var(--devui-primary-active) !important; }
+body[data-theme] :is(#demo, #modalHost) .btn.primary svg.icon { color: var(--devui-ext-on-primary) !important; }
+body[data-theme] :is(#demo, #modalHost) .btn.link { color: var(--devui-link) !important; }
+body[data-theme] :is(#demo, #modalHost) .btn.link:hover { color: var(--devui-link-active) !important; background: transparent !important; }
+body[data-theme] :is(#demo, #modalHost) :is(input:not([type=checkbox]):not([type=radio]):not([type=range]), select, textarea):not(:is(.composer, .ms-composer, .wc-composer-card, .channelcomposer, .co-thread-compose, .wb-composer) *) {
+  background: var(--devui-form-control-bg) !important; border: var(--devui-ext-border-width) solid var(--devui-form-control-line) !important; border-radius: var(--devui-border-radius) !important; color: var(--devui-text) !important; }
+body[data-theme] :is(#demo, #modalHost) :is(input, select, textarea):hover:not(:focus):not(:disabled) { border-color: var(--devui-form-control-line-hover) !important; }
+body[data-theme] :is(#demo, #modalHost) :is(input, select, textarea):focus { border-color: var(--devui-form-control-line-active) !important; box-shadow: 0 0 0 2px var(--devui-form-control-interactive-outline) !important; }
+body[data-theme] :is(#demo, #modalHost) :is(input, textarea)::placeholder { color: var(--devui-placeholder) !important; }
+body[data-theme] :is(#demo, #modalHost) :is(.ms-list-search, .evo-searchbox, .co-members-search, .wc-popover-search, .ms-directory-search, .evo-scope) {
+  background: var(--devui-form-control-bg) !important; border: var(--devui-ext-border-width) solid var(--devui-form-control-line) !important; border-radius: var(--devui-border-radius) !important; }
+body[data-theme] :is(#demo, #modalHost) :is(.ms-list-search, .evo-searchbox, .co-members-search, .wc-popover-search, .ms-directory-search, .evo-scope) :is(input, select) { border: 0 !important; background: transparent !important; box-shadow: none !important; }
+body[data-theme] .appbar .appsearch { background: var(--devui-embed-search-bg) !important; border: var(--devui-ext-border-width) solid transparent !important; border-radius: var(--devui-border-radius) !important; color: var(--devui-placeholder) !important; }
+body[data-theme] .appbar .appsearch:hover { background: var(--devui-embed-search-bg-hover) !important; }
+
+/* 弹窗 / 浮层 / 提示：DevUI 各自的面色与阴影组合 */
+html body[data-theme] #modalHost .modalback { background: var(--devui-feedback-overlay-backdrop) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+html body[data-theme] #modalHost .modal { background: var(--devui-fullscreen-overlay-bg) !important; border-radius: var(--devui-border-radius-card) !important;
+  box-shadow: var(--devui-ext-material-highlight, 0 0 0 0 transparent), var(--devui-shadow-length-fullscreen-overlay) var(--devui-feedback-overlay-shadow) !important; }
+html body[data-theme] :is(#demo, #modalHost, body) :is(.wc-popover, .wc-file-popover, .wc-quick-menu, .searchresult-list, .ms-menu-list, .ms-menu),
+html body[data-theme] > :is(.as2-switcher, .as2-menu) {
+  background: var(--devui-connected-overlay-bg) !important; border-radius: var(--devui-border-radius-card) !important;
+  box-shadow: var(--devui-shadow-length-connected-overlay) var(--devui-connected-overlay-shadow), 0 0 0 var(--devui-ext-border-width) var(--devui-dividing-line) !important; }
+html body[data-theme] .toast { background: var(--devui-feedback-overlay-bg) !important; color: var(--devui-feedback-overlay-text) !important; border-radius: var(--devui-border-radius-feedback) !important;
+  box-shadow: var(--devui-shadow-length-feedback-overlay) var(--devui-feedback-overlay-shadow) !important; }
+html body[data-theme] .as2-hint-pop { background: var(--devui-feedback-overlay-bg) !important; color: var(--devui-feedback-overlay-text) !important; border-radius: var(--devui-border-radius-feedback) !important; }
+
+/* 卡片：DevUI 基础阴影组合；悬停用 hover 阴影 */
+body[data-theme] #demo.slack-shell :is(.benchcard, .extension-card, .directory-card, .catalog-card, .kanban-card, .project-channel-card, .co-thread-entry, .as2-stat) {
+  background: var(--devui-base-bg) !important; border: var(--devui-ext-border-width) solid var(--devui-dividing-line) !important; box-shadow: none !important; }
+body[data-theme] #demo.slack-shell :is(.benchcard, .extension-card, .directory-card, .catalog-card, .kanban-card, .project-channel-card, .co-thread-entry, .as2-stat):hover {
+  box-shadow: var(--devui-shadow-length-hover) var(--devui-hover-shadow) !important; }
+
+/* 选中行 / 标签 / 徽标 */
+body[data-theme] #demo.slack-shell .demoside .sidenav.active { background: var(--devui-list-item-active-bg) !important; color: var(--devui-list-item-active-text) !important; }
+body[data-theme] #demo.slack-shell :is(.ms-conversation, .ms-contact-item).selected { background: var(--devui-list-item-active-bg) !important; border-color: transparent !important; box-shadow: none !important; }
+body[data-theme] #demo.slack-shell :is(.dtabs, .projecttabs, .board-main-tabs, .ms-primary-tabs, .evo-tabs, .ext-page-tabs) > button.active { color: var(--devui-text) !important; border-bottom-color: var(--devui-brand) !important; }
+body[data-theme] :is(#demo, #modalHost) .tag { border-radius: var(--devui-border-radius) !important; }
+body[data-theme] .as2-switch[aria-checked="true"] { background: var(--devui-brand) !important; }
+body[data-theme] .as2-switch[aria-checked="true"] i { background: var(--devui-light-text) !important; }
+
+/* 运行中：流光（仅 glass / pixel 有值；官方与简约主题 = none，退回品牌色） */
+body[data-theme] .as-progress__bar, body[data-theme] .as2-run .as-progress > i { background: var(--devui-ext-accent-glow, var(--devui-ext-accent)) !important; background-color: var(--devui-ext-accent) !important; }
+
+/* ---------- 4. 玻璃 as-glass：只给"浮在内容上"的面加材质，最多 1 层 ---------- */
+body[data-theme="as-glass"] #demo.slack-shell > :is(.demoside:not(:empty), .demoarea),
+body[data-theme="as-glass"] #modalHost .modal,
+html body[data-theme="as-glass"] :is(#demo, #modalHost, body) :is(.wc-popover, .wc-file-popover, .wc-quick-menu, .searchresult-list, .ms-menu-list, .ms-menu),
+html body[data-theme="as-glass"] > :is(.as2-switcher, .as2-menu, .toast) {
+  -webkit-backdrop-filter: blur(var(--devui-ext-material-blur)) saturate(var(--devui-ext-material-saturate)) !important;
+  backdrop-filter: blur(var(--devui-ext-material-blur)) saturate(var(--devui-ext-material-saturate)) !important;
+  border: 1px solid var(--devui-ext-material-edge) !important; }
+body[data-theme="as-glass"] #demo.slack-shell > :is(.demoside:not(:empty), .demoarea) {
+  background: var(--devui-base-bg) !important; box-shadow: var(--devui-ext-material-highlight), var(--devui-shadow-length-base) var(--devui-light-shadow) !important; }
+body[data-theme="as-glass"] .demorail button.active { background: var(--devui-base-bg) !important; box-shadow: var(--devui-ext-material-highlight) !important; }
+/* 面内卡片不再叠模糊：用可折叠区块色 */
+body[data-theme="as-glass"] #demo.slack-shell :is(.benchcard, .extension-card, .directory-card, .catalog-card, .kanban-card, .project-channel-card, .co-thread-entry, .as2-stat) {
+  background: var(--devui-area) !important; border-color: var(--devui-ext-material-edge) !important; backdrop-filter: none !important; }
+html body[data-theme="as-glass"] #modalHost .modalback { -webkit-backdrop-filter: blur(6px) !important; backdrop-filter: blur(6px) !important; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  body[data-theme="as-glass"]:not([data-mode="dark"]) { --devui-base-bg: #f7f9fd; --devui-connected-overlay-bg: #ffffff; --devui-fullscreen-overlay-bg: #ffffff; }
+  body[data-theme="as-glass"][data-mode="dark"] { --devui-base-bg: #1a1e2b; --devui-connected-overlay-bg: #20253a; --devui-fullscreen-overlay-bg: #1c2030; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  body[data-theme="as-glass"]:not([data-mode="dark"]) { --devui-base-bg: #f7f9fd; --devui-connected-overlay-bg: #ffffff; --devui-fullscreen-overlay-bg: #ffffff; }
+  body[data-theme="as-glass"][data-mode="dark"] { --devui-base-bg: #1a1e2b; --devui-connected-overlay-bg: #20253a; --devui-fullscreen-overlay-bg: #1c2030; }
+}
+
+/* ---------- 5. 像素 as-pixel：2px 墨边 · 0 圆角 · 硬投影 · 像素字体 · 阶跃动效 ---------- */
+/* 像素字体需随应用打包（Fusion Pixel / Zpix）；未打包时退回 Google Fonts 的 DotGothic16（含中文） */
+body[data-theme="as-pixel"] { --devui-ext-font-family-display: "Fusion Pixel 12px Proportional SC", "Zpix", "DotGothic16", "Press Start 2P", monospace; }
+body[data-theme="as-pixel"] #demo.slack-shell > :is(.demoside:not(:empty), .demoarea),
+body[data-theme="as-pixel"] #modalHost .modal,
+html body[data-theme="as-pixel"] :is(#demo, #modalHost, body) :is(.wc-popover, .wc-quick-menu, .ms-menu-list),
+html body[data-theme="as-pixel"] > :is(.as2-switcher, .as2-menu),
+body[data-theme="as-pixel"] #demo.slack-shell :is(.benchcard, .extension-card, .directory-card, .catalog-card, .kanban-card, .project-channel-card, .co-thread-entry, .as2-stat, .wc-composer-card, .composer, .ms-composer, .evo-panel) {
+  border: var(--devui-ext-border-width) solid var(--devui-line) !important; border-radius: 0 !important; }
+body[data-theme="as-pixel"] #demo.slack-shell :is(.benchcard, .extension-card, .directory-card, .catalog-card, .kanban-card, .project-channel-card, .as2-stat, .wc-composer-card, .evo-panel) { box-shadow: var(--devui-shadow-length-base) var(--devui-shadow) !important; }
+body[data-theme="as-pixel"] #demo.slack-shell :is(.benchcard, .extension-card, .kanban-card, .project-channel-card, .as2-stat):hover { box-shadow: var(--devui-shadow-length-hover) var(--devui-hover-shadow) !important; transform: translate(-2px, -2px); }
+body[data-theme="as-pixel"] :is(#demo, #modalHost) :is(h1, h2, h3, .modalhead h3, .btn, .tag, .as-num, .as-tag, .sidehead h3) { font-family: var(--devui-ext-font-family-display) !important; font-weight: var(--devui-font-title-weight) !important; letter-spacing: 0 !important; }
+body[data-theme="as-pixel"] :is(#demo, #modalHost) .btn:not(.link) { border: var(--devui-ext-border-width) solid var(--devui-line) !important; box-shadow: 4px 4px 0 0 var(--devui-shadow) !important; }
+body[data-theme="as-pixel"] :is(#demo, #modalHost) .btn:not(.link):active { transform: translate(var(--devui-ext-press-offset), var(--devui-ext-press-offset)) !important; box-shadow: 2px 2px 0 0 var(--devui-shadow) !important; }
+body[data-theme="as-pixel"] :is(#demo, #modalHost) :is(input, select, textarea):focus { box-shadow: 0 0 0 2px var(--devui-form-control-interactive-outline) !important; }
+body[data-theme="as-pixel"] :is(img, .as2-photo) { image-rendering: var(--devui-ext-image-rendering); }
+body[data-theme="as-pixel"] :focus-visible { outline: var(--devui-ext-border-width) dashed var(--devui-text) !important; outline-offset: 2px; }
+body[data-theme="as-pixel"] .as2-photo--person { border-radius: 0 !important; }
+/* 表格内部线用内容分割线，外框才用纯墨（§10-6） */
+body[data-theme="as-pixel"] #demo :is(table td, table th) { border-color: var(--devui-dividing-line) !important; }
+
+/* ---------- 6. 设置 · 主题缩略图：每张卡片自带 data-theme，直接预览该主题的 token ---------- */
+#modalHost .appearance-style-thumb[data-theme] { position: relative; display: block; overflow: hidden; background: var(--devui-ext-backdrop) !important; border-radius: var(--devui-border-radius-card) !important;
+  border: var(--devui-ext-border-width) solid var(--devui-dividing-line) !important; }
+#modalHost .appearance-style-thumb[data-theme] > i { position: absolute; left: 6px; top: 6px; bottom: 6px; width: 22%; background: var(--devui-base-bg) !important; border-radius: var(--devui-border-radius) !important; border: 0 !important; }
+#modalHost .appearance-style-thumb[data-theme] > span { position: absolute; left: calc(22% + 12px); right: 6px; top: 6px; bottom: 6px; display: flex; flex-direction: column; gap: 4px; padding: 6px; background: var(--devui-base-bg) !important; border-radius: var(--devui-border-radius) !important; }
+#modalHost .appearance-style-thumb[data-theme] > span b { display: block; width: 46%; height: 8px; background: var(--devui-primary) !important; border-radius: var(--devui-border-radius) !important; }
+#modalHost .appearance-style-thumb[data-theme] > span small { display: block; height: 5px; background: var(--devui-dividing-line) !important; border-radius: var(--devui-border-radius) !important; }
+#modalHost .appearance-style-thumb[data-theme] > span small:last-child { width: 60%; background: var(--devui-brand) !important; opacity: .5; }
+#modalHost .appearance-style-thumb[data-theme="as-glass"] > :is(i, span) { backdrop-filter: blur(8px); box-shadow: var(--devui-ext-material-highlight); }
+#modalHost .appearance-style-thumb[data-theme="as-pixel"] > :is(i, span) { border: 2px solid var(--devui-line) !important; box-shadow: 2px 2px 0 0 var(--devui-shadow); }
+
+/* 数字徽标：全圆角跟随 --devui-border-radius-full（像素风为 0） */
+body[data-theme] #demo.slack-shell :is(.sidenav > small, .board-tab-count, .co-tab-count, .co-members-toggle > b, .evo-count, .ms-list-head h1 > span, .ext-page-tabs .as-num, .hub-channel-count, .wc-quick-count),
+body[data-theme] #demo.slack-shell :is(.dtabs, .projecttabs, .board-main-tabs) > button > small,
+body[data-theme] #demo .rail-unread, body[data-theme] #demo .ms-unread { border-radius: var(--devui-border-radius-full) !important; }
+body[data-theme] #demo .rail-unread, body[data-theme] #demo .ms-unread { background: var(--devui-danger, var(--devui-danger-text)) !important; color: var(--devui-light-text) !important; }
+
+/* ---------- 7. 对比度（DESIGN.md §13）：状态文字在白底 / 深底上 ≥ 4.5 ----------
+ * 官方 warning / success / danger 文字色主要为图标设计（§13 已标 ⚠️）；作为小号文字时向正文色混合加深 / 提亮，
+ * 状态图标与底色仍用原值。混合对象是 --devui-text，所以浅色主题加深、深色主题提亮。 */
+body[data-theme] {
+  --as-wait:   color-mix(in srgb, var(--devui-warning-text) 55%, var(--devui-text));
+  --as-done:   color-mix(in srgb, var(--devui-success-text) 70%, var(--devui-text));
+  --as-fail:   color-mix(in srgb, var(--devui-danger-text) 80%, var(--devui-text));
+  --as-review: color-mix(in srgb, var(--devui-brand-active) 72%, var(--devui-text));
+  --as-run:    color-mix(in srgb, var(--devui-info) 82%, var(--devui-text));
+}
+/* 顶栏搜索是按钮，不是占位符：用辅助文本色 */
+body[data-theme] .appbar .appsearch, body[data-theme] .appbar .appsearch span { color: var(--devui-aide-text) !important; }
+body[data-theme] .appbar .appsearch kbd, body[data-theme] :is(#demo, #modalHost) kbd { color: var(--devui-text-weak) !important; background: var(--devui-label-bg) !important; border-color: var(--devui-dividing-line) !important; }
+/* 徽标数字用弱化正文色；未读红点用加深的失败色保证白字可读 */
+body[data-theme] #demo.slack-shell :is(.sidenav > small, .board-tab-count, .co-tab-count, .co-members-toggle > b, .evo-count, .ms-list-head h1 > span, .ext-page-tabs .as-num, .hub-channel-count) { color: var(--devui-text-weak) !important; }
+body[data-theme] #demo :is(.rail-unread, .ms-unread) { background: color-mix(in srgb, var(--devui-danger, var(--devui-danger-text)) 84%, #000) !important; }
+
+/* 命令面板：搜索行本身就是输入区域，不再套 DevUI 输入框描边 */
+html body[data-theme] #modalHost .modal.as2-palette .palette-search input#globalQuery.globalsearchinput { border: 0 !important; background: transparent !important; box-shadow: none !important; border-radius: 0 !important; }
+html body[data-theme] #modalHost .palette-search { border-bottom: var(--devui-ext-border-width) solid var(--devui-dividing-line); }

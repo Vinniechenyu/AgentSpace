@@ -20,7 +20,7 @@ function openExtMenu(id){
 function extensionAction(a,v){if(a!=='ext-menu')return false;openExtMenu(v);return true;}
 // Picking an item runs its action through the normal dispatcher, then the menu closes.
 document.addEventListener('click',e=>{if(e.target.closest('.as2-menu [data-a]'))setTimeout(closeExtMenu);});
-document.addEventListener('pointerdown',e=>{if(document.querySelector('.as2-menu')&&!e.target.closest('.as2-menu, [data-a="ext-menu"]'))closeExtMenu();},true);
+document.addEventListener('pointerdown',e=>{if(document.querySelector('.as2-menu')&&!e.target.closest('.as2-menu, [data-a="ext-menu"], [data-a="composer-model"], [data-a="composer-add"]'))closeExtMenu();},true);
 document.addEventListener('keydown',e=>{
   const m=document.querySelector('.as2-menu');if(!m)return;
   if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();const id=m.dataset.for;closeExtMenu();document.querySelector(`[data-a="ext-menu"][data-v="${id}"]`)?.focus();return;}
@@ -31,3 +31,16 @@ document.addEventListener('scroll',closeExtMenu,true);
 
 // ---- Hint: explanatory copy stays behind an ⓘ icon and shows on hover / keyboard focus.
 function as2Hint(text,label='说明'){return `<span class="as2-hint"><button type="button" class="as2-hint-btn" aria-label="${esc(label)}">${ico('info')}</button><span class="as2-hint-pop" role="tooltip">${text}</span></span>`;}
+
+// ---- Command palette (global search): ↑↓ move the highlight, Enter opens it, the count follows the results.
+function paletteRows(){return [...document.querySelectorAll('#globalResults .palette-row')];}
+function paletteSync(i=0){const rows=paletteRows();rows.forEach((r,k)=>r.classList.toggle('is-active',k===i));const c=document.getElementById('paletteCount');if(c)c.textContent=rows.length+' 个';}
+document.addEventListener('keydown',e=>{
+  if(!document.getElementById('globalQuery')||!['ArrowDown','ArrowUp','Enter'].includes(e.key))return;
+  const rows=paletteRows();if(!rows.length)return;const i=rows.findIndex(r=>r.classList.contains('is-active'));
+  if(e.key==='Enter'){e.preventDefault();(rows[i]||rows[0]).click();return;}
+  e.preventDefault();const next=(i+(e.key==='ArrowDown'?1:-1)+rows.length)%rows.length;paletteSync(next);rows[next].scrollIntoView({block:'nearest'});
+});
+document.addEventListener('pointermove',e=>{const r=e.target.closest?.('#globalResults .palette-row');if(r&&!r.classList.contains('is-active'))paletteSync(paletteRows().indexOf(r));});
+// Clicking anywhere outside the palette (the backdrop) closes it.
+document.addEventListener('pointerdown',e=>{if(e.target.classList?.contains('modalback')&&e.target.querySelector('.as2-palette'))closeModal();});

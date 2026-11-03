@@ -13,6 +13,8 @@
 - **头像**：Agent 使用 AgentSpace 吉祥物，成员使用 3D 人物形象（见 `build/assets/avatars/CREDITS.md`）。
 - **构建 / 扩展 / 进化**：全页面，无二级面板；导航放在页内标签与头部。
 
+另有按 DevUI 多主题规范调整的副本：[demo-as2-devui](../demo-as2-devui/)（构建脚本在 `build/devui/`）。
+
 数据与执行均为本地演示，保存在浏览器 localStorage；可在「设置 → 数据与隐私」重置。
 
 ## 重新生成

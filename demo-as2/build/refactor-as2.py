@@ -418,7 +418,7 @@ js = re.sub(r'\n\s*<div class="appearance-transparency">.*?\n    </div>\n(?=  </
 jsrep('界面风格 <span>4 种风格 × 6 种颜色</span>', '界面主题 <span>AgentSpace 2.0 设计系统</span>')
 jsrep("${APPEARANCE_STYLES[style].name} · ${APPEARANCE_COLORS[color].name}主题", "${APPEARANCE_STYLES[style].name}主题")
 jsrep("themeName.textContent=APPEARANCE_STYLES[style].name+' · '+APPEARANCE_COLORS[color].name+'主题';", "themeName.textContent=APPEARANCE_STYLES[style].name+'主题';")
-js = js.replace("appearanceReset(){s.appearance={style:'classic',color:'purple',transparency:20}", "appearanceReset(){s.appearance={style:'classic',color:'blue',transparency:0}")
+js = js.replace("appearanceReset(){s.appearance={style:'classic',color:'purple',transparency:20}", "appearanceReset(){s.appearance={style:'liquid',color:'blue',transparency:0}")
 # Status vocabulary follows the AS2 task layer: waiting is "需要你", running is not green.
 jsrep("wait:'待我处理'", "wait:'需要你'")
 jsrep("const statusClass={pending:'gold',running:'green',wait:'gold',review:'gold',", "const statusClass={pending:'gold',running:'blue',wait:'gold',review:'purple',")
@@ -501,10 +501,10 @@ def avatar_js():
 # ---- Settings: global preferences (as2-settings.js) replace the appearance-only dialog.
 # 「跟随系统」 was removed: a saved 'system' choice becomes the theme the OS is showing right now.
 jsrep("if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.style='classic';",
-      "if(s.appearance.style==='system')s.appearance.style=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'classic';if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.style='classic';")
+      "if(s.appearance.style==='system')s.appearance.style=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'classic';if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.style='liquid';")
 js = js.replace('APPEARANCE_STYLES[style].tone', 'themeTone(style)')
 jsrep("function appearanceApply(){", "function appearanceApply(){settingsApply();")
-jsrep("function action(a,v){", "function action(a,v){if(settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v)||messageAction(a)||extensionAction(a,v))return;")
+jsrep("function action(a,v){", "function action(a,v){if(settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v)||messageAction(a,v)||composerAction(a,v)||extensionAction(a,v))return;")
 jsrep("case 'appearance-settings':openAppearanceSettings();break;", "case 'appearance-settings':openSettings();break;")
 js = js.rstrip()
 assert js.endswith('</script></body></html>')
@@ -620,6 +620,22 @@ jsrep('{actions:`<div class="co-message-actions"><button data-a="co-message-thre
       '{actions:`<div class="ms-message-actions co-hover-actions" role="toolbar" aria-label="消息操作"><button data-a="co-message-thread" data-v="${m.sourceIndex}" title="回复到 Thread" aria-label="回复到 Thread">${ico(\'chat\')}</button>' + COPY_BTN + '</div>`}')
 js, n = re.subn(r'<button data-a="ms-message-menu"', COPY_BTN + '<button data-a="ms-message-menu"', js)
 assert n == 2, f'expected 2 message menus, got {n}'
+
+# ---- Global search becomes a compact command palette: no dialog header, one-line rows, keyboard hints.
+jsrep("""function openGlobalSearch(){modal('找到你的工作',`<input id="globalQuery" class="globalsearchinput" placeholder="搜索工作台、任务或项目…" aria-label="搜索工作台任务项目"><div id="globalResults" style="margin-top:16px">${searchResults('')}</div>`);setTimeout(()=>$('#globalQuery')?.focus(),50);}""",
+      """function openGlobalSearch(){modal('找到你的工作',`<div class="palette-search">${ico('search')}<input id="globalQuery" class="globalsearchinput" placeholder="搜索工作台、任务或项目…" aria-label="搜索工作台、任务或项目" autocomplete="off"></div><div class="palette-meta"><span>全部结果</span><span class="palette-keys"><kbd>↑</kbd><kbd>↓</kbd>选择<kbd>Enter</kbd>打开<b id="paletteCount"></b></span></div><div id="globalResults" class="palette-results" role="listbox">${searchResults('')}</div>`);$('#modalHost .modal')?.classList.add('as2-palette');paletteSync();setTimeout(()=>$('#globalQuery')?.focus(),50);}""")
+js, n = re.subn(r"function searchResults\(query\)\{.*?\}\n", lambda m: r"""function searchResults(query){const q=query.trim().toLowerCase();const benches=s.benches.filter(b=>!b.archived&&(b.title+b.range).toLowerCase().includes(q));const tasks=s.tasks.filter(t=>(t.title+t.id+t.scope).toLowerCase().includes(q)).slice(0,6);const projects=projectNames.filter(n=>n.toLowerCase().includes(q));const row=(a,v,icon,title,meta,end='')=>`<button class="searchresult palette-row" role="option" data-a="${a}" data-v="${esc(v)}">${ico(icon)}<span class="palette-title">${esc(title)}</span><span class="palette-sub">${esc(meta)}</span><span class="palette-end">${end}</span></button>`;const group=(label,rows)=>rows.length?`<div class="palette-label">${label}</div>${rows.join('')}`:'';const html=group('工作台',benches.map(b=>row('open-bench',b.id,'bench',b.title,b.range)))+group('任务',tasks.map(t=>row('open-task',t.id,'task',t.title,t.id+' · '+t.scope,taskChip(t))))+group('项目',projects.map(n=>row('search-project',n,'team',n,'项目')));return html||'<p class="palette-empty">没有匹配的工作台、任务或项目</p>';}
+""", js, count=1, flags=re.S)
+assert n == 1, 'searchResults anchor'
+jsrep("document.addEventListener('input',e=>{if(e.target.id==='globalQuery')$('#globalResults').innerHTML=searchResults(e.target.value);});",
+      "document.addEventListener('input',e=>{if(e.target.id==='globalQuery'){$('#globalResults').innerHTML=searchResults(e.target.value);paletteSync();}});")
+
+# Team sidebar footer: the cloud-environment status line is removed.
+jsrep('<div style="margin-top:10px">${ico(\'cloud\')} 云端执行环境 <span style="color:var(--success)">● 就绪</span></div>', '')
+
+# ---- Message actions (Kobra Message): 👍 · 👎 · 复制 | 生成任务. Dislike is local demo state (s.coDislikes).
+jsrep("""<div class="co-message-actions"><button class="co-reaction${liked?' active':''}" data-a="co-react" data-v="${esc(rk)}" aria-label="赞同这条消息" aria-pressed="${liked}">${ico('thumb')} ${count||''}</button>${root?`<button data-a="co-generate-task" data-v="${esc(info.key)}">${threadTask(info.kind,info.key)?'查看任务':'生成任务'}</button>`:''}</div>""",
+      """<div class="co-message-actions"><button class="co-reaction${liked?' active':''}" data-a="co-react" data-v="${esc(rk)}" aria-label="赞同这条消息" title="赞同" aria-pressed="${liked}">${ico('thumb')}${count?`<span class="as-num">${count}</span>`:''}</button><button class="co-reaction co-dislike${(s.coDislikes||{})[rk]?' active':''}" data-a="co-dislike" data-v="${esc(rk)}" aria-label="不认同这条消息" title="不认同" aria-pressed="${!!(s.coDislikes||{})[rk]}">${ico('thumbDown')}</button><button class="co-reaction" data-a="message-copy" aria-label="复制消息" title="复制">${ico('copy')}</button>${root?`<i class="co-actions-sep" aria-hidden="true"></i><button class="co-action-text" data-a="co-generate-task" data-v="${esc(info.key)}">${threadTask(info.kind,info.key)?'查看任务':'生成任务'}</button>`:''}</div>""")
 
 # Inline micro font sizes (8–10px) are below the AS2 type scale.
 js = re.sub(r'font-size:(8|9|10)px', 'font-size:11px', js)

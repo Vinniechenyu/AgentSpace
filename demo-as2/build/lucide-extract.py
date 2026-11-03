@@ -50,11 +50,11 @@ ICON_MAP = {
     'send': 'arrow-up',                  # Composer 发送
     'arrow': 'arrow-right', 'back': 'arrow-left',
     'chevron': 'chevron-right', 'down': 'chevron-down', 'up': 'chevron-up', 'updown': 'chevrons-up-down',
-    'refresh': 'refresh-cw', 'copy': 'copy', 'edit': 'pencil', 'reply': 'reply', 'more': 'ellipsis', 'filter': 'list-filter',
+    'refresh': 'refresh-cw', 'copy': 'copy', 'mic': 'mic', 'at': 'at-sign', 'zap': 'zap', 'edit': 'pencil', 'reply': 'reply', 'more': 'ellipsis', 'filter': 'list-filter',
     'play': 'play', 'pause': 'pause', 'stop': 'square',
     'expand': 'maximize-2', 'collapse': 'minimize-2', 'menu': 'menu',
     # status · feedback
-    'star': 'star', 'thumb': 'thumbs-up', 'bell': 'bell', 'info': 'info',
+    'star': 'star', 'thumb': 'thumbs-up', 'thumbDown': 'thumbs-down', 'bell': 'bell', 'info': 'info',
 }
 
 def node_of(name):

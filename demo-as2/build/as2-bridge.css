@@ -1294,3 +1294,306 @@ html body #demo.slack-shell .ms-avatar.ms-avatar-group { display: grid !importan
 html body #demo.slack-shell .ms-avatar.ms-avatar-group > i { display: block !important; width: 100% !important; height: 100% !important; min-width: 0; min-height: 0; margin: 0 !important; border: 0 !important; border-radius: 50% !important; position: static !important; }
 html body #demo.slack-shell .ms-avatar.ms-avatar-group > i.as2-photo--agent { border-radius: 0 !important; background-color: transparent !important; background-size: contain !important; }
 html body #demo.slack-shell .ms-avatar.ms-avatar-group > i:nth-child(n+5) { display: none !important; }
+/* 空的数字徽标不显示（如没有未读的频道） */
+#demo.slack-shell :is(.sidenav > small, .board-tab-count, .co-tab-count, .co-members-toggle > b, .evo-count, .ms-list-head h1 > span, .ext-page-tabs .as-num, .hub-channel-count):empty,
+#demo.slack-shell :is(.dtabs, .projecttabs, .board-main-tabs) > button > small:empty { display: none !important; }
+/* 窄窗口（768–1100px）仍显示二级面板：原 demo 在 ≤1100px 把侧栏收进汉堡抽屉，汉堡入口已移除 */
+@media (min-width: 768px) {
+  #demo.slack-shell > .demoside:not(:empty) { display: flex !important; }
+}
+/* < 768px：只保留导航栏 + 内容，侧栏可用收起按钮切换 */
+@media (max-width: 767px) {
+  #demo.slack-shell.slack-shell { grid-template-columns: 56px minmax(0, 1fr) !important; }
+}
+/* 工作台卡片网格按可用宽度自动换列，窄窗口不再挤成竖排文字 */
+#demo.slack-shell .benchgrid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important; }
+/* ---- 全局搜索 · 命令面板：无标题栏，搜索行置顶，单行结果，紧凑间距 */
+#modalHost .modal.as2-palette { width: min(680px, calc(100vw - 32px)) !important; max-height: min(560px, calc(100dvh - 120px)); margin-top: 10vh; align-self: flex-start; padding: 0 !important; overflow: hidden; display: flex; flex-direction: column; }
+#modalHost .modal.as2-palette > .modalhead { display: none !important; }
+#modalHost .modal.as2-palette > .modalbody { padding: 0 !important; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+#modalHost .palette-search { display: flex; align-items: center; gap: 10px; height: 52px; padding: 0 14px 0 18px; border-bottom: 1px solid var(--as-border); flex: none; }
+#modalHost .palette-search > svg.icon { width: 18px !important; height: 18px !important; color: var(--as-text-muted); flex: none; }
+#modalHost .palette-search input.globalsearchinput { flex: 1; min-width: 0; height: 100% !important; padding: 0 !important; border: 0 !important; background: transparent !important; box-shadow: none !important; outline: none !important; font-size: 15px !important; color: var(--as-text) !important; border-radius: 0 !important; }
+#modalHost .palette-search kbd, #modalHost .palette-keys kbd { display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 5px; border-radius: var(--as-r-xs); background: var(--as-muted-bg); color: var(--as-text-2); font: 500 11px/1 var(--as-font); box-shadow: none; border: 0; }
+#modalHost .palette-meta { display: flex; align-items: center; justify-content: space-between; padding: 10px 18px 6px; font-size: 12px; color: var(--as-text-muted); flex: none; }
+#modalHost .palette-keys { display: inline-flex; align-items: center; gap: 4px; }
+#modalHost .palette-keys kbd + kbd { margin-left: 2px; }
+#modalHost .palette-keys kbd:nth-of-type(3) { margin-left: 8px; }
+#modalHost .palette-keys b { margin-left: 8px; font-weight: 500; color: var(--as-text-muted); font-variant-numeric: tabular-nums; }
+#modalHost .palette-results { overflow-y: auto; padding: 0 8px 8px; min-height: 0; }
+#modalHost .palette-label { padding: 10px 10px 4px; font-size: 12px; font-weight: 500; color: var(--as-text-muted); }
+#modalHost .searchresult.palette-row { display: grid !important; grid-template-columns: 16px minmax(0, auto) minmax(0, 1fr) auto; align-items: center; gap: 10px; width: 100%; min-height: 36px; padding: 0 10px !important; margin: 0 !important; border: 0 !important; border-radius: var(--as-r-sm) !important; background: transparent !important; box-shadow: none !important; text-align: left; cursor: pointer; }
+#modalHost .searchresult.palette-row.is-active { background: var(--as-hover) !important; }
+#modalHost .palette-row > svg.icon { width: 16px !important; height: 16px !important; color: var(--as-text-muted); }
+#modalHost .palette-title { font-size: 14px; color: var(--as-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#modalHost .palette-sub { font-size: 12px; color: var(--as-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#modalHost .palette-end { justify-self: end; display: inline-flex; }
+#modalHost .palette-end .tag { width: auto !important; max-width: none; flex: none; white-space: nowrap; }
+#modalHost .palette-empty { padding: 28px 0; text-align: center; font-size: 13px; color: var(--as-text-muted); }
+/* 命令面板搜索行：输入框透明，与面板同底（覆盖各主题的输入框底色 / 描边 / 焦点环） */
+html body #modalHost .modal.as2-palette .palette-search input#globalQuery.globalsearchinput,
+html body #modalHost .modal.as2-palette .palette-search input#globalQuery.globalsearchinput:is(:hover, :focus) {
+  background: transparent !important; border: 0 !important; box-shadow: none !important; border-radius: 0 !important; outline: none !important; }
+/* ---- 顶栏：版本号徽标（细描边小胶囊）· 「逛一圈」改为文字按钮 */
+html body .appbar .brandcopy b small {
+  display: inline-grid !important; place-items: center; height: 16px !important; padding: 0 6px !important; margin-left: 8px !important; vertical-align: 3px;
+  border-radius: var(--as-r-pill) !important; background: transparent !important; box-shadow: inset 0 0 0 1px var(--as-border-strong) !important; border: 0 !important;
+  color: var(--as-text-muted) !important; font: 600 10px/1 var(--as-font) !important; letter-spacing: .3px !important; font-variant-numeric: tabular-nums; }
+html body .appbar .appactions .guidebtn.guidebtn.guidebtn {
+  height: 32px !important; padding: 0 10px !important; gap: 6px !important; border: 0 !important; border-radius: var(--as-r-sm) !important;
+  background: transparent !important; box-shadow: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+  color: var(--as-text-muted) !important; font-size: 13px !important; font-weight: 500 !important; }
+html body .appbar .appactions .guidebtn.guidebtn.guidebtn:hover { background: var(--as-hover) !important; color: var(--as-text) !important; }
+html body .appbar .appactions .guidebtn.guidebtn.guidebtn svg.icon { width: 15px !important; height: 15px !important; color: currentColor !important; }
+/* ---- 流光：侧栏 / 内容 / Thread 同一块玻璃底板，只用细分割线区分（避免多层玻璃叠出色差与接缝） */
+html:root[data-appearance-style="liquid"] body #demo.slack-shell > :is(.demoside:not(:empty), .demoarea) {
+  background: rgba(255, 255, 255, .62) !important; }
+html:root[data-appearance-style="liquid"] body #demo.slack-shell > .demoside:not(:empty) { border-right: 1px solid rgba(30, 55, 90, .08) !important; }
+html:root[data-appearance-style="liquid"] body #demo.slack-shell > .demoside:not(:empty) + .demoarea { border-left: 0 !important; }
+html:root[data-appearance-style="liquid"] body #demo.slack-shell .threadpanel.threadpanel {
+  background: transparent !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; border-left: 1px solid rgba(30, 55, 90, .08) !important; }
+/* 面内的头部 / 输入区不再各自叠底色 */
+html:root[data-appearance-style="liquid"] body #demo.slack-shell :is(.democrumb, .sidehead, .channelhead, .threadheader, .sidefoot, .channelcomposer, .co-thread-compose) { background: transparent !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+/* 打开 Thread 时侧栏保持可拖拽宽度（原 demo 在 1101–1350px 把侧栏压到 218px，头部被裁切） */
+@media (min-width: 768px) {
+  html body[data-page] #demo.slack-shell.slack-shell:has(> .demoside:not(:empty)):has(.threadpanel) { grid-template-columns: 68px var(--as-side-w, 240px) minmax(0, 1fr) !important; }
+}
+/* ---- 全局弹窗：紧凑头部（无分割线）· 统一内边距 · 字段间距 14 · 操作按钮右对齐 */
+html body #modalHost .modal > .modalhead { min-height: 0 !important; height: auto !important; padding: 16px 16px 8px 20px !important; gap: 12px !important; border-bottom: 0 !important; align-items: center !important; }
+html body #modalHost .modal > .modalhead h3 { font-size: 16px !important; line-height: 24px !important; font-weight: 600 !important; letter-spacing: -0.2px !important; margin: 0 !important; }
+html body #modalHost .modal > .modalhead .iconbtn { width: 28px !important; height: 28px !important; border-radius: var(--as-r-sm) !important; }
+html body #modalHost .modal > .modalhead .iconbtn svg.icon { width: 16px !important; height: 16px !important; }
+html body #modalHost .modal:not(.settings-modal):not(.as2-palette) > .modalbody { padding: 8px 20px 20px !important; }
+html body #modalHost .modal:not(.settings-modal):not(.as2-palette) > .modalbody > .field { margin: 0 0 14px !important; }
+html body #modalHost .modal:not(.settings-modal):not(.as2-palette) > .modalbody > :last-child { margin-bottom: 0 !important; }
+html body #modalHost .modal .field > label, html body #modalHost .modal label.field { gap: 6px !important; font-size: 13px !important; }
+html body #modalHost .modal .form-grid2 { gap: 12px !important; margin: 0 0 14px !important; }
+html body #modalHost .modal > .modalbody > .note { padding: 10px 12px !important; font-size: 12px !important; line-height: 18px !important; }
+html body #modalHost .modal > .modalfoot { padding: 4px 20px 20px !important; gap: 8px !important; border-top: 0 !important; justify-content: flex-end !important; }
+html body #modalHost .modal > .modalfoot > .spacer { display: none !important; }
+html body #modalHost .modal.settings-modal > .modalfoot { padding: 12px 20px !important; border-top: 1px solid var(--as-border) !important; justify-content: space-between !important; }
+html body #modalHost .modal:not(.settings-modal):not(.as2-palette) > .modalbody > .field:has(textarea) textarea { margin: 0 !important; }
+html body #modalHost .modal:not(.settings-modal):not(.as2-palette) > .modalbody > .form-grid2 > .field { margin: 0 !important; }
+/* ---- 消息操作行（Kobra Message）：点赞 · 点踩 · 复制 | 生成任务 */
+#demo.slack-shell .co-message-actions { display: flex !important; align-items: center !important; gap: 2px !important; margin-top: 6px !important; }
+#demo.slack-shell .co-message-actions > .co-reaction { display: inline-flex !important; align-items: center; gap: 4px; height: 28px !important; min-width: 28px; padding: 0 7px !important; border: 0 !important; border-radius: var(--as-r-sm) !important; background: transparent !important; color: var(--as-text-muted) !important; box-shadow: none !important; }
+#demo.slack-shell .co-message-actions > .co-reaction:hover { background: var(--as-hover) !important; color: var(--as-text) !important; }
+#demo.slack-shell .co-message-actions > .co-reaction.active { color: var(--as-selected-ink) !important; background: var(--as-brand-soft) !important; }
+#demo.slack-shell .co-message-actions > .co-reaction svg.icon { width: 15px !important; height: 15px !important; }
+#demo.slack-shell .co-message-actions > .co-reaction .as-num { font-size: 12px; }
+#demo.slack-shell .co-message-actions .co-actions-sep { width: 1px; height: 14px; margin: 0 8px; background: var(--as-border-strong); flex: none; }
+#demo.slack-shell .co-message-actions .co-action-text { height: 28px !important; padding: 0 8px !important; border: 0 !important; border-radius: var(--as-r-sm) !important; background: transparent !important; color: var(--as-text-muted) !important; font-size: 13px !important; }
+#demo.slack-shell .co-message-actions .co-action-text:hover { background: var(--as-hover) !important; color: var(--as-text) !important; }
+/* ---- Chat Input（Kobra）：弱底卡片 · 24 圆角 · 无投影 · 圆形 36px 幽灵按钮 + 实心发送 */
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card).composer,
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) {
+  background: var(--as-sunken) !important; border: 0 !important; border-radius: 24px !important; padding: 6px !important;
+  box-shadow: inset 0 0 0 1px var(--as-border-soft) !important; transition: box-shadow var(--as-dur-fast) var(--as-ease), background var(--as-dur-fast) var(--as-ease) !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card):focus-within { background: var(--as-card) !important; box-shadow: inset 0 0 0 1px var(--as-border-strong), var(--as-shadow-tile) !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) textarea { padding: 6px 9px !important; font-size: 15px !important; line-height: 22px !important; background: transparent !important; border: 0 !important; box-shadow: none !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.composerfoot, .ms-composer-foot, .wc-compose-foot) { gap: 2px !important; align-items: center !important; padding: 0 !important; margin: 0 !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.co-icon, .wc-plus, .ms-composer-tool, .ms-tool) {
+  width: 36px !important; height: 36px !important; min-width: 36px; border-radius: 999px !important; display: inline-grid !important; place-items: center; padding: 0 !important;
+  background: transparent !important; border: 0 !important; color: var(--as-text-muted) !important; box-shadow: none !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.co-icon, .wc-plus, .ms-composer-tool, .ms-tool):hover { background: var(--as-hover) !important; color: var(--as-text) !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.co-icon, .wc-plus) svg.icon { width: 18px !important; height: 18px !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.btn.primary, .wc-send) {
+  width: 36px !important; height: 36px !important; min-width: 36px !important; padding: 0 !important; border-radius: 999px !important; display: inline-grid !important; place-items: center; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.co-compose-hint, .composerfoot > span:not(.spacer), .wc-compose-foot > small) { font-size: 12px !important; color: var(--as-text-subtle) !important; padding: 0 6px; }
+/* ---- 可拖拽分割线（侧栏 / Thread）：主题色渐变 · 上下两端渐隐；静止时为普通细线 */
+:root { --as-resize-a: var(--as-brand); --as-resize-b: var(--as-review); }
+:root[data-appearance-style="liquid"] { --as-resize-a: var(--lq-a, #2B76F0); --as-resize-b: var(--lq-b, #F08A3C); }
+:root[data-appearance-style="pixel"] { --as-resize-a: #F2F2F2; --as-resize-b: var(--px-hot, #FF5A36); }
+body[data-theme] { --as-resize-a: var(--devui-brand); --as-resize-b: var(--devui-ext-accent); }
+.as2-resizer::after { background: transparent !important; }
+.as2-resizer:hover::after, .as2-resizer:focus-visible::after, :root[data-resizing] .as2-resizer::after {
+  width: 2px !important; border-radius: 2px;
+  background: linear-gradient(180deg, transparent 0%, var(--as-resize-a) 22%, var(--as-resize-b) 78%, transparent 100%) !important; }
+/* Thread 面板宽度：默认 47%，拖动后为固定像素 */
+#demo.slack-shell .colink-channel > .threadpanel:not(.expanded) { flex: 0 0 var(--as-thread-w, 47%) !important; max-width: calc(100% - 360px); min-width: 320px; }
+.as2-thread-resizer { position: absolute; top: 0; bottom: 0; left: -4px; z-index: 6; width: 8px; cursor: col-resize; touch-action: none; outline: none; }
+.as2-thread-resizer::after { content: ""; position: absolute; top: 0; bottom: 0; left: 3px; width: 1px; transition: background 150ms, width 150ms; }
+:root[data-resizing] { cursor: col-resize; user-select: none; }
+:root[data-resizing] #demo .colink-channel > * { transition: none !important; }
+#demo.slack-shell .colink-channel > .threadpanel.expanded > .as2-thread-resizer { display: none; }
+@media (max-width: 860px) { .as2-thread-resizer { display: none; } }
+/* ---- Plan Card（Kobra）：待批准的执行计划 */
+.as-plan { background: var(--as-card); border-radius: 16px; box-shadow: var(--as-shadow-tile); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.as-plan__head { display: flex; align-items: center; gap: 10px; }
+.as-plan__head h4 { margin: 0; font-size: 15px; line-height: 22px; font-weight: 600; color: var(--as-text); }
+.as-plan__icon { width: 28px; height: 28px; flex: none; display: grid; place-items: center; border-radius: 8px; background: var(--as-wait-bg); color: var(--as-wait); }
+.as-plan__icon svg.icon { width: 15px !important; height: 15px !important; }
+.as-plan__desc { margin: 0; font-size: 13px; line-height: 20px; color: var(--as-text-muted); }
+.as-plan__todos { background: var(--as-stage); border-radius: 12px; padding: 10px 12px; }
+.as-plan__todos-head { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: var(--as-text); margin-bottom: 6px; }
+.as-plan__todos-head svg.icon { width: 15px !important; height: 15px !important; color: var(--as-text-muted); }
+.as-plan__todos-head .as-num { margin-left: auto; color: var(--as-text-muted); font-weight: 400; }
+.as-plan__todos ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.as-plan__todos li { display: flex; align-items: center; gap: 10px; min-height: 28px; font-size: 13px; color: var(--as-text-2); }
+.as-plan__todos li > i { width: 13px; height: 13px; flex: none; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--as-border-strong); }
+.as-plan__more { color: var(--as-text-muted) !important; }
+.as-plan__more > i { box-shadow: none !important; background: radial-gradient(circle, var(--as-text-subtle) 1.2px, transparent 1.6px) 0 50%/4.5px 4.5px repeat-x; }
+.as-plan__foot { display: flex; align-items: center; gap: 8px; }
+.as-plan__by { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--as-text-muted); }
+.as-plan__by svg.icon { width: 14px !important; height: 14px !important; }
+.as-plan__foot .btn.primary kbd { display: inline-grid; place-items: center; min-width: 16px; height: 16px; margin-left: 4px; padding: 0 3px; border-radius: 4px; background: rgba(255,255,255,.16); color: inherit; font: 500 10px/1 var(--as-font); border: 0; box-shadow: none; }
+.as-plan__foot .btn.primary kbd + kbd { margin-left: 2px; }
+/* ---- Reasoning Steps（Kobra）：已思考 Ns ⌄ */
+.as-reason { display: inline-flex; align-items: center; gap: 4px; height: 24px; padding: 0 6px 0 0; border: 0; background: transparent; color: var(--as-text); font-size: 13px; cursor: pointer; }
+.as-reason b { font-weight: 500; }
+.as-reason span { color: var(--as-text-muted); }
+.as-reason svg.icon { width: 14px !important; height: 14px !important; color: var(--as-text-muted); transition: transform var(--as-dur-fast) var(--as-ease); }
+.as-reason[aria-expanded="true"] svg.icon { transform: rotate(180deg); }
+.as-reason__steps { list-style: none; margin: 0 0 4px 3px; padding: 2px 0 2px 14px; border-left: 1px solid var(--as-border); display: flex; flex-direction: column; gap: 6px; }
+.as-reason__steps li { display: flex; flex-direction: column; font-size: 13px; color: var(--as-text-2); }
+.as-reason__steps small { font-size: 12px; color: var(--as-text-muted); }
+/* ---- Task List（Kobra）：任务 · n / m · 折叠；执行中步骤显示百分比 */
+.as2-run .as-tasklist__head { display: flex !important; align-items: center !important; gap: 8px !important; }
+.as2-run .as-tasklist__ring { width: 14px; height: 14px; flex: none; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--as-border-strong); }
+.as2-run .as-tasklist__ring[data-done="true"] { box-shadow: none; background: var(--as-done); -webkit-mask: radial-gradient(circle, #000 60%, transparent 62%); }
+.as2-run .as-tasklist__title { font-weight: 600 !important; }
+.as2-run .as-tasklist__count { margin-left: auto !important; }
+.as2-run .as-tstep__pct:not(:empty) { padding: 1px 6px; border-radius: 6px; background: var(--as-muted-bg); font-size: 11px; }
+/* ---- 左侧导航栏：正方形图标选中块 · 选中图标实色填充 · hover 微动效 */
+:root { --rail-tile: var(--as-card); --rail-ink: var(--as-text); --rail-tile-shadow: var(--as-shadow-tile); }
+:root[data-appearance-style="liquid"] { --rail-tile: rgba(255, 255, 255, .82); --rail-tile-shadow: 0 2px 10px rgba(31, 53, 89, .10), inset 0 1px 0 rgba(255,255,255,.9); }
+:root[data-appearance-style="pixel"] { --rail-tile: #F2F2F2; --rail-ink: #0A0A0A; --rail-tile-shadow: none; }
+body[data-theme] { --rail-tile: var(--devui-list-item-active-bg); --rail-ink: var(--devui-list-item-active-text); --rail-tile-shadow: none; }
+html body #demo.slack-shell.slack-shell .demorail { gap: 6px !important; padding-top: 6px !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button {
+  width: 56px !important; height: auto !important; min-height: 0 !important; padding: 0 !important; margin: 0 auto !important;
+  display: flex !important; flex-direction: column !important; align-items: center !important; gap: 3px !important;
+  background: transparent !important; box-shadow: none !important; border: 0 !important; border-radius: 0 !important;
+  color: var(--as-text-muted) !important; font-size: 11px !important; line-height: 14px !important; font-weight: 500 !important; position: relative; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button svg.icon.lucide {
+  width: 40px !important; height: 40px !important; padding: 10px !important; box-sizing: border-box !important; border-radius: 10px !important;
+  color: inherit !important; background: transparent; overflow: visible;
+  transition: background var(--as-dur-fast) var(--as-ease), transform 260ms cubic-bezier(.34, 1.56, .64, 1), color var(--as-dur-fast) var(--as-ease); }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button:hover { color: var(--as-text) !important; background: transparent !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button:hover svg.icon.lucide { background: var(--as-hover); transform: translateY(-1px) scale(1.06); }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button:active svg.icon.lucide { transform: scale(.94); transition-duration: 90ms; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button[data-a="appearance-settings"]:hover svg.icon.lucide { transform: rotate(45deg); }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button.active { color: var(--as-text) !important; font-weight: 600 !important; background: transparent !important; box-shadow: none !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button.active svg.icon.lucide { background: var(--rail-tile) !important; box-shadow: var(--rail-tile-shadow); color: var(--rail-ink) !important; }
+/* 选中图标实色填充；消息气泡内的文字线、设置齿轮中心改用底色镂空，保持可辨识 */
+html:root body #demo.slack-shell .demorail.demorail button.active svg.icon.lucide :is(path, circle, rect) { fill: currentColor; }
+html:root body #demo.slack-shell .demorail.demorail button.active[data-v="messages"] svg.icon.lucide path:not(:first-child),
+html:root body #demo.slack-shell .demorail.demorail button.active[data-a="appearance-settings"] svg.icon.lucide circle { fill: var(--rail-tile); stroke: var(--rail-tile); stroke-width: 2.4; }
+html:root body #demo.slack-shell .demorail.demorail button.active[data-a="evolution"] svg.icon.lucide path { fill: none; stroke-width: 2.4; }
+/* 未读数贴在图标块右上角 */
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button .rail-unread { right: 4px !important; left: auto !important; top: -3px !important; }
+@media (prefers-reduced-motion: reduce) { html body #demo.slack-shell .demorail button svg.icon.lucide { transition: none !important; transform: none !important; } }
+:root[data-motion="reduced"] html body #demo.slack-shell .demorail button svg.icon.lucide { transform: none !important; }
+/* ---- 输入框：去掉上方说明与快捷键提示；发送图标居中；模型选择 + 语音输入 */
+#demo.slack-shell :is(.co-compose-label, .ms-compose-wrap > .hub-channel-note) { display: none !important; }
+#demo.slack-shell :is(.co-compose-hint, .ms-compose-toolbar > span:not(.as2-composer-tools), .co-quick-prompts > span) { display: none !important; }
+#demo.slack-shell .ms-compose-toolbar { display: flex !important; align-items: center !important; justify-content: flex-end !important; gap: 2px !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.btn.primary, .wc-send) { display: inline-flex !important; align-items: center !important; justify-content: center !important; line-height: 0 !important; font-size: 0 !important; gap: 0 !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.btn.primary, .wc-send) svg.icon { width: 18px !important; height: 18px !important; margin: 0 !important; }
+.as2-composer-tools { display: inline-flex; align-items: center; gap: 2px; margin-left: auto; }
+.composerfoot > .spacer + .as2-composer-tools, .wc-compose-foot .as2-composer-tools { margin-left: 0; }
+.as2-composer-tools + :is(.btn.primary, .wc-send) { margin-left: 2px !important; }
+.as2-model { display: inline-flex; align-items: center; gap: 4px; height: 36px; padding: 0 8px 0 12px; border: 0; border-radius: 999px; background: transparent; color: var(--as-text-muted); font: 500 13px/1 var(--as-font); cursor: pointer; white-space: nowrap; }
+.as2-model:hover, .as2-model[aria-expanded="true"] { background: var(--as-hover); color: var(--as-text); }
+.as2-model svg.icon { width: 14px !important; height: 14px !important; }
+html body #demo.slack-shell .as2-mic.is-listening { color: var(--as-fail) !important; background: var(--as-fail-bg) !important; animation: as2-listen 1.1s ease-in-out infinite; }
+@keyframes as2-listen { 0%, 100% { box-shadow: 0 0 0 0 var(--as-fail-line); } 50% { box-shadow: 0 0 0 6px transparent; } }
+.as2-menu[data-for="model"] > button { justify-content: space-between; }
+.as2-menu[data-for="model"] > button svg.icon { color: var(--as-text) !important; }
+/* ---- 输入框工具：统一 36px 按钮 + 18px 图标；工具组不再拉伸 */
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.composerfoot, .ms-compose-toolbar, .wc-compose-foot) > .as2-composer-tools { flex: none !important; margin-left: auto !important; gap: 0 !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.composerfoot, .ms-compose-toolbar, .wc-compose-foot) > .spacer + .as2-composer-tools { margin-left: 0 !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.composerfoot, .ms-compose-toolbar, .wc-compose-foot) :is(.co-icon, .wc-plus, .as2-mic, .co-mention + .co-icon) {
+  width: 36px !important; height: 36px !important; min-width: 36px !important; border-radius: 999px !important; display: inline-grid !important; place-items: center !important; padding: 0 !important; font-size: 0 !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.co-icon, .wc-plus, .as2-mic) svg.icon { width: 18px !important; height: 18px !important; stroke-width: 1.75 !important; }
+/* 模型触发器：logo + 名称 + 箭头 */
+.as2-model { gap: 6px !important; padding: 0 8px 0 10px !important; }
+.as2-model .as2-model-name { font-size: 13px; }
+.as2-model > svg.icon { width: 14px !important; height: 14px !important; }
+.as2-model-logo { width: 16px; height: 16px; flex: none; display: inline-grid; place-items: center; border-radius: 4px; background: var(--c); color: #fff; font: 700 10px/1 var(--as-font); }
+.as2-model-logo--icon { background: transparent; color: var(--as-text-muted); }
+.as2-model-logo--icon svg.icon { width: 16px !important; height: 16px !important; }
+/* 模型菜单（参考图）：图标 · 名称 · 徽标 · 右侧倍率；选中行高亮；底部「模型管理」 */
+.as2-menu.as2-model-menu { width: 300px; padding: 6px; border-radius: 16px; }
+.as2-model-list { max-height: 330px; overflow-y: auto; display: flex; flex-direction: column; gap: 2px; }
+.as2-model-menu .as2-model-list > button { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; color: var(--as-text); font: 400 14px/1 var(--as-font); text-align: left; cursor: pointer; }
+.as2-model-menu .as2-model-list > button:is(:hover, :focus-visible) { background: var(--as-hover); outline: none; }
+.as2-model-menu .as2-model-list > button[aria-checked="true"] { background: var(--as-muted-bg); font-weight: 500; }
+.as2-model-row-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.as2-model-badge { flex: none; padding: 2px 6px; border-radius: 6px; background: var(--as-done-bg); color: var(--as-done); font-size: 11px; font-weight: 600; line-height: 14px; }
+.as2-model-cost { margin-left: auto; flex: none; display: inline-flex; gap: 6px; color: var(--as-text-subtle); font-size: 13px; font-variant-numeric: tabular-nums; }
+.as2-model-cost s { color: var(--as-text-subtle); opacity: .7; }
+.as2-model-menu .as2-menu-sep { margin: 6px 4px; }
+.as2-model-manage { display: flex; align-items: center; gap: 10px; width: 100%; height: 38px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; color: var(--as-text-muted); font: 400 14px/1 var(--as-font); cursor: pointer; }
+.as2-model-manage:hover { background: var(--as-hover); color: var(--as-text); }
+.as2-model-manage svg.icon { width: 16px !important; height: 16px !important; }
+/* Thread 输入框：@Agent 与下拉箭头合为一个胶囊 */
+html body #demo.slack-shell .composerfoot > .co-mention { height: 32px !important; padding: 0 4px 0 12px !important; margin: 0 !important; border: 0 !important; border-radius: 999px 0 0 999px !important; background: var(--as-muted-bg) !important; color: var(--as-text) !important; font-size: 13px !important; box-shadow: none !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) .composerfoot > .co-mention + .co-icon {
+  width: 30px !important; min-width: 30px !important; height: 32px !important; margin: 0 !important; border-radius: 0 999px 999px 0 !important; background: var(--as-muted-bg) !important; color: var(--as-text-muted) !important; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) .composerfoot > .co-mention + .co-icon svg.icon { width: 15px !important; height: 15px !important; }
+html body #demo.slack-shell .composerfoot > .co-mention:hover, html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) .composerfoot > .co-mention + .co-icon:hover { background: var(--as-pressed) !important; color: var(--as-text) !important; }
+html body #demo.slack-shell .composerfoot > .co-mention:has(+ .co-icon:hover), html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) .composerfoot > .co-mention:hover + .co-icon { background: var(--as-pressed) !important; }
+/* 输入框：最前「+」新增（细描边）；原频道附件按钮收进「+」菜单；模型选择弱底胶囊 */
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.composerfoot, .ms-compose-toolbar, .wc-compose-foot) > .as2-add { box-shadow: inset 0 0 0 1px var(--as-border-strong) !important; color: var(--as-text) !important; order: -1; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.composerfoot, .ms-compose-toolbar, .wc-compose-foot) > .as2-add:hover { background: var(--as-hover) !important; }
+html body #demo.slack-shell .composerfoot > [data-a="co-channel-attach"] { display: none !important; }
+html body #demo.slack-shell .as2-model { background: var(--as-muted-bg) !important; color: var(--as-text) !important; }
+html body #demo.slack-shell .as2-model:hover, html body #demo.slack-shell .as2-model[aria-expanded="true"] { background: var(--as-pressed) !important; }
+.as2-composer-tools .as2-mic { margin-left: 2px; }
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.composerfoot, .ms-compose-toolbar, .wc-compose-foot) > [data-a="co-channel-attach"],
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) .composerfoot > span:not(.spacer):not(.as2-composer-tools) { display: none !important; }
+/* 导航栏：图标块与文字更紧凑 */
+html:root body #demo.slack-shell.slack-shell .demorail.demorail { gap: 4px !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button { gap: 0 !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button svg.icon.lucide { width: 38px !important; height: 38px !important; padding: 9px !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button svg.icon.lucide + * , html:root body #demo.slack-shell.slack-shell .demorail.demorail button { line-height: 13px !important; }
+html body #demo.slack-shell.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.composerfoot, .ms-compose-toolbar, .wc-compose-foot) > .co-icon.co-icon[data-a="co-channel-attach"] { display: none !important; }
+/* 新增按钮：去掉圆形描边，与其他图标按钮一致（hover 才出底色） */
+html body #demo.slack-shell.slack-shell :is(.composer, .ms-composer, .wc-composer-card) :is(.composerfoot, .ms-compose-toolbar, .wc-compose-foot) > .as2-add.as2-add { box-shadow: none !important; border: 0 !important; }
+/* Thread：推荐操作移到输入框上方 */
+html body #demo.slack-shell .co-thread-compose { display: flex !important; flex-direction: column !important; }
+html body #demo.slack-shell .co-thread-compose > .co-session-line { order: 0; }
+html body #demo.slack-shell .co-thread-compose > .co-quick-prompts { order: 1; margin: 0 0 8px !important; }
+html body #demo.slack-shell .co-thread-compose > .composer { order: 2; }
+/* @Agent 胶囊两半之间不留缝 */
+html body #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) .composerfoot > .co-mention + .co-icon { margin-left: -2px !important; }
+/* ---- 消息悬浮工具栏：全圆角胶囊 · 圆形按钮 · hover 显示文字提示 */
+html body #demo.slack-shell .ms-message-actions { border-radius: 999px !important; padding: 3px !important; gap: 2px !important; }
+html body #demo.slack-shell .ms-message-actions > button { width: 30px !important; height: 30px !important; border-radius: 999px !important; position: relative; display: inline-grid !important; place-items: center; }
+html body #demo.slack-shell .ms-message-actions > button svg.icon { width: 15px !important; height: 15px !important; }
+html body #demo.slack-shell .ms-message-actions > button[aria-label]::after {
+  content: attr(aria-label); position: absolute; left: 50%; bottom: calc(100% + 8px); transform: translate(-50%, 2px); z-index: 20;
+  padding: 4px 8px; border-radius: 6px; background: var(--as-text); color: var(--as-bg); font: 500 12px/16px var(--as-font); white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0,0,0,.16); opacity: 0; pointer-events: none; transition: opacity .12s ease, transform .12s ease; }
+html body #demo.slack-shell .ms-message-actions > button[aria-label]:is(:hover, :focus-visible)::after { opacity: 1; transform: translate(-50%, 0); transition-delay: .25s; }
+:root[data-appearance-style="pixel"] html body #demo.slack-shell .ms-message-actions, :root[data-appearance-style="pixel"] body #demo.slack-shell .ms-message-actions { border-radius: 0 !important; }
+body[data-theme] #demo.slack-shell .ms-message-actions, body[data-theme] #demo.slack-shell .ms-message-actions > button { border-radius: var(--devui-border-radius-full) !important; }
+/* 侧栏「新建频道」仅保留图标 */
+html body #demo.slack-shell .hub-channel-create { width: 24px !important; height: 24px !important; padding: 0 !important; font-size: 0 !important; gap: 0 !important; display: inline-grid !important; place-items: center; border-radius: var(--as-r-sm) !important; color: var(--as-text-muted) !important; background: transparent !important; }
+html body #demo.slack-shell .hub-channel-create:hover { background: var(--as-hover) !important; color: var(--as-text) !important; }
+html body #demo.slack-shell .hub-channel-create svg.icon { width: 15px !important; height: 15px !important; }
+/* 项目图标：按项目名稳定分配 6 组柔和色，同首字母的项目也能区分 */
+.projecticon[data-tone] { --pt: #3E63DD; background: color-mix(in srgb, var(--pt) 12%, var(--as-card)) !important; color: color-mix(in srgb, var(--pt) 82%, var(--as-text)) !important; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--pt) 22%, transparent) !important; border: 0 !important; }
+.projecticon[data-tone="1"] { --pt: #7C5CDB; }
+.projecticon[data-tone="2"] { --pt: #1F9D63; }
+.projecticon[data-tone="3"] { --pt: #D9822B; }
+.projecticon[data-tone="4"] { --pt: #D6457A; }
+.projecticon[data-tone="5"] { --pt: #0E9AA7; }
+:root.dark .projecticon[data-tone], :root[data-theme="dark"] .projecticon[data-tone] { background: color-mix(in srgb, var(--pt) 22%, var(--as-card)) !important; color: color-mix(in srgb, var(--pt) 55%, #fff) !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail { gap: 10px !important; }
+/* 导航栏：选中 / hover 的方块包住图标 + 文字（56×56 · 12 圆角） */
+html:root body #demo.slack-shell.slack-shell .demorail.demorail { gap: 6px !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button {
+  width: 56px !important; height: 56px !important; justify-content: center !important; gap: 3px !important; border-radius: 12px !important;
+  transition: background var(--as-dur-fast) var(--as-ease), box-shadow var(--as-dur-fast) var(--as-ease) !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button svg.icon.lucide { width: 20px !important; height: 20px !important; padding: 0 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button:hover { background: var(--as-hover) !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button:hover svg.icon.lucide { background: transparent !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button.active { background: var(--rail-tile) !important; box-shadow: var(--rail-tile-shadow) !important; color: var(--rail-ink) !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button.active svg.icon.lucide { background: transparent !important; box-shadow: none !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button .rail-unread { right: 6px !important; top: 4px !important; }
+/* 频道顶部「CodeAgent 已接入 · 新话题」横条去掉（新建话题移到输入框「+」菜单） */
+#demo.slack-shell .channelbanner { display: none !important; }
+/* 侧栏数字徽标右对齐 */
+html body #demo.slack-shell .demoside .sidenav > small { margin-left: auto !important; }

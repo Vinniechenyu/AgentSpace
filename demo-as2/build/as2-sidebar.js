@@ -14,7 +14,7 @@ function sidebarDecorate(){
   if(head&&!head.querySelector('.as2-side-toggle'))head.insertAdjacentHTML('beforeend',`<button class="as2-side-toggle" data-a="side-toggle" aria-label="收起侧栏" title="收起侧栏">${SIDEBAR_TOGGLE_ICON}</button>`);
   const crumb=document.querySelector('#demo .democrumb');
   if(crumb&&side?.children.length&&!crumb.querySelector('.as2-side-toggle'))crumb.insertAdjacentHTML('afterbegin',`<button class="as2-side-toggle as2-side-toggle--crumb" data-a="side-toggle" aria-label="展开侧栏" title="展开侧栏">${SIDEBAR_TOGGLE_ICON}</button>`);
-  if(side&&side.children.length&&!side.querySelector(':scope > .as2-side-resizer'))side.insertAdjacentHTML('beforeend','<div class="as2-side-resizer" role="separator" aria-orientation="vertical" aria-label="调整侧栏宽度" tabindex="0" title="拖动调整宽度 · 双击恢复默认"></div>');
+  if(side&&side.children.length&&!side.querySelector(':scope > .as2-side-resizer'))side.insertAdjacentHTML('beforeend','<div class="as2-resizer as2-side-resizer" role="separator" aria-orientation="vertical" aria-label="调整侧栏宽度" tabindex="0" title="拖动调整宽度 · 双击恢复默认"></div>');
   if(!body)return;
   // Active line: slides from the previously active row within the same sidebar.
   const active=body.querySelector('.sidenav.active'),key=head?.textContent.trim().slice(0,12)||'';
@@ -102,3 +102,35 @@ document.addEventListener('keydown',e=>{
   e.preventDefault();const cur=h.parentElement.getBoundingClientRect().width;
   const v=sideWidthApply(e.key==='Home'?SIDE_MIN:e.key==='End'?SIDE_MAX:cur+(e.key==='ArrowRight'?8:-8));sideWidthSave(v);
 });
+
+// Resizable Thread panel: drag the divider on its left edge; stored per viewer; double-click resets.
+const THREAD_MIN=320,CHANNEL_MIN=360;
+function threadWidthApply(px){if(px==null){document.documentElement.style.removeProperty('--as-thread-w');return null;}document.documentElement.style.setProperty('--as-thread-w',Math.round(px)+'px');return Math.round(px);}
+function threadWidthSave(v){try{v==null?localStorage.removeItem('as2-thread-w'):localStorage.setItem('as2-thread-w',String(v));}catch(e){}}
+(()=>{try{const w=Number(localStorage.getItem('as2-thread-w'));if(w)threadWidthApply(w);}catch(e){}})();
+function threadClamp(wrap,px){const r=wrap.getBoundingClientRect();return Math.max(THREAD_MIN,Math.min(r.width-CHANNEL_MIN,px));}
+function threadDecorate(){document.querySelectorAll('#demo .colink-channel > .threadpanel').forEach(tp=>{if(!tp.querySelector(':scope > .as2-thread-resizer'))tp.insertAdjacentHTML('afterbegin','<div class="as2-resizer as2-thread-resizer" role="separator" aria-orientation="vertical" aria-label="调整 Thread 宽度" tabindex="0" title="拖动调整宽度 · 双击恢复默认"></div>');});}
+new MutationObserver(threadDecorate).observe(document.getElementById('demo'),{childList:true,subtree:true});
+threadDecorate();
+document.addEventListener('pointerdown',e=>{
+  const h=e.target.closest('.as2-thread-resizer');if(!h)return;
+  e.preventDefault();const tp=h.parentElement,wrap=tp.parentElement;let v=tp.getBoundingClientRect().width;
+  document.documentElement.dataset.resizing='thread';h.setPointerCapture(e.pointerId);
+  const move=ev=>{v=threadWidthApply(threadClamp(wrap,wrap.getBoundingClientRect().right-ev.clientX));};
+  const up=()=>{h.removeEventListener('pointermove',move);h.removeEventListener('pointerup',up);h.removeEventListener('pointercancel',up);delete document.documentElement.dataset.resizing;threadWidthSave(v);};
+  h.addEventListener('pointermove',move);h.addEventListener('pointerup',up);h.addEventListener('pointercancel',up);
+});
+document.addEventListener('dblclick',e=>{if(e.target.closest('.as2-thread-resizer')){threadWidthApply(null);threadWidthSave(null);}});
+document.addEventListener('keydown',e=>{
+  const h=e.target.closest?.('.as2-thread-resizer');if(!h||!['ArrowLeft','ArrowRight'].includes(e.key))return;
+  e.preventDefault();const tp=h.parentElement;threadWidthSave(threadWidthApply(threadClamp(tp.parentElement,tp.getBoundingClientRect().width+(e.key==='ArrowLeft'?16:-16))));
+});
+
+// Project icons get a stable color per project name, so projects sharing an initial stay distinguishable.
+function projectTone(name){const i=(typeof projectNames!=='undefined'?projectNames:[]).indexOf(name);if(i>=0)return i%6;let h=0;for(const ch of String(name))h=(h*31+ch.codePointAt(0))>>>0;return h%6;}  // known projects: by list order, so they never collide
+function projectIconsDecorate(){document.querySelectorAll('.projecticon:not([data-tone])').forEach(el=>{
+  const name=el.closest('[data-v]')?.dataset.v||(el.closest('.projectswitch, .sidehead')?s.project:'')||el.parentElement?.textContent.trim()||el.textContent;
+  el.dataset.tone=projectTone(name);});}
+let projectIconsQueued=false;
+new MutationObserver(()=>{if(projectIconsQueued)return;projectIconsQueued=true;queueMicrotask(()=>{projectIconsQueued=false;projectIconsDecorate();});}).observe(document.body,{childList:true,subtree:true});
+projectIconsDecorate();
