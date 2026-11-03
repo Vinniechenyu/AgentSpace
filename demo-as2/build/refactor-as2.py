@@ -509,11 +509,11 @@ jsrep("if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.styl
       "if(s.appearance.style==='system')s.appearance.style=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'classic';if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.style='liquid';")
 js = js.replace('APPEARANCE_STYLES[style].tone', 'themeTone(style)')
 jsrep("function appearanceApply(){", "function appearanceApply(){settingsApply();")
-jsrep("function action(a,v){", "function action(a,v){if(newTaskAction(a,v)||taskPageAction(a,v)||settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v)||messageAction(a,v)||composerAction(a,v)||boardAction(a,v)||extensionAction(a,v))return;")
+jsrep("function action(a,v){", "function action(a,v){if(mentionAction(a,v)||newTaskAction(a,v)||taskPageAction(a,v)||settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v)||messageAction(a,v)||composerAction(a,v)||boardAction(a,v)||extensionAction(a,v))return;")
 jsrep("case 'appearance-settings':openAppearanceSettings();break;", "case 'appearance-settings':openSettings();break;")
 js = js.rstrip()
 assert js.endswith('</script></body></html>')
-js = js[:-len('</script></body></html>')] + (HERE / 'as2-settings.js').read_text() + (HERE / 'as2-run.js').read_text() + (HERE / 'as2-sidebar.js').read_text() + (HERE / 'as2-message.js').read_text() + (HERE / 'as2-extensions.js').read_text() + (HERE / 'as2-board.js').read_text() + (HERE / 'as2-taskpage.js').read_text() + (HERE / 'as2-newtask.js').read_text() + newtask_hero_js() + avatar_js() + '\n</script></body></html>'
+js = js[:-len('</script></body></html>')] + (HERE / 'as2-settings.js').read_text() + (HERE / 'as2-run.js').read_text() + (HERE / 'as2-sidebar.js').read_text() + (HERE / 'as2-message.js').read_text() + (HERE / 'as2-extensions.js').read_text() + (HERE / 'as2-board.js').read_text() + (HERE / 'as2-taskpage.js').read_text() + (HERE / 'as2-newtask.js').read_text() + (HERE / 'as2-mention.js').read_text() + newtask_hero_js() + avatar_js() + '\n</script></body></html>'
 
 # Dialog focus: never land on the close button (it would show a focus ring on open).
 jsrep('<section class="modal" role="dialog"', '<section class="modal" role="dialog" tabindex="-1"')
@@ -685,7 +685,7 @@ jsrep("每个空间有独立资料、指引与问答，创建任务时可选择�
 
 # ---- 工作台卡片 hover 工具栏：管理（更多）· 继续修改 · 打开工作台（主操作在最右）。
 jsrep("""<div class="benchfoot">${btn('打开工作台 '+ico('arrow'),'open-bench',b.id,'sm openbench')}<div class="wbh-workbench-foot">${btn('继续修改','wbh-continue',b.id,'link sm')}<button class="tiny muted" data-a="bench-manage" data-v="${b.id}">管理 ···</button></div></div>""",
-      """<div class="benchfoot"><button class="bf-more" data-a="bench-manage" data-v="${b.id}" aria-label="管理工作台" title="管理">${ico('more')}</button>${btn(ico('edit')+'继续修改','wbh-continue',b.id,'sm bf-edit')}${btn('打开工作台'+ico('arrow'),'open-bench',b.id,'primary sm openbench')}</div>""")
+      """<div class="benchfoot">${btn(ico('edit')+'继续修改','wbh-continue',b.id,'sm bf-edit')}${btn('打开工作台'+ico('arrow'),'open-bench',b.id,'primary sm openbench')}</div>""")
 
 # ---- 我的任务：去掉「跨项目汇总，同步每一次进展」说明卡。
 jsrep("${personal?`<div class=\"aggregate-scope-note\">${ico('team')}<div><b>跨项目汇总，同步每一次进展</b><span>与项目看板共用任务、规则与产物；点击项目名称可回到对应项目。</span></div><span class=\"aggregate-scope-count\">${joinedProjects().length} 个已参与项目</span></div>`:''}", "")
@@ -734,6 +734,23 @@ jsrep("function newManualProjectTask(){", "function newManualProjectTask(){if(ne
 
 # ---- 个人助理：空会话时与「新建任务」同一版式（标题 → 带插画的输入框 → 示例卡片）。
 jsrep('<div class="composer"><textarea id="assistantInput"', '<div class="composer"><img class="nt-hero as-hero" src="${newTaskHero()}" alt="" aria-hidden="true"><textarea id="assistantInput"')
+
+# ---- 外观设置：主题按风格归类（极简 / 液态玻璃 / 像素），每种风格再选颜色；像素风格的强调色可换。
+
+# ---- 频道 @Agent：不再自动开 Thread，改为 Agent 在频道里直接回复任务卡（as2-mention.js）；消息中的 @ 高亮。
+jsrep("if(/@(?:CodeAgent|QA Agent|OfficeACE)/i.test(text)){const key='topic-'+Date.now()+'-'+s.channelMessageSeq;s.customThreads=s.customThreads||{};s.customThreads[key]={project,channel,title:text.slice(0,36),text,mode:'temp',createdBy:'我',time:m.time};m.threadKey=key;}",
+      "const _agent=channelMentionAgent(text);if(_agent)m.mention=_agent;")
+jsrep("s.channelMessages.push(m);const ch=projectChannels(project).find(c=>c.id===channel);", "s.channelMessages.push(m);if(m.mention)channelAgentReply(m);const ch=projectChannels(project).find(c=>c.id===channel);")
+jsrep("replyTo:m.replyTo,sourceIndex:index,threadKey:m.threadKey,", "replyTo:m.replyTo,sourceIndex:index,threadKey:m.threadKey,agentCard:m.agentCard,name:m.name,")
+jsrep("if(m.threadKey)return coRootMessage({...coThreadInfo(m.threadKey,m.threadKind,project),replyTo:m.replyTo});", "if(m.threadKey)return coRootMessage({...coThreadInfo(m.threadKey,m.threadKind,project),replyTo:m.replyTo});if(m.agentCard)return channelAgentCard(m);")
+jsrep('<div class="co-message-text">${esc(info.text)}</div>', '<div class="co-message-text">${coMentionHtml(info.text)}</div>')
+jsrep('placeholder="发送到频道，或 @CodeAgent 发起新话题…"', 'placeholder="发送到频道，输入 @ 把事情交给 Agent…"')
+
+# ---- 频道消息排序：本次会话里新发的消息（带 sentAt）始终排在示例消息之后，不受当前钟点影响。
+jsrep("hour12:false}),day:'今天'};", "hour12:false}),day:'今天',sentAt:Date.now()};")
+jsrep("agentCard:m.agentCard,name:m.name,", "agentCard:m.agentCard,name:m.name,sentAt:m.sentAt,")
+jsrep("const clock=m=>{const x=/^(\\d{1,2}):(\\d{2})$/.exec(m.time||'');return x?Number(x[1])*60+Number(x[2]):2000;};",
+      "const clock=m=>{if(m.sentAt)return 3000+(m.sentAt-1.7e12)/1e9;const x=/^(\\d{1,2}):(\\d{2})$/.exec(m.time||'');return x?Number(x[1])*60+Number(x[2]):2000;};")
 
 # Inline micro font sizes (8–10px) are below the AS2 type scale.
 js = re.sub(r'font-size:(8|9|10)px', 'font-size:11px', js)

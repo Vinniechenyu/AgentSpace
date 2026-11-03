@@ -14,13 +14,13 @@ function boardFields(t){
 // A function, not a const: the first render can run before this module's consts are initialised (TDZ).
 function boardCols(){return [
   ['pending','待开始','dashed','待人工启动的临时任务与事件任务',t=>t.status==='pending'],
-  ['running','运行中','loader','正在由 Agent 或 Workflow 执行的任务',t=>t.status==='running'],
-  ['wait','待输入','inputWait','等待用户输入或人工确认后才能继续的任务',t=>t.status==='wait'],
-  ['review','待验收','checkCircle','执行完成、等待负责人验收产物的任务',t=>t.status==='review'],
+  ['running','运行中','running','正在由 Agent 或 Workflow 执行的任务',t=>t.status==='running'],
+  ['wait','待输入','needInput','等待用户输入或人工确认后才能继续的任务',t=>t.status==='wait'],
+  ['review','待验收','review','执行完成、等待负责人验收产物的任务',t=>t.status==='review'],
   ['done','已完成','checkCircle','已验收的任务',t=>t.status==='done'],
   ['failed','失败 / 已取消','xCircle','校验失败、系统执行失败或被人工取消的任务',t=>['failed','cancelled'].includes(t.status)]];}
 function boardActions(t){
-  const a=[];const b=(act,icon,label)=>`<button class="tk-act" data-a="${act}" data-v="${t.id}" aria-label="${label}">${ico(icon)}</button>`;
+  const a=[];const b=(act,icon,label)=>`<button class="tk-act" data-a="${act}" data-v="${t.id}">${label}</button>`;
   if(t.status==='pending')a.push(b('board-start','play','启动'),b('board-archive','archive','归档'));
   else if(t.status==='running')a.push(b('board-sleep','moon','休眠'),b('board-stop','stop','停止'));
   else if(t.status==='wait')a.push(b('open-task','inputWait','去处理'));
