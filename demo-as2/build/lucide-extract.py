@@ -14,7 +14,7 @@ PKG = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE.parent / 'agentspace-reac
 ICON_MAP = {
     # navigation · spaces
     'personal': 'user-round',            # 个人视图 / 责任人
-    'team': 'users-round',               # 项目视图 / 团队协作
+    'team': 'users-round', 'project': 'folder-kanban',               # 项目视图 / 团队协作
     'chat': 'message-square-text',       # 消息 / 线程
     'bench': 'layout-dashboard',         # 工作台
     'task': 'list-checks',               # 我的任务
@@ -50,7 +50,7 @@ ICON_MAP = {
     'send': 'arrow-up',                  # Composer 发送
     'arrow': 'arrow-right', 'back': 'arrow-left',
     'chevron': 'chevron-right', 'down': 'chevron-down', 'up': 'chevron-up', 'updown': 'chevrons-up-down',
-    'refresh': 'refresh-cw', 'copy': 'copy', 'mic': 'mic', 'at': 'at-sign', 'zap': 'zap', 'edit': 'pencil', 'reply': 'reply', 'more': 'ellipsis', 'filter': 'list-filter',
+    'refresh': 'refresh-cw', 'copy': 'copy', 'mic': 'mic', 'at': 'at-sign', 'zap': 'zap', 'archive': 'archive', 'kanban': 'square-kanban', 'list': 'list', 'moon': 'moon', 'monitor': 'monitor', 'xCircle': 'circle-x', 'checkCircle': 'circle-check', 'dashed': 'circle-dashed', 'loader': 'loader-circle', 'inputWait': 'message-circle-question-mark', 'edit': 'pencil', 'reply': 'reply', 'more': 'ellipsis', 'filter': 'list-filter',
     'play': 'play', 'pause': 'pause', 'stop': 'square',
     'expand': 'maximize-2', 'collapse': 'minimize-2', 'menu': 'menu',
     # status · feedback

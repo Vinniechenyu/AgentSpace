@@ -15,7 +15,7 @@ function messageAction(a,v){
 
 // ---- Chat Input (Kobra): every composer gets a model picker and voice input next to send.
 // [id, name, logo (icon name or [letter, color]), badge, cost multiplier, original cost]
-const COMPOSER_MODELS=[
+function composerModels(){return [
   ['auto','Auto','spark','','0.5×'],
   ['fast','快速','zap','','0.8×'],
   ['qwen-max','Qwen3.8-Max',['Q','#615CED'],'','0.5×'],
@@ -24,8 +24,8 @@ const COMPOSER_MODELS=[
   ['ds-flash','DeepSeek-Flash',['D','#4D6BFE'],'','0.1×'],
   ['glm','GLM-5.3',['Z','#1F1F1F'],'','0.8×'],
   ['glm-flash','GLM-5.3-Flash',['Z','#1F1F1F'],'','0.1×'],
-  ['pangu','盘古 5.5',['盘','#C7000B'],'','0.6×']];
-function composerModel(){let id='auto';try{id=localStorage.getItem('as2-model-id')||'auto';}catch(e){}return COMPOSER_MODELS.find(m=>m[0]===id)||COMPOSER_MODELS[0];}
+  ['pangu','盘古 5.5',['盘','#C7000B'],'','0.6×']];}
+function composerModel(){let id='auto';try{id=localStorage.getItem('as2-model-id')||'auto';}catch(e){}return composerModels().find(m=>m[0]===id)||composerModels()[0];}
 function modelLogo(m){return Array.isArray(m[2])?`<span class="as2-model-logo" style="--c:${m[2][1]}">${m[2][0]}</span>`:`<span class="as2-model-logo as2-model-logo--icon">${ico(m[2])}</span>`;}
 function composerTools(){const m=composerModel();return `<span class="as2-composer-tools"><button type="button" class="as2-model" data-a="composer-model" aria-haspopup="menu" aria-expanded="false" title="选择模型">${modelLogo(m)}<span class="as2-model-name">${esc(m[1])}</span>${ico('down')}</button><button type="button" class="co-icon as2-mic" data-a="composer-voice" aria-label="语音输入" title="语音输入">${ico('mic')}</button></span>`;}
 function composerDecorate(){
@@ -46,7 +46,7 @@ function composerAction(a,v){
   if(a==='composer-model'){
     const btn=messageActionEl,open=document.querySelector('.as2-menu[data-for="model"]');closeExtMenu();if(open||!btn)return true;
     const r=btn.getBoundingClientRect(),cur=composerModel()[0];
-    document.body.insertAdjacentHTML('beforeend',`<div class="as2-menu as2-model-menu" role="menu" data-for="model" aria-label="选择模型"><div class="as2-model-list">${COMPOSER_MODELS.map(m=>`<button role="menuitemradio" aria-checked="${m[0]===cur}" data-a="composer-model-pick" data-v="${m[0]}">${modelLogo(m)}<span class="as2-model-row-name">${esc(m[1])}</span>${m[3]?`<span class="as2-model-badge">${m[3]}</span>`:''}<span class="as2-model-cost">${m[5]?`<s>${m[5]}</s>`:''}${m[4]}</span></button>`).join('')}</div><div class="as2-menu-sep"></div><button class="as2-model-manage" data-a="composer-model-manage">${ico('settings')}<span>模型管理</span></button></div>`);
+    document.body.insertAdjacentHTML('beforeend',`<div class="as2-menu as2-model-menu" role="menu" data-for="model" aria-label="选择模型"><div class="as2-model-list">${composerModels().map(m=>`<button role="menuitemradio" aria-checked="${m[0]===cur}" data-a="composer-model-pick" data-v="${m[0]}">${modelLogo(m)}<span class="as2-model-row-name">${esc(m[1])}</span>${m[3]?`<span class="as2-model-badge">${m[3]}</span>`:''}<span class="as2-model-cost">${m[5]?`<s>${m[5]}</s>`:''}${m[4]}</span></button>`).join('')}</div><div class="as2-menu-sep"></div><button class="as2-model-manage" data-a="composer-model-manage">${ico('settings')}<span>模型管理</span></button></div>`);
     const menu=document.querySelector('.as2-menu[data-for="model"]'),h=menu.offsetHeight;
     menu.style.left=Math.round(Math.min(innerWidth-menu.offsetWidth-8,Math.max(8,r.right-menu.offsetWidth)))+'px';menu.style.top=Math.round(r.top-h-6>8?r.top-h-6:r.bottom+6)+'px';
     btn.setAttribute('aria-expanded','true');menu.querySelector('[aria-checked="true"]')?.scrollIntoView({block:'nearest'});return true;

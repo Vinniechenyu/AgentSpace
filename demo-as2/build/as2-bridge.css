@@ -1597,3 +1597,364 @@ html:root body #demo.slack-shell.slack-shell .demorail.demorail button .rail-unr
 #demo.slack-shell .channelbanner { display: none !important; }
 /* 侧栏数字徽标右对齐 */
 html body #demo.slack-shell .demoside .sidenav > small { margin-left: auto !important; }
+/* ---- 我的工作台 / 继续修改 */
+/* 1. 指标卡（需要你确认等）默认不带状态色描边 */
+html body #demo.slack-shell .as2-stat[data-status] { border-color: var(--as-border-soft) !important; }
+/* 2. 页面头部的未完成草稿卡片去掉 */
+html body #demo.slack-shell .wb-draft-banner { display: none !important; }
+/* 3. 工作台卡片内三个小指标之间留间距 */
+html body #demo.slack-shell .minimetrics { gap: 8px !important; }
+/* 5. 工作台卡片底部按钮组：hover / 键盘聚焦时再出现 */
+html body #demo.slack-shell .benchcard .benchfoot { opacity: 0; transition: opacity var(--as-dur-fast) var(--as-ease); }
+html body #demo.slack-shell .benchcard:is(:hover, :focus-within) .benchfoot { opacity: 1; }
+@media (hover: none) { html body #demo.slack-shell .benchcard .benchfoot { opacity: 1; } }
+/* 6. 个人空间 / 项目侧栏底部的「构建 / 扩展」入口去掉（导航栏已有） */
+html body #demo.slack-shell .demoside .sidefoot { display: none !important; }
+/* 4. 继续修改页：桌面端不显示移动端切换条；输入框下的重复引用与提示去掉；首个面板占满一行 */
+@media (min-width: 861px) { html body #demo.slack-shell .wb-mobile-switch { display: none !important; } }
+html body #demo.slack-shell .wb-composer-area :is(.wb-compose-hint, .wc-attachbar) { display: none !important; }
+html body #demo.slack-shell .wb-dashboard.two-column .wb-dashboard-grid > .wb-dash-panel:first-child { grid-column: 1 / -1 !important; }
+/* 项目图标（文件夹看板）选中时：文件夹实色，内部看板列用底色镂空 */
+html:root body #demo.slack-shell .demorail.demorail button.active[data-v="team"] svg.icon.lucide path:not(:first-child) { fill: var(--rail-tile); stroke: var(--rail-tile); stroke-width: 2.2; }
+/* 工作台卡片：底部按钮组不占位，hover 时浮现在卡片底部；小指标留内边距 */
+html body #demo.slack-shell .benchcard { position: relative; overflow: hidden; }
+html body #demo.slack-shell .benchcard .benchfoot {
+  position: absolute !important; left: 0; right: 0; bottom: 0; min-height: 0 !important; margin: 0 !important; z-index: 2;
+  background: var(--as-card) !important; border-top: 1px solid var(--as-border) !important;
+  opacity: 0; transform: translateY(6px); pointer-events: none; transition: opacity var(--as-dur-fast) var(--as-ease), transform var(--as-dur-fast) var(--as-ease) !important; }
+html body #demo.slack-shell .benchcard:is(:hover, :focus-within) .benchfoot { opacity: 1; transform: none; pointer-events: auto; }
+@media (hover: none) { html body #demo.slack-shell .benchcard .benchfoot { position: static !important; opacity: 1; transform: none; pointer-events: auto; } }
+html body #demo.slack-shell .benchcard .benchbody { padding-bottom: 18px !important; }
+html body #demo.slack-shell .minimetrics > * { padding: 8px 10px !important; min-height: 0 !important; }
+/* 我的工作台：顶部面包屑条去掉（页面标题已说明位置；侧栏收起时仍保留展开按钮） */
+body:is([data-page="benches"], [data-page="tasks"]) #demo.slack-shell .demoarea > .democrumb { display: none !important; }
+:root[data-side="collapsed"] body:is([data-page="benches"], [data-page="tasks"]) #demo.slack-shell .demoarea > .democrumb { display: flex !important; }
+:root[data-side="collapsed"] body:is([data-page="benches"], [data-page="tasks"]) #demo.slack-shell .demoarea > .democrumb > :not(.as2-side-toggle) { visibility: hidden; }
+/* 构建（workflow）选中：两个节点实色，连线保持线条 */
+html:root body #demo.slack-shell .demorail.demorail button.active[data-a="studio"] svg.icon.lucide path { fill: none !important; }
+/* ---- 运行看板（affectUI Agent Inbox）：灰底列 · 紧凑白卡 · 两行描述 · 元信息一行 · hover 显示操作 */
+html body #demo.slack-shell .kanban-column { background: var(--as-muted-bg) !important; border: 0 !important; box-shadow: none !important; border-radius: 14px !important; padding: 6px 6px 8px !important; }
+html body #demo.slack-shell .kanban-column > header { display: flex !important; align-items: center !important; gap: 8px !important; padding: 6px 6px 8px !important; margin: 0 !important; border: 0 !important; background: transparent !important; }
+html body #demo.slack-shell .kanban-column > header .dot { width: 6px !important; height: 6px !important; }
+html body #demo.slack-shell .kanban-column > header b { font-size: 12px !important; font-weight: 600 !important; letter-spacing: .6px !important; color: var(--as-text-muted) !important; }
+html body #demo.slack-shell .kanban-column > header small { margin-left: auto !important; display: inline-grid; place-items: center; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 999px; background: var(--as-card); color: var(--as-text-muted) !important; font-size: 11px !important; font-weight: 600; box-shadow: var(--as-shadow-tile); }
+html body #demo.slack-shell .kanban-column .kanban-cards { display: flex !important; flex-direction: column !important; gap: 6px !important; padding: 0 !important; }
+html body #demo.slack-shell .kanban-card {
+  position: relative; background: var(--as-card) !important; border: 0 !important; border-radius: 10px !important; padding: 10px 12px !important;
+  box-shadow: var(--as-shadow-tile) !important; display: flex !important; flex-direction: column !important; gap: 4px !important; transition: box-shadow var(--as-dur-fast) var(--as-ease), transform var(--as-dur-fast) var(--as-ease) !important; }
+html body #demo.slack-shell .kanban-card:hover { box-shadow: 0 0 0 1px var(--as-border-soft), 0 6px 18px -6px rgba(0,0,0,.14) !important; transform: translateY(-1px); }
+html body #demo.slack-shell .kanban-card > .row .tag { font-size: 11px !important; padding: 1px 6px !important; }
+html body #demo.slack-shell .kanban-card .task-project-badge { align-self: flex-start; font-size: 11px !important; padding: 1px 6px !important; height: auto !important; }
+html body #demo.slack-shell .kanban-card .kanban-title { font-size: 13.5px !important; line-height: 20px !important; font-weight: 600 !important; margin: 2px 0 0 !important; text-align: left; color: var(--as-text) !important; }
+html body #demo.slack-shell .kanban-card > p { margin: 0 !important; font-size: 12px !important; line-height: 18px !important; color: var(--as-text-muted) !important; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+html body #demo.slack-shell .kanban-card :is(.aggregate-task-people, .kanban-meta) { display: flex !important; flex-wrap: wrap; gap: 0 10px !important; margin: 2px 0 0 !important; padding: 0 !important; border: 0 !important; font-size: 11.5px !important; line-height: 16px !important; color: var(--as-text-subtle) !important; }
+html body #demo.slack-shell .kanban-card :is(.aggregate-task-people, .kanban-meta) b { font-weight: 500 !important; color: var(--as-text-muted) !important; }
+html body #demo.slack-shell .kanban-card > footer { display: flex !important; align-items: center !important; margin: 4px 0 0 !important; padding: 6px 0 0 !important; border-top: 1px solid var(--as-border) !important; min-height: 28px; }
+html body #demo.slack-shell .kanban-card > footer small { font-size: 11.5px !important; color: var(--as-text-subtle) !important; }
+html body #demo.slack-shell .kanban-card > footer .btn { margin-left: auto !important; height: 24px !important; min-height: 24px !important; padding: 0 10px !important; font-size: 12px !important; opacity: 0; transition: opacity var(--as-dur-fast) var(--as-ease) !important; }
+html body #demo.slack-shell .kanban-card:is(:hover, :focus-within) > footer .btn { opacity: 1; }
+@media (hover: none) { html body #demo.slack-shell .kanban-card > footer .btn { opacity: 1; } }
+html body #demo.slack-shell .task-kanban { grid-template-columns: repeat(4, minmax(200px, 1fr)) !important; gap: 10px !important; }
+html body #demo.slack-shell .kanban-card > footer { border-top: 0 !important; padding: 0 !important; margin: 0 !important; min-height: 0 !important; }
+html body #demo.slack-shell .kanban-card > footer .btn { position: absolute !important; right: 10px; bottom: 8px; box-shadow: var(--as-shadow-tile) !important; background: var(--as-card) !important; }
+@media (hover: none) { html body #demo.slack-shell .kanban-card > footer .btn { position: static !important; } }
+/* ---- 任务看板 · 运行看板（任务卡字段规范） */
+html body #demo.slack-shell .task-kanban.tk-board { display: grid !important; grid-auto-flow: column; grid-template-columns: none !important; grid-auto-columns: minmax(248px, 1fr) !important; gap: 10px !important; overflow-x: auto; padding-bottom: 6px; align-items: start; }
+html body #demo.slack-shell .tk-col { --tk-accent: transparent; box-shadow: inset 0 3px 0 var(--tk-accent) !important; }
+html body #demo.slack-shell .tk-col[data-col="running"] { --tk-accent: var(--as-run); }
+html body #demo.slack-shell .tk-col[data-col="wait"] { --tk-accent: var(--as-wait); }
+html body #demo.slack-shell .tk-col[data-col="done"] { --tk-accent: var(--as-done); }
+html body #demo.slack-shell .tk-col[data-col="failed"] { --tk-accent: var(--as-fail); }
+html body #demo.slack-shell .tk-col > header .tk-col-icon { display: inline-grid; place-items: center; color: var(--as-text-muted); }
+html body #demo.slack-shell .tk-col > header .tk-col-icon svg.icon { width: 15px !important; height: 15px !important; }
+html body #demo.slack-shell .tk-col[data-col="running"] > header .tk-col-icon { color: var(--as-run); animation: as-spin 1.2s linear infinite; }
+html body #demo.slack-shell .tk-col[data-col="wait"] > header .tk-col-icon { color: var(--as-wait); }
+html body #demo.slack-shell .tk-col[data-col="done"] > header .tk-col-icon { color: var(--as-done); }
+html body #demo.slack-shell .tk-col[data-col="failed"] > header .tk-col-icon { color: var(--as-fail); }
+html body #demo.slack-shell .tk-col > header b { color: var(--as-text) !important; letter-spacing: 0 !important; font-size: 13px !important; }
+html body #demo.slack-shell .tk-col > header small { margin-left: 2px !important; background: transparent !important; box-shadow: none !important; min-width: 0 !important; padding: 0 !important; }
+html body #demo.slack-shell .tk-col > header .as2-hint { margin-left: auto; }
+html body #demo.slack-shell .tk-col > header .as2-hint-pop { left: auto; right: -6px; }
+@keyframes as-spin { to { transform: rotate(360deg); } }
+html body #demo.slack-shell .tk-card { gap: 8px !important; padding: 12px !important; }
+html body #demo.slack-shell .tk-title { display: block; text-align: left; padding: 0; border: 0; background: transparent; font-size: 13px; line-height: 20px; font-weight: 500; color: var(--as-text); cursor: pointer; -webkit-line-clamp: 2; display: -webkit-box; -webkit-box-orient: vertical; overflow: hidden; }
+html body #demo.slack-shell .tk-title:hover { color: var(--as-selected-ink); }
+html body #demo.slack-shell .tk-cat { color: var(--as-text-muted); font-weight: 400; }
+html body #demo.slack-shell .tk-title .tag { font-size: 11px !important; padding: 0 5px !important; vertical-align: 1px; }
+html body #demo.slack-shell .tk-meta { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 11.5px; line-height: 16px; color: var(--as-text-muted); }
+html body #demo.slack-shell .tk-meta > span { display: inline-flex; align-items: center; gap: 4px; }
+html body #demo.slack-shell .tk-meta svg.icon { width: 13px !important; height: 13px !important; }
+html body #demo.slack-shell .tk-meta [data-env="本地"] svg.icon { color: var(--as-fail); }
+html body #demo.slack-shell .tk-meta [data-zone="黄区"] svg.icon { color: var(--as-wait); }
+html body #demo.slack-shell .tk-meta [data-zone="绿区"] svg.icon { color: var(--as-done); }
+html body #demo.slack-shell .tk-foot { display: flex; align-items: center; gap: 8px; min-height: 26px; position: relative; }
+html body #demo.slack-shell .tk-people { display: inline-flex; align-items: center; }
+html body #demo.slack-shell .tk-people > .as-avatar { width: 22px !important; height: 22px !important; min-width: 22px; margin-right: -6px !important; box-shadow: 0 0 0 2px var(--as-card) !important; font-size: 10px !important; }
+html body #demo.slack-shell .tk-people > em { margin-left: 10px; font-style: normal; font-size: 11px; color: var(--as-text-muted); }
+html body #demo.slack-shell .tk-foot > time { margin-left: auto; font-size: 11.5px; color: var(--as-text-subtle); font-variant-numeric: tabular-nums; transition: opacity var(--as-dur-fast) var(--as-ease); }
+html body #demo.slack-shell .tk-actions { position: absolute; right: 0; top: 50%; transform: translateY(-50%); display: inline-flex; gap: 2px; opacity: 0; pointer-events: none; transition: opacity var(--as-dur-fast) var(--as-ease); }
+html body #demo.slack-shell .tk-card:is(:hover, :focus-within) .tk-actions { opacity: 1; pointer-events: auto; }
+html body #demo.slack-shell .tk-card:is(:hover, :focus-within) .tk-foot > time { opacity: 0; }
+html body #demo.slack-shell .tk-act { width: 26px; height: 26px; display: inline-grid; place-items: center; padding: 0; border: 0; border-radius: 8px; background: transparent; color: var(--as-text-muted); cursor: pointer; position: relative; }
+html body #demo.slack-shell .tk-act:hover { background: var(--as-hover); color: var(--as-selected-ink); }
+html body #demo.slack-shell .tk-act svg.icon { width: 15px !important; height: 15px !important; }
+html body #demo.slack-shell .tk-act[aria-label]::after { content: attr(aria-label); position: absolute; bottom: calc(100% + 6px); left: 50%; transform: translateX(-50%); padding: 3px 7px; border-radius: 6px; background: var(--as-text); color: var(--as-bg); font: 500 11px/15px var(--as-font); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .12s ease .2s; z-index: 5; }
+html body #demo.slack-shell .tk-act:is(:hover, :focus-visible)::after { opacity: 1; }
+@media (hover: none) { html body #demo.slack-shell .tk-actions { position: static; transform: none; opacity: 1; pointer-events: auto; } html body #demo.slack-shell .tk-foot > time { display: none; } }
+html body #demo.slack-shell .tk-empty { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 28px 0 24px; color: var(--as-text-subtle); font-size: 12px; }
+html body #demo.slack-shell .tk-empty svg.icon { width: 32px !important; height: 32px !important; stroke-width: 1.25 !important; color: var(--as-border-strong); }
+#modalHost .tk-confirm { margin: 0 0 10px; font-size: 13px; line-height: 20px; color: var(--as-text-2); }
+#modalHost .tk-confirm.muted { color: var(--as-text-muted); }
+/* ---- 任务详情页：左（任务头 · 概览 · 对话流 · 输入框）| 右（工具窗口） */
+body[data-taskdetail] #demo.slack-shell.slack-shell { grid-template-columns: 68px minmax(0, 1fr) !important; }
+body[data-taskdetail] #demo.slack-shell .demoside { display: none !important; }
+#demo.slack-shell .tp-page { display: grid; grid-template-columns: minmax(360px, 440px) minmax(0, 1fr); height: 100%; min-height: 0; }
+#demo.slack-shell .tp-left { display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--as-border); }
+#demo.slack-shell .tp-head { display: flex; align-items: center; gap: 10px; height: var(--as-head-h, 48px); padding: 0 16px 0 10px; border-bottom: 1px solid var(--as-border); flex: none; }
+#demo.slack-shell .tp-back { width: 30px; height: 30px; display: grid; place-items: center; border: 0; border-radius: var(--as-r-sm); background: transparent; color: var(--as-text-muted); cursor: pointer; }
+#demo.slack-shell .tp-back:hover { background: var(--as-hover); color: var(--as-text); }
+#demo.slack-shell .tp-back svg.icon { width: 16px !important; height: 16px !important; }
+#demo.slack-shell .tp-title { min-width: 0; flex: 1; display: flex; flex-direction: column; }
+#demo.slack-shell .tp-title b { font-size: 14px; line-height: 20px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#demo.slack-shell .tp-title small { font-size: 11.5px; color: var(--as-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+#demo.slack-shell .tp-overview { flex: none; margin: 12px 12px 0; padding: 4px 6px; border-radius: 14px; background: var(--as-muted-bg); max-height: 40%; overflow-y: auto; }
+#demo.slack-shell .tp-ov-sec + .tp-ov-sec { border-top: 1px solid var(--as-border); }
+#demo.slack-shell .tp-ov-head { display: flex; align-items: center; gap: 8px; width: 100%; height: 36px; padding: 0 6px; border: 0; background: transparent; color: var(--as-text); font-size: 13px; cursor: pointer; }
+#demo.slack-shell .tp-ov-head svg.icon { width: 15px !important; height: 15px !important; color: var(--as-text-muted); }
+#demo.slack-shell .tp-ov-head b { font-weight: 600; }
+#demo.slack-shell .tp-ov-head .as-num { font-size: 12px; color: var(--as-text-muted); }
+#demo.slack-shell .tp-ov-head i { margin-left: auto; display: grid; transition: transform var(--as-dur-fast) var(--as-ease); }
+#demo.slack-shell .tp-ov-sec[data-open="false"] .tp-ov-head i { transform: rotate(-90deg); }
+#demo.slack-shell .tp-ov-body { padding: 0 6px 10px 29px; }
+#demo.slack-shell .tp-todo { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+#demo.slack-shell .tp-todo li { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--as-text-2); margin-left: -21px; }
+#demo.slack-shell .tp-todo li > i { width: 13px; height: 13px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--as-border-strong); flex: none; }
+#demo.slack-shell .tp-todo li svg.icon { width: 13px !important; height: 13px !important; color: var(--as-done); flex: none; }
+#demo.slack-shell .tp-todo li[data-state="done"] span { color: var(--as-text-muted); text-decoration: line-through; }
+#demo.slack-shell .tp-todo li .as-spinner { width: 13px; height: 13px; flex: none; }
+#demo.slack-shell .tp-art { display: flex; align-items: center; gap: 10px; width: 100%; padding: 6px 8px; margin-left: -21px; border: 0; border-radius: 10px; background: transparent; text-align: left; cursor: pointer; }
+#demo.slack-shell .tp-art:hover { background: var(--as-hover); }
+#demo.slack-shell .tp-art > svg.icon { width: 28px !important; height: 28px !important; padding: 6px; box-sizing: border-box; border-radius: 8px; background: var(--as-card); box-shadow: var(--as-shadow-tile); color: var(--as-text-2); flex: none; }
+#demo.slack-shell .tp-art b { display: block; font-size: 12.5px; font-weight: 500; color: var(--as-text); }
+#demo.slack-shell .tp-art small { font-size: 11.5px; color: var(--as-text-muted); }
+#demo.slack-shell .tp-ctx { display: flex; align-items: baseline; justify-content: space-between; margin-left: -21px; font-size: 12px; color: var(--as-text-muted); }
+#demo.slack-shell .tp-ctx b { font-size: 16px; color: var(--as-text); font-weight: 600; }
+#demo.slack-shell .tp-ctx b small { font-size: 11px; color: var(--as-text-muted); font-weight: 400; }
+#demo.slack-shell .tp-ctx-bar { height: 4px; margin: 6px 0 0 -21px; border-radius: 4px; background: var(--as-border); overflow: hidden; }
+#demo.slack-shell .tp-ctx-bar i { display: block; height: 100%; border-radius: 4px; background: var(--as-brand); }
+#demo.slack-shell .tp-muted { margin: 0 0 0 -21px; font-size: 12px; color: var(--as-text-muted); }
+#demo.slack-shell .tp-flow { flex: 1; min-height: 0; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 18px; }
+#demo.slack-shell .tp-msg-head { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+#demo.slack-shell .tp-msg-head .as-avatar { width: 22px !important; height: 22px !important; min-width: 22px; font-size: 10px !important; }
+#demo.slack-shell .tp-msg-head b { font-size: 13px; font-weight: 600; }
+#demo.slack-shell .tp-msg-head time { font-size: 11.5px; color: var(--as-text-subtle); }
+#demo.slack-shell .tp-msg-body { padding-left: 30px; display: flex; flex-direction: column; gap: 10px; font-size: 13.5px; line-height: 21px; color: var(--as-text-2); }
+#demo.slack-shell .tp-msg-body > p { margin: 0; }
+#demo.slack-shell .tp-user { align-self: stretch; padding: 10px 12px; border-radius: 12px; background: var(--as-muted-bg); }
+#demo.slack-shell .tp-flow > .tp-user { margin-left: 30px; }
+#demo.slack-shell .tp-user p { margin: 0; font-size: 13.5px; line-height: 21px; color: var(--as-text); }
+#demo.slack-shell .tp-user small { display: block; margin-top: 4px; font-size: 11.5px; color: var(--as-text-muted); }
+#demo.slack-shell .tp-tools { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; padding: 0; border: 0; background: transparent; color: var(--as-text-muted); font-size: 12.5px; cursor: pointer; }
+#demo.slack-shell .tp-tools:hover { color: var(--as-text); }
+#demo.slack-shell .tp-tools svg.icon { width: 14px !important; height: 14px !important; }
+#demo.slack-shell .tp-art-list { display: flex; flex-direction: column; gap: 2px; }
+#demo.slack-shell .tp-art-list .tp-art { margin-left: 0; }
+#demo.slack-shell .tp-actions { display: flex; gap: 8px; }
+#demo.slack-shell .tp-compose { flex: none; padding: 8px 12px 12px; }
+#demo.slack-shell .tp-tool { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+#demo.slack-shell .tp-tool-tabs { display: flex; align-items: center; gap: 4px; height: var(--as-head-h, 48px); padding: 0 16px; border-bottom: 1px solid var(--as-border); flex: none; }
+#demo.slack-shell .tp-tool-tabs > button { height: 30px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; color: var(--as-text-muted); font-size: 13px; cursor: pointer; }
+#demo.slack-shell .tp-tool-tabs > button:hover { background: var(--as-hover); color: var(--as-text); }
+#demo.slack-shell .tp-tool-tabs > button.active { background: var(--as-muted-bg); color: var(--as-text); font-weight: 600; }
+#demo.slack-shell .tp-tool-body { flex: 1; min-height: 0; overflow-y: auto; padding: 20px 24px; }
+#demo.slack-shell .tp-file-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+#demo.slack-shell .tp-file-head > svg.icon { width: 32px !important; height: 32px !important; padding: 7px; box-sizing: border-box; border-radius: 9px; background: var(--as-muted-bg); }
+#demo.slack-shell .tp-file-head b { display: block; font-size: 14px; }
+#demo.slack-shell .tp-file-head small { font-size: 12px; color: var(--as-text-muted); }
+#demo.slack-shell .tp-file-tab { height: 26px; padding: 0 10px; border: 0; border-radius: 999px; background: transparent; color: var(--as-text-muted); font-size: 12px; cursor: pointer; }
+#demo.slack-shell .tp-file-tab.active { background: var(--as-muted-bg); color: var(--as-text); }
+#demo.slack-shell .tp-file-body { margin: 0; padding: 16px; border-radius: 12px; background: var(--as-stage); box-shadow: inset 0 0 0 1px var(--as-border-soft); font: 12.5px/1.7 var(--as-font-mono); color: var(--as-text-2); white-space: pre-wrap; overflow-x: auto; }
+#demo.slack-shell .tp-kv { margin: 0 0 16px; display: grid; gap: 10px; }
+#demo.slack-shell .tp-kv > div { display: grid; grid-template-columns: 72px 1fr; gap: 12px; font-size: 13px; }
+#demo.slack-shell .tp-kv dt { color: var(--as-text-muted); }
+#demo.slack-shell .tp-kv dd { margin: 0; color: var(--as-text); }
+@media (max-width: 1023px) { #demo.slack-shell .tp-page { grid-template-columns: 1fr; } #demo.slack-shell .tp-tool { display: none; } }
+/* ---- 任务看板调整 */
+html body #demo.slack-shell .board-status-summary { display: none !important; }
+html body #demo.slack-shell .tk-layout-tabs { display: inline-flex; gap: 2px; padding: 2px; border-radius: 999px; background: var(--as-muted-bg); }
+html body #demo.slack-shell .tk-layout-tabs > button { width: 30px; height: 26px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 999px; background: transparent; color: var(--as-text-muted); cursor: pointer; }
+html body #demo.slack-shell .tk-layout-tabs > button:hover { color: var(--as-text); }
+html body #demo.slack-shell .tk-layout-tabs > button[aria-selected="true"] { background: var(--as-card); color: var(--as-text); box-shadow: var(--as-shadow-tile); }
+html body #demo.slack-shell .tk-layout-tabs svg.icon { width: 15px !important; height: 15px !important; }
+/* 运行中图标静止；待输入用明亮的琥珀色；列更宽；列说明 hover 列时出现 */
+html body #demo.slack-shell .tk-col[data-col="running"] > header .tk-col-icon { animation: none !important; }
+html body #demo.slack-shell .tk-col[data-col="wait"] { --tk-accent: #F5A524; }
+html body #demo.slack-shell .tk-col[data-col="wait"] > header .tk-col-icon { color: #E08A00 !important; }
+html body #demo.slack-shell .task-kanban.tk-board { grid-auto-columns: minmax(288px, 1fr) !important; }
+html body #demo.slack-shell .tk-col > header .as2-hint { opacity: 0; transition: opacity var(--as-dur-fast) var(--as-ease); }
+html body #demo.slack-shell .tk-col:is(:hover, :focus-within) > header .as2-hint { opacity: 1; }
+/* ---- 定时 / 事件 / 协作任务卡片（参考：开关 + 更多 · 标题与状态词 · 两行描述 · 虚线 · 胶囊） */
+html body #demo.slack-shell .ac-grid { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)) !important; gap: 12px !important; }
+html body #demo.slack-shell .ac-card { position: relative; display: flex !important; flex-direction: column !important; gap: 0 !important; padding: 16px 16px 14px !important; border-radius: 16px !important; background: var(--as-card) !important; border: 1px solid var(--as-border) !important; box-shadow: none !important; transition: box-shadow var(--as-dur-fast) var(--as-ease) !important; }
+html body #demo.slack-shell .ac-card:hover { box-shadow: 0 10px 28px -12px rgba(0,0,0,.16) !important; }
+html body #demo.slack-shell .ac-top { display: flex; align-items: center; gap: 8px; min-height: 28px; margin-bottom: 12px; }
+html body #demo.slack-shell .ac-top > .as2-switch { margin-right: auto; }
+html body #demo.slack-shell .ac-top .tag { font-size: 11px !important; }
+html body #demo.slack-shell .ac-more { width: 28px !important; height: 28px !important; border-radius: 8px !important; color: var(--as-text-muted) !important; }
+html body #demo.slack-shell .ac-more:hover, html body #demo.slack-shell .ac-more[aria-expanded="true"] { background: var(--as-hover) !important; color: var(--as-text) !important; }
+html body #demo.slack-shell .ac-title { display: flex; align-items: baseline; gap: 8px; padding: 0; border: 0; background: transparent; text-align: left; cursor: pointer; min-width: 0; }
+html body #demo.slack-shell .ac-title b { font-size: 15px; line-height: 22px; font-weight: 500; color: var(--as-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+html body #demo.slack-shell .ac-title:hover b { color: var(--as-selected-ink); }
+html body #demo.slack-shell .ac-st { flex: none; font-style: normal; font-size: 12.5px; color: var(--as-text-subtle); }
+html body #demo.slack-shell .ac-st--fail { color: var(--as-fail); }
+html body #demo.slack-shell .ac-desc { margin: 6px 0 0 !important; min-height: 40px; font-size: 13px !important; line-height: 20px !important; color: var(--as-text-muted) !important; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+html body #demo.slack-shell .ac-foot { display: flex; align-items: center; gap: 10px; margin-top: 14px; padding-top: 14px; border-top: 1px dashed var(--as-border-strong); min-width: 0; }
+html body #demo.slack-shell .ac-chip { display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; border-radius: 999px; background: var(--as-muted-bg); color: var(--as-text-2); font-size: 12.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; }
+html body #demo.slack-shell .ac-chip svg.icon { width: 15px !important; height: 15px !important; flex: none; color: var(--as-text-muted); }
+html body #demo.slack-shell .ac-meta { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--as-text-subtle); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+html body #demo.slack-shell .ac-meta svg.icon { width: 13px !important; height: 13px !important; flex: none; }
+html body #demo.slack-shell .ac-meta i { font-style: normal; margin: 0 2px; }
+html body #demo.slack-shell .ac-hover { position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: flex-end; gap: 8px; padding: 10px 16px; border-top: 1px solid var(--as-border); border-radius: 0 0 16px 16px; background: var(--as-card); opacity: 0; transform: translateY(6px); pointer-events: none; transition: opacity var(--as-dur-fast) var(--as-ease), transform var(--as-dur-fast) var(--as-ease); }
+html body #demo.slack-shell .ac-card:is(:hover, :focus-within) .ac-hover:not(:empty) { opacity: 1; transform: none; pointer-events: auto; }
+@media (hover: none) { html body #demo.slack-shell .ac-hover { position: static; opacity: 1; transform: none; pointer-events: auto; border: 0; padding: 10px 0 0; } }
+/* 卡片 hover 操作：全圆角悬浮工具栏；待验收状态色；开关用品牌蓝；协作卡 hover 不再出现分割线 */
+html body #demo.slack-shell .tk-actions { right: -4px; gap: 2px; padding: 3px; border-radius: 999px; background: var(--as-card); box-shadow: 0 0 0 1px var(--as-border), 0 6px 16px -6px rgba(0,0,0,.18); }
+html body #demo.slack-shell .tk-act { border-radius: 999px; }
+html body #demo.slack-shell .tk-col[data-col="review"] { --tk-accent: var(--as-review); }
+html body #demo.slack-shell .tk-col[data-col="review"] > header .tk-col-icon { color: var(--as-review) !important; }
+html body .as2-switch[aria-checked="true"] { background: var(--as-brand); }
+html body .as2-switch[aria-checked="true"] i { background: #fff; }
+html body #demo.slack-shell .ac-foot { justify-content: space-between; }
+html body #demo.slack-shell .ac-chip { flex: 0 1 auto; min-width: 0; max-width: 62%; }
+html body #demo.slack-shell .ac-meta { flex: 1 1 0; justify-content: flex-end; transition: opacity var(--as-dur-fast) var(--as-ease); }
+html body #demo.slack-shell :is(.ac-chip, .ac-meta) > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html body #demo.slack-shell .ac-hover { left: auto; right: 12px; bottom: 10px; gap: 4px; padding: 4px; border: 0; border-radius: 999px; box-shadow: 0 0 0 1px var(--as-border), 0 8px 20px -8px rgba(0,0,0,.2); }
+html body #demo.slack-shell .ac-hover .btn { border-radius: 999px !important; }
+html body #demo.slack-shell .ac-card:is(:hover, :focus-within):has(.ac-hover:not(:empty)) .ac-meta { opacity: 0; }
+@media (hover: none) { html body #demo.slack-shell .ac-hover { box-shadow: none; padding: 10px 0 0; border-radius: 0; } }
+html body #demo.slack-shell .tk-col[data-col="pending"] { --tk-accent: #A0A7B4; }
+/* ---- 我的工作台 / 项目主页：参考「Feature cards + Vulnerability Triage」——容器卡套内卡、渐变图标块、右上角斜向流光、虚线分隔、等宽小标签、胶囊筛选 */
+:root { --hp-tile-blue: linear-gradient(150deg, #6E9BFF, #2F5BEA); --hp-tile-violet: linear-gradient(150deg, #9F8CFF, #5B45E0); --hp-tile-green: linear-gradient(150deg, #4ADE9B, #10A37F);
+  --hp-tile-orange: linear-gradient(150deg, #FFC27A, #F08A3C); --hp-tile-pink: linear-gradient(150deg, #FF8FB1, #E0457B); --hp-tile-teal: linear-gradient(150deg, #5EE0E0, #0EA5B7);
+  --hp-sheen-blue: rgba(47, 91, 234, .16); --hp-sheen-violet: rgba(91, 69, 224, .16); --hp-sheen-green: rgba(16, 163, 127, .16); --hp-sheen-orange: rgba(240, 138, 60, .18); --hp-sheen-pink: rgba(224, 69, 123, .14); --hp-sheen-teal: rgba(14, 165, 183, .16);
+  --hp-grid: rgba(47, 91, 234, .06); }
+:root[data-theme="dark"], :root.dark { --hp-grid: rgba(140, 170, 255, .07); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell :is(.as2-stat, .project-overview-metrics > button, .benchcard) { --hp-tile: var(--hp-tile-blue); --hp-sheen: var(--hp-sheen-blue); }
+/* 渐变图标块 */
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell :is(.as2-stat-ico, .project-overview-metrics > button > svg.icon:first-child, .benchcover .covericon, .demohead .projecticon) {
+  display: inline-grid !important; place-items: center; flex: none; width: 36px !important; height: 36px !important; padding: 0 !important; border: 0 !important; border-radius: 10px !important;
+  background: var(--hp-tile, var(--hp-tile-blue)) !important; color: #fff !important; box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 4px 10px -4px rgba(20, 40, 120, .45) !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell :is(.as2-stat-ico, .benchcover .covericon) svg.icon { width: 18px !important; height: 18px !important; color: #fff !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .project-overview-metrics > button > svg.icon:first-child { padding: 9px !important; box-sizing: border-box; stroke: #fff; }
+/* 右上角斜向流光 */
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell :is(.as2-stat, .project-overview-metrics > button) { position: relative; overflow: hidden; isolation: isolate; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell :is(.as2-stat, .project-overview-metrics > button)::after { content: ""; position: absolute; z-index: -1; top: 0; right: 0; width: 62%; height: 78%; pointer-events: none;
+  background: linear-gradient(125deg, transparent 38%, var(--hp-sheen) 52%, transparent 60%, var(--hp-sheen) 68%, transparent 80%); -webkit-mask: radial-gradient(120% 100% at 100% 0, #000 30%, transparent 75%); mask: radial-gradient(120% 100% at 100% 0, #000 30%, transparent 75%); opacity: .9; }
+
+/* 工作概览：容器卡 + 标题行（标题 · 状态胶囊 · 等宽 ID）+ 四张内卡 */
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .as2-overview { gap: 12px !important; padding: 16px !important; margin: 0 0 24px !important; border-radius: 20px !important; border: 1px solid var(--as-border) !important; background: var(--as-card) !important; box-shadow: 0 1px 2px rgba(16,24,40,.04) !important; }
+#demo.slack-shell .as2-ov-head { grid-column: 1 / -1; display: flex; align-items: center; gap: 10px; padding: 2px 4px 4px; }
+#demo.slack-shell .as2-ov-head b { font-size: 15px; font-weight: 500; color: var(--as-text); }
+#demo.slack-shell .as2-ov-pill { display: inline-flex; align-items: center; height: 22px; padding: 0 9px; border-radius: 999px; font-size: 11.5px; font-weight: 500; color: #0E7A55; background: rgba(16, 163, 127, .12); }
+:root[data-theme="dark"] #demo.slack-shell .as2-ov-pill { color: #5EE0A8; }
+#demo.slack-shell .as2-ov-head code { margin-left: auto; font: 500 11.5px/1 var(--as-font-mono, ui-monospace, SFMono-Regular, Menlo, monospace); letter-spacing: .04em; text-transform: uppercase; color: var(--as-text-subtle); background: none; padding: 0; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .as2-stat { flex-direction: column !important; align-items: flex-start !important; gap: 14px !important; padding: 14px 16px 16px !important; border-radius: 14px !important; border: 1px solid var(--as-border) !important; background: var(--as-card) !important; box-shadow: none !important; transition: border-color var(--as-dur-fast) var(--as-ease), box-shadow var(--as-dur-fast) var(--as-ease) !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .as2-stat:hover { border-color: var(--as-border-strong) !important; box-shadow: 0 8px 20px -12px rgba(16,24,40,.18) !important; }
+#demo.slack-shell .as2-stat-copy { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+#demo.slack-shell .as2-stat-copy small { font-size: 12.5px; line-height: 18px; color: var(--as-text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+html body #demo.slack-shell .as2-stat-copy strong { font-size: 22px !important; line-height: 28px !important; letter-spacing: -.4px !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .as2-stat.as2-stat[data-status="waiting"] { --hp-tile: var(--hp-tile-orange); --hp-sheen: var(--hp-sheen-orange); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .as2-stat.as2-stat[data-status="review"] { --hp-tile: var(--hp-tile-violet); --hp-sheen: var(--hp-sheen-violet); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .as2-stat.as2-stat[data-status="running"] { --hp-tile: var(--hp-tile-blue); --hp-sheen: var(--hp-sheen-blue); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .as2-stat.as2-stat[data-status="idle"] { --hp-tile: var(--hp-tile-green); --hp-sheen: var(--hp-sheen-green); }
+
+/* 工作台筛选：胶囊 chip（选中为品牌浅底） */
+html:root:not([data-appearance-style="pixel"]) body[data-page="benches"] #demo.slack-shell .dtoolbar .dtabs { gap: 6px !important; padding: 0 !important; border: 0 !important; background: none !important; box-shadow: none !important; }
+html:root:not([data-appearance-style="pixel"]) body[data-page="benches"] #demo.slack-shell .dtoolbar .dtabs > button { height: 30px !important; padding: 0 14px !important; border-radius: 999px !important; border: 1px solid var(--as-border) !important; background: var(--as-card) !important; color: var(--as-text-2) !important; font-size: 13px !important; box-shadow: none !important; }
+html:root:not([data-appearance-style="pixel"]) body[data-page="benches"] #demo.slack-shell .dtoolbar .dtabs > button::after { display: none !important; }
+html:root:not([data-appearance-style="pixel"]) body[data-page="benches"] #demo.slack-shell .dtoolbar .dtabs > button:hover { border-color: var(--as-border-strong) !important; }
+html:root:not([data-appearance-style="pixel"]) body[data-page="benches"] #demo.slack-shell .dtoolbar .dtabs > button.active { background: var(--as-brand-soft) !important; border-color: var(--as-brand-line) !important; color: var(--as-brand) !important; font-weight: 500 !important; }
+
+/* 工作台卡片：封面区带细网格 + 流光，图标块，虚线分隔指标 */
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcard { border-radius: 20px !important; border: 1px solid var(--as-border) !important; background: var(--as-card) !important; box-shadow: 0 1px 2px rgba(16,24,40,.04) !important; transition: box-shadow var(--as-dur-fast) var(--as-ease), border-color var(--as-dur-fast) var(--as-ease) !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcard:hover { border-color: var(--as-border-strong) !important; box-shadow: 0 14px 32px -16px rgba(16,24,40,.22) !important; transform: none !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcard.peach { --hp-tile: var(--hp-tile-orange); --hp-sheen: var(--hp-sheen-orange); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcard.lavender { --hp-tile: var(--hp-tile-violet); --hp-sheen: var(--hp-sheen-violet); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcard.mint { --hp-tile: var(--hp-tile-green); --hp-sheen: var(--hp-sheen-green); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcard:is(.sky, .blue) { --hp-tile: var(--hp-tile-blue); --hp-sheen: var(--hp-sheen-blue); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcard:is(.rose, .pink) { --hp-tile: var(--hp-tile-pink); --hp-sheen: var(--hp-sheen-pink); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcover { position: relative; isolation: isolate; overflow: hidden; margin: 6px 6px 0 !important; border-radius: 15px !important; border: 0 !important;
+  background: linear-gradient(var(--hp-grid) 1px, transparent 1px) 0 0 / 20px 20px, linear-gradient(90deg, var(--hp-grid) 1px, transparent 1px) 0 0 / 20px 20px, linear-gradient(180deg, color-mix(in srgb, var(--hp-sheen) 45%, var(--as-card)), var(--as-card)) !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcover::after { content: ""; position: absolute; z-index: -1; inset: 0 0 auto auto; width: 60%; height: 100%; pointer-events: none;
+  background: linear-gradient(125deg, transparent 40%, var(--hp-sheen) 55%, transparent 64%, var(--hp-sheen) 72%, transparent 84%); -webkit-mask: radial-gradient(120% 100% at 100% 0, #000 30%, transparent 75%); mask: radial-gradient(120% 100% at 100% 0, #000 30%, transparent 75%); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcover .coverdeco { display: none !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcover .covercopy .tiny { font: 500 10.5px/1.2 var(--as-font-mono, ui-monospace, SFMono-Regular, Menlo, monospace) !important; letter-spacing: .06em; text-transform: uppercase; color: var(--as-text-subtle) !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcard .benchbody h3 { font-size: 16px !important; font-weight: 500 !important; letter-spacing: -.1px; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcard .minimetrics { margin-top: 12px !important; padding-top: 12px !important; border-top: 1px dashed var(--as-border-strong) !important; background: none !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcard .minimetrics > div { border-radius: 12px !important; background: var(--as-muted-bg, var(--as-stage)) !important; border: 0 !important; }
+
+/* 项目主页：项目图标、指标卡（图标块 + 数值 + 标签）、内容容器卡 */
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .demohead .projecticon { width: 44px !important; height: 44px !important; border-radius: 12px !important; font-size: 20px !important; font-weight: 600 !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .demohead .projecticon[data-tone] { background: var(--hp-tile-blue) !important; color: #fff !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .project-overview-metrics { gap: 12px !important; padding: 16px; margin: 20px 0 16px !important; border-radius: 20px; border: 1px solid var(--as-border); background: var(--as-card); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .project-overview-metrics > button { display: grid !important; grid-template-columns: auto 1fr auto; grid-template-rows: auto auto; align-items: center; column-gap: 12px; row-gap: 2px; padding: 14px 16px !important; min-height: 0 !important; border-radius: 14px !important; border: 1px solid var(--as-border) !important; background: var(--as-card) !important; box-shadow: none !important; text-align: left; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .project-overview-metrics > button:hover { border-color: var(--as-border-strong) !important; box-shadow: 0 8px 20px -12px rgba(16,24,40,.18) !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .project-overview-metrics > button > svg.icon:first-child { grid-row: 1 / 3; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .project-overview-metrics > button > span { grid-column: 2; grid-row: 1; font-size: 12.5px; color: var(--as-text-muted) !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .project-overview-metrics > button > b { grid-column: 2; grid-row: 2; font-size: 22px !important; line-height: 28px; font-weight: 600; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .project-overview-metrics > button > svg.icon:last-child { grid-column: 3; grid-row: 1 / 3; width: 16px !important; height: 16px !important; color: var(--as-text-subtle); opacity: 0; transform: translateX(-4px); transition: opacity var(--as-dur-fast) var(--as-ease), transform var(--as-dur-fast) var(--as-ease); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .project-overview-metrics > button:hover > svg.icon:last-child { opacity: 1; transform: none; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .project-overview-metrics > button:nth-child(1) { --hp-tile: var(--hp-tile-blue); --hp-sheen: var(--hp-sheen-blue); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .project-overview-metrics > button:nth-child(2) { --hp-tile: var(--hp-tile-teal); --hp-sheen: var(--hp-sheen-teal); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .project-overview-metrics > button:nth-child(3) { --hp-tile: var(--hp-tile-violet); --hp-sheen: var(--hp-sheen-violet); }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .project-overview-metrics > button:nth-child(4) { --hp-tile: var(--hp-tile-orange); --hp-sheen: var(--hp-sheen-orange); }
+html:root:not([data-appearance-style="pixel"]) body[data-page="project"] #demo.slack-shell .grid2 { gap: 16px !important; }
+html:root:not([data-appearance-style="pixel"]) body[data-page="project"] #demo.slack-shell .grid2 > .card.pad { padding: 18px 18px 16px !important; border-radius: 20px !important; border: 1px solid var(--as-border) !important; background: var(--as-card) !important; box-shadow: 0 1px 2px rgba(16,24,40,.04) !important; }
+html:root:not([data-appearance-style="pixel"]) body[data-page="project"] #demo.slack-shell .grid2 > .card.pad > .row.between { margin-bottom: 12px !important; padding-bottom: 12px; border-bottom: 1px dashed var(--as-border-strong); }
+html:root:not([data-appearance-style="pixel"]) body[data-page="project"] #demo.slack-shell .grid2 > .card.pad h3 { font-size: 15px !important; font-weight: 500 !important; }
+html:root:not([data-appearance-style="pixel"]) body[data-page="project"] #demo.slack-shell .grid2 .threadlink { position: relative; margin: 0 0 8px !important; padding: 12px 14px 12px 40px !important; border-radius: 14px !important; border: 1px solid var(--as-border) !important; background: var(--as-card) !important; box-shadow: none !important; }
+html:root:not([data-appearance-style="pixel"]) body[data-page="project"] #demo.slack-shell .grid2 .threadlink::before { content: "#"; position: absolute; left: 12px; top: 13px; width: 18px; height: 18px; display: grid; place-items: center; border-radius: 6px; font: 600 11px/1 var(--as-font); color: #fff; background: var(--hp-tile-teal); }
+html:root:not([data-appearance-style="pixel"]) body[data-page="project"] #demo.slack-shell .grid2 .threadlink:hover { border-color: var(--as-border-strong) !important; background: var(--as-hover) !important; }
+html:root:not([data-appearance-style="pixel"]) body[data-page="project"] #demo.slack-shell .grid2 .threadlink small { font-family: var(--as-font-mono, ui-monospace, SFMono-Regular, Menlo, monospace) !important; font-size: 11px !important; letter-spacing: .02em; }
+html:root:not([data-appearance-style="pixel"]) body[data-page="project"] #demo.slack-shell .project-overview-links { gap: 8px !important; }
+html:root:not([data-appearance-style="pixel"]) body[data-page="project"] #demo.slack-shell .project-overview-links .btn { height: 30px !important; padding: 0 14px !important; border-radius: 999px !important; border: 1px solid var(--as-border) !important; background: var(--as-card) !important; box-shadow: none !important; }
+html:root:not([data-appearance-style="pixel"]) body[data-page="project"] #demo.slack-shell .project-overview-links .btn:hover { border-color: var(--as-brand-line) !important; color: var(--as-brand) !important; background: var(--as-brand-soft) !important; }
+html:root:not([data-appearance-style="pixel"]) body[data-page="project"] #demo.slack-shell .grid2 .rule { height: 0 !important; background: none !important; border-top: 1px dashed var(--as-border-strong) !important; margin: 14px 0 !important; }
+@media (max-width: 760px) { html:root body #demo.slack-shell.slack-shell .project-overview-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+/* 任务详情页：侧栏隐藏时内容背板四角都圆 */
+html:root body[data-taskdetail] #demo.slack-shell.slack-shell > .demoarea { border-radius: 24px !important; overflow: hidden; }
+html:root[data-appearance-style="pixel"] body[data-taskdetail] #demo.slack-shell.slack-shell > .demoarea { border-radius: 0 !important; }
+/* 个人知识库 / 项目空间详情：外层不再是卡片（之前内容贴边、按钮溢出），与其他页面同一版式 */
+html:root body #demo.slack-shell.slack-shell .space-detail { background: none !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; padding: 0 !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+html:root body #demo.slack-shell.slack-shell .space-detail > .demohead { align-items: flex-start; }
+html:root body #demo.slack-shell.slack-shell .space-detail > .demohead .kicker { margin: 12px 0 4px !important; font: 500 11px/1.2 var(--as-font-mono, ui-monospace, SFMono-Regular, Menlo, monospace) !important; letter-spacing: .06em; color: var(--as-text-subtle) !important; }
+html:root body #demo.slack-shell.slack-shell .space-detail > .demohead .btn.link { margin-left: -8px; }
+html:root body #demo.slack-shell.slack-shell .space-material-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 16px 0 12px !important; }
+html:root body #demo.slack-shell.slack-shell .space-material-toolbar input { width: min(320px, 50%); }
+/* 指标卡直接平铺：去掉外层容器卡（工作台概览 / 项目主页指标） */
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell :is(.as2-overview, .project-overview-metrics) { padding: 0 !important; border: 0 !important; border-radius: 0 !important; background: none !important; box-shadow: none !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+/* 工作台卡片：等高；状态行不换行；hover 工具栏为实底全圆角胶囊（··· · 继续修改 · 打开工作台），底部更新时间让位 */
+html:root body #demo.slack-shell.slack-shell .benchgrid { align-items: stretch !important; }
+html:root body #demo.slack-shell.slack-shell .benchcard { display: flex !important; flex-direction: column !important; height: 100%; }
+html:root body #demo.slack-shell.slack-shell .benchcard .benchbody { flex: 1 1 auto; display: flex; flex-direction: column; }
+html:root body #demo.slack-shell.slack-shell .benchcard .benchupdate { margin-top: auto !important; padding-top: 14px; transition: opacity var(--as-dur-fast) var(--as-ease); }
+html:root body #demo.slack-shell.slack-shell .benchcard .benchstatus { flex-wrap: nowrap !important; min-width: 0; overflow: hidden; }
+html:root body #demo.slack-shell.slack-shell .benchcard .benchstatus > * { flex: none; white-space: nowrap; }
+html:root body #demo.slack-shell.slack-shell .benchcard .benchstatus > span:not(.tag):not(.wbh-card-draft) { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+html:root body #demo.slack-shell.slack-shell .benchcard .benchfoot { left: auto !important; right: 14px !important; bottom: 12px !important; display: flex !important; align-items: center; gap: 4px; padding: 4px !important; border: 0 !important; border-radius: 999px !important;
+  background: #fff !important; box-shadow: 0 0 0 1px var(--as-border), 0 10px 24px -10px rgba(16,24,40,.28) !important; backdrop-filter: none !important; }
+:root[data-theme="dark"] body #demo.slack-shell.slack-shell .benchcard .benchfoot, :root.dark body #demo.slack-shell.slack-shell .benchcard .benchfoot { background: #26272B !important; }
+html:root body #demo.slack-shell.slack-shell .benchcard:is(:hover, :focus-within) .benchupdate { opacity: 0; }
+html:root body #demo.slack-shell.slack-shell .benchcard .benchfoot .btn { height: 30px !important; min-height: 30px !important; padding: 0 12px !important; border-radius: 999px !important; font-size: 13px !important; gap: 5px; box-shadow: none !important; }
+html:root body #demo.slack-shell.slack-shell .benchcard .benchfoot .bf-edit { background: transparent !important; border: 0 !important; color: var(--as-text-2) !important; }
+html:root body #demo.slack-shell.slack-shell .benchcard .benchfoot .bf-edit:hover { background: var(--as-hover) !important; color: var(--as-text) !important; }
+html:root body #demo.slack-shell.slack-shell .benchcard .benchfoot .btn svg.icon { width: 14px !important; height: 14px !important; }
+html:root body #demo.slack-shell.slack-shell .benchcard .bf-more { width: 30px; height: 30px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 999px; background: transparent; color: var(--as-text-muted); cursor: pointer; }
+html:root body #demo.slack-shell.slack-shell .benchcard .bf-more:hover { background: var(--as-hover); color: var(--as-text); }
+html:root body #demo.slack-shell.slack-shell .benchcard .bf-more svg.icon { width: 16px; height: 16px; }
+@media (hover: none) { html:root body #demo.slack-shell.slack-shell .benchcard .benchfoot { margin: 0 14px 12px auto !important; } }
+html:root body #demo.slack-shell.slack-shell .benchcard .benchfoot .btn.primary.openbench { background: linear-gradient(var(--as-btn-top), var(--as-btn-bottom)) !important; color: var(--as-btn-ink) !important; border: 0 !important; }
+html:root body #demo.slack-shell.slack-shell .benchcard .benchfoot .btn.primary.openbench:hover { filter: brightness(1.15); }
+/* 工作台卡片封面图标：中性色图标块 */
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcard.benchcard .benchcover .covericon.covericon.covericon { background: var(--as-card) !important; color: var(--as-text) !important; box-shadow: 0 0 0 1px var(--as-border), 0 4px 10px -6px rgba(16,24,40,.2) !important; }
+html:root:not([data-appearance-style="pixel"]) body #demo.slack-shell.slack-shell .benchcard.benchcard .benchcover .covericon.covericon.covericon svg.icon { color: var(--as-text) !important; }

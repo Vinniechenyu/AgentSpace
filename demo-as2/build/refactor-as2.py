@@ -469,7 +469,7 @@ js, n = re.subn(r'<section class="nova-hero" aria-label="工作概览">.*?</sect
     "['review','待验收',s.tasks.filter(t=>personallyRelatedTask(t)&&t.status==='review').length,'tasks'],"
     "['running','执行中',running,'tasks'],"
     "['idle','持续关注的工作台',active,'']"
-    "].map(([st,label,n,page])=>`<button class=\"as2-stat\" data-status=\"${st}\" data-a=\"${page?'nav-personal':'bench-filter'}\" data-v=\"${page||'all'}\"><span class=\"as-status\" data-status=\"${st}\">${label}</span><strong>${n}</strong></button>`).join('')}</section>"), js, count=1, flags=re.S)
+    "].map(([st,label,n,page])=>`<button class=\"as2-stat\" data-status=\"${st}\" data-a=\"${page?'nav-personal':'bench-filter'}\" data-v=\"${page||'all'}\"><span class=\"as2-stat-ico\">${ico({waiting:'inputWait',review:'checkCircle',running:'loader',idle:'grid'}[st])}</span><span class=\"as2-stat-copy\"><small>${label}</small><strong>${n}</strong></span></button>`).join('')}</section>"), js, count=1, flags=re.S)
 assert n == 1, 'hero anchor'
 
 # ---- 进化中心：二级菜单进入侧栏，与其他空间同一框架。
@@ -504,11 +504,11 @@ jsrep("if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.styl
       "if(s.appearance.style==='system')s.appearance.style=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'classic';if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.style='liquid';")
 js = js.replace('APPEARANCE_STYLES[style].tone', 'themeTone(style)')
 jsrep("function appearanceApply(){", "function appearanceApply(){settingsApply();")
-jsrep("function action(a,v){", "function action(a,v){if(settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v)||messageAction(a,v)||composerAction(a,v)||extensionAction(a,v))return;")
+jsrep("function action(a,v){", "function action(a,v){if(taskPageAction(a,v)||settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v)||messageAction(a,v)||composerAction(a,v)||boardAction(a,v)||extensionAction(a,v))return;")
 jsrep("case 'appearance-settings':openAppearanceSettings();break;", "case 'appearance-settings':openSettings();break;")
 js = js.rstrip()
 assert js.endswith('</script></body></html>')
-js = js[:-len('</script></body></html>')] + (HERE / 'as2-settings.js').read_text() + (HERE / 'as2-run.js').read_text() + (HERE / 'as2-sidebar.js').read_text() + (HERE / 'as2-message.js').read_text() + (HERE / 'as2-extensions.js').read_text() + avatar_js() + '\n</script></body></html>'
+js = js[:-len('</script></body></html>')] + (HERE / 'as2-settings.js').read_text() + (HERE / 'as2-run.js').read_text() + (HERE / 'as2-sidebar.js').read_text() + (HERE / 'as2-message.js').read_text() + (HERE / 'as2-extensions.js').read_text() + (HERE / 'as2-board.js').read_text() + (HERE / 'as2-taskpage.js').read_text() + avatar_js() + '\n</script></body></html>'
 
 # Dialog focus: never land on the close button (it would show a focus ring on open).
 jsrep('<section class="modal" role="dialog"', '<section class="modal" role="dialog" tabindex="-1"')
@@ -537,6 +537,10 @@ LU = json.loads((HERE / 'assets/lucide-icons.json').read_text())
 def lucide_inner(lucide):
     return ''.join('<%s %s/>' % (tag, ' '.join(f'{k}="{_html.escape(v)}"' for k, v in attrs.items())) for tag, attrs in LU['icons'][lucide])
 LUCIDE_SVG = {name: lucide_inner(lucide) for name, lucide in LU['map'].items()}
+# Rail 个人 uses a closed silhouette (Lucide's are open arcs), so the selected state can fill solid.
+# 扩展 (grid) as four separate rounded blocks, one lifted out, so it reads the same outlined and filled.
+LUCIDE_SVG['grid'] = '<rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/><rect x="14" y="2" width="7" height="7" rx="1.5" transform="rotate(12 17.5 5.5)"/>'
+LUCIDE_SVG['personal'] = '<circle cx="12" cy="8" r="4"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0z"/>'
 ICON_OPEN = '<svg class="icon lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'
 jsrep('const ico=n=>`<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${ICONS[n]||ICONS.grid}"/></svg>`;',
       '/* Lucide icons · ' + LU['source'] + ' */\nconst LUCIDE_SVG=' + json.dumps(LUCIDE_SVG, ensure_ascii=False) + ';\n'
@@ -636,6 +640,50 @@ jsrep('<div style="margin-top:10px">${ico(\'cloud\')} 云端执行环境 <span s
 # ---- Message actions (Kobra Message): 👍 · 👎 · 复制 | 生成任务. Dislike is local demo state (s.coDislikes).
 jsrep("""<div class="co-message-actions"><button class="co-reaction${liked?' active':''}" data-a="co-react" data-v="${esc(rk)}" aria-label="赞同这条消息" aria-pressed="${liked}">${ico('thumb')} ${count||''}</button>${root?`<button data-a="co-generate-task" data-v="${esc(info.key)}">${threadTask(info.kind,info.key)?'查看任务':'生成任务'}</button>`:''}</div>""",
       """<div class="co-message-actions"><button class="co-reaction${liked?' active':''}" data-a="co-react" data-v="${esc(rk)}" aria-label="赞同这条消息" title="赞同" aria-pressed="${liked}">${ico('thumb')}${count?`<span class="as-num">${count}</span>`:''}</button><button class="co-reaction co-dislike${(s.coDislikes||{})[rk]?' active':''}" data-a="co-dislike" data-v="${esc(rk)}" aria-label="不认同这条消息" title="不认同" aria-pressed="${!!(s.coDislikes||{})[rk]}">${ico('thumbDown')}</button><button class="co-reaction" data-a="message-copy" aria-label="复制消息" title="复制">${ico('copy')}</button>${root?`<i class="co-actions-sep" aria-hidden="true"></i><button class="co-action-text" data-a="co-generate-task" data-v="${esc(info.key)}">${threadTask(info.kind,info.key)?'查看任务':'生成任务'}</button>`:''}</div>""")
+
+# Rail 项目 uses a project-folder icon (people stay for members / team contexts).
+jsrep('data-v="team" title="项目视图">${ico(\'team\')}', 'data-v="team" title="项目视图">${ico(\'project\')}')
+
+# 运行看板 uses the card fields of the task-board spec (as2-board.js).
+js, n = re.subn(r"function renderKanban\(ts\)\{", "function renderKanban(ts){return renderKanbanBoard(ts);", js, count=1)
+assert n == 1, 'renderKanban anchor'
+
+# 任务详情 opens as a full page (as2-taskpage.js) instead of a dialog.
+jsrep("function openTask(id){", "function openTask(id){if(taskPageOpen(id))return;")
+jsrep('<div class="demoarea">${s.view===\'studio\'?', '<div class="demoarea">${taskPageTask()?renderTaskPage():s.view===\'studio\'?')
+jsrep("document.body.dataset.page=s.page;", "document.body.dataset.page=s.page;document.body.toggleAttribute('data-taskdetail',!!taskPageTask());")
+
+# 任务看板: board / list switch as an icon segmented control.
+jsrep("${btn(f.layout==='list'?'切换看板':'切换列表','board-layout','','sm')}",
+      "<div class=\"tk-layout-tabs\" role=\"tablist\" aria-label=\"视图\"><button role=\"tab\" aria-selected=\"${f.layout!=='list'}\" data-a=\"board-layout-set\" data-v=\"board\" aria-label=\"看板视图\" title=\"看板\">${ico('kanban')}</button><button role=\"tab\" aria-selected=\"${f.layout==='list'}\" data-a=\"board-layout-set\" data-v=\"list\" aria-label=\"列表视图\" title=\"列表\">${ico('list')}</button></div>")
+
+# 定时 / 事件 / 协作任务 cards use the compact automation-card layout (as2-board.js).
+js, n = re.subn(r"function renderAutomationList\(kind\)\{", "function renderAutomationList(kind){return renderAutomationCards(kind);", js, count=1)
+assert n == 1, 'renderAutomationList anchor'
+jsrep('${tasks.length?`<div class="collaboration-task-grid">${tasks.map(t=>{', '${tasks.length?`<div class="collaboration-task-grid ac-grid">${tasks.map(t=>{return collaborationCard(t);')
+
+# ---- 个人知识库：原「我的空间」改名；详情页去掉外层卡片，头部 / 页签 / 资料列表与其他页面同一版式。
+jsrep("sideButton('file','我的空间','spaces',s.page==='spaces')", "sideButton('book','个人知识库','spaces',s.page==='spaces')")
+jsrep("crumb('我的空间')", "crumb('个人知识库')")
+jsrep("<h1>给知识一个可以持续积累的地方</h1><p>收录资料、记录思考，在空间内提问；把需要的知识带进个人任务。</p></div>${btn(ico('plus')+'新建空间','space-create','','primary')}",
+      "<h1>个人知识库</h1><p>收录资料、记录思考，在知识库内提问；把需要的知识带进个人任务。</p></div>${btn(ico('plus')+'新建知识库','space-create','','primary')}")
+jsrep("<span class=\"space-symbol\">${ico('file')}</span>", "<span class=\"space-symbol\">${ico('book')}</span>")
+jsrep("btn('打开空间 '+ico('arrow'),'space-open',sp.id,'sm')", "btn('打开 '+ico('arrow'),'space-open',sp.id,'sm')")
+jsrep("工作台呈现工作结果；空间保存可反复使用的知识与上下文。个人空间中的内容按你的选择进入任务。", "工作台呈现工作结果；知识库保存可反复使用的知识与上下文，内容按你的选择进入任务。")
+jsrep("btn(ico('back')+'全部空间','space-list','','link sm')}<div class=\"kicker\" style=\"margin-top:9px\">${project?'PROJECT SPACE':'PERSONAL SPACE'}</div>",
+      "btn(ico('back')+'个人知识库','space-list','','link sm')}<div class=\"kicker\">${project?'PROJECT SPACE':'PERSONAL KNOWLEDGE'}</div>")
+jsrep("${btn('空间内提问','space-tab','chat')}", "${btn(project?'空间内提问':'在知识库中提问','space-tab','chat')}")
+jsrep("[['materials','资料'],['chat','空间问答'],['usage','使用记录'],['settings','空间设置']]", "[['materials','资料'],['chat',project?'空间问答':'知识库问答'],['usage','使用记录'],['settings',project?'空间设置':'知识库设置']]")
+jsrep("资料可作为任务输入；产物经选择后也可沉淀到空间。", "资料可作为任务输入；产物经选择后也可沉淀到${project?'空间':'知识库'}。")
+jsrep("<p>${esc(sp.description)} · ${project?'项目成员共享':'仅自己可见'}", "<p>${esc(String(sp.description||'').replace(/[。.]$/,''))} · ${project?'项目成员共享':'仅自己可见'}")
+jsrep("每个空间有独立资料、指引与问答，创建任务时可选择具体知识范围。", "每个知识库有独立资料、指引与问答，创建任务时可选择具体知识范围。")
+
+# ---- 工作台卡片 hover 工具栏：管理（更多）· 继续修改 · 打开工作台（主操作在最右）。
+jsrep("""<div class="benchfoot">${btn('打开工作台 '+ico('arrow'),'open-bench',b.id,'sm openbench')}<div class="wbh-workbench-foot">${btn('继续修改','wbh-continue',b.id,'link sm')}<button class="tiny muted" data-a="bench-manage" data-v="${b.id}">管理 ···</button></div></div>""",
+      """<div class="benchfoot"><button class="bf-more" data-a="bench-manage" data-v="${b.id}" aria-label="管理工作台" title="管理">${ico('more')}</button>${btn(ico('edit')+'继续修改','wbh-continue',b.id,'sm bf-edit')}${btn('打开工作台'+ico('arrow'),'open-bench',b.id,'primary sm openbench')}</div>""")
+
+# ---- 我的任务：去掉「跨项目汇总，同步每一次进展」说明卡。
+jsrep("${personal?`<div class=\"aggregate-scope-note\">${ico('team')}<div><b>跨项目汇总，同步每一次进展</b><span>与项目看板共用任务、规则与产物；点击项目名称可回到对应项目。</span></div><span class=\"aggregate-scope-count\">${joinedProjects().length} 个已参与项目</span></div>`:''}", "")
 
 # Inline micro font sizes (8–10px) are below the AS2 type scale.
 js = re.sub(r'font-size:(8|9|10)px', 'font-size:11px', js)
