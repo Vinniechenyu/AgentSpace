@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="newInfinity-theme">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DevUI 多主题样张</title>
+<style>
+/*__THEME_CSS__*/
+</style>
+<style>
+/*__OVERRIDES_CSS__*/
+</style>
+<style>
+/* ── 样张自身布局（只用 devui 变量，不写死色值） ── */
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--devui-global-bg); font-family: var(--devui-ext-font-family); font-size: var(--devui-font-size); line-height: var(--devui-line-height-base); min-height: 100vh; }
+.topbar { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 16px; padding: 12px 20px; background: var(--devui-glass-morphism-bg); border-bottom: var(--devui-ext-border-width) solid var(--devui-dividing-line); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); flex-wrap: wrap; }
+.topbar h1 { font-size: var(--devui-font-size-page-title); margin: 0; font-family: var(--devui-ext-font-family-display); font-weight: var(--devui-font-title-weight); }
+.seg { display: flex; gap: 4px; padding: 3px; background: var(--devui-gray-form-control-bg); border-radius: var(--devui-border-radius); flex-wrap: wrap; }
+.seg button { border: 0; background: transparent; color: var(--devui-aide-text); padding: 4px 12px; border-radius: calc(var(--devui-border-radius) - 2px); font: inherit; font-size: var(--devui-font-size-sm); cursor: pointer; }
+.seg button:hover { color: var(--devui-aide-text-hover); }
+.seg .sep { width: 1px; align-self: stretch; margin: 2px 4px; background: var(--devui-dividing-line); }
+.seg button[aria-pressed="true"] { background: var(--devui-base-bg); color: var(--devui-text); box-shadow: 0 1px 2px var(--devui-light-shadow); }
+.tabs { margin-left: auto; }
+main { max-width: 1200px; margin: 0 auto; padding: 20px 16px 40px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 16px; }
+.devui-card { background: var(--devui-base-bg); border: var(--devui-ext-border-width) solid var(--devui-dividing-line); border-radius: var(--devui-border-radius-card); padding: 20px; box-shadow: var(--devui-shadow-length-base) var(--devui-light-shadow); }
+[data-theme="as-pixel"] .devui-card { border-color: var(--devui-line); }
+[data-theme="as-glass"] .devui-card { border-color: var(--devui-ext-material-edge); }
+.devui-card-title { font-size: var(--devui-font-size-card-title); font-weight: 600; margin: 0 0 4px; color: var(--devui-text); }
+.sub { color: var(--devui-aide-text); font-size: var(--devui-font-size-sm); margin: 0 0 16px; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+.devui-btn { font: inherit; padding: 5px 16px; border-radius: var(--devui-border-radius); border: var(--devui-ext-border-width) solid var(--devui-line); background: var(--devui-btn-common-bg); color: var(--devui-text); cursor: pointer; transition: background var(--devui-animation-duration-base) var(--devui-animation-ease-out); }
+.devui-btn:hover { background: var(--devui-btn-common-bg-hover); border-color: var(--devui-form-control-line-hover); }
+.devui-btn-primary { background: var(--devui-primary); border-color: var(--devui-primary); }
+.devui-btn-primary:hover { background: var(--devui-primary-hover); border-color: var(--devui-primary-hover); }
+.devui-btn-danger { background: var(--devui-contrast); border-color: var(--devui-contrast); color: var(--devui-light-text); }
+.devui-btn:disabled { background: var(--devui-btn-common-bg-disabled); color: var(--devui-btn-common-text-disabled); border-color: var(--devui-disabled-line); cursor: not-allowed; }
+.devui-btn-text { border-color: transparent; background: transparent; color: var(--devui-link); box-shadow: none !important; }
+.devui-btn-text:hover { color: var(--devui-link-active); background: transparent; border-color: transparent; }
+.devui-input { width: 100%; font: inherit; padding: 5px 12px; border-radius: var(--devui-border-radius); border: var(--devui-ext-border-width) solid var(--devui-form-control-line); background: var(--devui-form-control-bg); color: var(--devui-text); outline: none; }
+.devui-input::placeholder { color: var(--devui-placeholder); }
+.devui-input:hover { border-color: var(--devui-form-control-line-hover); }
+.devui-input:focus { border-color: var(--devui-form-control-line-active); box-shadow: 0 0 0 3px var(--devui-form-control-interactive-outline); }
+.devui-input:disabled { background: var(--devui-disabled-bg); color: var(--devui-disabled-text); border-color: var(--devui-disabled-line); }
+label.lbl { display: block; color: var(--devui-text-weak); font-size: var(--devui-font-size-sm); margin: 0 0 4px; }
+.field { margin-bottom: 12px; }
+.devui-tag-item { display: inline-flex; align-items: center; gap: 4px; padding: 0 8px; font-size: var(--devui-font-size-sm); line-height: 22px; border-radius: var(--devui-border-radius); border: var(--devui-ext-border-width) solid transparent; }
+.t-default { background: var(--devui-label-bg); color: var(--devui-text); }
+.t-success { background: var(--devui-success-bg); color: var(--devui-success-text); border-color: var(--devui-success-line); }
+.t-warning { background: var(--devui-warning-bg); color: var(--devui-warning-text); border-color: var(--devui-warning-line); }
+.t-danger { background: var(--devui-danger-bg); color: var(--devui-danger-text); border-color: var(--devui-danger-line); }
+.t-info { background: var(--devui-info-bg); color: var(--devui-link); border-color: var(--devui-info-line); }
+.t-solid { background: var(--devui-info); color: var(--devui-light-text); }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+[data-theme="as-pixel"] .dot { border-radius: 0; }
+.devui-dropdown-menu { background: var(--devui-connected-overlay-bg); border: var(--devui-ext-border-width) solid var(--devui-dividing-line); border-radius: var(--devui-border-radius); box-shadow: var(--devui-shadow-length-connected-overlay) var(--devui-connected-overlay-shadow); padding: 4px; }
+[data-theme="as-pixel"] .devui-dropdown-menu { border-color: var(--devui-connected-overlay-line); }
+.item { padding: 6px 12px; border-radius: calc(var(--devui-border-radius) - 2px); color: var(--devui-text); display: flex; justify-content: space-between; cursor: default; }
+.item:hover { background: var(--devui-list-item-hover-bg); color: var(--devui-list-item-hover-text); }
+.item.active { background: var(--devui-list-item-active-bg); color: var(--devui-list-item-active-text); }
+.item.disabled { color: var(--devui-disabled-text); }
+.item small { color: var(--devui-aide-text); }
+table { width: 100%; border-collapse: collapse; font-size: var(--devui-font-size-sm); }
+th { text-align: left; color: var(--devui-text-weak); font-weight: 600; padding: 8px; border-bottom: var(--devui-ext-border-width) solid var(--devui-line); }
+td { padding: 8px; border-bottom: 1px solid var(--devui-dividing-line); color: var(--devui-text); }
+tr:nth-child(even) td { background: var(--devui-list-item-strip-bg); }
+tr.sel td { background: var(--devui-list-item-selected-bg); }
+.devui-toast-item { background: var(--devui-feedback-overlay-bg); color: var(--devui-feedback-overlay-text); border-radius: var(--devui-border-radius-feedback); padding: 10px 14px; box-shadow: var(--devui-shadow-length-feedback-overlay) var(--devui-feedback-overlay-shadow); display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+.modal-content { background: var(--devui-fullscreen-overlay-bg); border-radius: var(--devui-border-radius-card); box-shadow: var(--devui-shadow-length-fullscreen-overlay) var(--devui-shadow); padding: 20px; border: var(--devui-ext-border-width) solid var(--devui-dividing-line); }
+[data-theme="as-pixel"] .modal-content { border-color: var(--devui-line); }
+.modal-header { font-size: var(--devui-font-size-modal-title); font-weight: 600; margin-bottom: 8px; color: var(--devui-text); }
+.agent { border-radius: var(--devui-border-radius-card); padding: 14px; background: var(--devui-base-bg); }
+.agent .step { display: flex; gap: 8px; align-items: center; color: var(--devui-aide-text); font-size: var(--devui-font-size-sm); padding: 3px 0; }
+.agent .step.run { color: var(--devui-ext-accent); }
+.agent .step.ok { color: var(--devui-success-text); }
+.bar { height: 6px; border-radius: var(--devui-border-radius-full); background: var(--devui-disabled-fill-bg); overflow: hidden; margin-top: 10px; }
+.bar > i { display: block; height: 100%; width: 62%; background: var(--devui-ext-accent); }
+[data-theme="as-glass"] .bar > i, [data-theme="as-pixel"] .bar > i { background: var(--devui-ext-accent-glow); }
+.kpi { font-size: var(--devui-font-size-data-overview); font-family: var(--devui-ext-font-family-display); color: var(--devui-text); line-height: 1.2; }
+code { font-family: var(--devui-ext-font-family-mono); background: var(--devui-default-bg); color: var(--devui-text-weak); padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+a { color: var(--devui-link); }
+a:hover { color: var(--devui-link-active); }
+
+/* 映射面板 */
+.map { margin-top: 24px; }
+.map-head { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+.map-head h2 { font-size: var(--devui-font-size-card-title); margin: 0; color: var(--devui-text); font-family: var(--devui-ext-font-family-display); font-weight: var(--devui-font-title-weight); }
+.map-head .devui-input { max-width: 280px; }
+.map-scroll { overflow-x: auto; }
+.map table { min-width: 1280px; font-size: 12px; }
+.map td { vertical-align: middle; }
+.map td.name code { white-space: nowrap; }
+.sw { display: flex; align-items: center; gap: 6px; font-family: var(--devui-ext-font-family-mono); color: var(--devui-text-weak); font-size: 11px; word-break: break-all; }
+.sw i { flex: none; width: 18px; height: 18px; border-radius: 4px; border: 1px solid var(--devui-dividing-line); background-image: linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%), linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%); background-size: 8px 8px; background-position: 0 0, 4px 4px; position: relative; overflow: hidden; }
+.sw i::after { content: ""; position: absolute; inset: 0; background: var(--c); }
+.map th.cur, .map td.cur { outline: 2px solid var(--devui-ext-accent); outline-offset: -2px; }
+.cat td { background: var(--devui-area) !important; color: var(--devui-text); font-weight: 600; }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <h1>DevUI 多主题</h1>
+  <div class="seg" id="themeSeg" role="group" aria-label="主题"></div>
+  <div class="seg tabs" role="group" aria-label="视图">
+    <button aria-pressed="true" data-view="all">样张 + 映射</button>
+    <button aria-pressed="false" data-view="map">只看映射</button>
+  </div>
+</header>
+
+<main>
+  <section id="gallery" class="grid">
+    <div class="devui-card">
+      <h3 class="devui-card-title">按钮 & 标签</h3>
+      <p class="sub">primary / common / contrast / text / disabled</p>
+      <div class="row">
+        <button class="devui-btn devui-btn-primary">新建 Agent</button>
+        <button class="devui-btn">取消</button>
+        <button class="devui-btn devui-btn-danger">删除</button>
+        <button class="devui-btn devui-btn-text">查看文档</button>
+        <button class="devui-btn" disabled>禁用</button>
+      </div>
+      <div class="row">
+        <span class="devui-tag-item t-default">默认</span>
+        <span class="devui-tag-item t-success"><i class="dot"></i>成功</span>
+        <span class="devui-tag-item t-warning"><i class="dot"></i>警告</span>
+        <span class="devui-tag-item t-danger"><i class="dot"></i>失败</span>
+        <span class="devui-tag-item t-info"><i class="dot"></i>执行中</span>
+        <span class="devui-tag-item t-solid">实色</span>
+      </div>
+      <p class="sub" style="margin:0">正文中的 <a href="#">链接文本</a>，以及 <code>$devui-text</code> 代码片段。</p>
+    </div>
+
+    <div class="devui-card">
+      <h3 class="devui-card-title">表单</h3>
+      <p class="sub">default / hover / focus（点击输入框）/ disabled</p>
+      <div class="field"><label class="lbl">Agent 名称</label><input class="devui-input" placeholder="请输入名称"></div>
+      <div class="field"><label class="lbl">系统提示词</label><input class="devui-input" value="你是一个代码审查助手"></div>
+      <div class="field"><label class="lbl">模型（禁用）</label><input class="devui-input" value="claude-opus-5-5" disabled></div>
+    </div>
+
+    <div class="devui-card">
+      <h3 class="devui-card-title">下拉菜单 / 列表</h3>
+      <p class="sub">connected-overlay · hover · active · disabled</p>
+      <div class="devui-dropdown-menu">
+        <div class="item">代码审查 <small>⌘1</small></div>
+        <div class="item active">需求拆解 <small>⌘2</small></div>
+        <div class="item">测试生成 <small>⌘3</small></div>
+        <div class="item disabled">部署（无权限）</div>
+      </div>
+    </div>
+
+    <div class="devui-card">
+      <h3 class="devui-card-title">Agent 运行态</h3>
+      <p class="sub">流光只用于"正在发生"</p>
+      <div class="agent as-glow-border">
+        <div class="step ok">✓ 读取仓库结构</div>
+        <div class="step ok">✓ 分析 12 个变更文件</div>
+        <div class="step run">● 生成审查意见…</div>
+        <div class="step">○ 汇总报告</div>
+        <div class="bar"><i></i></div>
+      </div>
+    </div>
+
+    <div class="devui-card" style="grid-column: span 1">
+      <h3 class="devui-card-title">表格</h3>
+      <p class="sub">表头 / 斑马纹 / 多选选中行</p>
+      <table>
+        <thead><tr><th>任务</th><th>状态</th><th>耗时</th></tr></thead>
+        <tbody>
+          <tr><td>PR #2318 审查</td><td><span class="devui-tag-item t-success">完成</span></td><td>42s</td></tr>
+          <tr class="sel"><td>接口文档生成</td><td><span class="devui-tag-item t-info">执行中</span></td><td>1m08s</td></tr>
+          <tr><td>回归用例补齐</td><td><span class="devui-tag-item t-warning">待确认</span></td><td>—</td></tr>
+          <tr><td>依赖升级</td><td><span class="devui-tag-item t-danger">失败</span></td><td>3m12s</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="devui-card">
+      <h3 class="devui-card-title">反馈 & 弹窗</h3>
+      <p class="sub">feedback-overlay / fullscreen-overlay</p>
+      <div class="devui-toast-item">✓ 已保存 Agent 配置</div>
+      <d-modal style="display:block"><div class="modal-content">
+        <div class="modal-header">删除工作区？</div>
+        <p class="sub">删除后其中 3 个 Agent 与历史运行记录将无法恢复。</p>
+        <div class="row" style="justify-content:flex-end;margin:0">
+          <button class="devui-btn">取消</button>
+          <button class="devui-btn devui-btn-danger">删除</button>
+        </div>
+      </div></d-modal>
+    </div>
+
+    <div class="devui-card">
+      <h3 class="devui-card-title">数据总览</h3>
+      <p class="sub">font-size-data-overview · display 字体</p>
+      <div class="row" style="gap:24px">
+        <div><div class="kpi">1,284</div><div class="sub" style="margin:0">本周运行</div></div>
+        <div><div class="kpi">97.6%</div><div class="sub" style="margin:0">成功率</div></div>
+        <div><div class="kpi">18s</div><div class="sub" style="margin:0">P50 耗时</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="devui-card map" id="map">
+    <div class="map-head">
+      <h2>变量映射</h2>
+      <input class="devui-input" id="q" placeholder="搜索变量 / 描述 / 色值，如 primary、#191919">
+      <span class="sub" id="count" style="margin:0"></span>
+    </div>
+    <div class="map-scroll"><table id="mapTable"></table></div>
+  </section>
+</main>
+
+<script>
+const DATA = __TOKEN_DATA__;
+const root = document.documentElement;
+const seg = document.getElementById('themeSeg');
+let current = 'newInfinity';
+try { current = localStorage.getItem('devui-theme') || current; } catch (e) {}
+
+DATA.themes.forEach((t, i) => {
+  if (i > 0 && t.source !== DATA.themes[i - 1].source) { const s = document.createElement('span'); s.className = 'sep'; seg.appendChild(s); }
+  const b = document.createElement('button');
+  b.textContent = t.name; b.dataset.theme = t.id; b.title = `data-theme="${t.theme}"` + (t.mode ? ` data-mode="${t.mode}"` : '');
+  b.onclick = () => setTheme(t.id);
+  seg.appendChild(b);
+});
+
+function setTheme(id) {
+  const t = DATA.themes.find(x => x.id === id) || DATA.themes[0];
+  current = t.id;
+  root.dataset.theme = t.theme;
+  if (t.mode) root.dataset.mode = t.mode; else delete root.dataset.mode;
+  seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.theme === current));
+  try { localStorage.setItem('devui-theme', current); } catch (e) {}
+  renderMap();
+}
+
+const CAT = { font: '字号与字重', 'shadow-length': '阴影几何', radius: '圆角', bg: '背景色', status: '品牌与状态色', text: '文字 / 图标色', line: '边框色', shadow: '阴影色', button: '按钮', motion: '动效', zindex: '层级', compat: '兼容变量（非官方）', 'ext-type': '扩展 · 字体族', 'ext-shape': '扩展 · 几何', 'ext-material': '扩展 · 材质', 'ext-color': '扩展 · 补充语义色', 'ext-motion': '扩展 · 交互' };
+const isColor = v => /^(#|rgba?\()/i.test(v) || v === 'transparent';
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+function cell(v) {
+  if (v == null) return '<div class="sw"><span>—</span></div>';
+  if (isColor(v) || /gradient/.test(v)) return `<div class="sw"><i style="--c:${esc(v)}"></i><span>${esc(v.length > 48 ? v.slice(0, 46) + '…' : v)}</span></div>`;
+  return `<div class="sw"><span>${esc(v)}</span></div>`;
+}
+
+function renderMap() {
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const ti = DATA.themes.findIndex(t => t.id === current);
+  let html = '<thead><tr><th>变量</th>' + DATA.themes.map((t, i) => `<th class="${i === ti ? 'cur' : ''}">${t.name}</th>`).join('') + '<th>描述</th></tr></thead><tbody>';
+  let lastCat = '', n = 0;
+  DATA.rows.forEach(r => {
+    const [name, cat, desc, ...vals] = r;
+    if (q && !(name + desc + vals.join(' ')).toLowerCase().includes(q)) return;
+    if (cat !== lastCat) { html += `<tr class="cat"><td colspan="${DATA.themes.length + 2}">${CAT[cat] || cat}</td></tr>`; lastCat = cat; }
+    html += `<tr><td class="name"><code>--${name}</code></td>` + vals.map((v, i) => `<td class="${i === ti ? 'cur' : ''}">${cell(v)}</td>`).join('') + `<td>${esc(desc)}</td></tr>`;
+    n++;
+  });
+  document.getElementById('mapTable').innerHTML = html + '</tbody>';
+  document.getElementById('count').textContent = `${n} / ${DATA.rows.length} 个变量`;
+}
+
+document.getElementById('q').addEventListener('input', renderMap);
+document.querySelectorAll('[data-view]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('[data-view]').forEach(x => x.setAttribute('aria-pressed', x === b));
+  document.getElementById('gallery').style.display = b.dataset.view === 'map' ? 'none' : '';
+});
+setTheme(current);
+</script>
+</body>
+</html>

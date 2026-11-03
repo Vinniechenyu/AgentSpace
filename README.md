@@ -15,6 +15,7 @@ AgentSpace 的 AI 交互原型与设计资产聚合仓库，持续探索 **任�
 | **AgentSpace 2.0 · AS2 版** · 推荐起点 | 项目工作台、对话、任务看板、执行过程、成果验收、自动化，以及构建 / 扩展 / 进化模块 | [体验原型](https://vinniechenyu.github.io/AgentSpace/demo-as2/) · [版本说明](./demo-as2/README.md) |
 | **AgentSpace 2.0 · DevUI 多主题版** | 基于同一交互底座，对照 DevUI 的主题、控件几何与材质表达；本地状态与 AS2 版隔离 | [体验原型](https://vinniechenyu.github.io/AgentSpace/demo-as2-devui/) · [版本说明](./demo-as2-devui/README.md) |
 | **AgentSpace · 1.0** | 早期团队空间、任务配置、AgentFlow、执行看板与会话流探索，保留用于版本回看 | [体验原型](https://vinniechenyu.github.io/AgentSpace/demo-classic.html) |
+| **DevUI · 多主题设计规范** | 8 套主题的组件预览、Token 变量搜索与跨主题映射；附设计规范、CSS / SCSS / LESS / TypeScript 与构建源文件 | [在线预览](https://vinniechenyu.github.io/AgentSpace/devui-multitheme/preview.html) · [使用说明](./devui-multitheme/README.md) · [设计规范](./devui-multitheme/DESIGN.md) |
 
 ## 我们在探索什么
 
@@ -46,6 +47,7 @@ AgentSpace/
 ├── index.html                  # AI 原型与设计资产聚合首页
 ├── demo-as2/                   # AgentSpace 2.0 · AS2 原型与构建源文件
 ├── demo-as2-devui/              # AgentSpace 2.0 · DevUI 多主题原型
+├── devui-multitheme/           # DevUI 多主题设计规范、预览与构建源文件
 ├── demo-classic.html           # 原首页 Demo 原样保留
 ├── assets/                     # 聚合页品牌标识与预览图
 ├── aurora-ink-design/           # Aurora Ink 设计规范与组件模板
@@ -60,7 +62,7 @@ AgentSpace/
 - **新增资源**：在 `index.html` 的 `items` 数组添加标题、类型、版本、链接、预览图、描述和标签，并同步更新 README 的入口表。筛选数量由页面自动计算。
 - **预览图**：原型使用实际页面截图；文档使用标题封面。图片保存在 `assets/previews/`，建议 16:9。
 - **修改原型**：AS2 与 DevUI 的生成方式分别见对应目录的 README；聚合页独立维护，不改变原型交互。
-- **GitHub Pages**：以仓库根目录提供静态站点，`index.html` 是聚合入口，三个原型各自保留独立地址。
+- **GitHub Pages**：以仓库根目录提供静态站点，`index.html` 是聚合入口，各原型与设计规范预览保留独立地址。
 
 聚合页布局参考 [CodeArts IDE · AI-UX Design](https://vinniechenyu.github.io/codearts-ide-design/)，采用目录、搜索、截图卡片与深浅主题组织内容。
 

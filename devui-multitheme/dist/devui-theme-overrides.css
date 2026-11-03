@@ -1,0 +1,132 @@
+/*
+ * DevUI 多主题 · 组件覆盖层（手写，非生成）
+ *
+ * 只做"变量换值做不到"的事：材质(backdrop-filter)、描边宽度、按下位移、字体族、主按钮文字反转。
+ * 规则：
+ *   1. 一律通过 var(--devui-*) / var(--devui-ext-*) 取值，不写死色值；
+ *   2. 官方三主题（新无限 / 无限 / 追光）下所有规则的计算结果 = 官方原样（ext 变量在官方主题均为"无效果"）；
+ *   3. 组件类名已按 ng-devui 开源版源码（DevCloudFE/ng-devui@ef76c44, 2025-04）核对过；
+ *      现网组件库若有差异，按 DESIGN.md §10 的类名对照表核对实际 DOM。
+ */
+
+/* ───────────── 0. 全局 ─────────────
+ * 只有 AgentSpace 扩展主题接管 body 背景；官方主题保持原样 */
+html[data-theme^="as-"] body {
+  background: var(--devui-ext-backdrop);
+  background-attachment: fixed;
+  color: var(--devui-text);
+}
+
+/* ───────────── 1. 主按钮文字反转（深色主题主按钮为浅墨底） ─────────────
+ * 上游 button.component.scss 中 primary / stress 两种类型的文字都取 $devui-light-text（固定白），
+ * 深色主题下会白字白底。禁用态另有 $devui-btn-primary-text-disabled，这里用 :not 排除。 */
+:root :is(.devui-btn-primary, .devui-btn-stress):not(:disabled),
+:root :is(.devui-btn-primary, .devui-btn-stress):not(:disabled) .icon,
+:root .as-btn-primary {
+  color: var(--devui-ext-on-primary);
+  fill: var(--devui-ext-on-primary);
+}
+
+/* ───────────── 2. 玻璃材质 ───────────── */
+.as-glass,
+[data-theme="as-glass"] :is(
+  .devui-card, d-modal .modal-content, d-drawer .drawer-content,
+  .devui-dropdown-menu, .devui-popover, .devui-tooltip, .devui-toast-item,
+  d-header, d-aside
+) {
+  -webkit-backdrop-filter: blur(var(--devui-ext-material-blur)) saturate(var(--devui-ext-material-saturate));
+  backdrop-filter: blur(var(--devui-ext-material-blur)) saturate(var(--devui-ext-material-saturate));
+  border: 1px solid var(--devui-ext-material-edge);
+}
+.as-glass {
+  background: var(--devui-base-bg);
+  border-radius: var(--devui-border-radius-card);
+  box-shadow: var(--devui-ext-material-highlight), var(--devui-shadow-length-base) var(--devui-light-shadow);
+}
+[data-theme="as-glass"] :is(.devui-card, .as-card) {
+  box-shadow: var(--devui-ext-material-highlight), var(--devui-shadow-length-base) var(--devui-light-shadow);
+}
+
+/* 遮罩层轻度模糊，让弹窗后的内容"退到玻璃后面" */
+[data-theme="as-glass"] :is(d-modal .modal-backdrop, d-drawer .overlay-backdrop) {
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+/* 不支持 backdrop-filter 或用户要求降低透明度 → 退化为不透明面，保证可读 */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  [data-theme="as-glass"]:not([data-mode="dark"]) { --devui-base-bg: #f7f9fd; --devui-connected-overlay-bg: #ffffff; --devui-fullscreen-overlay-bg: #ffffff; }
+  [data-theme="as-glass"][data-mode="dark"] { --devui-base-bg: #1a1e2b; --devui-connected-overlay-bg: #20253a; --devui-fullscreen-overlay-bg: #1c2030; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  [data-theme="as-glass"]:not([data-mode="dark"]) { --devui-base-bg: #f7f9fd; --devui-connected-overlay-bg: #ffffff; --devui-fullscreen-overlay-bg: #ffffff; --devui-ext-material-blur: 0px; }
+  [data-theme="as-glass"][data-mode="dark"] { --devui-base-bg: #1a1e2b; --devui-connected-overlay-bg: #20253a; --devui-fullscreen-overlay-bg: #1c2030; --devui-ext-material-blur: 0px; }
+}
+
+/* 流光：运行态 / Agent 思考中。渐变描边 + 缓慢流动；非玻璃主题 accent-glow 为 none 时退化为纯色描边 */
+.as-glow-border {
+  position: relative;
+  border: 1px solid var(--devui-ext-accent);
+}
+/* 用遮罩只露出描边环，面本身保持半透明玻璃，不被渐变透出 */
+[data-theme="as-glass"] .as-glow-border,
+[data-theme="as-pixel"] .as-glow-border { border-color: transparent; }
+[data-theme="as-glass"] .as-glow-border::before,
+[data-theme="as-pixel"] .as-glow-border::before {
+  content: "";
+  position: absolute;
+  inset: calc(-1 * var(--devui-ext-border-width));
+  padding: var(--devui-ext-border-width);
+  border-radius: inherit;
+  background: var(--devui-ext-accent-glow);
+  background-size: 200% 100%;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: as-glow-flow 3s linear infinite;
+}
+[data-theme="as-pixel"] .as-glow-border { border-width: var(--devui-ext-border-width); }
+[data-theme="as-pixel"] .as-glow-border::before { animation-timing-function: steps(8); }
+@keyframes as-glow-flow { to { background-position: -200% 0; } }
+
+/* ───────────── 3. 像素风 ───────────── */
+[data-theme="as-pixel"] {
+  -webkit-font-smoothing: none;
+}
+[data-theme="as-pixel"] :is(h1, h2, h3, h4, .devui-card-title, d-modal-header, .devui-btn, .devui-tag-item, .as-display) {
+  font-family: var(--devui-ext-font-family-display);
+  font-weight: var(--devui-font-title-weight);
+  letter-spacing: 0;
+}
+[data-theme="as-pixel"] :is(img, svg, .devui-avatar-style) {
+  image-rendering: var(--devui-ext-image-rendering);
+}
+[data-theme="as-pixel"] :is(
+  .devui-card, .as-card, d-modal .modal-content, .devui-dropdown-menu,
+  .devui-popover, .devui-toast-item, .devui-form-control, .devui-input, .devui-form-controls textarea,
+  .devui-btn:not(.devui-btn-text):not(.devui-btn-text-dark), .devui-tag-item
+) {
+  border-width: var(--devui-ext-border-width) !important;
+  border-style: var(--devui-ext-border-style);
+}
+/* 按下：下沉 + 投影缩短，模拟实体按键 */
+[data-theme="as-pixel"] :is(.devui-btn:not(.devui-btn-text):not(.devui-btn-text-dark), .as-btn) {
+  box-shadow: var(--devui-shadow-length-base) var(--devui-shadow);
+  transition: transform var(--devui-animation-duration-base) var(--devui-animation-ease-out),
+              box-shadow var(--devui-animation-duration-base) var(--devui-animation-ease-out);
+}
+[data-theme="as-pixel"] :is(.devui-btn:not(.devui-btn-text):not(.devui-btn-text-dark), .as-btn):active:not(:disabled) {
+  transform: translate(var(--devui-ext-press-offset), var(--devui-ext-press-offset));
+  box-shadow: 2px 2px 0 0 var(--devui-shadow);
+}
+/* 像素风焦点：实色外框而非柔光 */
+[data-theme="as-pixel"] :focus-visible {
+  outline: var(--devui-ext-border-width) solid var(--devui-ext-accent);
+  outline-offset: 2px;
+}
+
+/* ───────────── 4. 动效偏好 ───────────── */
+@media (prefers-reduced-motion: reduce) {
+  .as-glow-border, .as-glow-border::before { animation: none !important; }
+}
