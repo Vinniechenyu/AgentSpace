@@ -2131,3 +2131,6 @@ html:root body #demo.slack-shell.slack-shell .threadcontent > :is(.co-phase, .co
 html:root body #demo.slack-shell.slack-shell .co-message .co-message-meta { margin-bottom: 2px !important; }
 html:root body #demo.slack-shell.slack-shell .co-message .co-thread-entry { margin-top: 8px !important; }
 html:root body #demo.slack-shell.slack-shell .co-message .co-message-actions { margin-top: 2px !important; }
+/* 顶栏高度收紧：56 → 48（搜索框 35px，上下仍留 6px 余量） */
+html:root { --header: 48px; }
+@media (max-width: 540px) { html:root { --header: 46px; } }
