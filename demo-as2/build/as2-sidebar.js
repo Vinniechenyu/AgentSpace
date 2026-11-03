@@ -82,9 +82,13 @@ function sidebarAction(a,v){
   if(a==='select-project'){closeProjectSwitcher();requestAnimationFrame(()=>{const area=document.querySelector('#demo .demoarea');if(area){area.classList.remove('as2-switch-in');void area.offsetWidth;area.classList.add('as2-switch-in');}});return false;}
   return false;
 }
+// 二级菜单在很多下钻页被 CSS 隐藏但仍在 DOM 里；按是否被隐藏标记 #demo[data-solo]（收起不算隐藏），内容面板据此恢复四角圆角。
+function sidebarSoloSync(){const d=document.getElementById('demo'),side=d?.querySelector(':scope > .demoside');const shown=!!side&&side.children.length>0&&getComputedStyle(side).display!=='none';d?.toggleAttribute('data-solo',!shown);}
 sidebarApplyCollapsed();
-new MutationObserver(()=>sidebarDecorate()).observe(document.getElementById('demo'),{childList:true});
-sidebarDecorate();
+new MutationObserver(()=>{sidebarDecorate();sidebarSoloSync();}).observe(document.getElementById('demo'),{childList:true});
+new MutationObserver(sidebarSoloSync).observe(document.body,{attributes:true,attributeFilter:['data-view','data-page','data-taskdetail']});
+window.addEventListener('resize',sidebarSoloSync);
+sidebarDecorate();sidebarSoloSync();
 
 // Resizable sidebar width (Kobra: 200–360px). Stored per viewer; double-click resets.
 const SIDE_MIN=200,SIDE_MAX=360,SIDE_DEFAULT=240;

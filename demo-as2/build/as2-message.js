@@ -56,16 +56,17 @@ function composerAction(a,v){
   if(a==='composer-add'){
     const btn=messageActionEl,open=document.querySelector('.as2-menu[data-for="add"]');closeExtMenu();if(open||!btn)return true;
     const r=btn.getBoundingClientRect();
-    document.body.insertAdjacentHTML('beforeend',`<div class="as2-menu" role="menu" data-for="add" aria-label="添加">${[...(btn.closest('.channelcomposer')?[['thread','新建话题','chat']]:[]),['file','上传文件','file'],['space','引用项目资料','book'],['mention','提及 Agent','at'],['workflow','使用 Workflow','workflow']].map(([v,l,i])=>`<button role="menuitem" data-a="composer-add-pick" data-v="${v}">${ico(i)}<span>${l}</span></button>`).join('')}</div>`);
+    document.body.insertAdjacentHTML('beforeend',`<div class="as2-menu" role="menu" data-for="add" aria-label="添加">${[...(btn.closest('.channelcomposer')?[['thread','新建话题','chat'],'-']:[]),['file','上传附件','file'],['space','引用知识库','book'],'-',['skill','添加技能','spark'],['mcp','连接 MCP','mcp'],'-',['mention','提及 Agent','at'],['workflow','使用 Workflow','workflow']].map(x=>x==='-'?'<div class="as2-menu-sep"></div>':`<button role="menuitem" data-a="composer-add-pick" data-v="${x[0]}">${ico(x[2])}<span>${x[1]}</span></button>`).join('')}</div>`);
     const menu=document.querySelector('.as2-menu[data-for="add"]'),h=menu.offsetHeight;menu._composer=btn.closest('.composer, .ms-composer, .wc-composer-card');
     menu.style.left=Math.round(Math.max(8,r.left))+'px';menu.style.top=Math.round(r.top-h-6>8?r.top-h-6:r.bottom+6)+'px';return true;
   }
   if(a==='composer-add-pick'){
     const comp=document.querySelector('.as2-menu[data-for="add"]')?._composer,ta=comp?.querySelector('textarea');
     if(v==='thread'){action('new-thread','');return true;}
+    if(comp?.classList.contains('nt-card')&&(v==='space'||v==='workflow')){setTimeout(()=>v==='space'?newTaskMenu('knowledge'):action('nt-mode','workflow'),20);return true;}
     if(v==='mention'&&ta){ta.value=(ta.value&&!/\s$/.test(ta.value)?ta.value+' ':ta.value)+'@CodeAgent ';ta.dispatchEvent(new Event('input',{bubbles:true}));ta.focus();}
     else if(v==='space'&&comp?.querySelector('[data-a="co-channel-attach"]'))comp.querySelector('[data-a="co-channel-attach"]').click();
-    else notify({file:'示例：选择本地文件后作为附件随消息发送。',space:'示例：从项目空间选择资料作为上下文引用。',workflow:'示例：选择已发布的 Workflow，让 Agent 按流程执行。'}[v]);
+    else notify({skill:'示例：从已安装的技能中选择，Agent 执行时按技能说明处理。',mcp:'示例：选择已连接的 MCP 服务，让 Agent 读取对应系统的数据。',file:'示例：选择本地文件后作为附件随消息发送。',space:'示例：从项目空间选择资料作为上下文引用。',workflow:'示例：选择已发布的 Workflow，让 Agent 按流程执行。'}[v]);
     return true;
   }
   if(a==='composer-voice'){

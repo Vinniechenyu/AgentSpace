@@ -20,7 +20,7 @@ function openExtMenu(id){
 function extensionAction(a,v){if(a!=='ext-menu')return false;openExtMenu(v);return true;}
 // Picking an item runs its action through the normal dispatcher, then the menu closes.
 document.addEventListener('click',e=>{if(e.target.closest('.as2-menu [data-a]'))setTimeout(closeExtMenu);});
-document.addEventListener('pointerdown',e=>{if(document.querySelector('.as2-menu')&&!e.target.closest('.as2-menu, [data-a="ext-menu"], [data-a="composer-model"], [data-a="composer-add"], [data-a="ac-menu"]'))closeExtMenu();},true);
+document.addEventListener('pointerdown',e=>{if(document.querySelector('.as2-menu')&&!e.target.closest('.as2-menu, [data-a="ext-menu"], [data-a="composer-model"], [data-a="composer-add"], [data-a="ac-menu"], [data-a="nt-pick"]'))closeExtMenu();},true);
 document.addEventListener('keydown',e=>{
   const m=document.querySelector('.as2-menu');if(!m)return;
   if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();const id=m.dataset.for;closeExtMenu();document.querySelector(`[data-a="ext-menu"][data-v="${id}"]`)?.focus();return;}

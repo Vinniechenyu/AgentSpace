@@ -82,3 +82,52 @@ function acMenu(v){
   document.body.insertAdjacentHTML('beforeend',`<div class="as2-menu" role="menu" data-for="ac" data-id="${esc(id)}">${items}</div>`);
   const m=document.querySelector('.as2-menu[data-for="ac"]');m.style.left=Math.round(Math.max(8,r.right-m.offsetWidth))+'px';m.style.top=Math.round(r.bottom+m.offsetHeight+8>innerHeight?r.top-m.offsetHeight-4:r.bottom+4)+'px';btn.setAttribute('aria-expanded','true');
 }
+
+// ---- 卡片操作：默认不平铺，hover / 聚焦时在右下角以全圆角悬浮工具栏出现（主操作在最右）。
+// 各页卡片的按钮散落在不同容器里，渲染后统一收进 .as2-card-actions。
+function cardActionCards(){return '.wfcard, .project-agent-card, .knowledge-space-card, .runcard, .evo-next-item, .project-extension-card, .extension-card:has(> .ext-card-foot)';}
+function cardActionsDecorate(){
+  document.querySelectorAll('#demo .demoarea :is('+cardActionCards()+'):not([data-acts])').forEach(card=>{
+    card.dataset.acts='1';
+    const btns=[...card.querySelectorAll('.btn')].filter(b=>b.closest(cardActionCards())===card&&!b.closest('.as2-card-actions'));
+    if(!btns.length)return;
+    const bar=document.createElement('div');bar.className='as2-card-actions';
+    btns.sort((a,b)=>a.classList.contains('primary')-b.classList.contains('primary')).forEach(b=>{const from=b.parentElement;bar.appendChild(b);if(from!==card&&!from.children.length&&!from.textContent.trim())from.hidden=true;});
+    card.appendChild(bar);card.classList.add('has-card-actions');
+  });
+}
+let cardActionsQueued=false;
+new MutationObserver(()=>{if(cardActionsQueued)return;cardActionsQueued=true;queueMicrotask(()=>{cardActionsQueued=false;cardActionsDecorate();});}).observe(document.getElementById('demo'),{childList:true,subtree:true});
+
+// ---- 新建 / 编辑定时任务与事件任务：左右分区弹窗。左侧写「做什么」（标题、提示词、执行者、归属），
+// 右侧配「何时触发」（触发器、频率或事件过滤、高级配置、知识范围）。字段 id 不变，沿用 captureAutomation / saveAutomation。
+function renderAutomationForm(){
+  const a=automationDraft,event=a.trigger==='event',wf=a.executorType==='workflow',canPick=!a.id&&isMyBoard();
+  const opt=(list,cur)=>list.map(x=>Array.isArray(x)?`<option value="${x[0]}" ${x[0]===cur?'selected':''}>${x[1]}</option>`:`<option ${x===cur?'selected':''}>${x}</option>`).join('');
+  const main=`<section class="af-main">
+    <label class="field">标题 *<input id="autoName" maxlength="50" value="${esc(a.name)}" placeholder="${event?'例如：MR 合入后自动检视':'例如：每日质量巡检'}"></label>
+    <label class="field af-prompt"><span>任务描述 ${event?'<i>可选</i>':'*'}</span><textarea id="autoPrompt" maxlength="${event?1000:8000}" placeholder="写清任务目标、约束与期望产物，例如：汇总阻塞项与待确认风险，生成验证摘要并推送到项目频道。">${esc(a.prompt)}</textarea></label>
+    <div class="form-grid2"><label class="field">执行方式<select id="autoExecutorType">${opt([['agent','单 Agent'],['workflow','Workflow']],a.executorType)}</select></label><label class="field">${wf?'选择 Workflow':'指派给 Agent'} *<select id="autoExecutor">${executorOptions(a.executorType,a.executor)}</select></label></div>
+    <div class="form-grid2"><label class="field">所属项目<select id="autoProject" ${canPick?'':'disabled'}>${taskProjectOptions(a.project)}</select></label><label class="field">责任人<select id="autoOwner">${ownerOptions(a.owner||'我')}</select></label></div>
+  </section>`;
+  const trigger=event?`
+      <div class="af-row"><span class="af-label">触发方式</span><span class="af-chip">${ico('zap')}事件触发</span></div>
+      <div class="form-grid2"><label class="field">事件源 *<select id="autoEventSource">${opt(['CodeHub','CloudBuild','质量平台'],a.eventSource)}</select></label><label class="field">事件类型 *<select id="autoEventType">${opt(['MR 合入','构建完成','问题单更新'],a.eventType)}</select></label></div>
+      <div class="af-sub"><span class="af-label">过滤条件</span>${btn(ico('plus')+'添加','automation-add-filter','','link sm')}</div>
+      <div id="autoFilters">${a.filters.map(filterRow).join('')}</div>${a.filters.length?'':'<p class="af-hint">未设置过滤条件时，所有匹配的事件都会生成任务实例。</p>'}`:`
+      <div class="af-row"><span class="af-label">触发方式</span><span class="af-chip">${ico('clock')}定时触发</span></div>
+      <label class="field">执行频率<select id="autoFrequency">${opt([['once','单次'],['hourly','每小时'],['daily','每天'],['weekly','每周'],['monthly','每月'],['cron','Cron']],a.frequency)}</select></label>
+      <div class="form-grid2"><label class="field">执行日期 *<input type="date" id="autoDate" value="${a.date}"></label><label class="field">执行时间 *<input type="time" id="autoTime" value="${a.time}"></label></div>
+      <div id="autoCronField" ${a.frequency==='cron'?'':'hidden'}><label class="field">Cron 表达式（5 字段）<input id="autoCron" value="${esc(a.cron)}" placeholder="0 9 * * *"></label></div>
+      <div id="schedulePreview" class="af-preview">${esc(scheduleDescription(a))}</div>`;
+  const adv=`<details class="af-adv"><summary>高级配置${ico('down')}</summary>
+      <label class="field">${event?'任务实例名称':'实例命名规则'}<input id="autoInstance" value="${esc(a.instanceName)}"></label>
+      ${event?`<p class="af-hint">可用变量：event.id、event.mr_id、event.build_id、event.branch、event.status、event.repository，用 {{event.id}} 形式引用。</p><label class="hook-check"><input id="autoHook" type="checkbox" ${a.hookValidation?'checked':''}><span>启用 Hook 校验</span><small>正式接入时使用的校验配置</small></label>`
+        :`<label class="field">时区<select id="autoZone">${opt(['Asia/Shanghai','UTC'],a.zone)}</select></label>`}
+    </details>`;
+  const side=`<aside class="af-side">
+    <div class="af-sec"><h4>触发器配置</h4>${trigger}${adv}</div>
+    <div class="af-sec"><h4>知识范围</h4><p class="af-hint">执行时作为上下文引用，保存输入快照。</p>${knowledgeSelection(a.project,a.spaceIds)}</div>
+  </aside>`;
+  modal((a.id?'编辑':'新建')+(event?'事件任务':'定时任务'),`<div class="af-split">${main}${side}</div>`,`${btn('取消','close-modal')}${btn(a.id?'保存':'创建任务规则','automation-save','','primary')}`);
+}

@@ -488,6 +488,11 @@ jsrep('<div class="kicker">TOOLS & SKILLS</div>', "${s.workbenchReturnKey?btn(ic
 jsrep('<span>作为独立草稿继续编辑</span>', '<span>草稿仅自己可见</span>')
 
 # ---- Avatars: Agent mascots + people photos, embedded as data URIs (see assets/avatars/CREDITS.md).
+def newtask_hero_js():
+    import base64
+    data = base64.b64encode((HERE / 'assets/newtask-hero.webp').read_bytes()).decode()
+    return "\n// 新建任务页输入框上方的插画（透明底 webp）。\nfunction newTaskHero(){return 'data:image/webp;base64," + data + "';}\n"
+
 def avatar_js():
     import base64, json
     av = HERE / 'assets/avatars'
@@ -504,11 +509,11 @@ jsrep("if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.styl
       "if(s.appearance.style==='system')s.appearance.style=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'classic';if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.style='liquid';")
 js = js.replace('APPEARANCE_STYLES[style].tone', 'themeTone(style)')
 jsrep("function appearanceApply(){", "function appearanceApply(){settingsApply();")
-jsrep("function action(a,v){", "function action(a,v){if(taskPageAction(a,v)||settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v)||messageAction(a,v)||composerAction(a,v)||boardAction(a,v)||extensionAction(a,v))return;")
+jsrep("function action(a,v){", "function action(a,v){if(newTaskAction(a,v)||taskPageAction(a,v)||settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v)||messageAction(a,v)||composerAction(a,v)||boardAction(a,v)||extensionAction(a,v))return;")
 jsrep("case 'appearance-settings':openAppearanceSettings();break;", "case 'appearance-settings':openSettings();break;")
 js = js.rstrip()
 assert js.endswith('</script></body></html>')
-js = js[:-len('</script></body></html>')] + (HERE / 'as2-settings.js').read_text() + (HERE / 'as2-run.js').read_text() + (HERE / 'as2-sidebar.js').read_text() + (HERE / 'as2-message.js').read_text() + (HERE / 'as2-extensions.js').read_text() + (HERE / 'as2-board.js').read_text() + (HERE / 'as2-taskpage.js').read_text() + avatar_js() + '\n</script></body></html>'
+js = js[:-len('</script></body></html>')] + (HERE / 'as2-settings.js').read_text() + (HERE / 'as2-run.js').read_text() + (HERE / 'as2-sidebar.js').read_text() + (HERE / 'as2-message.js').read_text() + (HERE / 'as2-extensions.js').read_text() + (HERE / 'as2-board.js').read_text() + (HERE / 'as2-taskpage.js').read_text() + (HERE / 'as2-newtask.js').read_text() + newtask_hero_js() + avatar_js() + '\n</script></body></html>'
 
 # Dialog focus: never land on the close button (it would show a focus ring on open).
 jsrep('<section class="modal" role="dialog"', '<section class="modal" role="dialog" tabindex="-1"')
@@ -650,8 +655,8 @@ assert n == 1, 'renderKanban anchor'
 
 # 任务详情 opens as a full page (as2-taskpage.js) instead of a dialog.
 jsrep("function openTask(id){", "function openTask(id){if(taskPageOpen(id))return;")
-jsrep('<div class="demoarea">${s.view===\'studio\'?', '<div class="demoarea">${taskPageTask()?renderTaskPage():s.view===\'studio\'?')
-jsrep("document.body.dataset.page=s.page;", "document.body.dataset.page=s.page;document.body.toggleAttribute('data-taskdetail',!!taskPageTask());")
+jsrep('<div class="demoarea">${s.view===\'studio\'?', '<div class="demoarea">${newTaskDraft()?renderNewTaskPage():taskPageTask()?renderTaskPage():s.view===\'studio\'?')
+jsrep("document.body.dataset.page=s.page;", "document.body.dataset.page=s.page;document.body.toggleAttribute('data-taskdetail',!!taskPageTask());document.body.toggleAttribute('data-newtask',!!newTaskDraft());")
 
 # 任务看板: board / list switch as an icon segmented control.
 jsrep("${btn(f.layout==='list'?'切换看板':'切换列表','board-layout','','sm')}",
@@ -684,6 +689,51 @@ jsrep("""<div class="benchfoot">${btn('打开工作台 '+ico('arrow'),'open-benc
 
 # ---- 我的任务：去掉「跨项目汇总，同步每一次进展」说明卡。
 jsrep("${personal?`<div class=\"aggregate-scope-note\">${ico('team')}<div><b>跨项目汇总，同步每一次进展</b><span>与项目看板共用任务、规则与产物；点击项目名称可回到对应项目。</span></div><span class=\"aggregate-scope-count\">${joinedProjects().length} 个已参与项目</span></div>`:''}", "")
+
+# ---- 新建工作台：项目选择放进输入框下方的托盘（文件夹图标 + 下拉箭头），去掉自动匹配提示。
+jsrep("""data-v="project">${ico('team')}${e.project==='global'?'选择项目':esc(e.project)}</button><span class="wc-auto-hint">按目标匹配已安装扩展</span></div>""",
+      """data-v="project">${ico('project')}${e.project==='global'?'选择项目':esc(e.project)}${ico('down')}</button></div>""")
+
+# ---- 项目 · 频道 / 线程聚合页：新建用文字按钮；卡片统一为「图标块 + 标题 · 两行说明 · 虚线 · 统计」，整卡可点，hover 出现进入箭头。
+jsrep("btn(ico('plus')+'新建频道','project-channel-new','','primary sm')", "btn(ico('plus')+'新建频道','project-channel-new','','link sm')")
+jsrep("btn(ico('plus')+'新建线程','new-thread','','primary sm')", "btn(ico('plus')+'新建线程','new-thread','','link sm')")
+jsrep("""return `<article class="project-channel-card"><span class="project-channel-icon ${c.tone||'blue'}">#</span><div class="grow"><button data-a="channel" data-v="${esc(c.id)}"><h3># ${esc(c.name)}</h3></button><p>${esc(c.description)}</p><div class="project-channel-stats"><span>${th.length} 个线程</span><span>${tasks.length} 项协作任务</span></div></div>${btn('进入频道 '+ico('arrow'),'channel',c.id,'sm')}</article>`;""",
+      """return `<article class="project-channel-card pc-card" data-a="channel" data-v="${esc(c.id)}"><div class="pc-top"><span class="pc-tile">#</span><button class="pc-title" data-a="channel" data-v="${esc(c.id)}"><b>${esc(c.name)}</b><small>${th.length?'最新：'+esc(th[th.length-1].title):'暂无线程'}</small></button><span class="pc-go" aria-hidden="true">${ico('arrow')}</span></div><p class="pc-desc">${esc(c.description)}</p><div class="pc-foot"><span>${ico('chat')}<b>${th.length}</b> 个线程</span><span>${ico('task')}<b>${tasks.length}</b> 项协作任务</span></div></article>`;""")
+jsrep("""`<article class="project-thread-row"><span class="thread-directory-icon">${ico('chat')}</span><div class="grow"><button class="project-thread-title" data-a="project-thread-open" data-v="${esc(th.key)}">${esc(th.title)}</button><p>${esc(th.text)}</p><div class="project-thread-meta"><span># ${esc(th.channel)}</span><span>${esc(th.createdBy)} 发起</span>${th.tasks.length?`<span>${th.tasks.length} 项协作任务</span>${th.tasks.map(taskChip).join('')}`:tag('讨论中','gray')}</div></div>${btn('打开线程','project-thread-open',th.key,'sm')}</article>`""",
+      """`<article class="project-thread-row pc-card pt-card" data-a="project-thread-open" data-v="${esc(th.key)}"><div class="pt-top"><span class="pt-chan"># ${esc(th.channel)}</span><span class="spacer"></span>${th.tasks.length?th.tasks.map(taskChip).join(''):tag('讨论中','gray')}</div><button class="pt-title" data-a="project-thread-open" data-v="${esc(th.key)}">${esc(th.title)}</button><p class="pc-desc">${esc(th.text)}</p><div class="pc-foot"><span class="pt-who"><span class="pt-ava">${esc(String(th.createdBy||'?')[0])}</span>${esc(th.createdBy)} 发起</span>${th.tasks.length?`<span>${ico('task')}<b>${th.tasks.length}</b> 项协作任务</span>`:''}<span class="pc-open">打开线程${ico('arrow')}</span></div></article>`""")
+jsrep('<div class="card project-thread-list" id="projectThreadResults">', '<div class="project-thread-list pt-grid" id="projectThreadResults">')
+
+# ---- 频道头部：副标题改为频道用途（人数已由右侧「成员」按钮表达）。
+jsrep("<p>${esc(s.project)} · ${coMemberRoster().filter(p=>p.type==='person').length} 位人员 · ${projectAgentList().length} 个 Agent</p>",
+      "<p>${esc(s.project)} · ${esc(projectChannels().find(c=>c.id===s.channel)?.description||'项目协作讨论')}</p>")
+
+# ---- 「项目空间」统一改名「项目知识库」（与个人知识库对应）；项目详情页的提问 / 问答 / 设置文案随之统一。
+for old, new in [("project?'空间内提问':'在知识库中提问'", "'在知识库中提问'"), ("project?'空间问答':'知识库问答'", "'知识库问答'"),
+                 ("project?'空间设置':'知识库设置'", "'知识库设置'"), ("${project?'空间':'知识库'}", "知识库"), ("'PROJECT SPACE'", "'PROJECT KNOWLEDGE'")]:
+    jsrep(old, new)
+js = js.replace('项目空间', '项目知识库')
+
+# ---- 项目侧栏：「频道」分组标题去掉 # 前缀。
+jsrep('<div class="sidelabel row hub-channel-heading">＃ 频道 ', '<div class="sidelabel row hub-channel-heading">频道 ')
+
+# ---- 项目主页头部：去掉「打开项目讨论」（侧栏已有频道入口）。
+assert "${btn('打开项目讨论','channel','development')}" in js
+js = js.replace("${btn('打开项目讨论','channel','development')}", "")
+
+# ---- 任务看板筛选：去掉每个筛选框上方的文字标签（选项与占位文案已说明含义；aria-label 保留）。
+_i = js.index('function boardFilters(){'); _j = js.index('\nfunction ', _i + 10)
+_seg, _n = re.subn(r'<label([^>]*)>[^<$`]+(<select|<input)', r'<label\1>\2', js[_i:_j])
+assert _n >= 4, 'boardFilters labels'
+js = js[:_i] + _seg + js[_j:]
+
+# ---- 频道消息流：去掉顶部「项目讨论」分隔线。
+jsrep("""return '<div class="co-divider">项目讨论</div>'+hubChannelMessages(project,channel)""", "return hubChannelMessages(project,channel)")
+
+# ---- 新建临时任务：改为全局沉浸式页面（as2-newtask.js）。
+jsrep("function newManualProjectTask(){", "function newManualProjectTask(){if(newTaskOpen())return;")
+
+# ---- 个人助理：空会话时与「新建任务」同一版式（标题 → 带插画的输入框 → 示例卡片）。
+jsrep('<div class="composer"><textarea id="assistantInput"', '<div class="composer"><img class="nt-hero as-hero" src="${newTaskHero()}" alt="" aria-hidden="true"><textarea id="assistantInput"')
 
 # Inline micro font sizes (8–10px) are below the AS2 type scale.
 js = re.sub(r'font-size:(8|9|10)px', 'font-size:11px', js)
