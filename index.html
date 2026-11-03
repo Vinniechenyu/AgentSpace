@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="AgentSpace AI 原型与体验设计材料库：AS2、DevUI、经典版交互原型，以及设计规范与可复用 Skill。">
+<meta name="description" content="AgentSpace AI 原型聚合页：AS2、DevUI 与 1.0 交互原型。">
 <meta name="color-scheme" content="light dark">
 <title>AgentSpace · AI Prototype Lab</title>
 <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
@@ -31,7 +31,7 @@ h1{font-size:clamp(34px,4.8vw,56px);font-weight:800;letter-spacing:-.045em;line-
   </div>
   <header>
     <h1>AgentSpace <span class="gradient">AI Prototype Lab</span></h1>
-    <p class="lead">让 AI 从一个助手，走进团队的日常协作。汇集 AgentSpace 的<strong>交互原型、体验设计与可复用规范</strong>，<br>围绕任务、协作与交付，持续探索人和 Agent 一起工作的方式。</p>
+    <p class="lead">让 AI 从一个助手，走进团队的日常协作。汇集 AgentSpace 的<strong>AI 交互原型与版本探索</strong>，<br>围绕任务、协作与交付，持续探索人和 Agent 一起工作的方式。</p>
   </header>
   <div class="layout">
     <aside class="sidebar" aria-label="资源分类">
@@ -44,9 +44,9 @@ h1{font-size:clamp(34px,4.8vw,56px);font-weight:800;letter-spacing:-.045em;line-
     <main id="main" tabindex="-1">
       <div class="toolbar"><label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="q" type="search" aria-label="搜索原型、场景或关键词" placeholder="搜索原型 / 场景 / 关键词…" autocomplete="off"></label><span class="result" id="result" role="status" aria-live="polite"></span></div>
       <div class="grid" id="grid"></div>
-      <div class="empty" id="empty" hidden><h2>还没有匹配的内容</h2><p>试试「任务」「主题」或「Skill」，也可以清除筛选重新浏览。</p><button class="reset" id="reset">清除筛选</button></div>
-      <noscript><div class="noscript">启用 JavaScript 可使用分类与搜索。也可直接打开：<br><a href="demo-as2/">AS2 原型</a> · <a href="demo-as2-devui/">DevUI 原型</a> · <a href="demo-classic.html">经典版原型</a> · <a href="aurora-ink-design/references/template.html">Aurora Ink 规范</a> · <a href="https://github.com/Vinniechenyu/AgentSpace/blob/main/EXPERIENCE.md">体验设计思路</a> · <a href="https://github.com/Vinniechenyu/AgentSpace/blob/main/skills/agentspace-workspace-prototype.md">原型 Skill</a></div></noscript>
-      <p class="scope">原型用于产品与体验设计交流，使用示例数据与模拟执行；真实模型、外部工具及审批系统尚未接入。文档资源在 GitHub 中阅读。</p>
+      <div class="empty" id="empty" hidden><h2>还没有匹配的内容</h2><p>试试「任务」「主题」或「AgentFlow」，也可以清除筛选重新浏览。</p><button class="reset" id="reset">清除筛选</button></div>
+      <noscript><div class="noscript">启用 JavaScript 可使用分类与搜索。也可直接打开：<br><a href="demo-as2/">AS2 原型</a> · <a href="demo-as2-devui/">DevUI 原型</a> · <a href="demo-classic.html">1.0 原型</a></div></noscript>
+      <p class="scope">原型用于产品与体验设计交流，使用示例数据与模拟执行；真实模型、外部工具及审批系统尚未接入。</p>
     </main>
   </div>
   <footer><span>© 2026 AgentSpace · 内容仅用于设计交流</span><span>由想法到原型，持续生长。 <a href="https://github.com/Vinniechenyu/AgentSpace">查看仓库 ↗</a></span></footer>
@@ -55,13 +55,10 @@ h1{font-size:clamp(34px,4.8vw,56px);font-weight:800;letter-spacing:-.045em;line-
 const items = [
   {title:'AgentSpace 2.0 · AS2 版',type:'交互原型',version:'2.0 · AS2',href:'demo-as2/',image:'as2.png',pinned:true,desc:'从项目工作台出发，串联对话、任务看板、Agent 执行、成果验收与自动化。在同一工作空间中，看进度、追过程，在关键处做决定。',tags:['任务与验收','执行可视化','多 Agent 协作'],meta:'AS2 设计系统',action:'体验原型'},
   {title:'AgentSpace 2.0 · DevUI 版',type:'交互原型',version:'2.0 · DevUI',href:'demo-as2-devui/',image:'devui.png',desc:'在同一套交互底座上探索不同视觉表达。以 DevUI 规范组织主题、控件与材质，可与 AS2 版对照体验，两个版本分别保存本地状态。',tags:['多主题','DevUI 规范','视觉对照'],meta:'DevUI 多主题',action:'体验原型'},
-  {title:'AgentSpace · 经典版',type:'交互原型',version:'经典版',href:'demo-classic.html',image:'classic.png',desc:'早期团队级 Agent 工作空间探索。从事件、定时与临时任务进入，体验 AgentFlow 编排、执行看板、会话流和人工确认节点。',tags:['团队空间','AgentFlow','人工介入'],meta:'早期交互探索 · 原样保留',action:'回看原型'},
-  {title:'AgentSpace · 体验设计思路',type:'设计思路',version:'通用资产',href:'https://github.com/Vinniechenyu/AgentSpace/blob/main/EXPERIENCE.md',image:'experience.svg',desc:'把系统的复杂性翻译成团队熟悉的任务、看板、审批与交付。记录早期设计命题、体验目标、信息架构与关键决策，理解方案背后的取舍。',tags:['设计命题','信息架构','体验策略'],meta:'设计文档 · GitHub',action:'阅读设计思路'},
-  {title:'Aurora Ink · 设计规范',type:'组件与规范',version:'通用资产',href:'aurora-ink-design/references/template.html',image:'aurora.png',desc:'保留早期设计语言的完整样本：瓷白画布、墨色操作、紫青点缀，以及 Token、基础组件和起步模板。可直接查看组件，作为独立资产复用。',tags:['Design Token','组件预览','起步模板'],meta:'早期视觉系统 · HTML',action:'浏览组件'},
-  {title:'Workspace Prototype · Skill',type:'组件与规范',version:'通用资产',href:'https://github.com/Vinniechenyu/AgentSpace/blob/main/skills/agentspace-workspace-prototype.md',image:'skill.svg',desc:'把单文件智能体工作台的搭建经验沉淀成中英双语 Skill。覆盖模块隔离、页面路由、会话流、面板状态与交互验证，复用原型方法。',tags:['可复用 Skill','单文件原型','中英双语'],meta:'原型方法 · GitHub',action:'阅读 Skill'}
+  {title:'AgentSpace · 1.0',type:'交互原型',version:'1.0',href:'demo-classic.html',image:'classic.png',desc:'早期团队级 Agent 工作空间探索。从事件、定时与临时任务进入，体验 AgentFlow 编排、执行看板、会话流和人工确认节点。',tags:['团队空间','AgentFlow','人工介入'],meta:'早期交互探索 · 原样保留',action:'回看原型'},
 ];
-const colors={'交互原型':'#17a398','设计思路':'#9770e7','组件与规范':'#5187dc'};
-const categories={type:['交互原型','设计思路','组件与规范'],version:['2.0 · AS2','2.0 · DevUI','经典版','通用资产']};
+const colors={'交互原型':'#17a398'};
+const categories={type:['交互原型'],version:['2.0 · AS2','2.0 · DevUI','1.0']};
 let dimension='type',category='全部';
 const grid=document.querySelector('#grid'),nav=document.querySelector('#nav'),q=document.querySelector('#q');
 function renderNav(){

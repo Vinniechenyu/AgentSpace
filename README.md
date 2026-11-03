@@ -14,10 +14,7 @@ AgentSpace 的 AI 交互原型与设计资产聚合仓库，持续探索 **任�
 | --- | --- | --- |
 | **AgentSpace 2.0 · AS2 版** · 推荐起点 | 项目工作台、对话、任务看板、执行过程、成果验收、自动化，以及构建 / 扩展 / 进化模块 | [体验原型](https://vinniechenyu.github.io/AgentSpace/demo-as2/) · [版本说明](./demo-as2/README.md) |
 | **AgentSpace 2.0 · DevUI 多主题版** | 基于同一交互底座，对照 DevUI 的主题、控件几何与材质表达；本地状态与 AS2 版隔离 | [体验原型](https://vinniechenyu.github.io/AgentSpace/demo-as2-devui/) · [版本说明](./demo-as2-devui/README.md) |
-| **AgentSpace · 经典版** | 早期团队空间、任务配置、AgentFlow、执行看板与会话流探索，保留用于版本回看 | [体验原型](https://vinniechenyu.github.io/AgentSpace/demo-classic.html) |
-| **Aurora Ink · 设计规范** | 早期视觉系统的 Token、组件与起步模板；作为独立设计资产保留 | [组件预览](https://vinniechenyu.github.io/AgentSpace/aurora-ink-design/references/template.html) · [规范](./aurora-ink-design/SKILL.md) |
-| **体验设计思路** | 设计命题、信息架构、任务心智、人工介入与过程透明的设计决策 | [阅读文档](./EXPERIENCE.md) |
-| **Workspace Prototype · Skill** | 单文件智能体工作台的模块隔离、路由、会话流与面板交互方法，中英双语 | [阅读 Skill](./skills/agentspace-workspace-prototype.md) |
+| **AgentSpace · 1.0** | 早期团队空间、任务配置、AgentFlow、执行看板与会话流探索，保留用于版本回看 | [体验原型](https://vinniechenyu.github.io/AgentSpace/demo-classic.html) |
 
 ## 我们在探索什么
 
@@ -38,7 +35,7 @@ cd AgentSpace
 python3 -m http.server 8000
 ```
 
-浏览器访问 `http://localhost:8000/`，或直接打开 `index.html`。聚合页支持按类型 / 版本筛选、关键词搜索与深浅主题切换。Markdown 资源入口指向 GitHub 的文档阅读页，需要网络。
+浏览器访问 `http://localhost:8000/`，或直接打开 `index.html`。聚合页支持按类型 / 版本筛选、关键词搜索与深浅主题切换。
 
 AS2 与 DevUI 原型使用浏览器 localStorage 保存演示状态，可在原型的「设置 → 数据与隐私」中重置。聚合页只保存主题偏好，不与原型共享状态。
 
