@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="在线阅读并下载 DevUI 多主题设计规范 DESIGN.md，涵盖八套主题、设计 Token、组件与使用规则。">
+<title>DevUI · 多主题设计规范 · design.md</title>
+<link rel="icon" href="../assets/logo.svg" type="image/svg+xml">
+<script>try{document.documentElement.dataset.theme=localStorage.getItem('agentspace-lab-theme')==='dark'?'dark':'light'}catch{}</script>
+<style>
+:root{color-scheme:light;--bg:#efeff1;--surface:#fff;--ink:#1b1b21;--muted:#656572;--line:#e1e1e8;--accent:#7151df;--code:#f5f5f8;--sans:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif}
+[data-theme=dark]{color-scheme:dark;--bg:#0b0c0f;--surface:#15161b;--ink:#eeeef3;--muted:#aaaabb;--line:#30313b;--accent:#bcabff;--code:#1f2027}*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:100px}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.85 var(--sans)}a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}:focus-visible{outline:3px solid var(--accent);outline-offset:4px}header{position:sticky;top:0;z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}.bar{max-width:1440px;margin:auto;padding:15px 32px;display:flex;align-items:center;justify-content:space-between;gap:20px}.back{font-size:13px;color:var(--muted)}.actions{display:flex;align-items:center;gap:20px}.filename{font:12px ui-monospace,monospace;color:var(--muted)}.download{display:inline-flex;align-items:center;gap:9px;background:var(--ink);color:var(--surface);padding:9px 18px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}.download:hover{text-decoration:none;opacity:.85}.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:32px;max-width:1440px;margin:32px auto;padding:0 32px}aside{position:sticky;top:102px;align-self:start;max-height:calc(100vh - 130px);overflow:auto;padding-bottom:12px}.label{font:10px ui-monospace,monospace;letter-spacing:.12em;color:var(--muted);margin-bottom:16px}nav a{display:block;color:var(--muted);font-size:12px;padding:7px 10px;border-left:1px solid var(--line);line-height:1.6}nav a:hover{background:var(--surface);color:var(--accent);text-decoration:none}main{min-width:0;border:1px solid var(--line);background:var(--surface);border-radius:18px;overflow:hidden}.dochead{padding:28px 40px 0;color:var(--muted);font:11px ui-monospace,monospace;letter-spacing:.08em}.markdown{padding:12px 40px 48px;overflow-wrap:anywhere}.markdown h1{font-size:30px;line-height:1.4;letter-spacing:-.035em;margin:12px 0 22px}.markdown h2{font-size:23px;letter-spacing:-.02em;margin:44px 0 20px;padding-bottom:12px;border-bottom:1px solid var(--line)}.markdown h3{font-size:17px;margin:28px 0 14px}.markdown h4{font-size:14px;margin:26px 0 12px}.markdown p{margin:14px 0}.markdown li{margin:6px 0}.markdown blockquote{margin:20px 0;padding:1px 18px;background:var(--code);border-left:3px solid var(--accent);color:var(--muted);border-radius:0 8px 8px 0}.markdown blockquote ul{padding-left:20px}.markdown code{font:12px/1.7 ui-monospace,'SFMono-Regular',Consolas,monospace;background:var(--code);padding:3px 5px;border-radius:4px}.markdown pre{background:var(--code);padding:20px;border-radius:10px;overflow:auto;max-width:100%}.markdown pre code{padding:0;background:none;white-space:pre;overflow-wrap:normal}.markdown hr{border:0;border-top:1px solid var(--line);margin:30px 0}.table-wrap{max-width:100%;overflow:auto;margin:20px 0;border:1px solid var(--line);border-radius:9px}.markdown table{border-collapse:collapse;width:100%;font-size:12px;line-height:1.7}.markdown th{background:var(--code);font-weight:600;white-space:nowrap}.markdown td,.markdown th{padding:11px 14px;border-bottom:1px solid var(--line);border-right:1px solid var(--line);min-width:110px;vertical-align:top}.markdown tr:last-child td{border-bottom:0}.markdown td:last-child,.markdown th:last-child{border-right:0}.markdown table code{font-size:11px}.error{color:var(--muted);padding:25px}.error a{text-decoration:underline}footer{max-width:1440px;padding:0 32px 28px;margin:auto;color:var(--muted);font-size:11px;text-align:right}
+@media(max-width:900px){.layout{grid-template-columns:170px minmax(0,1fr);gap:20px;padding:0 20px}.bar{padding:14px 20px}.markdown{padding:12px 24px 32px}.dochead{padding:24px 24px 0}.markdown h1{font-size:25px}}
+@media(max-width:650px){.layout{grid-template-columns:1fr;margin:20px auto;padding:0 14px;gap:16px}aside{position:static;max-height:none}.label{margin-bottom:8px}nav{display:flex;overflow-x:auto;gap:7px;padding-bottom:6px}nav a{flex-shrink:0;border:1px solid var(--line);border-radius:99px;padding:5px 10px;font-size:11px}.bar{padding:12px 16px;gap:10px}.filename{display:none}.download{padding:8px 12px;font-size:11px}.back{font-size:12px}.markdown{padding:10px 20px 28px}.dochead{padding:23px 20px 0}.markdown h1{font-size:24px}.markdown h2{font-size:20px}body{font-size:13px}.markdown pre{padding:14px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header><div class="bar"><a class="back" href="../">← 返回 AgentSpace</a><div class="actions"><span class="filename">DESIGN.md</span><a class="download" href="DESIGN.md" download="design.md"><span aria-hidden="true">↓</span> 下载 design.md</a></div></div></header>
+<div class="layout"><aside aria-label="文档目录"><div class="label">目录 · CONTENTS</div><nav id="toc"></nav></aside><main><div class="dochead">DEVUI / MULTITHEME DESIGN SYSTEM</div><article class="markdown" id="document" aria-busy="true"><p>正在读取 DESIGN.md…</p></article></main></div>
+<footer>正文来自 DESIGN.md · 下载文件保留原始 Markdown 格式</footer>
+<script src="vendor/marked.umd.js"></script>
+<script>
+(async()=>{
+ const article=document.querySelector('#document');
+ try{
+  const response=await fetch('DESIGN.md');
+  if(!response.ok)throw Error('读取失败');
+  article.innerHTML=marked.parse(await response.text());
+  const toc=document.querySelector('#toc');
+  article.querySelectorAll('h2').forEach((heading,i)=>{
+   heading.id=`section-${i+1}`;
+   const link=document.createElement('a');link.href=`#${heading.id}`;link.textContent=heading.textContent;toc.append(link);
+  });
+  article.querySelectorAll('table').forEach(table=>{
+   const wrapper=document.createElement('div');wrapper.className='table-wrap';wrapper.tabIndex=0;wrapper.setAttribute('role','region');wrapper.setAttribute('aria-label','设计规范表格，可横向滚动');table.before(wrapper);wrapper.append(table);
+  });
+ }catch{
+  article.innerHTML='<div class="error"><p>文档暂时无法加载，请刷新页面重试，或直接下载原文。</p><a href="DESIGN.md" download="design.md">下载 design.md</a></div>';
+ }finally{article.setAttribute('aria-busy','false')}
+})();
+</script>
+</body>
+</html>

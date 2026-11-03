@@ -2,9 +2,15 @@
 
 AgentSpace 的 DevUI 多主题扩展规范与交互预览。由本地 `devui-multitheme` 项目同步，保留原有组件、主题与生成方式。
 
-**[在线预览](https://vinniechenyu.github.io/AgentSpace/devui-multitheme/preview.html)** · [返回聚合页](https://vinniechenyu.github.io/AgentSpace/) · [完整设计规范](./DESIGN.md)
+**[在线阅读与下载 DESIGN.md](https://vinniechenyu.github.io/AgentSpace/devui-multitheme/)** · [返回聚合页](https://vinniechenyu.github.io/AgentSpace/) · [完整设计规范](./DESIGN.md)
 
-## 预览内容
+## 设计文档
+
+聚合页打开 `index.html` 文档阅读器，正文直接读取同目录的 `DESIGN.md`，包含章节目录、表格和代码块。顶部「下载 design.md」下载同一份原文。阅读器使用随仓库提供的 Marked 17.0.5（许可证见 `vendor/marked-LICENSE.md`），无需 CDN。
+
+本地阅读请在仓库根目录运行 `python3 -m http.server 8000`，访问 `http://localhost:8000/devui-multitheme/`。
+
+## 原组件预览
 
 - 8 套主题：官方新无限、无限、追光；AgentSpace 扩展简约浅 / 深、流光浅 / 深、像素风。
 - 切换主题，对照按钮、表单、标签、表格、弹窗与数据展示等组件。

@@ -15,7 +15,7 @@ AgentSpace 的 AI 交互原型与设计资产聚合仓库，持续探索 **任�
 | **AgentSpace 2.0 · AS2 版** · 推荐起点 | 项目工作台、对话、任务看板、执行过程、成果验收、自动化，以及构建 / 扩展 / 进化模块 | [体验原型](https://vinniechenyu.github.io/AgentSpace/demo-as2/) · [版本说明](./demo-as2/README.md) |
 | **AgentSpace 2.0 · DevUI 多主题版** | 基于同一交互底座，对照 DevUI 的主题、控件几何与材质表达；本地状态与 AS2 版隔离 | [体验原型](https://vinniechenyu.github.io/AgentSpace/demo-as2-devui/) · [版本说明](./demo-as2-devui/README.md) |
 | **AgentSpace · 1.0** | 早期团队空间、任务配置、AgentFlow、执行看板与会话流探索，保留用于版本回看 | [体验原型](https://vinniechenyu.github.io/AgentSpace/demo-classic.html) |
-| **DevUI · 多主题设计规范** | 8 套主题的组件预览、Token 变量搜索与跨主题映射；附设计规范、CSS / SCSS / LESS / TypeScript 与构建源文件 | [在线预览](https://vinniechenyu.github.io/AgentSpace/devui-multitheme/preview.html) · [使用说明](./devui-multitheme/README.md) · [设计规范](./devui-multitheme/DESIGN.md) |
+| **DevUI · 多主题设计规范** | 在线阅读 DESIGN.md：8 套主题、Token 映射与组件规则；支持下载原始 Markdown | [阅读 / 下载](https://vinniechenyu.github.io/AgentSpace/devui-multitheme/) · [使用说明](./devui-multitheme/README.md) · [设计规范](./devui-multitheme/DESIGN.md) |
 
 ## 我们在探索什么
 

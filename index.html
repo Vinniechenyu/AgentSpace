@@ -45,7 +45,7 @@ h1{font-size:clamp(34px,4.8vw,56px);font-weight:800;letter-spacing:-.045em;line-
       <div class="toolbar"><label class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="q" type="search" aria-label="搜索原型、场景或关键词" placeholder="搜索原型 / 场景 / 关键词…" autocomplete="off"></label><span class="result" id="result" role="status" aria-live="polite"></span></div>
       <div class="grid" id="grid"></div>
       <div class="empty" id="empty" hidden><h2>还没有匹配的内容</h2><p>试试「任务」「主题」或「AgentFlow」，也可以清除筛选重新浏览。</p><button class="reset" id="reset">清除筛选</button></div>
-      <noscript><div class="noscript">启用 JavaScript 可使用分类与搜索。也可直接打开：<br><a href="demo-as2/">AS2 原型</a> · <a href="demo-as2-devui/">DevUI 原型</a> · <a href="demo-classic.html">1.0 原型</a> · <a href="devui-multitheme/preview.html">DevUI 多主题设计规范</a></div></noscript>
+      <noscript><div class="noscript">启用 JavaScript 可使用分类与搜索。也可直接打开：<br><a href="demo-as2/">AS2 原型</a> · <a href="demo-as2-devui/">DevUI 原型</a> · <a href="demo-classic.html">1.0 原型</a> · <a href="devui-multitheme/">DevUI 多主题设计规范</a></div></noscript>
       <p class="scope">原型用于产品与体验设计交流，使用示例数据与模拟执行；真实模型、外部工具及审批系统尚未接入。</p>
     </main>
   </div>
@@ -56,7 +56,7 @@ const items = [
   {title:'AgentSpace 2.0',type:'交互原型',version:'2.0 · AS2',href:'demo-as2/',image:'as2.png',pinned:true,desc:'从项目工作台出发，串联对话、任务看板、Agent 执行、成果验收与自动化。在同一工作空间中，看进度、追过程，在关键处做决定。',tags:['任务与验收','执行可视化','多 Agent 协作'],meta:'AS2 设计系统',action:'体验原型'},
   {title:'AgentSpace 2.0 · DevUI 版',type:'交互原型',version:'2.0 · DevUI',href:'demo-as2-devui/',image:'devui.png',desc:'在同一套交互底座上探索不同视觉表达。以 DevUI 规范组织主题、控件与材质，可与 AS2 版对照体验，两个版本分别保存本地状态。',tags:['多主题','DevUI 规范','视觉对照'],meta:'DevUI 多主题',action:'体验原型'},
   {title:'AgentSpace · 1.0',type:'交互原型',version:'1.0',href:'demo-classic.html',image:'classic.png',desc:'早期团队级 Agent 工作空间探索。从事件、定时与临时任务进入，体验 AgentFlow 编排、执行看板、会话流和人工确认节点。',tags:['团队空间','AgentFlow','人工介入'],meta:'早期交互探索 · 原样保留',action:'回看原型'},
-  {title:'DevUI · 多主题设计规范',type:'组件与规范',version:'设计系统',href:'devui-multitheme/preview.html',image:'devui-multitheme.png',status:'组件预览',desc:'用同一套语义变量对照 8 套主题：官方新无限、无限、追光，以及 AgentSpace 的简约浅深、流光浅深和像素风。在线切换组件外观，搜索并比较每个 Token 的取值。',tags:['8 套主题','组件预览','Token 映射'],meta:'DevUI 多主题扩展 · 设计系统',action:'浏览设计规范'},
+  {title:'DevUI · 多主题设计规范',type:'组件与规范',version:'设计系统',href:'devui-multitheme/',image:'devui-design.png',status:'可阅读 · 可下载',desc:'在线阅读完整 DESIGN.md，涵盖 8 套主题、语义 Token、组件规则与代码使用方式。保留主题对照表和代码示例，支持下载原始 Markdown 到本地复用。',tags:['DESIGN.md','8 套主题','下载 Markdown'],meta:'DevUI 多主题扩展 · 设计系统',action:'阅读 / 下载文档'},
 ];
 const colors={'交互原型':'#17a398','组件与规范':'#5187dc'};
 const categories={type:['交互原型','组件与规范'],version:['2.0 · AS2','2.0 · DevUI','1.0','设计系统']};
