@@ -9824,7 +9824,7 @@ html:root body #demo.slack-shell.slack-shell .tp-tool-tabs > .tpx-add { width: 3
 /* 侧栏顶部间距收紧；新建任务页主体内容在内容区内垂直居中 */
 html:root body #demo.slack-shell.slack-shell .demoside .sidebody { padding-top: 10px; }
 html:root body #demo.slack-shell.slack-shell .nt-start { display: flex; flex-direction: column; min-height: 0; }
-html:root body #demo.slack-shell.slack-shell .nt-start > .wc-start-main { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; padding-top: min(11vh, 100px); padding-bottom: 0; margin-top: 0; overflow-y: auto; }
+html:root body #demo.slack-shell.slack-shell .nt-start > .wc-start-main { flex: 1; min-height: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto minmax(0, 1fr); justify-items: center; padding-top: 0; padding-bottom: 0; margin-top: 0; overflow-y: auto; }
 
 /* 任务详情标签栏：统一间距；悬停时图标换成关闭按钮 */
 html:root body #demo.slack-shell.slack-shell .tp-tool-tabs.tp-tool-tabs { gap: 2px !important; padding: 0 12px !important; }
@@ -10129,6 +10129,36 @@ html:root body #demo.slack-shell.slack-shell .pt-ava { display: inline-grid; pla
 html:root body #demo.slack-shell.slack-shell .pc-open { color: var(--as-brand); font-size: 12.5px; font-weight: 500; }
 html:root body #demo.slack-shell.slack-shell .pt-top { flex-wrap: nowrap; overflow: hidden; }
 html:root body #demo.slack-shell.slack-shell .pt-top .tag ~ .tag { display: none; }
+
+/* 抖动根因：旧样式 .demopage 带 surface-in（透明度 0→1 + 上移 5px）动画，每次 render() 重建都会重播 → 每点一下整页闪一下。
+   统一关掉；仅在「切换到另一个页面」时由 as2-motion.js 播放一次纯淡入。 */
+html body #demo .demopage { animation: none !important; }
+html body #demo .demoarea.as2-enter > * { animation: as2-enter .16s ease-out both !important; }
+/* 抖动根因 2：外壳网格列宽过渡（grid-template-columns 300ms）在每次 render() / 切页时都会触发，内容区宽度被动画拉伸。
+   现在仅在「收起 / 展开侧栏」期间保留这个过渡。 */
+html body #demo.slack-shell.slack-shell { transition: none !important; }
+html[data-side-toggling] body #demo.slack-shell.slack-shell { transition: grid-template-columns 300ms var(--as-ease-drawer) !important; }
+/* 液态玻璃：顶部搜索框被折射库重设样式时不要过渡 */
+html[data-glass] .appbar .appsearch { transition: none !important; }
+
+/* 新建任务页：输入框始终位于内容区垂直正中（三行网格：上方标题 | 输入框 | 下方示例），不依赖固定偏移，宽屏 / 矮屏都成立 */
+html:root body #demo.slack-shell.slack-shell .nt-start > .wc-start-main > .wc-greeting { align-self: end; margin: 0; padding-bottom: 28px; }
+html:root body #demo.slack-shell.slack-shell .nt-start > .wc-start-main > .wc-composer-wrap { align-self: center; width: 100%; }
+html:root body #demo.slack-shell.slack-shell .nt-start > .wc-start-main > .wc-start-prompts { align-self: start; width: 100%; margin: 0; padding-top: 88px; }
+/* 输入框卡片本身居中：下方的属性托盘不占布局高度（绝对定位贴在卡片下沿） */
+html:root body #demo.slack-shell.slack-shell .nt-start .wc-composer-wrap { position: relative; }
+html:root body #demo.slack-shell.slack-shell .nt-start .wc-composer-wrap > .nt-tray { position: absolute; left: 0; right: 0; top: calc(100% - 20px); padding-top: 28px !important; z-index: 0; }
+html:root body #demo.slack-shell.slack-shell .nt-start .wc-composer-wrap > .nt-card { position: relative; z-index: 1; }
+
+/* Workflow 编辑器头部：流程切换为无底色的标题 + 轻量箭头（悬停才出现浅底）；状态标签为小号圆点标签 */
+html:root[data-appearance-style] body #demo#demo.slack-shell.slack-shell .wfh-switch select { background: transparent !important; box-shadow: none !important; border: 0 !important; height: 34px !important; padding: 0 30px 0 10px !important; border-radius: 10px !important; font: 600 16px/22px var(--as-font) !important; letter-spacing: -.1px; color: var(--as-text) !important; transition: background .15s; }
+html:root[data-appearance-style] body #demo#demo.slack-shell.slack-shell .wfh-switch select:hover, html:root[data-appearance-style] body #demo#demo.slack-shell.slack-shell .wfh-switch select:focus-visible { background: var(--as-hover) !important; }
+html:root[data-appearance-style] body #demo#demo.slack-shell.slack-shell .wfh-switch > svg.icon { right: 10px; width: 13px; height: 13px; color: var(--as-text-muted); }
+html:root[data-appearance-style] body #demo#demo.slack-shell.slack-shell .wfh-status { height: 22px; padding: 0 9px 0 8px; gap: 6px; font-size: 12px; font-weight: 500; }
+html:root[data-appearance-style] body #demo#demo.slack-shell.slack-shell .wfh-status[data-state="warn"] { background: rgba(245,158,11,.14); color: #A15C00; }
+html:root[data-appearance-style] body #demo#demo.slack-shell.slack-shell .wfh-status[data-state="warn"]::before { background: #F59E0B; }
+html:root[data-appearance-style] body #demo#demo.slack-shell.slack-shell .wfh-status[data-state="ok"] { background: rgba(22,163,74,.12); color: #15803D; }
+html:root[data-appearance-style] body #demo#demo.slack-shell.slack-shell .wfh-status[data-state="ok"]::before { background: #22C55E; }
 
 
 /* ==== DevUI themes (vendor/devui-themes.css) ==== */
@@ -14058,7 +14088,7 @@ document.addEventListener('keydown',e=>{if(e.key!=='Enter'||!(e.metaKey||e.ctrlK
 // render() rebuilds #demo, so sidebar affordances are (re)attached by a MutationObserver after each render.
 function sidebarState(){return window.__asSidebar||(window.__asSidebar={line:null,collapsed:(()=>{try{return localStorage.getItem('devui-side-collapsed')==='1';}catch(e){return false;}})()});}
 function sidebarApplyCollapsed(){document.documentElement.dataset.side=sidebarState().collapsed?'collapsed':'open';}
-function sidebarToggle(){const st=sidebarState();st.collapsed=!st.collapsed;try{localStorage.setItem('devui-side-collapsed',st.collapsed?'1':'0');}catch(e){}sidebarApplyCollapsed();}
+function sidebarToggle(){const st=sidebarState();document.documentElement.dataset.sideToggling='1';clearTimeout(sidebarToggle._t);sidebarToggle._t=setTimeout(()=>{delete document.documentElement.dataset.sideToggling;},400);st.collapsed=!st.collapsed;try{localStorage.setItem('devui-side-collapsed',st.collapsed?'1':'0');}catch(e){}sidebarApplyCollapsed();}
 const SIDEBAR_TOGGLE_ICON=ico('panelLeft');
 // Row position in the sidebody's padding box (what an absolutely positioned child is placed against).
 function sidebarRowTop(row,body){return Math.round(row.getBoundingClientRect().top-body.getBoundingClientRect().top-body.clientTop+body.scrollTop);}
@@ -14565,7 +14595,7 @@ function taskPageFlow(t){
   if(t.status==='pending')body=`<div class="tpf-reply"><p>我已整理执行计划，批准后开始执行。</p></div>${runView(t,'full')}`;
   else if(t.status==='running')body=toggle('正在处理 · 已用时 '+taskDuration(t))+`<div class="tpf-reply"><p>收到，正在按目标 V${t.rev} 执行，完成后会在这里汇总结果。</p></div>${editCard}<div class="tp-actions">${btn('推进演示：返回结果','finish-task',t.id,'sm')}</div>`;
   else if(t.status==='wait')body=`<div class="tpf-reply"><p>需要你确认后才能继续：请核对当前步骤的输入与范围。</p></div><div class="tp-actions">${btn('去确认','task-tool','overview','primary sm')}</div>`;
-  else if(finished)body=toggle('已处理 · 用时 '+taskDuration(t))+`<div class="tpf-reply"><p><b>${t.status==='done'?'已验收':'已完成'}</b>：${esc(t.title)}。</p><p>包含：</p><ul><li><b>${plan.length} 个步骤</b>：${plan.map(p=>esc(p[0])).join('、')}。</li><li><b>${arts.length} 项产物</b>：${arts.map(a=>esc(a[0])).join('、')}。</li><li>变更 <b>+${cAdd} −${cDel}</b>，共 ${ch.length} 个文件。</li></ul><p><b>验证：32 / 32 测试通过。</b> ${esc(t.accept||'结果完整、来源可追溯，按目标 V'+t.rev+' 确认。')}</p></div>${editCard}<div class="tpx-edit tpx-arts"><div class="hd"><i>${ico('archive')}</i><div><b>${arts.length} 项产物</b><small>${t.status==='done'?'已验收':'等待你验收'}</small></div><span class="spacer"></span><button class="tpx-btn" data-a="task-artifact" data-v="0">查看产物</button></div><div class="rows">${arts.map(([name,meta,icon],k)=>`<button class="art-row" data-a="task-artifact" data-v="${k}"><i>${ico(icon)}</i><span><b>${esc(name)}</b><small>${esc(meta)}</small></span>${ico('chevron')}</button>`).join('')}</div></div>`;
+  else if(finished)body=toggle('已处理 '+taskDuration(t))+`<div class="tpf-reply"><p><b>${t.status==='done'?'已验收':'已完成'}</b>：${esc(t.title)}。</p><p>包含：</p><ul><li><b>${plan.length} 个步骤</b>：${plan.map(p=>esc(p[0])).join('、')}。</li><li><b>${arts.length} 项产物</b>：${arts.map(a=>esc(a[0])).join('、')}。</li><li>变更 <b>+${cAdd} −${cDel}</b>，共 ${ch.length} 个文件。</li></ul><p><b>验证：32 / 32 测试通过。</b> ${esc(t.accept||'结果完整、来源可追溯，按目标 V'+t.rev+' 确认。')}</p></div>${editCard}<div class="tpx-edit tpx-arts"><div class="hd"><i>${ico('archive')}</i><div><b>${arts.length} 项产物</b><small>${t.status==='done'?'已验收':'等待你验收'}</small></div><span class="spacer"></span><button class="tpx-btn" data-a="task-artifact" data-v="0">查看产物</button></div><div class="rows">${arts.map(([name,meta,icon],k)=>`<button class="art-row" data-a="task-artifact" data-v="${k}"><i>${ico(icon)}</i><span><b>${esc(name)}</b><small>${esc(meta)}</small></span>${ico('chevron')}</button>`).join('')}</div></div>`;
   else body=`<div class="tpf-reply"><p>${t.status==='failed'?'执行失败，已保留日志与中间产物。':'任务已停止，历史执行与产物保留。'}</p></div><div class="tp-actions">${btn('重新发起','restart-task',t.id,'sm')}</div>`;
   const extra=(t.chat||[]).map(m=>m.who==='me'?userBubble(m.text,'刚刚'):`<div class="tpf-reply"><p>${esc(m.text)}</p></div>`).join('');
   return `<div class="tpf">${userBubble(t.goal||t.title,t.time||'今天 '+String(9+[...t.id].reduce((a,c)=>a+c.charCodeAt(0),0)%9).padStart(2,'0')+':'+String([...t.id].reduce((a,c)=>a*7+c.charCodeAt(0),3)%60).padStart(2,'0'))}${body}${extra}</div>`;
