@@ -9604,8 +9604,9 @@ html:root[data-appearance-style="pixel"][data-px-mode="light"] body #modalHost .
   background: rgba(255,255,255,var(--card-white,.97)) !important; -webkit-backdrop-filter: blur(var(--card-blur,37px)) !important; backdrop-filter: blur(var(--card-blur,37px)) !important; }
 /* 壁纸 */
 :root[data-glass][data-wallpaper] body { background: var(--preview-wallpaper) center / cover no-repeat fixed !important; }
-:root[data-glass][data-wallpaper] :is(.demorail, .appbar) { color: var(--wallpaper-ink, inherit); }
-:root[data-glass][data-wallpaper] .demorail button:not(.active), :root[data-glass][data-wallpaper] .appbar :is(.appbrand, .appbrand *) { color: var(--wallpaper-ink, inherit); }
+html:root[data-glass][data-wallpaper] body #demo.slack-shell .demorail button:not(.active):not(:hover),
+html:root[data-glass][data-wallpaper] body #demo.slack-shell .demorail button:not(.active):not(:hover) :is(span, small, svg) { color: var(--wallpaper-ink, inherit) !important; }
+html:root[data-glass][data-wallpaper] body .appbar :is(.appbrand b, .appbrand b small, .brand-vision) { color: var(--wallpaper-ink, inherit) !important; }
 /* 设置 · 外观 · 壁纸与玻璃材质 */
 .wp-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; padding: 14px 16px; }
 .wp-tile { display: grid; gap: 6px; padding: 0; border: 0; background: none; cursor: pointer; text-align: center; font: inherit; color: var(--as-text-2); }
