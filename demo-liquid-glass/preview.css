@@ -9344,10 +9344,10 @@ html:root[data-appearance-style="liquid"] body :is(#demo#demo.slack-shell,#modal
 html:root[data-appearance-style="liquid"] body #demo#demo.slack-shell :is(.dtabs,.projecttabs,.board-main-tabs,.ext-page-tabs,.evo-tabs,.tp-tool-tabs){border:0!important;box-shadow:none!important;}
 
 /* Sidebar selection: black fill and white foreground in both themes. */
-html:root[data-appearance-style="liquid"] body #demo#demo.slack-shell .demoside :is(.sidenav.active,.hub-channel-item.active){background:#000!important;color:#fff!important;box-shadow:none!important;}
-html:root[data-appearance-style="liquid"] body #demo#demo.slack-shell .demoside :is(.sidenav.active,.hub-channel-item.active) :is(span,small,b,.icon){color:#fff!important;}
-html:root[data-appearance-style="liquid"] body #demo#demo.slack-shell .demoside :is(.sidenav.active,.hub-channel-item.active) svg.icon{stroke:#fff!important;}
-html:root[data-appearance-style="liquid"] body #demo#demo.slack-shell .demoside :is(.sidenav.active,.hub-channel-item.active) small{background:#ffffff1a!important;}
+html:root[data-appearance-style="liquid"][data-theme="dark"] body #demo#demo.slack-shell .demoside :is(.sidenav.active,.hub-channel-item.active){background:#000!important;color:#fff!important;box-shadow:none!important;}
+html:root[data-appearance-style="liquid"][data-theme="dark"] body #demo#demo.slack-shell .demoside :is(.sidenav.active,.hub-channel-item.active) :is(span,small,b,.icon){color:#fff!important;}
+html:root[data-appearance-style="liquid"][data-theme="dark"] body #demo#demo.slack-shell .demoside :is(.sidenav.active,.hub-channel-item.active) svg.icon{stroke:#fff!important;}
+html:root[data-appearance-style="liquid"][data-theme="dark"] body #demo#demo.slack-shell .demoside :is(.sidenav.active,.hub-channel-item.active) small{background:#ffffff1a!important;}
 
 /* Quiet filled selection for workbench filter pills. */
-html:root[data-appearance-style="liquid"] body #demo#demo.slack-shell .dtoolbar .dtabs > button.active{background:#000!important;color:#fff!important;border:0!important;box-shadow:none!important;}
+html:root[data-appearance-style="liquid"][data-theme="dark"] body #demo#demo.slack-shell .dtoolbar .dtabs > button.active{background:#000!important;color:#fff!important;border:0!important;box-shadow:none!important;}
