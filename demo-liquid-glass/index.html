@@ -2030,11 +2030,11 @@ const labels=['日光工作室','浅蓝工作垫','深夜工作室'];
 // Match the centered cover image's SVG user-space grid (47.5 units).
 function alignMatTicks(){const b=document.body.getBoundingClientRect(),scale=Math.max(b.width/941,b.height/1672),root=document.documentElement;root.style.setProperty('--mat-major',`${47.5*scale}px`);root.style.setProperty('--mat-minor',`${9.5*scale}px`);root.style.setProperty('--mat-origin',`${b.left+(b.width-941*scale)/2-190}px`);}
 window.addEventListener('resize',alignMatTicks,{passive:true});alignMatTicks();
-function show(){alignMatTicks();document.body.dataset.wallpaperIndex=String(index);APPEARANCE_STYLES.liquid.tone=index===2?'dark':'light';appearanceApply();document.documentElement.style.setProperty('--preview-wallpaper',`url("${['./wallpapers/new-1.png','./wallpapers/workmat.svg','./wallpapers/dark-desk.jpg'][index]}")`);document.getElementById('wallpaperStatus').textContent=`${index+1} / 3 · ${labels[index]}`;try{localStorage.setItem('glass-preview-wallpaper-v2',String(index));}catch{}}
+function show(){alignMatTicks();document.body.dataset.wallpaperIndex=String(index);APPEARANCE_STYLES.liquid.tone=index===2?'dark':'light';appearanceApply();document.documentElement.style.setProperty('--preview-wallpaper',`url("${index===1?'./wallpapers/workmat.svg?intro='+Date.now():['./wallpapers/new-1.png','','./wallpapers/dark-desk.jpg'][index]}")`);document.getElementById('wallpaperStatus').textContent=`${index+1} / 3 · ${labels[index]}`;try{localStorage.setItem('glass-preview-wallpaper-v2',String(index));}catch{}}
 function step(d){index=(index+d+3)%3;show();}
 document.getElementById('wallpaperPrev').onclick=()=>step(-1);document.getElementById('wallpaperNext').onclick=()=>step(1);
 document.addEventListener('keydown',e=>{if(e.defaultPrevented||e.altKey||e.ctrlKey||e.metaKey||e.shiftKey||e.target.closest('input,textarea,select,[contenteditable="true"],[role="menu"],[role="listbox"],[role="tablist"],[role="slider"],[role="dialog"]')||document.querySelector('#modalHost .modal,.as2-switcher'))return;if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();step(e.key==='ArrowRight'?1:-1);}});
-for(const src of ['./wallpapers/new-1.png','./wallpapers/workmat.svg','./wallpapers/dark-desk.jpg']){const image=new Image();image.src=src;}show();})();
+for(const src of ['./wallpapers/new-1.png','./wallpapers/dark-desk.jpg']){const image=new Image();image.src=src;}show();})();
 </script>
 <details class="glass-tuner"><summary>玻璃材质调节</summary><div id="glassTunerFields"></div><button type="button" id="glassTunerReset">恢复默认</button></details>
 <script>
