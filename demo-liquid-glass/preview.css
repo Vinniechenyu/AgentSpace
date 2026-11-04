@@ -9351,3 +9351,8 @@ html:root[data-appearance-style="liquid"][data-theme="dark"] body #demo#demo.sla
 
 /* Quiet filled selection for workbench filter pills. */
 html:root[data-appearance-style="liquid"][data-theme="dark"] body #demo#demo.slack-shell .dtoolbar .dtabs > button.active{background:#000!important;color:#fff!important;border:0!important;box-shadow:none!important;}
+
+/* Header readability over wallpaper. */
+html:root[data-appearance-style="liquid"] body .appbar .appsearch[data-liquid-glass]{background:rgba(255,255,255,.20)!important;}
+html:root[data-appearance-style="liquid"] body .appbar .appactions .guidebtn.guidebtn.guidebtn{background:rgba(255,255,255,.10)!important;backdrop-filter:blur(12px)!important;-webkit-backdrop-filter:blur(12px)!important;border:0!important;box-shadow:none!important;border-radius:10px!important;}
+html:root[data-appearance-style="liquid"] body .appbar .appactions .guidebtn.guidebtn.guidebtn:hover{background:rgba(255,255,255,.60)!important;color:#000!important;}
