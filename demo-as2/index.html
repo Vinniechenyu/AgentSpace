@@ -11078,7 +11078,8 @@ function appearanceConfig(){
   if(!Object.hasOwn(APPEARANCE_COLORS,s.appearance.color))s.appearance.color='purple';
   return s.appearance;
 }
-function appearanceApply(){settingsApply();try{glassApply();}catch(e){}
+function appearanceApply(){try{appearanceApplyBase();}finally{try{glassApply();}catch(e){}}}
+function appearanceApplyBase(){settingsApply();try{glassApply();}catch(e){}
   const {transparency,style,color}=appearanceConfig(),root=document.documentElement;
   root.dataset.appearanceStyle=style;root.dataset.appearanceColor=color;
   root.dataset.appearanceTone=themeTone(style);root.dataset.theme=themeTone(style);root.classList.toggle('dark',themeTone(style)==='dark');
