@@ -10367,6 +10367,9 @@ html:root body #demo.slack-shell .side-sec-head { min-height: 34px; }
 html:root body #demo.slack-shell .side-sec-body { display: flex; flex-direction: column; gap: 2px; }
 /* 频道分组没有「⋯」时，新建按钮靠右对齐 */
 html:root body #demo.slack-shell .side-sec-head:not(:has(.side-sec-more)) > .side-sec-extra { margin-left: auto; }
+/* 液态玻璃：个人/项目主页的吸顶头部不再叠白色渐变，与其他页面头部同色；仅在内容滚到下方时才出现磨砂底 */
+:root[data-glass] #demo.slack-shell .proj-sticky { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+:root[data-glass] #demo.slack-shell .proj-sticky[data-stuck="true"] { background: linear-gradient(180deg, rgba(255,255,255,.55), rgba(255,255,255,.2) 85%, transparent); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
 
 
 /* ==== DevUI themes (vendor/devui-themes.css) ==== */
@@ -15670,6 +15673,13 @@ function novaRenderBenches(){
   return html.slice(0,a)+`<div class="proj-sticky">${html.slice(a,b)}${personalTabHtml()}</div>`+(tab==='overview'?html.slice(b):renderPersonalTab(tab));
 }
 function personalTabAction(a,v){if(a!=='personal-tab')return false;s.personalTab=v;render();return true;}
+
+// 吸顶头部：内容滚动后才出现磨砂底（液态玻璃下，未滚动时与页面同色）
+(function(){
+  const sync=sc=>{const h=sc&&sc.querySelector?.('.proj-sticky');if(h)h.dataset.stuck=String(sc.scrollTop>4);};
+  document.addEventListener('scroll',e=>{const sc=e.target;if(sc&&sc.nodeType===1&&sc.querySelector?.('.proj-sticky'))sync(sc);},true);
+  try{const demo=document.getElementById('demo'),ob=new MutationObserver(()=>{setTimeout(()=>{const h=document.querySelector('#demo .proj-sticky');if(h)sync(h.parentElement.closest('#demo')?(()=>{let p=h.parentElement;while(p&&p!==demo&&!(p.scrollHeight>p.clientHeight&&/auto|scroll/.test(getComputedStyle(p).overflowY)))p=p.parentElement;return p;})():null);},80);ob.takeRecords();});ob.observe(demo,{childList:true});}catch(e){}
+})();
 
 // ---- 项目主页 · 概览：Bento 卡片工作台。可编辑：右侧「卡片市场」添加 / 移除卡片，拖动调整位置，切换卡片大小；布局按项目保存。
 // 卡片尺寸：s = 1×1，w = 2×1，l = 2×2（4 列网格，dense 排布）。
