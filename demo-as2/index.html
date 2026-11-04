@@ -7328,7 +7328,7 @@ body[data-view="team"] #demo.slack-shell .kanban-card .task-project-badge { disp
 
 /* 6 · 进化中心：恢复二级菜单列，统一框架 */
 @media (min-width: 861px) {
-  body[data-view="evolution"] #demo.slack-shell { grid-template-columns: 68px 240px minmax(0, 1fr) !important; }
+  body[data-view="evolution"] #demo.slack-shell { grid-template-columns: var(--as-rail-w, 60px) 240px minmax(0, 1fr) !important; }
   body[data-view="evolution"] #demo.slack-shell > .demoside { display: flex !important; }
 }
 body[data-view="evolution"] #demo.slack-shell .demoarea { background: var(--as-panel) !important; }
@@ -7728,7 +7728,7 @@ input[type=checkbox], input[type=radio] { accent-color: var(--as-brand) !importa
 @media (min-width: 861px) {
   #demo.slack-shell { transition: grid-template-columns 300ms var(--as-ease-drawer); }
   #demo.slack-shell > .demoside { transition: opacity 200ms var(--as-ease-drawer); }
-  :root[data-side="collapsed"] #demo.slack-shell:has(> .demoside:not(:empty)) { grid-template-columns: 68px 0px minmax(0, 1fr) !important; }
+  :root[data-side="collapsed"] #demo.slack-shell:has(> .demoside:not(:empty)) { grid-template-columns: var(--as-rail-w, 60px) 0px minmax(0, 1fr) !important; }
   :root[data-side="collapsed"] #demo.slack-shell > .demoside:not(:empty) { opacity: 0; border-width: 0 !important; overflow: hidden; pointer-events: none; }
   :root[data-side="collapsed"] #demo.slack-shell > .demoside:not(:empty) + .demoarea { border-left: 1px solid var(--as-panel-stroke) !important; border-radius: var(--as-r-panel) !important; }
   :root[data-side="collapsed"] #demo.slack-shell .democrumb .as2-side-toggle--crumb { display: inline-grid; }
@@ -7787,11 +7787,11 @@ input[type=checkbox], input[type=radio] { accent-color: var(--as-brand) !importa
 
 /* 侧栏宽度：单一变量驱动（可拖动 200–360px）；内容随宽度，收起动画中保持该宽度只做裁切 */
 @media (min-width: 861px) {
-  #demo.slack-shell:has(> .demoside:not(:empty)) { grid-template-columns: 68px var(--as-side-w, 240px) minmax(0, 1fr) !important; }
-  body[data-view="evolution"] #demo.slack-shell { grid-template-columns: 68px var(--as-side-w, 240px) minmax(0, 1fr) !important; }
+  #demo.slack-shell:has(> .demoside:not(:empty)) { grid-template-columns: var(--as-rail-w, 60px) var(--as-side-w, 240px) minmax(0, 1fr) !important; }
+  body[data-view="evolution"] #demo.slack-shell { grid-template-columns: var(--as-rail-w, 60px) var(--as-side-w, 240px) minmax(0, 1fr) !important; }
   #demo.slack-shell > .demoside:not(:empty) { position: relative; }
   #demo.slack-shell > .demoside:not(:empty) > :not(.as2-side-resizer) { width: calc(var(--as-side-w, 240px) - 2px); min-width: calc(var(--as-side-w, 240px) - 2px); }
-  :root[data-side="collapsed"] #demo.slack-shell:has(> .demoside:not(:empty)) { grid-template-columns: 68px 0px minmax(0, 1fr) !important; }
+  :root[data-side="collapsed"] #demo.slack-shell:has(> .demoside:not(:empty)) { grid-template-columns: var(--as-rail-w, 60px) 0px minmax(0, 1fr) !important; }
   :root[data-resizing] #demo.slack-shell { transition: none !important; }
   :root[data-resizing], :root[data-resizing] * { cursor: col-resize !important; user-select: none !important; }
 }
@@ -8095,14 +8095,14 @@ svg.icon.lucide { fill: none !important; stroke: currentColor; stroke-width: 1.7
 :root[data-appearance-style="pixel"] svg.icon.lucide { stroke-linecap: square; stroke-linejoin: miter; stroke-width: 2; }
 /* 消息视图与其他视图共用 68px 导航列，切换时导航不左右跳动 */
 @media (min-width: 541px) {
-  #demo.slack-shell.slack-shell:has(.messenger-shell) { grid-template-columns: 68px minmax(0, 1fr) !important; }
+  #demo.slack-shell.slack-shell:has(.messenger-shell) { grid-template-columns: var(--as-rail-w, 60px) minmax(0, 1fr) !important; }
 }
 /* 未读数贴近图标右上角 */
 #demo.slack-shell .demorail button .rail-unread { left: auto !important; right: 8px !important; top: 4px !important; }
 /* 消息列表：筛选标签与「最近会话」说明行拉开间距，左右与标签对齐 */
 #demo.slack-shell .messenger-shell .ms-list-pane .ms-list-caption { margin: 12px 18px 8px !important; padding: 0 8px !important; min-height: 20px !important; align-items: center !important; }
 /* ---- 构建 / 扩展 / 进化：全页面，无二级面板 */
-body:is([data-view="studio"], [data-view="extensions"], [data-view="evolution"]) #demo.slack-shell.slack-shell { grid-template-columns: 68px minmax(0, 1fr) !important; }
+body:is([data-view="studio"], [data-view="extensions"], [data-view="evolution"]) #demo.slack-shell.slack-shell { grid-template-columns: var(--as-rail-w, 60px) minmax(0, 1fr) !important; }
 body:is([data-view="studio"], [data-view="extensions"], [data-view="evolution"]) #demo.slack-shell .demoside { display: none !important; }
 #demo.slack-shell .ext-page-tabs { margin: 20px 0 16px !important; }
 #demo.slack-shell .ext-page-tabs .as-num { margin-left: 6px; color: var(--as-text-muted); font-size: 12px; }
@@ -8195,7 +8195,7 @@ html[data-appearance-style="liquid"] body #modalHost .modal { background: rgba(2
 /* 内容区始终放在最后一列：侧栏隐藏（如新建工作台）时不会落进侧栏那一列 */
 #demo.slack-shell > .demoarea { grid-column: -2 / -1 !important; grid-row: 1 !important; }
 /* 新建工作台：无侧栏时内容占满（不留空列） */
-body[data-view="personal"][data-page="benchbuilder"] #demo.slack-shell.slack-shell { grid-template-columns: 68px minmax(0, 1fr) !important; }
+body[data-view="personal"][data-page="benchbuilder"] #demo.slack-shell.slack-shell { grid-template-columns: var(--as-rail-w, 60px) minmax(0, 1fr) !important; }
 
 /* ---- Thread 面板：与频道同一底面，只用左侧分割线区分（不再叠一层玻璃） */
 #demo.slack-shell .threadpanel.threadpanel { background: transparent !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; box-shadow: none !important; border-left: 1px solid var(--as-border) !important; }
@@ -8298,7 +8298,7 @@ html:root[data-appearance-style="liquid"] body #demo.slack-shell .threadpanel.th
 html:root[data-appearance-style="liquid"] body #demo.slack-shell :is(.democrumb, .sidehead, .channelhead, .threadheader, .sidefoot, .channelcomposer, .co-thread-compose) { background: transparent !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
 /* 打开 Thread 时侧栏保持可拖拽宽度（原 demo 在 1101–1350px 把侧栏压到 218px，头部被裁切） */
 @media (min-width: 768px) {
-  html body[data-page] #demo.slack-shell.slack-shell:has(> .demoside:not(:empty)):has(.threadpanel) { grid-template-columns: 68px var(--as-side-w, 240px) minmax(0, 1fr) !important; }
+  html body[data-page] #demo.slack-shell.slack-shell:has(> .demoside:not(:empty)):has(.threadpanel) { grid-template-columns: var(--as-rail-w, 60px) var(--as-side-w, 240px) minmax(0, 1fr) !important; }
 }
 /* ---- 全局弹窗：紧凑头部（无分割线）· 统一内边距 · 字段间距 14 · 操作按钮右对齐 */
 html body #modalHost .modal > .modalhead { min-height: 0 !important; height: auto !important; padding: 16px 16px 8px 20px !important; gap: 12px !important; border-bottom: 0 !important; align-items: center !important; }
@@ -9004,11 +9004,11 @@ html:root body #modalHost .modal:has(.af-split) > .modalfoot { padding-top: 14px
 @media (max-width: 760px) { #modalHost .af-split { grid-template-columns: 1fr; } #modalHost .af-side { border-left: 0; border-top: 1px solid var(--as-border); } }
 /* 侧栏收起：任何页面（含打开 Thread 时）二级菜单列都收为 0，内容紧贴导航栏 */
 @media (min-width: 861px) {
-  html:root[data-side="collapsed"] body #demo.slack-shell.slack-shell.slack-shell.slack-shell:not([data-solo]):has(> .demoside:not(:empty)) { grid-template-columns: 68px 0px minmax(0, 1fr) !important; }
+  html:root[data-side="collapsed"] body #demo.slack-shell.slack-shell.slack-shell.slack-shell:not([data-solo]):has(> .demoside:not(:empty)) { grid-template-columns: var(--as-rail-w, 60px) 0px minmax(0, 1fr) !important; }
 }
 /* 二级菜单被隐藏（data-solo）时只保留导航栏 + 内容两列，避免留出空列 */
 @media (min-width: 861px) {
-  html:root body #demo.slack-shell.slack-shell.slack-shell.slack-shell[data-solo] { grid-template-columns: 68px minmax(0, 1fr) !important; }
+  html:root body #demo.slack-shell.slack-shell.slack-shell.slack-shell[data-solo] { grid-template-columns: var(--as-rail-w, 60px) minmax(0, 1fr) !important; }
 }
 /* 定时 / 事件任务弹窗右侧不加灰底 */
 #modalHost .af-side { background: transparent !important; }
@@ -9583,12 +9583,12 @@ html:root[data-appearance-style="pixel"][data-px-mode="light"] body #modalHost .
 
 /* ===================== 液态玻璃 · 真实折射 + 壁纸 + 材质（as2-glass.js） ===================== */
 :root[data-glass] [data-liquid-glass] { -webkit-backdrop-filter: var(--glass-filter, var(--as-glass)) !important; backdrop-filter: var(--glass-filter, var(--as-glass)) !important; }
-:root[data-glass] #demo.slack-shell { position: relative; isolation: isolate; }
+:root[data-glass] #demo.slack-shell { position: relative; z-index: 1; }
 /* 折射底板：铺在侧栏 + 内容区后面；侧栏 / 内容区自身改为透明，只保留内容 */
 :root[data-glass] #demo.slack-shell > .demoside:not(:empty),
 :root[data-glass] #demo.slack-shell .demoarea { background: transparent !important; border-color: transparent !important; box-shadow: none !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; }
 :root[data-glass] #demo.slack-shell > .demoside:not(:empty) { border-right: 1px solid rgba(30,55,90,.07) !important; }
-.glass-backplane { position: absolute; z-index: -1; pointer-events: none; border-radius: var(--as-r-panel, 24px); overflow: hidden;
+.glass-backplane { position: fixed; z-index: 0; pointer-events: none; border-radius: var(--as-r-panel, 24px); overflow: hidden;
   background: linear-gradient(180deg, rgba(255,255,255,var(--glass-white,0)), rgba(255,255,255,var(--glass-white-bottom,.71)));
   box-shadow: 0 12px 44px rgba(31,53,89,.10), 0 0 0 1px rgba(255,255,255,.72), inset 0 1px 0 rgba(255,255,255,.85); }
 .glass-backplane::before, .glass-backplane::after { content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; }
@@ -9696,8 +9696,8 @@ html:root[data-appearance-style="liquid"] body #demo.slack-shell.slack-shell .ms
 
 /* ===================== 动效与流畅度 ===================== */
 :root { --as-ease-out: cubic-bezier(.22, 1, .36, 1); --as-ease-spring: cubic-bezier(.34, 1.4, .64, 1); }
-@keyframes as2-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-#demo .demoarea.as2-enter > * { animation: as2-enter .28s var(--as-ease-out) both; }
+@keyframes as2-enter { from { opacity: 0; } to { opacity: 1; } }
+#demo .demoarea.as2-enter > * { animation: as2-enter .16s ease-out both; }
 @keyframes as2-modal-in { from { opacity: 0; transform: translateY(10px) scale(.975); } to { opacity: 1; transform: none; } }
 @keyframes as2-fade-in { from { opacity: 0; } to { opacity: 1; } }
 #modalHost .modalback { animation: as2-fade-in .18s ease-out both; }
@@ -9855,6 +9855,45 @@ html:root body #demo.slack-shell.slack-shell .co-members-toggle > .icon { margin
 html:root body #demo.slack-shell.slack-shell .benchcard .benchfoot .btn { background: transparent !important; border: 0 !important; box-shadow: none !important; color: var(--as-text) !important; filter: none !important; padding: 0 12px !important; gap: 6px; border-radius: 999px !important; }
 html:root body #demo.slack-shell.slack-shell .benchcard .benchfoot .btn:hover { background: var(--as-hover) !important; }
 html:root body #demo.slack-shell.slack-shell .benchcard .benchfoot .btn.openbench { color: var(--as-selected-ink) !important; font-weight: 500; }
+
+/* ===================== 概览：去卡片化，分隔线 + 可折叠分区 ===================== */
+#demo.slack-shell .tp-tool-body:not(.is-flush) { padding: 0 !important; }
+.ov2 { display: block; padding: 0 20px 24px; }
+.ov2-sec { border-bottom: 1px solid var(--as-border-soft); }
+.ov2-sec:last-child { border-bottom: 0; }
+.ov2-head { display: flex; align-items: center; gap: 8px; width: 100%; height: 48px; padding: 0; border: 0; background: transparent; font: inherit; font-size: 13px; color: var(--as-text); cursor: pointer; text-align: left; }
+.ov2-head > i { display: inline-grid; place-items: center; width: 16px; height: 16px; color: var(--as-text-subtle); transition: transform .2s var(--as-ease-out); }
+.ov2-head > i .icon { width: 14px; height: 14px; }
+.ov2-sec[data-open="false"] .ov2-head > i { transform: rotate(-90deg); }
+.ov2-head b { font-weight: 600; } .ov2-head .as-num { margin-left: auto; font-size: 12px; color: var(--as-text-muted); }
+.ov2-head:hover b { color: var(--as-brand); }
+.ov2-body { padding: 0 0 18px 24px; animation: as2-fade-in .18s ease-out both; }
+.ov2-body .as2-run { margin: 0; gap: 14px; }
+.ov2-body .as2-run > .as2-run-head { display: none !important; }
+.ov2-body :is(.as-tasklist, .as-tool-group, .as-tool, .as-tool__head) { background: transparent !important; box-shadow: none !important; border: 0 !important; border-radius: 0 !important; }
+.ov2-body .as-tasklist, .ov2-body .as-tool-group { padding: 0 !important; }
+.ov2-body .as-tool-group__head, .ov2-body .as-tasklist__head { padding-left: 0 !important; padding-right: 0 !important; }
+.ov2-body .as-tool + .as-tool { border-top: 1px solid var(--as-border-soft) !important; }
+.ov2-hero-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; font-size: 12px; color: var(--as-text-muted); }
+.ov2-body h3 { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.45; }
+.ov2-body > p { margin: 6px 0 0; font-size: 13px; line-height: 1.6; color: var(--as-text-2); }
+.ov2-arts { margin: 0 -8px; }
+.ov2-arts button { padding: 8px; }
+html:root body #demo.slack-shell.slack-shell .ov2-body .as2-run :is(.as-tasklist, .as-tool-group, .as-tool, .as-tool__head, .as-tool__tile, .as-tasklist__head) { background: transparent !important; box-shadow: none !important; border-radius: 0 !important; }
+html:root body #demo.slack-shell.slack-shell .ov2-body .as2-run .as-tool__tile { border: 1px solid var(--as-border-soft) !important; border-radius: 8px !important; }
+html:root body #demo.slack-shell.slack-shell .ov2-body .as2-run :is(.as-tasklist, .as-tool-group) { border: 0 !important; padding: 0 !important; }
+html:root body #demo.slack-shell.slack-shell .ov2-body .as2-run .as-tool-group { border-top: 1px solid var(--as-border-soft) !important; padding-top: 10px !important; margin-top: 4px; }
+html:root body #demo.slack-shell.slack-shell .ov2-body .as2-run .as-tool__head { padding-left: 0 !important; padding-right: 0 !important; }
+
+/* 左侧导航栏：整体收窄（68 → 60px），每个入口保持正方形（48 × 48） */
+:root { --as-rail-w: 60px; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail { padding-left: 5px !important; padding-right: 5px !important; }
+html:root body #demo.slack-shell.slack-shell .demorail.demorail button { width: 48px !important; height: 48px !important; min-width: 0; padding: 0 !important; font-size: 11px; }
+
+/* 切页稳定：滚动条槽位固定，避免内容宽度随滚动条出现 / 消失而跳动 */
+#demo :is(.demopage, .tp-flow, .tp-tool-body, .ms-history, .ms-conversations, .sidebody, .kanban-cards) { scrollbar-gutter: stable; }
+/* 导航栏第一个入口与右侧面板顶对齐 */
+html:root body #demo.slack-shell.slack-shell .demorail.demorail { padding-top: 0 !important; }
 
 </style></head><body class="as-root">
 <header class="appbar"><div class="appbrand"><button class="iconbtn navtoggle" onclick="toggleSidebar()" aria-label="打开导航"><svg class="icon lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button><span class="logo" aria-hidden="true"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.000000" height="28.000000" fill="none">
@@ -11557,13 +11596,21 @@ projectIconsDecorate();
 
 // ---- 侧栏任务分组：个人空间（常用工作台下）/ 项目（频道下）列出与我相关的任务，点击在右侧打开任务详情；顶部「新建任务」文字按钮。
 function sideNewTaskBtn(){return `<button class="sidenav side-newtask" data-a="nt-open">${ico('plus')}<span>新建任务</span></button>`;}
-function sideTaskList(){
-  const personal=s.view==='personal',rank={wait:0,review:1,running:2,pending:3,done:4};
-  const list=(s.tasks||[]).filter(t=>personal?personallyRelatedTask(t):t.scope===s.project&&(isMe(t.owner)||isMe(taskTriggeredBy(t)))).sort((a,b)=>(rank[a.status]??5)-(rank[b.status]??5));
-  const shown=list.slice(0,8);
-  return `<div class="sidelabel row side-task-label">任务 <span class="hub-channel-count">${list.length}</span></div>`+(shown.length?shown.map(t=>`<button class="sidenav compact side-task ${s.taskDetail===t.id?'active':''}" data-a="open-task" data-v="${esc(t.id)}" aria-label="${esc(t.title)}"><span class="side-title">${esc(t.title)}</span>${t.status==='done'?`<time class="side-done-at">${esc(boardFields(t).time.split(' ')[0])}</time>`:`<span class="side-st" data-status="${esc(t.status)}" title="${esc(({pending:'待开始',running:'运行中',wait:'待输入',review:'待验收',done:'已完成',failed:'失败',cancelled:'已取消'})[t.status]||'')}">${ico(({pending:'dashed',running:'running',wait:'needInput',review:'review',done:'checkCircle',failed:'xCircle',cancelled:'xCircle'})[t.status]||'dashed')}</span>`}</button>`).join(''):'<div class="side-task-empty">暂无与我相关的任务</div>');
+function sideTaskRow(t){
+  const st={pending:'待开始',running:'运行中',wait:'待输入',review:'待验收',done:'已完成',failed:'失败',cancelled:'已取消'},ic={pending:'dashed',running:'running',wait:'needInput',review:'review',done:'checkCircle',failed:'xCircle',cancelled:'xCircle'};
+  return `<button class="sidenav compact side-task ${s.taskDetail===t.id?'active':''}" data-a="open-task" data-v="${esc(t.id)}" aria-label="${esc(t.title)}"><span class="side-title">${esc(t.title)}</span>${t.status==='done'?`<time class="side-done-at">${esc(boardFields(t).time.split(' ')[0])}</time>`:`<span class="side-st" data-status="${esc(t.status)}" title="${esc(st[t.status]||'')}">${ico(ic[t.status]||'dashed')}</span>`}</button>`;
 }
-
+function sideTaskList(){
+  const personal=s.view==='personal',rank={wait:0,review:1,running:2,pending:3,done:4},by=(a,b)=>(rank[a.status]??5)-(rank[b.status]??5);
+  const label=(text,n)=>`<div class="sidelabel row side-task-label">${text} <span class="hub-channel-count">${n}</span></div>`;
+  if(personal){
+    // 个人空间：自己的私有任务 + 跨项目汇聚的、与我相关（我负责 / 由我触发）的任务
+    const mine=(s.tasks||[]).filter(t=>t.scope==='个人').sort(by),agg=(s.tasks||[]).filter(t=>t.scope!=='个人'&&personallyRelatedTask(t)).sort(by);
+    return label('个人任务',mine.length)+(mine.length?mine.slice(0,4).map(sideTaskRow).join(''):'<div class="side-task-empty">暂无个人任务</div>')+label('跨项目任务',agg.length)+(agg.length?agg.slice(0,6).map(sideTaskRow).join(''):'<div class="side-task-empty">暂无与我相关的项目任务</div>');
+  }
+  const list=(s.tasks||[]).filter(t=>t.scope===s.project&&(isMe(t.owner)||isMe(taskTriggeredBy(t)))).sort(by);
+  return label('任务',list.length)+(list.length?list.slice(0,8).map(sideTaskRow).join(''):'<div class="side-task-empty">暂无与我相关的任务</div>');
+}
 // 悬停任务行：右侧浮出任务卡片（内容同看板卡片：类别｜标题、环境 / 模式 / 类型 / 区域、参与者、时间，另含状态与责任人）。
 let sideTaskTimer=0;
 function sideTaskPopClose(){clearTimeout(sideTaskTimer);document.querySelector('#demo .side-task-pop')?.remove();}
@@ -11574,7 +11621,7 @@ function sideTaskPopOpen(row){
   pop.innerHTML=`<div class="side-pop-body" data-status="${esc(task.status)}"><div class="tk-title"><span class="tk-cat">${esc(f.cat)}｜</span>${esc(task.title)}</div>
     <div class="tk-meta"><span data-env="${f.env}">${ico(f.env==='本地'?'monitor':'cloud')}${f.env}</span><span>${ico(f.mode==='Workflow'?'workflow':'agent')}${f.mode}</span><span>${ico(f.typeIcon)}${f.type}</span><span data-zone="${f.zone}">${ico('shield')}${f.zone}</span></div>
     <div class="tk-foot"><span class="tk-people">${f.people.map(p=>`<span class="as-avatar">${esc(p)}</span>`).join('')}<span class="as-avatar agent" data-kind="agent">${f.agentKey}</span>${f.more>1?`<em>+${f.more}</em>`:''}</span><time>${done?'完成于 ':''}${esc(f.time)}</time></div></div>
-    <div class="side-pop-extra"><span>${taskChip(task)}</span><span>责任人 · ${esc(task.owner||'我')}</span><span>执行者 · ${esc(task.executor||'CodeAgent')}</span></div>`;
+    <div class="side-pop-extra"><span>${taskChip(task)}</span><span>所属 · ${esc(task.scope==='个人'?'个人（仅自己可见）':task.scope)}</span><span>责任人 · ${esc(task.owner||'我')}</span><span>执行者 · ${esc(task.executor||'CodeAgent')}</span></div>`;
   document.getElementById('demo').appendChild(pop);
   const r=row.getBoundingClientRect(),side=row.closest('.demoside')?.getBoundingClientRect()||r;
   pop.style.left=Math.round(side.right+8)+'px';pop.style.top=Math.round(Math.max(8,Math.min(r.top-6,innerHeight-pop.offsetHeight-8)))+'px';
@@ -11944,13 +11991,14 @@ function tpNewView(t){
 }
 function tpOverviewView(t){
   const plan=runPlan(t),states=t.run?runStates(t):plan.map(()=>['pending',0]),done=states.filter(x=>x[0]==='done').length,pct=plan.length?Math.round(done/plan.length*100):0;
-  const arts=taskArtifacts(t),use=taskContextUse(t),live=['pending','wait','running'].includes(t.status);
-  const todo=`<section class="ov2-card"><header><b>待办</b><span class="as-num">${done} / ${plan.length}</span></header><ul class="ov2-todo">${plan.map(([label],k)=>`<li data-state="${states[k][0]}">${states[k][0]==='done'?ico('check'):states[k][0]==='running'?'<span class="as-spinner"></span>':'<i></i>'}<span>${esc(label)}</span></li>`).join('')}</ul></section>`;
-  const artCard=`<section class="ov2-card"><header><b>任务产物</b><span class="as-num">${arts.length}</span></header>${arts.length?`<div class="ov2-arts">${arts.map(([name,meta,icon],k)=>`<button data-a="task-artifact" data-v="${k}"><i>${ico(icon)}</i><span><b>${esc(name)}</b><small>${esc(meta)}</small></span>${ico('chevron')}</button>`).join('')}</div>`:'<p class="ov2-empty">执行完成后，产物会出现在这里</p>'}</section>`;
+  const arts=taskArtifacts(t),use=taskContextUse(t),live=['pending','wait','running'].includes(t.status),ov=taskPageUI().ov;
+  const sec=(key,title,count,body)=>{const open=ov[key]!==false;return `<section class="ov2-sec" data-open="${open}"><button class="ov2-head" data-a="task-ov" data-v="${key}" aria-expanded="${open}"><i>${ico('down')}</i><b>${title}</b>${count!=null?`<span class="as-num">${count}</span>`:''}</button>${open?`<div class="ov2-body">${body}</div>`:''}</section>`;};
+  const todo=`<ul class="ov2-todo">${plan.map(([label],k)=>`<li data-state="${states[k][0]}">${states[k][0]==='done'?ico('check'):states[k][0]==='running'?'<span class="as-spinner"></span>':'<i></i>'}<span>${esc(label)}</span></li>`).join('')}</ul>`;
+  const artBody=arts.length?`<div class="ov2-arts">${arts.map(([name,meta,icon],k)=>`<button data-a="task-artifact" data-v="${k}"><i>${ico(icon)}</i><span><b>${esc(name)}</b><small>${esc(meta)}</small></span>${ico('chevron')}</button>`).join('')}</div>`:'<p class="ov2-empty">执行完成后，产物会出现在这里</p>';
   const kv=[['责任人',t.owner||'未分配'],['执行者',t.executor||'CodeAgent'],['触发',triggerLabel(taskTrigger(t))+' · '+taskTriggeredBy(t)],['所属',t.scope],['来源',t.source||'—'],['Run',t.run?'R-'+t.id.slice(2)+'-'+t.run:'待确认后创建']];
-  const info=`<section class="ov2-card"><header><b>任务信息</b></header><dl class="ov2-kv">${kv.map(([k,v])=>`<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl><div class="ov2-accept"><dt>验收标准</dt><dd>${esc(t.accept||'结果完整、来源可追溯，按当前目标版本确认。')}</dd></div><div class="ov2-ctx"><span>上下文用量</span><b class="as-num">${use}k<small> / 200k</small></b></div><div class="ov2-bar"><i style="width:${use/2}%"></i></div></section>`;
-  const hero=`<section class="ov2-card ov2-hero"><div class="ov2-hero-top">${taskChip(t)}<span>V${t.rev}${t.run?' · R-'+t.id.slice(2)+'-'+t.run:''}</span></div><h3>${esc(t.title)}</h3>${t.goal?`<p>${esc(t.goal)}</p>`:''}<div class="ov2-progress" role="progressbar" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div><small>${done} / ${plan.length} 步已完成</small></section>`;
-  return `<div class="ov2">${hero}${live?(runView(t,'full')||todo):todo}${artCard}${info}${taskKnowledgeSummary(t)}</div>`;
+  const info=`<dl class="ov2-kv">${kv.map(([k,v])=>`<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl><div class="ov2-accept"><dt>验收标准</dt><dd>${esc(t.accept||'结果完整、来源可追溯，按当前目标版本确认。')}</dd></div><div class="ov2-ctx"><span>上下文用量</span><b class="as-num">${use}k<small> / 200k</small></b></div><div class="ov2-bar"><i style="width:${use/2}%"></i></div>`;
+  const sum=`<div class="ov2-hero-top">${taskChip(t)}<span>V${t.rev}${t.run?' · R-'+t.id.slice(2)+'-'+t.run:''}</span></div><h3>${esc(t.title)}</h3>${t.goal?`<p>${esc(t.goal)}</p>`:''}<div class="ov2-progress" role="progressbar" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div><small>${done} / ${plan.length} 步已完成</small>`;
+  return `<div class="ov2">${sec('sum','概况',null,sum)}${sec('prog',live?'进展':'待办',live?null:done+' / '+plan.length,live?(runView(t,'full')||todo):todo)}${sec('art','任务产物',arts.length,artBody)}${sec('info','任务信息',null,info)}${taskKnowledgeSummary(t)?sec('ctx','知识范围',null,taskKnowledgeSummary(t)):''}</div>`;
 }
 function taskPageTool(t){
   const tabs=tpTabs(),defs=Object.fromEntries(tpToolDefs().map(d=>[d[0],d]));
@@ -12802,20 +12850,23 @@ function glassApply(){
 // ---------- 折射底板：一块 backplane 铺在侧栏 + 内容区后面，承载折射与顶/底渐变填充 ----------
 const GLASS_TARGETS='.glass-backplane,.as2-switcher,.modal,.appbar .appsearch';
 let glassPending=false;
-function glassSyncSoon(){if(glassPending)return;glassPending=true;requestAnimationFrame(()=>{glassPending=false;glassSync();});}
+function glassSyncSoon(){try{glassPlate();}catch(e){}if(glassPending)return;glassPending=true;requestAnimationFrame(()=>{glassPending=false;glassSync();});}
+// 底板位置同步（轻量，随 DOM 变化在微任务里立即执行，避免切页时底板比内容慢一帧而「跳」）。
+function glassPlate(){
+  const on=document.documentElement.dataset.appearanceStyle==='liquid',shell=document.querySelector('#demo.slack-shell');
+  let plate=document.body.querySelector(':scope > .glass-backplane');
+  if(!on||!shell){plate?.remove();return;}
+  // 底板挂在 body 上（不在 #demo 里），#demo.innerHTML 重绘时它不会被销毁 → 切页不闪、折射不断。
+  if(!plate){plate=document.createElement('div');plate.className='glass-backplane';plate.setAttribute('aria-hidden','true');document.body.insertBefore(plate,document.body.firstChild);}
+  const parts=[...shell.children].filter(e=>e.matches('.demoside:not(:empty),.demoarea')&&e.getClientRects().length);
+  if(!parts.length)return;
+  const rects=parts.map(e=>e.getBoundingClientRect()),rail=shell.querySelector(':scope > .demorail')?.getBoundingClientRect(),r=shell.getBoundingClientRect();
+  const x=Math.max(rail?.right||r.left,Math.min(...rects.map(q=>q.left))),y=Math.min(...rects.map(q=>q.top)),w=Math.max(...rects.map(q=>q.right))-x,h=Math.max(...rects.map(q=>q.bottom))-y,key=x+'|'+y+'|'+w+'|'+h;
+  if(plate.dataset.bounds!==key){plate.dataset.bounds=key;plate.style.left=x+'px';plate.style.top=y+'px';plate.style.width=w+'px';plate.style.height=h+'px';}
+}
 function glassSync(){
   const root=document.documentElement,on=root.dataset.appearanceStyle==='liquid',refract=on&&glassConfig().glass.refraction&&!!window.LiquidGlassControls;
-  const shell=document.querySelector('#demo.slack-shell');
-  if(shell){
-    let plate=shell.querySelector(':scope > .glass-backplane');
-    if(!on){plate?.remove();}
-    else{
-      if(!plate){plate=document.createElement('div');plate.className='glass-backplane';plate.setAttribute('aria-hidden','true');shell.appendChild(plate);}
-      const parts=[...shell.children].filter(e=>e.matches('.demoside:not(:empty),.demoarea')&&getComputedStyle(e).display!=='none');
-      const rects=parts.map(e=>e.getBoundingClientRect());
-      if(rects.length){const r=shell.getBoundingClientRect(),rail=shell.querySelector(':scope > .demorail')?.getBoundingClientRect();const x=Math.max(rail?.right||r.left,Math.min(...rects.map(q=>q.left))),y=Math.min(...rects.map(q=>q.top));const style=`left:${x-r.left}px;top:${y-r.top}px;width:${Math.max(...rects.map(q=>q.right))-x}px;height:${Math.max(...rects.map(q=>q.bottom))-y}px`;if(plate.dataset.bounds!==style){plate.dataset.bounds=style;plate.style.cssText=style;}}
-    }
-  }
+  glassPlate();
   document.querySelectorAll(GLASS_TARGETS).forEach(el=>{
     if(refract&&!el.hasAttribute('data-liquid-glass'))window.LiquidGlassControls.init(el,el.matches('.modal')?'panel':'control');
     if(!refract&&el.hasAttribute('data-liquid-glass')){window.LiquidGlassControls.destroy(el);el.style.removeProperty('--glass-filter');}
