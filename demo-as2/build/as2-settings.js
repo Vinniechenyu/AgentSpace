@@ -10,17 +10,31 @@ const SETTINGS_ACTIONS=[['read','读取资料与检索','safe','查询项目空�
 function liquidPalettes(){return [['blue-orange','流光 · 蓝橙','#2B76F0','#F08A3C'],['brand-aqua','品牌 · 蓝绿','#0039FF','#2AE9CB'],['sky-violet','星夜 · 蓝紫','#23ADFF','#A165FF'],
   ['sunset','日落 · 靛橙','#7C83F2','#FF7A45'],['forest','有风 · 林绿','#2F8F6B','#8BB94A'],['ripple','涟漪 · 水蓝','#2E86C7','#67C9E8'],
   ['dusk','暮色 · 紫粉','#6D5DF5','#F472B6'],['ember','余晖 · 蓝红','#5B8FF0','#F2654E'],['sand','暖沙 · 米棕','#B4763C','#E0A96D']];}
-// 像素风格强调色（选中、主按钮、焦点）。
-function pixelInks(){return [['#F2F2F2','单色'],['#3DDC84','终端绿'],['#FFB020','琥珀'],['#5CE1E6','青'],['#FF7AB6','霓虹粉']];}
+// 像素风格：浅色蓝图（灰底网格 · 橙色强调 · 黑色选中块）与深色终端；强调色 = [填充色, 名称, 文字用色, 填充上的字色]。
+function pixelInks(mode){mode=mode||(settingsConfig().pixelMode==='dark'?'dark':'light');return mode==='dark'
+  ?[['#F2F2F2','单色','#F2F2F2','#0A0A0A'],['#3DDC84','终端绿','#3DDC84','#0A0A0A'],['#FFB020','琥珀','#FFB020','#0A0A0A'],['#5CE1E6','青','#5CE1E6','#0A0A0A'],['#FF7AB6','霓虹粉','#FF7AB6','#0A0A0A']]
+  :[['#FF6B1A','橙','#B83E00','#111111'],['#111111','墨黑','#111111','#FFFFFF'],['#2F5BEA','蓝','#2F5BEA','#FFFFFF'],['#12874E','绿','#0E6E40','#FFFFFF'],['#E0457B','粉','#B02A5C','#FFFFFF']];}
+function pixelInkNormalize(st){const list=pixelInks(st.pixelMode==='dark'?'dark':'light');if(!list.some(x=>x[0].toLowerCase()===String(st.pixelInk||'').toLowerCase()))st.pixelInk=list[0][0];}
 function autonomyPresets(){return {ask:{read:'ask',write:'ask',send:'ask'},risky:{read:'auto',write:'ask',send:'ask'},auto:{read:'auto',write:'auto',send:'ask'}};}
 function settingsConfig(){
-  const d={density:'comfortable',reduceMotion:false,unreadBadge:true,needYou:'inapp',digest:true,quietHours:false,defaultAgent:'CodeAgent',autonomy:'risky',actions:{...autonomyPresets().risky},approvalTtl:'once',learn:true,retention:'90',extApproval:true,liquidPreset:'blue-orange',liquidA:'#2B76F0',liquidB:'#F08A3C',pixelInk:'#F2F2F2'};
+  const d={density:'comfortable',reduceMotion:false,unreadBadge:true,needYou:'inapp',digest:true,quietHours:false,defaultAgent:'CodeAgent',autonomy:'risky',actions:{...autonomyPresets().risky},approvalTtl:'once',learn:true,retention:'90',extApproval:true,liquidPreset:'blue-orange',liquidA:'#2B76F0',liquidB:'#F08A3C',pixelInk:'#FF6B1A',pixelMode:'light'};
   if(!s.settings||typeof s.settings!=='object')s.settings={};
   s.settings={...d,...s.settings,actions:{...d.actions,...(s.settings.actions||{})}};
   return s.settings;
 }
-function themeTone(style){return APPEARANCE_STYLES[style]?.tone||'light';}
-function settingsApply(){const st=settingsConfig(),root=document.documentElement;root.dataset.density=st.density;root.dataset.motion=st.reduceMotion?'reduce':'full';root.dataset.unreadBadge=st.unreadBadge?'on':'off';root.style.setProperty('--lq-a',st.liquidA);root.style.setProperty('--lq-b',st.liquidB);root.style.setProperty('--px-ink',st.pixelInk||'#F2F2F2');pixelFontsEnsure();}
+// Logo 换色：从主题主色（十六进制）推算滤镜；无彩色（黑 / 灰 / 白）时转灰度并调亮度。
+function logoFilter(hex){
+  const m=/^#?([0-9a-f]{6})$/i.exec(String(hex||'').trim());if(!m)return 'none';
+  const n=parseInt(m[1],16),r=(n>>16)/255,g=((n>>8)&255)/255,b=(n&255)/255,max=Math.max(r,g,b),min=Math.min(r,g,b),l=(max+min)/2,dl=max-min;
+  let h=0;const s=dl===0?0:dl/(1-Math.abs(2*l-1));
+  if(dl){h=max===r?((g-b)/dl)%6:max===g?(b-r)/dl+2:(r-g)/dl+4;h*=60;if(h<0)h+=360;}
+  if(s<.18)return `grayscale(1) brightness(${Math.min(2.4,.15+l*2.2).toFixed(2)})`;
+  return `hue-rotate(${Math.round(h-224)}deg) saturate(${Math.min(1.25,Math.max(.4,s/.85)).toFixed(2)})`;
+}
+function logoTintApply(hex){document.documentElement.style.setProperty('--lg-filter',hex?logoFilter(hex):'none');}
+function themeTone(style){if(style==='pixel')return settingsConfig().pixelMode==='dark'?'dark':'light';return APPEARANCE_STYLES[style]?.tone||'light';}
+function settingsApply(){const st=settingsConfig(),root=document.documentElement;root.dataset.density=st.density;root.dataset.motion=st.reduceMotion?'reduce':'full';root.dataset.unreadBadge=st.unreadBadge?'on':'off';root.style.setProperty('--lq-a',st.liquidA);root.style.setProperty('--lq-b',st.liquidB);try{const _style=appearanceConfig().style;logoTintApply(_style==='liquid'?st.liquidA:_style==='pixel'?(pixelInks(st.pixelMode==='dark'?'dark':'light').find(x=>x[0].toLowerCase()===String(st.pixelInk).toLowerCase())||[])[0]:'');}catch(e){}
+  pixelInkNormalize(st);root.dataset.pxMode=st.pixelMode==='dark'?'dark':'light';const _ink=pixelInks(root.dataset.pxMode).find(x=>x[0].toLowerCase()===st.pixelInk.toLowerCase())||pixelInks(root.dataset.pxMode)[0];root.style.setProperty('--px-ink',_ink[0]);root.style.setProperty('--px-ink-text',_ink[2]);root.style.setProperty('--px-on-ink',_ink[3]);pixelFontsEnsure();}
 // 像素皮肤字体：仅在选用时按需加载（Silkscreen 像素标题 + JetBrains Mono 正文；离线回退系统等宽字体）。
 function pixelFontsEnsure(){if(s?.appearance?.style!=='pixel'||document.getElementById('as2-pixel-fonts'))return;const l=document.createElement('link');l.id='as2-pixel-fonts';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Silkscreen:wght@400;700&display=swap';document.head.appendChild(l);}
 function settingsSet(key,value){
@@ -32,6 +46,7 @@ function settingsSet(key,value){
   else if(key==='liquidA'||key==='liquidB'){st[key]=value;st.liquidPreset=liquidPalettes().find(x=>x[2].toLowerCase()===st.liquidA.toLowerCase()&&x[3].toLowerCase()===st.liquidB.toLowerCase())?.[0]||'custom';}
   else st[key]=value;
   if(key.startsWith('actions.'))st.autonomy=Object.entries(autonomyPresets()).find(([,p])=>Object.entries(p).every(([k,v])=>st.actions[k]===v))?.[0]||'custom';
+  if(key==='pixelMode'){pixelInkNormalize(st);st.pixelInk=pixelInks(value)[0][0];save();appearanceApply();openSettings('appearance');return;}
   save();settingsApply();if(key==='defaultProject')render();openSettings();
 }
 function settingsRow(title,desc,control){return `<div class="settings-row"><div class="settings-row-copy"><b>${title}</b>${desc?`<small>${desc}</small>`:''}</div><div class="settings-row-control">${control}</div></div>`;}
@@ -50,14 +65,14 @@ function settingsPane(sec){
   if(sec==='appearance'){
     const fam=style==='liquid'?'liquid':style==='pixel'?'pixel':'minimal';
     const lp=liquidPalettes().find(x=>x[0]===st.liquidPreset),la=lp?lp[2]:st.liquidA,lb=lp?lp[3]:st.liquidB;
-    const fams=[['minimal','极简','中性灰阶 · 墨色主按钮',style==='dark'?'dark':'light'],['liquid','液态玻璃','渐变光晕 · 半透明玻璃',''],['pixel','像素','等宽 · 直角硬边 · 终端感','']];
-    const card=([key,name,tag,tone])=>`<button class="ap-style" role="radio" aria-checked="${fam===key}" data-a="appearance-family" data-v="${key}"><span class="ap-art ap-art--${key}" data-tone="${tone}" style="--a:${la};--b:${lb};--ink:${st.pixelInk||'#F2F2F2'}" aria-hidden="true"><i class="ap-art-win"><i class="ap-art-side"></i><i class="ap-art-title"></i><i class="ap-art-line"></i><i class="ap-art-line"></i><i class="ap-art-btn"></i></i></span><span class="ap-style-copy"><b>${name}</b><small>${tag}</small></span></button>`;
+    const fams=[['minimal','极简','中性灰阶 · 墨色主按钮',style==='dark'?'dark':'light'],['liquid','液态玻璃','渐变光晕 · 半透明玻璃',''],['pixel','像素','网格蓝图 · 等宽 · 直角硬边','']];
+    const card=([key,name,tag,tone0])=>{const tone=key==='pixel'?(st.pixelMode==='dark'?'dark':'light'):tone0;return`<button class="ap-style" role="radio" aria-checked="${fam===key}" data-a="appearance-family" data-v="${key}"><span class="ap-art ap-art--${key}" data-tone="${tone}" style="--a:${la};--b:${lb};--ink:${st.pixelInk||'#F2F2F2'}" aria-hidden="true"><i class="ap-art-win"><i class="ap-art-side"></i><i class="ap-art-title"></i><i class="ap-art-line"></i><i class="ap-art-line"></i><i class="ap-art-btn"></i></i></span><span class="ap-style-copy"><b>${name}</b><small>${tag}</small></span></button>`;};
     const sw=(a,v,on,label,bg)=>`<button class="ap-swatch" role="radio" aria-checked="${on}" data-a="${a}" data-v="${esc(v)}" title="${esc(label)}"><i style="background:${bg}"></i><span>${esc(label)}</span></button>`;
     const colors=fam==='minimal'?sw('appearance-style','classic',style==='classic','浅色','linear-gradient(135deg,#FFFFFF 50%,#E5E5E5 50%)')+sw('appearance-style','dark',style==='dark','深色','linear-gradient(135deg,#2A2A2C 50%,#0C0C0D 50%)')
       :fam==='liquid'?liquidPalettes().map(([id,name,c1,c2])=>sw('settings-set','liquidPreset|'+id,st.liquidPreset===id,name.split(' · ')[1],`linear-gradient(135deg,${c1},${c2})`)).join('')+sw('settings-set','liquidPreset|custom',st.liquidPreset==='custom','自定义',`conic-gradient(from 200deg,#FF7A45,#F5C842,#2AE9CB,#23ADFF,#A165FF,#FF7A45)`)
-      :pixelInks().map(([c,n])=>sw('settings-set','pixelInk|'+c,(st.pixelInk||'#F2F2F2').toUpperCase()===c.toUpperCase(),n,`linear-gradient(135deg,${c} 55%,#0A0A0A 55%)`)).join('');
+      :pixelInks().map(([c,n])=>sw('settings-set','pixelInk|'+c,(st.pixelInk||'').toUpperCase()===c.toUpperCase(),n,`linear-gradient(135deg,${c} 55%,${st.pixelMode==='dark'?'#0A0A0A':'#E4E4E4'} 55%)`)).join('');
     return settingsGroup('风格',`<div class="ap-styles" role="radiogroup" aria-label="风格">${fams.map(card).join('')}</div>`)+
-      settingsGroup('颜色',`<div class="ap-swatches" role="radiogroup" aria-label="颜色">${colors}</div>`+(fam==='liquid'&&st.liquidPreset==='custom'?settingsRow('自定义颜色','主色用于选中、运行与背景上部；辅色用于等待、高亮与背景下部',`<span class="liquid-custom"><label class="liquid-color"><input type="color" value="${esc(st.liquidA)}" data-setting="liquidA" data-liquid-color="--lq-a" aria-label="主色">主色 <code>${esc(st.liquidA.toUpperCase())}</code></label><label class="liquid-color"><input type="color" value="${esc(st.liquidB)}" data-setting="liquidB" data-liquid-color="--lq-b" aria-label="辅色">辅色 <code>${esc(st.liquidB.toUpperCase())}</code></label></span>`):''),
+      settingsGroup('颜色',`<div class="ap-swatches" role="radiogroup" aria-label="颜色">${colors}</div>`+(fam==='pixel'?settingsRow('底色','浅色蓝图：灰底网格 + 橙色强调；深色终端：黑底等宽',settingsSeg('pixelMode',st.pixelMode==='dark'?'dark':'light',[['light','浅色 · 蓝图'],['dark','深色 · 终端']])):'')+(fam==='liquid'&&st.liquidPreset==='custom'?settingsRow('自定义颜色','主色用于选中、运行与背景上部；辅色用于等待、高亮与背景下部',`<span class="liquid-custom"><label class="liquid-color"><input type="color" value="${esc(st.liquidA)}" data-setting="liquidA" data-liquid-color="--lq-a" aria-label="主色">主色 <code>${esc(st.liquidA.toUpperCase())}</code></label><label class="liquid-color"><input type="color" value="${esc(st.liquidB)}" data-setting="liquidB" data-liquid-color="--lq-b" aria-label="辅色">辅色 <code>${esc(st.liquidB.toUpperCase())}</code></label></span>`):''),
         fam==='liquid'?'背景渐变、选中底色与状态色都由所选的两种颜色自动推导。':fam==='pixel'?'强调色用于选中、主按钮与焦点；状态色保持不变。':'')+
       settingsGroup('显示',
         settingsRow('界面密度','紧凑模式收紧行高与间距，一屏显示更多任务与消息',settingsSeg('density',st.density,[['comfortable','舒适'],['compact','紧凑']]))+

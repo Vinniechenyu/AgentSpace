@@ -385,11 +385,16 @@ css = '\n'.join([
 head = head.replace('<meta name="color-scheme" content="light">', '<meta name="color-scheme" content="light dark">')
 body = re.sub(r'<template id="font-license-notices">.*?</template>', '', body, flags=re.S)
 body = body.replace('<body>', '<body class="as-root">')
-# Brand logo: embedded as an <img> data URI so the SVG's internal ids never collide with the page.
-import base64
-logo = base64.b64encode((HERE / 'assets/agentspace-logo.svg').read_bytes()).decode()
+# Brand logo: inlined so its gradient stops can follow the theme (--lg-s1…s9, fallbacks = the original brand colours).
+_svg = (HERE / 'assets/agentspace-logo.svg').read_text()
+_k = [0]
+def _stop(m):
+    _k[0] += 1
+    return f'<stop style="stop-color:var(--lg-s{_k[0]},{m.group(1)})"'
+_svg = re.sub(r'<stop stop-color="([^"]+)"', _stop, _svg)
+assert _k[0] == 9, 'logo gradient stops'
 body, n = re.subn(r'<span class="logo" aria-hidden="true"><svg.*?</svg></span>',
-                  f'<span class="logo" aria-hidden="true"><img src="data:image/svg+xml;base64,{logo}" alt=""></span>', body, count=1, flags=re.S)
+                  lambda m: '<span class="logo" aria-hidden="true">' + _svg + '</span>', body, count=1, flags=re.S)
 assert n == 1, 'logo anchor missing'
 
 js = script.replace('--as-', '--ap-')
@@ -509,11 +514,11 @@ jsrep("if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.styl
       "if(s.appearance.style==='system')s.appearance.style=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'classic';if(!Object.hasOwn(APPEARANCE_STYLES,s.appearance.style))s.appearance.style='liquid';")
 js = js.replace('APPEARANCE_STYLES[style].tone', 'themeTone(style)')
 jsrep("function appearanceApply(){", "function appearanceApply(){settingsApply();")
-jsrep("function action(a,v){", "function action(a,v){if(mentionAction(a,v)||newTaskAction(a,v)||taskPageAction(a,v)||settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v)||messageAction(a,v)||composerAction(a,v)||boardAction(a,v)||extensionAction(a,v))return;")
+jsrep("function action(a,v){", "function action(a,v){if(channelTabsAction(a,v)||wfEditorAction(a,v)||mentionAction(a,v)||newTaskAction(a,v)||taskPageAction(a,v)||settingsAction(a,v)||runAction(a,v)||sidebarAction(a,v)||messageAction(a,v)||composerAction(a,v)||boardAction(a,v)||extensionAction(a,v))return;")
 jsrep("case 'appearance-settings':openAppearanceSettings();break;", "case 'appearance-settings':openSettings();break;")
 js = js.rstrip()
 assert js.endswith('</script></body></html>')
-js = js[:-len('</script></body></html>')] + (HERE / 'as2-settings.js').read_text() + (HERE / 'as2-run.js').read_text() + (HERE / 'as2-sidebar.js').read_text() + (HERE / 'as2-message.js').read_text() + (HERE / 'as2-extensions.js').read_text() + (HERE / 'as2-board.js').read_text() + (HERE / 'as2-taskpage.js').read_text() + (HERE / 'as2-newtask.js').read_text() + (HERE / 'as2-mention.js').read_text() + newtask_hero_js() + avatar_js() + '\n</script></body></html>'
+js = js[:-len('</script></body></html>')] + (HERE / 'as2-settings.js').read_text() + (HERE / 'as2-run.js').read_text() + (HERE / 'as2-sidebar.js').read_text() + (HERE / 'as2-message.js').read_text() + (HERE / 'as2-extensions.js').read_text() + (HERE / 'as2-board.js').read_text() + (HERE / 'as2-taskpage.js').read_text() + (HERE / 'as2-newtask.js').read_text() + (HERE / 'as2-mention.js').read_text() + (HERE / 'as2-wfeditor.js').read_text() + (HERE / 'as2-channel.js').read_text() + (HERE / 'as2-crumb.js').read_text() + newtask_hero_js() + avatar_js() + '\n</script></body></html>'
 
 # Dialog focus: never land on the close button (it would show a focus ring on open).
 jsrep('<section class="modal" role="dialog"', '<section class="modal" role="dialog" tabindex="-1"')
@@ -751,6 +756,25 @@ jsrep("hour12:false}),day:'今天'};", "hour12:false}),day:'今天',sentAt:Date.
 jsrep("agentCard:m.agentCard,name:m.name,", "agentCard:m.agentCard,name:m.name,sentAt:m.sentAt,")
 jsrep("const clock=m=>{const x=/^(\\d{1,2}):(\\d{2})$/.exec(m.time||'');return x?Number(x[1])*60+Number(x[2]):2000;};",
       "const clock=m=>{if(m.sentAt)return 3000+(m.sentAt-1.7e12)/1e9;const x=/^(\\d{1,2}):(\\d{2})$/.exec(m.time||'');return x?Number(x[1])*60+Number(x[2]):2000;};")
+
+# ---- Workflow 编辑器：节点库 / 画布改由 as2-wfeditor.js 渲染（横向流程 + 真实拖动 + 面板调宽）。
+js, n1 = re.subn(r'<aside class="nodepalette">.*?</aside>', lambda m: '<aside class="nodepalette">${wfPaletteHtml()}</aside>', js, count=1, flags=re.S)
+js, n2 = re.subn(r'<div class="wfcanvas" id="wfCanvas">.*?</div></div></div><aside class="nodeconfig">', lambda m: '<div class="wfcanvas" id="wfCanvas">${wfCanvasHtml()}</div><aside class="nodeconfig">', js, count=1, flags=re.S)
+assert n1 == 1 and n2 == 1, ('workflow editor anchors', n1, n2)
+
+# ---- Workflow 编辑器：单行精简页头（返回 · 流程切换 · 状态 | 范围 · 保存 · 调试 · 发布 · 更多），去掉底栏。
+js, h1 = re.subn(r'<div class="wfedithead">.*?</div></div>\$\{workflowOriginBanner\(\)\}', lambda m: '${wfHeaderHtml()}${workflowOriginBanner()}', js, count=1, flags=re.S)
+js, h2 = re.subn(r'<div class="wfeditfoot">.*?</div></div>', lambda m: '</div>', js, count=1, flags=re.S)
+assert h1 == 1 and h2 == 1, ('wf header/footer anchors', h1, h2)
+
+# ---- 频道「关联任务」「产物」：按真实业务汇总（as2-channel.js）。
+js, c1 = re.subn(r"if\(s\.channelTab==='tasks'\)content=all\.length\?taskTable\(all\):'<div class=\"empty\">本频道暂无关联任务。在 Thread 中 @Agent 或启动 Workflow 即可创建。</div>';\s*else if\(s\.channelTab==='artifacts'\)content=.*?'<div class=\"empty\">执行后的产物会回到这里。</div>'\);",
+    lambda m: "if(s.channelTab==='tasks')content=channelTasksView();  else if(s.channelTab==='artifacts')content=channelArtifactsView();", js, count=1, flags=re.S)
+assert c1 == 1, 'channel tabs content anchor'
+jsrep("${v==='threads'?`<span class=\"co-tab-count\">${threads.length}</span>`:''}", "${channelTabCount(v,threads)}")
+
+# ---- 频道产物详情：沉浸式（隐藏频道头与消息输入，预览占满右侧，底部 AI 输入框）。
+jsrep('class="channelwrap colink-channel${', 'class="channelwrap colink-channel${channelImmersive()}${')
 
 # Inline micro font sizes (8–10px) are below the AS2 type scale.
 js = re.sub(r'font-size:(8|9|10)px', 'font-size:11px', js)

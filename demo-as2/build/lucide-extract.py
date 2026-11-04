@@ -54,6 +54,7 @@ ICON_MAP = {
     'play': 'play', 'pause': 'pause', 'stop': 'square',
     'expand': 'maximize-2', 'collapse': 'minimize-2', 'menu': 'menu',
     # status · feedback
+    'zoomIn': 'zoom-in', 'zoomOut': 'zoom-out', 'fit': 'maximize',   # Workflow 画布控制
     'running': 'loader',                 # 运行中（横向转子，静态呈现）
     'needInput': 'message-square-dot',   # 待输入：等待用户回复
     'review': 'clipboard-check',         # 待验收：核对产物

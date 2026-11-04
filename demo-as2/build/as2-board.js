@@ -85,7 +85,7 @@ function acMenu(v){
 
 // ---- 卡片操作：默认不平铺，hover / 聚焦时在右下角以全圆角悬浮工具栏出现（主操作在最右）。
 // 各页卡片的按钮散落在不同容器里，渲染后统一收进 .as2-card-actions。
-function cardActionCards(){return '.wfcard, .project-agent-card, .knowledge-space-card, .runcard, .evo-next-item, .project-extension-card, .extension-card:has(> .ext-card-foot)';}
+function cardActionCards(){return '.wfcard, .project-agent-card, .knowledge-space-card, .runcard, .evo-next-item, .project-extension-card, .extension-card:has(> .ext-card-foot), .ct-row';}
 function cardActionsDecorate(){
   document.querySelectorAll('#demo .demoarea :is('+cardActionCards()+'):not([data-acts])').forEach(card=>{
     card.dataset.acts='1';
