@@ -10359,6 +10359,15 @@ html:root body #demo .asset-card .asset-face.as2-photo { border-radius: 14px !im
 /* 像素主题：侧栏选中项（白底）里的数字徽标改为深字透明底 */
 :root[data-appearance-style="pixel"] #demo .sidenav.active small { background: transparent !important; color: var(--px-on-ink, #0A0A0A) !important; }
 
+/* 左侧栏间距略放大：主导航行距 / 分区之间 */
+html:root body #demo.slack-shell .side-sec.side-sec { margin-top: 12px; }
+html:root body #demo.slack-shell .side-sec.side-sec--first { margin-top: 20px; }
+html:root body #demo.slack-shell .side-sec--main { display: flex; flex-direction: column; gap: 4px; }
+html:root body #demo.slack-shell .side-sec-head { min-height: 34px; }
+html:root body #demo.slack-shell .side-sec-body { display: flex; flex-direction: column; gap: 2px; }
+/* 频道分组没有「⋯」时，新建按钮靠右对齐 */
+html:root body #demo.slack-shell .side-sec-head:not(:has(.side-sec-more)) > .side-sec-extra { margin-left: auto; }
+
 </style></head><body class="as-root">
 <header class="appbar"><div class="appbrand"><button class="iconbtn navtoggle" onclick="toggleSidebar()" aria-label="打开导航"><svg class="icon lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button><span class="logo" aria-hidden="true"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.000000" height="28.000000" fill="none">
 	<defs>
@@ -12102,7 +12111,7 @@ function sideTeamDefs(){
     {id:'temp',name:'临时任务',items:g('temp')},{id:'event',name:'事件任务',items:g('event')},{id:'schedule',name:'定时任务',items:g('schedule')}];
 }
 function sideEntHtml(it){
-  if(String(it.key).startsWith('nav:'))return it.html; // 主导航栏目固定，不支持拖动 / 分区
+  if(/^(nav|ch):/.test(String(it.key)))return it.html; // 主导航栏目固定，不支持拖动 / 分区
   let h=it.html.replace('<button ','<button draggable="true" data-ent="'+esc(it.key)+'" ');
   return h.replace(/<\/button>$/,`<span class="side-ent-more" role="button" data-a="sec-ent-menu" data-v="${esc(it.key)}" aria-label="移到分区" title="移到分区">${ico('more')}</span></button>`);
 }
@@ -12118,7 +12127,7 @@ function sideBodyHtml(){
     const open=!st.collapsed[x.id];
     if(x.id==='main')return x.list.length?`<div class="side-sec side-sec--main" data-sec="main">${x.list.map(sideEntHtml).join('')}</div>`:'';
     if(!x.list.length&&x.def&&!x.keep)return '';
-    return `<div class="side-sec" data-sec="${esc(x.id)}" data-open="${open}"><div class="side-sec-head"><button class="side-sec-toggle" data-a="sec-toggle" data-v="${esc(x.id)}" aria-expanded="${open}"><span>${esc(x.name)}</span><em>${x.list.length}</em><i>${ico('down')}</i></button><button class="side-sec-more" data-a="sec-menu" data-v="${esc(x.id)}" aria-label="分区操作" title="分区操作">${ico('more')}</button>${x.extra||''}</div>${open?`<div class="side-sec-body">${x.list.map(sideEntHtml).join('')||'<div class="side-task-empty">拖动栏目到这里</div>'}</div>`:''}</div>`;
+    return `<div class="side-sec" data-sec="${esc(x.id)}" data-open="${open}"><div class="side-sec-head"><button class="side-sec-toggle" data-a="sec-toggle" data-v="${esc(x.id)}" aria-expanded="${open}"><span>${esc(x.name)}</span><em>${x.list.length}</em><i>${ico('down')}</i></button>${x.id==='channels'?'':`<button class="side-sec-more" data-a="sec-menu" data-v="${esc(x.id)}" aria-label="分区操作" title="分区操作">${ico('more')}</button>`}${x.extra||''}</div>${open?`<div class="side-sec-body">${x.list.map(sideEntHtml).join('')||(x.id==='channels'?'':'<div class="side-task-empty">拖动栏目到这里</div>')}</div>`:''}</div>`;
   }).join('');
   return sideNewTaskBtn()+html;
 }
@@ -12133,7 +12142,7 @@ function sideSecMenuItems(v){
 }
 function sideEntMenuItems(v){
   const st=sideSecState(),{secs}=sideLayout(),cur=st.assign[v];
-  return [...secs.filter(x=>x.id!=='main').map(x=>({a:'sec-move',v:v+'@@'+x.id,label:'移到「'+x.name+'」',icon:(cur||'')===x.id?'check':'plus'})),'-',{a:'sec-move',v:v+'@@',label:'恢复默认位置',icon:'back',dis:!cur},{a:'sec-new',label:'新建分区',icon:'plus'}];
+  return [...secs.filter(x=>x.id!=='main'&&x.id!=='channels').map(x=>({a:'sec-move',v:v+'@@'+x.id,label:'移到「'+x.name+'」',icon:(cur||'')===x.id?'check':'plus'})),'-',{a:'sec-move',v:v+'@@',label:'恢复默认位置',icon:'back',dis:!cur},{a:'sec-new',label:'新建分区',icon:'plus'}];
 }
 function secNameModal(title,id,val){modal(title,`<label class="field">分区名称<input id="secName" maxlength="16" value="${esc(val||'')}" placeholder="例如：本周重点"></label>`,`${btn('取消','close-modal','','sm')}${btn('确定','sec-save',id||'','primary sm')}`);requestAnimationFrame(()=>document.getElementById('secName')?.focus());}
 function secAction(a,v){
@@ -12157,7 +12166,7 @@ function secAction(a,v){
   document.addEventListener('dragstart',e=>{const r=e.target.closest?.('#demo .demoside [data-ent]');if(!r)return;drag=r.dataset.ent;try{e.dataTransfer.setData('text/plain',drag);e.dataTransfer.effectAllowed='move';}catch(er){}});
   document.addEventListener('dragend',()=>{drag=null;document.querySelectorAll('.side-sec.is-drop').forEach(x=>x.classList.remove('is-drop'));});
   document.addEventListener('dragover',e=>{const sec=e.target.closest?.('#demo .side-sec');if(!sec||!drag)return;e.preventDefault();document.querySelectorAll('.side-sec.is-drop').forEach(x=>x.classList.remove('is-drop'));sec.classList.add('is-drop');});
-  document.addEventListener('drop',e=>{const sec=e.target.closest?.('#demo .side-sec');if(!sec||!drag)return;e.preventDefault();const st=sideSecState(),id=sec.dataset.sec,key=drag;drag=null;if(id==='main')return;
+  document.addEventListener('drop',e=>{const sec=e.target.closest?.('#demo .side-sec');if(!sec||!drag)return;e.preventDefault();const st=sideSecState(),id=sec.dataset.sec,key=drag;drag=null;if(id==='main'||id==='channels')return;
     const defs=s.view==='personal'?sidePersonalDefs():sideTeamDefs(),home=defs.find(d=>d.items.some(it=>it.key===key));
     if(home&&home.id===id)delete st.assign[key];else st.assign[key]=id;render();});
 })();
@@ -12187,6 +12196,7 @@ document.addEventListener('click',e=>{if(e.target.closest?.('#demo .side-task'))
 document.addEventListener('contextmenu',e=>{
   const side=e.target.closest?.('#demo .demoside .sidebody');if(!side)return;
   e.preventDefault();sideTaskPopClose?.();
+  if(e.target.closest('.side-sec[data-sec="channels"]'))return; // 频道分组不参与分区操作
   const sec=e.target.closest('.side-sec'),ent=e.target.closest('[data-ent]'),pt={x:e.clientX,y:e.clientY};
   if(ent)sideMenuOpen(pt,sideEntMenuItems(ent.dataset.ent),'sectask');
   else if(sec&&sec.dataset.sec!=='main')sideMenuOpen(pt,sideSecMenuItems(sec.dataset.sec),'sec');
