@@ -10593,13 +10593,14 @@ html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms
 /* 极光：外框右 / 下留白；侧栏底部与外框对齐；展开浮钮压在吸顶头部之上 */
 html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell > .demoside { margin-bottom: var(--au-gap-b); }
 
-/* 极光：展开侧栏按钮放在顶栏品牌旁（仅收起时出现），纯图标无背景；内容区浮钮不再使用 */
+/* 所有风格：侧栏收起后，展开按钮统一放在顶栏品牌旁（纯图标无背景）；内容区浮钮与面包屑里的展开按钮不再使用 */
 .as2-side-bar { display: none; }
-:root[data-appearance-style="aurora"][data-side="collapsed"] .as2-side-bar { display: inline-grid; place-items: center; width: 30px; height: 30px; margin-left: 8px; border: 0; border-radius: 8px; background: transparent; color: var(--as-text-muted); box-shadow: none; cursor: pointer; transition: color .15s; }
-:root[data-appearance-style="aurora"][data-side="collapsed"] .as2-side-bar:hover { background: transparent; color: var(--as-text); }
-:root[data-appearance-style="aurora"] .as2-side-bar .icon { width: 17px; height: 17px; }
-:root[data-appearance-style="aurora"] .as2-side-float { display: none !important; }
-:root[data-appearance-style="aurora"][data-side="collapsed"] body:has(#demo .democrumb .as2-side-toggle--crumb) .as2-side-bar { display: none; }
+:root[data-side="collapsed"] .as2-side-bar { display: inline-grid; place-items: center; width: 30px; height: 30px; margin-left: 8px; padding: 0; border: 0; border-radius: 8px; background: transparent; color: var(--as-text-muted); box-shadow: none; cursor: pointer; transition: color .15s; }
+:root[data-side="collapsed"] .as2-side-bar:hover { background: transparent; color: var(--as-text); }
+.as2-side-bar .icon { width: 17px; height: 17px; }
+.as2-side-float { display: none !important; }
+:root[data-side="collapsed"] #demo.slack-shell .democrumb .as2-side-toggle--crumb { display: none !important; }
+:root[data-appearance-style="pixel"][data-side="collapsed"] .as2-side-bar { border-radius: 0; }
 
 /* 极光：左侧工具栏选中块 = 与侧栏外框同一套网格渐变（深色底 + 强调色光晕），图标与文字反白 */
 html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demorail.demorail button.active {
@@ -10608,6 +10609,22 @@ html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .de
 html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demorail.demorail button.active :is(svg.icon.lucide, span:not(.rail-unread), small) { background: transparent !important; color: #FFFFFF !important; box-shadow: none !important; border: 0 !important; }
 html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demorail.demorail button .rail-unread { background: #E11D48 !important; color: #FFFFFF !important; border: 2px solid #FFFFFF !important; box-shadow: none !important; }
 html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demorail.demorail button.active .rail-unread { border-color: #0B1020 !important; }
+
+/* ===================== impeccable audit 修复（2026-11-04） ===================== */
+/* [P1 对比度] 极光主题：强调色作文字时（链接、文字按钮）用加深版，浅色强调色（青 / 绿 / 粉）也能 ≥4.5:1 */
+:root[data-appearance-style="aurora"] { --au-ink: color-mix(in srgb, var(--au) 60%, #0B1020); }
+html:root[data-appearance-style="aurora"] body :is(#demo, #modalHost) :is(.btn.link, a:not(.btn), .linkbtn) { color: var(--au-ink) !important; }
+/* [P1 对比度] 液态玻璃：消息列表未读数在辅色（浅橙）上白字仅 2.5:1，底色加深 */
+:root[data-appearance-style="liquid"] #demo .ms-unread { background: color-mix(in srgb, var(--lq-b, #F08A3C) 62%, #000) !important; color: #FFFFFF !important; }
+/* [P2 对比度] 像素主题：最弱一级文字在面板上 4.35:1，略提亮到 ≥4.5:1 */
+:root[data-appearance-style="pixel"] { --as-text-subtle: #959595; }
+/* [P2 点击热区] 20px 的提示按钮视觉不变，命中区扩到 28px（WCAG 2.5.8 ≥24px） */
+.as2-hint-btn { position: relative; }
+.as2-hint-btn::after { content: ""; position: absolute; inset: -4px; }
+/* [P2 响应式] 扩展列表最小列宽 400px 在窄屏溢出：列宽不超过容器 */
+#demo.slack-shell .extension-grid.ext-list { grid-template-columns: repeat(auto-fill, minmax(min(100%, 400px), 1fr)) !important; }
+/* [P2 键盘] 由脚本补上 tabindex 的可点击卡片：键盘聚焦时给出焦点环 */
+#demo [data-a][data-kb-click]:focus-visible { outline: 2px solid var(--as-focus-ring) !important; outline-offset: 2px; }
 
 
 /* ==== DevUI themes (vendor/devui-themes.css) ==== */
@@ -14550,7 +14567,7 @@ function sidebarDecorate(){
   // Collapse toggles: one in the sidebar header, one at the start of the breadcrumb (visible while collapsed).
   if(head&&!head.querySelector('.as2-side-toggle'))head.insertAdjacentHTML('beforeend',`<button class="as2-side-toggle" data-a="side-toggle" aria-label="收起侧栏" title="收起侧栏">${SIDEBAR_TOGGLE_ICON}</button>`);
   const crumb=document.querySelector('#demo .democrumb');
-  // 极光主题：侧栏收起后，展开按钮放在顶栏品牌旁（图标按钮，不压页面内容）；其他主题仍用内容区浮钮。
+  // 侧栏收起后，展开按钮放在顶栏品牌旁（图标按钮，不压页面内容），所有风格一致。
   const brand=document.querySelector('.appbar .appbrand'),barBtn=brand?.querySelector(':scope > .as2-side-bar');
   if(brand&&side?.children.length){if(!barBtn)brand.insertAdjacentHTML('beforeend',`<button class="as2-side-bar" data-a="side-toggle" aria-label="展开侧栏" title="展开侧栏">${SIDEBAR_TOGGLE_ICON}</button>`);}else barBtn?.remove();
   // 页面没有面包屑（任务看板 / 项目主页等）时，侧栏收起后需要一个展开入口：在内容区左上角浮出展开按钮。
@@ -16110,6 +16127,17 @@ try{
     try{return __render.apply(this,arguments);}finally{motionScrollRestore(snap);requestAnimationFrame(()=>requestAnimationFrame(()=>{delete root.dataset.rendering;}));}
   };
 }catch(e){}
+
+// ---- 键盘可达（impeccable audit P1）：带 data-a 的非按钮元素（如扩展卡片 article）补上 role / tabindex，Enter 与空格触发点击。
+(function(){
+  const SEL='#demo [data-a]:not(button):not(a):not(input):not(select):not(textarea):not(label):not([role])';
+  const decorate=()=>{document.querySelectorAll(SEL).forEach(el=>{el.setAttribute('role','button');if(!el.hasAttribute('tabindex'))el.tabIndex=0;el.dataset.kbClick='1';});};
+  document.addEventListener('keydown',e=>{
+    const el=e.target;if(!el||!el.dataset||el.dataset.kbClick!=='1'||(e.key!=='Enter'&&e.key!==' '))return;
+    e.preventDefault();el.click();
+  });
+  try{const demo=document.getElementById('demo'),ob=new MutationObserver(()=>{decorate();ob.takeRecords();});ob.observe(demo,{childList:true,subtree:true});decorate();}catch(e){}
+})();
 /* Liquid Glass Controls v1.0.0 — classic script, no build step. */
 (() => {
 "use strict";
