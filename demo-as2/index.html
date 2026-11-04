@@ -10342,6 +10342,23 @@ html:root body #demo.slack-shell.slack-shell .nt-start .wc-composer-wrap > .nt-c
 .asset-card .asset-face { display: block; width: 48px; height: 48px; margin-bottom: 6px; border-radius: 14px; background-size: cover; background-position: center; }
 html:root body #demo .asset-card .asset-face.as2-photo { border-radius: 14px !important; box-shadow: 0 0 0 1px rgba(30,40,60,.1) !important; }
 
+/* ===== 像素主题：浮层菜单配色（头像菜单 / 二级菜单 / 新建下拉）按主题取色，保证对比度 ===== */
+:root[data-appearance-style="pixel"] .as2-menu.user-menu, :root[data-appearance-style="pixel"] .as2-menu.bc-menu { background: var(--as-card) !important; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: 0 0 0 1px var(--as-border-strong), var(--px-shadow) !important; color: var(--as-text); }
+:root[data-appearance-style="pixel"] .user-menu .um-fly { background: var(--as-card); -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: 0 0 0 1px var(--as-border-strong), var(--px-shadow); }
+:root[data-appearance-style="pixel"] .user-menu > button:hover, :root[data-appearance-style="pixel"] .user-menu .um-item:hover > button.um-group, :root[data-appearance-style="pixel"] .user-menu .um-item:focus-within > button.um-group, :root[data-appearance-style="pixel"] .user-menu .um-fly .um-opt:hover, :root[data-appearance-style="pixel"] .as2-menu.bc-menu > button:hover { background: var(--as-hover) !important; }
+:root[data-appearance-style="pixel"] .user-menu .um-fly .um-opt[aria-checked="true"] { background: var(--px-ink, #F2F2F2) !important; color: #0A0A0A !important; }
+:root[data-appearance-style="pixel"] .user-menu .um-fly .um-opt[aria-checked="true"] .icon { color: #0A0A0A; }
+:root[data-appearance-style="pixel"] .user-menu .um-head b, :root[data-appearance-style="pixel"] .user-menu > button, :root[data-appearance-style="pixel"] .as2-menu.bc-menu b { color: var(--as-text); }
+:root[data-appearance-style="pixel"] .user-menu .um-face { box-shadow: 0 0 0 1px var(--as-border-strong) !important; }
+:root[data-appearance-style="pixel"] .as2-menu.bc-menu small { color: var(--as-text-muted); }
+
+/* 待批准的执行计划：固定在对话流输入框上方，不再出现在概览里 */
+#demo .tp-compose .tp-approve { margin-bottom: 10px; }
+#demo .tp-compose .tp-approve .as2-run { margin: 0; }
+#demo .tp-compose .tp-approve .as-plan { max-height: min(46vh, 420px); overflow: auto; }
+/* 像素主题：侧栏选中项（白底）里的数字徽标改为深字透明底 */
+:root[data-appearance-style="pixel"] #demo .sidenav.active small { background: transparent !important; color: var(--px-on-ink, #0A0A0A) !important; }
+
 </style></head><body class="as-root">
 <header class="appbar"><div class="appbrand"><button class="iconbtn navtoggle" onclick="toggleSidebar()" aria-label="打开导航"><svg class="icon lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button><span class="logo" aria-hidden="true"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.000000" height="28.000000" fill="none">
 	<defs>
@@ -12498,7 +12515,7 @@ function taskPageFlow(t){
   const editCard=`<div class="tpx-edit"><div class="hd"><i>${ico('edit')}</i><div><b>已编辑 ${ch.length} 个文件</b><small><b class="a">+${cAdd}</b> <b class="d">−${cDel}</b></small></div><span class="spacer"></span><button class="tpx-btn" data-a="task-tool" data-v="changes">查看变更</button></div><div class="rows">${ch.slice(0,3).map(f=>`<div><span>${esc(f.path)}</span><em><b class="a">+${f.add}</b>${f.del?` <b class="d">−${f.del}</b>`:''}</em></div>`).join('')}</div></div>`;
   const toggle=label=>`<button class="tpf-run" data-a="task-run-toggle" data-v="${t.id}" aria-expanded="${open}"><span>${label}</span><i>${ico('chevron')}</i></button>${open?tpExecDetail(t):''}<hr class="tpf-rule">`;
   let body='';
-  if(t.status==='pending')body=`<div class="tpf-reply"><p>我已整理执行计划，批准后开始执行。</p></div>${runView(t,'full')}`;
+  if(t.status==='pending')body=`<div class="tpf-reply"><p>我已整理执行计划，批准后开始执行。</p></div>`;
   else if(t.status==='running')body=toggle('正在处理 · 已用时 '+taskDuration(t))+`<div class="tpf-reply"><p>收到，正在按目标 V${t.rev} 执行，完成后会在这里汇总结果。</p></div>${editCard}<div class="tp-actions">${btn('推进演示：返回结果','finish-task',t.id,'sm')}</div>`;
   else if(t.status==='wait')body=`<div class="tpf-reply"><p>需要你确认后才能继续：请核对当前步骤的输入与范围。</p></div><div class="tp-actions">${btn('去确认','task-tool','overview','primary sm')}</div>`;
   else if(finished)body=toggle('已处理 '+taskDuration(t))+`<div class="tpf-reply"><p><b>${t.status==='done'?'已验收':'已完成'}</b>：${esc(t.title)}。</p><p>包含：</p><ul><li><b>${plan.length} 个步骤</b>：${plan.map(p=>esc(p[0])).join('、')}。</li><li><b>${arts.length} 项产物</b>：${arts.map(a=>esc(a[0])).join('、')}。</li><li>变更 <b>+${cAdd} −${cDel}</b>，共 ${ch.length} 个文件。</li></ul><p><b>验证：32 / 32 测试通过。</b> ${esc(t.accept||'结果完整、来源可追溯，按目标 V'+t.rev+' 确认。')}</p></div>${editCard}<div class="tpx-edit tpx-arts"><div class="hd"><i>${ico('archive')}</i><div><b>${arts.length} 项产物</b><small>${t.status==='done'?'已验收':'等待你验收'}</small></div><span class="spacer"></span><button class="tpx-btn" data-a="task-artifact" data-v="0">查看产物</button></div><div class="rows">${arts.map(([name,meta,icon],k)=>`<button class="art-row" data-a="task-artifact" data-v="${k}"><i>${ico(icon)}</i><span><b>${esc(name)}</b><small>${esc(meta)}</small></span>${ico('chevron')}</button>`).join('')}</div></div>`;
@@ -12563,7 +12580,7 @@ function tpOverviewView(t){
   const run=t.run?'R-'+t.id.slice(2)+'-'+t.run:'待确认后创建';
   const rows=[['负责',`${esc(t.owner||'未分配')}<i>·</i>${esc(t.executor||'CodeAgent')}`],['触发',`${esc(triggerLabel(taskTrigger(t)))}<i>·</i>${esc(taskTriggeredBy(t))}`],['来源',`${esc(t.source||'—')}<i>·</i>${esc(t.scope)}`],['验收',esc(t.accept||'结果完整、来源可追溯，按当前目标版本确认。')]];
   const head=`<header class="ov2-top"><div class="ov2-top-row">${taskChip(t)}<span>V${t.rev} · ${esc(run)}</span></div><h3>${esc(t.title)}</h3>${t.goal?`<p>${esc(t.goal)}</p>`:''}<div class="ov2-progress" role="progressbar" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div><dl class="ov2-facts">${rows.map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}<div><dt>上下文</dt><dd class="ov2-ctxline"><b class="as-num">${use}k</b><small> / 200k</small><span class="ov2-bar"><i style="width:${use/2}%"></i></span></dd></div></dl></header>`;
-  return `<div class="ov2">${head}${sec('prog',live?'进展':'待办',done+' / '+plan.length,live?(runView(t,'full')||todo):todo)}${sec('art','任务产物',arts.length,artBody)}${taskKnowledgeSummary(t)?sec('ctx','知识范围',null,taskKnowledgeSummary(t)):''}</div>`;
+  return `<div class="ov2">${head}${sec('prog',live?'进展':'待办',done+' / '+plan.length,live&&t.run?(runView(t,'full')||todo):todo)}${sec('art','任务产物',arts.length,artBody)}${taskKnowledgeSummary(t)?sec('ctx','知识范围',null,taskKnowledgeSummary(t)):''}</div>`;
 }
 function taskPageTool(t){
   const tabs=tpTabs(),defs=Object.fromEntries(tpToolDefs().map(d=>[d[0],d]));
@@ -12590,7 +12607,7 @@ function renderTaskPage(){
   return `<div class="tp-page"><section class="tp-left">
     <header class="tp-head"><div class="tp-title"><b title="${esc(t.title)}">${esc(t.title)}</b></div>${taskChip(t)}</header>
     <div class="tp-flow">${taskPageFlow(t)}</div>
-    <div class="tp-compose"><div class="composer"><textarea id="taskPageInput" aria-label="补充任务要求" placeholder="补充要求，或 @${esc(t.executor||'CodeAgent')} 继续…"></textarea><div class="composerfoot"><span class="spacer"></span><button class="btn primary sm" data-a="task-send" data-v="${t.id}" aria-label="发送">${ico('send')}发送</button></div></div></div>
+    <div class="tp-compose">${t.status==='pending'&&!t.run?`<div class="tp-approve">${runView(t,'full')}</div>`:''}<div class="composer"><textarea id="taskPageInput" aria-label="补充任务要求" placeholder="补充要求，或 @${esc(t.executor||'CodeAgent')} 继续…"></textarea><div class="composerfoot"><span class="spacer"></span><button class="btn primary sm" data-a="task-send" data-v="${t.id}" aria-label="发送">${ico('send')}发送</button></div></div></div>
   </section>${taskPageTool(t)}</div>`;
 }
 function taskPageAction(a,v){
