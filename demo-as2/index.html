@@ -11109,7 +11109,7 @@ function renderAssistant(){return `<div class="assistantwrap"><div class="row be
 function assistantTaskCard(id){const t=s.tasks.find(x=>x.id===id);if(!t)return '';return `<div class="runcard"><div class="row between">${tag('临时任务 · '+t.id)}${taskChip(t)}</div><h4>${esc(t.title)}</h4><p>Agent：CodeAgent · 环境：personal-analysis / 云端<br>目标 V${t.rev} · 验收：分析结论关联 MR 与 CI 证据</p>${runView(t,'compact')}${t.status==='pending'?btn('确认执行','start-task',t.id,'primary sm'):t.status==='running'?btn('推进演示：返回结果','finish-task',t.id,'primary sm'):t.status==='review'?btn('查看产物并验收','open-task',t.id,'primary sm'):tag('结果已采用','green')}${btn('查看任务','open-task',t.id,'link sm')}</div>`;}
 function renderPersonal(){if(s.page==='benchbuilder')return renderWorkbenchBuilder();if(s.page==='spaces')return crumb('个人资产')+`<div class="demopage">${renderPersonalSpaces()}</div>`;return legacyRenderPersonal();}
 function renderTeam(){if(s.page==='board')return `<div class="demopage">${renderTaskBoard()}</div>`;return (s.page==='project'?'':crumb('# '+s.channel))+(s.page==='project'?`<div class="demopage">${renderProject()}</div>`:renderChannel());}
-function projectHeader(){return `<div class="proj-sticky"><div class="demohead"><div class="row"><span class="projecticon" style="width:43px;height:43px;font-size:22px">${esc(s.project[0])}</span><div><h1>${esc(s.project)}</h1><p style="margin-top:7px">需求与研发交付 · 6 位成员 · ${projectAgentList().length} 个 Agent</p></div></div><div class="row">${btn(ico('plus')+'新建任务'+ico('down'),'board-create-menu','','primary')}</div></div><div class="dtabs projecttabs">${[['overview','概览'],['channels','频道'],['threads','线程'],['workflows','工作流'],['artifacts','产物'],['agents','Agent'],['extensions','扩展'],['members','成员与设置']].map(([v,l])=>`<button class="${s.projectTab===v?'active':''}" data-a="project-tab" data-v="${v}">${l}</button>`).join('')}</div></div>`;}
+function projectHeader(){return `<div class="proj-sticky"><div class="demohead"><div class="row"><span class="projecticon" style="width:43px;height:43px;font-size:22px">${esc(s.project[0])}</span><div><h1>${esc(s.project)}</h1><p style="margin-top:7px">需求与研发交付 · 6 位成员 · ${projectAgentList().length} 个 Agent</p></div></div><div class="row">${btn(ico('plus')+'新建任务'+ico('down'),'board-create-menu','','primary')}</div></div><div class="dtabs projecttabs">${[['overview','项目工作台'],['channels','频道'],['threads','线程'],['workflows','工作流'],['artifacts','产物'],['agents','Agent'],['extensions','扩展'],['members','成员与设置']].map(([v,l])=>`<button class="${s.projectTab===v?'active':''}" data-a="project-tab" data-v="${v}">${l}</button>`).join('')}</div></div>`;}
 function renderProject(){const sections={overview:renderProjectBento,channels:renderProjectChannels,threads:renderProjectThreads,agents:renderProjectAgents,extensions:renderProjectExtensions,members:renderProjectMembers};if(sections[s.projectTab])return projectHeader()+sections[s.projectTab]();const ts=s.tasks.filter(t=>t.scope===s.project);if(s.projectTab==='space')return renderProjectAssets();if(s.projectTab==='artifacts')return projectHeader()+renderProjectArtifacts();return legacyRenderProject();}
 function legacyRenderProject(){return projectHeader()+(s.projectTab==='workflows'?renderProjectWorkflows():renderProjectOverview());}
 function renderProjectWorkflows(){return `<div class="row between" style="margin-bottom:18px"><div><h3>绑定到 ${esc(s.project)} 的 Workflow</h3><p class="tiny muted" style="margin-top:7px">流程定义可复用，输入、触发、责任人与接收位置由项目配置。</p></div>${btn('构建流程','studio','','sm')}</div><div class="wfgrid">${[['SpecX · 需求到交付','手动 / 讨论确认','澄清 → Spec → 开发 → 测试 → 验收','SpecX · 需求到交付'],['迭代质量巡检','每天 09:00','质量读取 → 风险摘要 → 团队确认','质量日报生成']].map(([n,t,path,label])=>`<div class="wfcard"><div class="row between">${tag('已发布 v1.4')}${tag('项目绑定','green')}</div><h3>${n}</h3><p>${path}</p><div class="minirow"><span>${t}</span><span>结果：原 Thread / 项目任务</span></div><div class="row wrap">${btn('在 Thread 启动','open-thread','fixed','primary sm')}${btn('查看 / 编辑','studio',label,'sm')}${btn('绑定设置','project-binding',n,'link sm')}</div></div>`).join('')}</div>`;}
@@ -12640,7 +12640,7 @@ document.addEventListener('keydown',e=>{
 // 输入框只写一段任务描述（首句作为任务名称）；下方托盘选择所属项目 / 责任人 / 执行者 / 知识范围；创建后回到对应看板。
 function newTaskDraft(){return s.newTask&&typeof s.newTask==='object'?s.newTask:null;}
 function newTaskOpen(){
-  const personal=s.view==='personal'||isMyBoard(),project=s.view==='personal'?'个人':creationProject();
+  const personal=s.view==='personal'||isMyBoard(),project=personal?'个人':creationProject();
   s.newTask={project,owner:'我',executorType:'agent',executor:'CodeAgent',title:'',goal:'',spaceIds:defaultTaskKnowledge(project),personal,from:{view:s.view,page:s.page,project:s.project}};
   s.taskDetail=null;closeModal();render();requestAnimationFrame(()=>document.getElementById('newTaskGoal')?.focus());return true;
 }
@@ -12662,7 +12662,7 @@ function renderNewTaskPage(){
           <div class="wc-compose-foot"><button class="wc-plus" data-a="composer-add" aria-haspopup="menu" aria-label="添加附件、知识库、技能或 MCP" title="添加">${ico('plus')}</button><div class="nt-mode" role="tablist" aria-label="执行方式">${[['agent','agent','Agent'],['workflow','workflow','Workflow']].map(([v,icon,label])=>`<button role="tab" aria-selected="${d.executorType===v}" data-a="nt-mode" data-v="${v}" title="${label}" aria-label="${label}">${ico(icon)}${d.executorType===v?`<span>${label}</span>`:''}</button>`).join('')}</div><span class="spacer"></span><button class="wc-send" data-a="nt-create" aria-label="创建任务" title="创建任务">${ico('arrow')}</button></div>
         </div>
         <div class="wc-attachbar nt-tray">
-          ${d.personal?pill('project','project',d.project==='个人'?'个人任务':d.project):pill('project','project',d.project)}
+          
           ${pill('owner','personal','责任人 · '+d.owner)}
           ${pill('executor',wf?'workflow':'agent',(wf?'Workflow · ':'')+d.executor)}
           ${pill('knowledge','book',n?n+' 个知识库':'不引用知识库')}
@@ -13254,7 +13254,7 @@ function renderProjectArtifacts(listArg,personal){
 }
 
 // ---- 个人主页：与项目主页同一套逻辑的一级标签（概览 / 工作流 / 产物 / Agent / 扩展），没有频道、线程、成员与设置。
-function personalTabs(){return [['overview','概览'],['workflows','工作流'],['artifacts','产物'],['agents','Agent'],['extensions','扩展']];}
+function personalTabs(){return [['overview','工作台'],['workflows','工作流'],['artifacts','产物'],['agents','Agent'],['extensions','扩展']];}
 function personalTabHtml(){const cur=personalTabs().some(x=>x[0]===s.personalTab)?s.personalTab:'overview';return `<div class="dtabs projecttabs">${personalTabs().map(([v,l])=>`<button class="${cur===v?'active':''}" data-a="personal-tab" data-v="${v}">${l}</button>`).join('')}</div>`;}
 function personalWorkflowNames(){const names=[...(s.workflowDrafts||[]).map(w=>w.label),'质量日报生成','SpecX · 需求到交付','每日合入与检视'];return [...new Set(names)];}
 function renderPersonalTab(tab){
