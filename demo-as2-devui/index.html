@@ -10424,7 +10424,7 @@ html:root body #demo.slack-shell .projecticon[data-pcolor], html:root body .as2-
   --as-shadow-tile: 0 6px 16px -10px color-mix(in srgb, var(--au) 35%, transparent), 0 0 0 1px rgba(30,50,110,.06);
   --as-shadow-panel: none;
   --as-shadow-pop: 0 18px 44px -12px rgba(10,20,70,.28), 0 0 0 1px rgba(30,50,110,.1); --as-shadow-dialog: 0 30px 80px -20px rgba(10,20,70,.4), 0 0 0 1px rgba(30,50,110,.1);
-  --rail-tile: #FFFFFF; --rail-ink: #12182B; --rail-tile-shadow: 0 8px 18px -8px rgba(15,25,70,.4), inset 0 0 0 1px rgba(30,50,110,.08);
+  --rail-tile: color-mix(in srgb, var(--au) 24%, #0B1020); --rail-ink: #FFFFFF; --rail-tile-shadow: none;  /* --rail-tile 同时用作图标镂空线的颜色，需与选中块底色接近 */
   --au-frame: radial-gradient(85% 42% at 0% 0%, color-mix(in srgb, var(--au) 52%, transparent), transparent 68%), radial-gradient(75% 40% at 100% 100%, color-mix(in srgb, var(--au) 30%, transparent), transparent 70%), linear-gradient(180deg, color-mix(in srgb, var(--au) 16%, #0B1020), #070B16);
 }
 /* 页面底：浅蓝网格渐变 */
@@ -10600,6 +10600,14 @@ html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell > .
 :root[data-appearance-style="aurora"] .as2-side-bar .icon { width: 17px; height: 17px; }
 :root[data-appearance-style="aurora"] .as2-side-float { display: none !important; }
 :root[data-appearance-style="aurora"][data-side="collapsed"] body:has(#demo .democrumb .as2-side-toggle--crumb) .as2-side-bar { display: none; }
+
+/* 极光：左侧工具栏选中块 = 与侧栏外框同一套网格渐变（深色底 + 强调色光晕），图标与文字反白 */
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demorail.demorail button.active {
+  background: radial-gradient(120% 90% at 0% 0%, color-mix(in srgb, var(--au) 58%, transparent), transparent 70%), radial-gradient(100% 80% at 100% 100%, color-mix(in srgb, var(--au) 28%, transparent), transparent 70%), linear-gradient(180deg, color-mix(in srgb, var(--au) 16%, #0B1020), #070B16) !important;
+  color: #FFFFFF !important; border: 0 !important; box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--au) 70%, #000), inset 0 0 0 1px rgba(255,255,255,.1) !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demorail.demorail button.active :is(svg.icon.lucide, span:not(.rail-unread), small) { background: transparent !important; color: #FFFFFF !important; box-shadow: none !important; border: 0 !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demorail.demorail button .rail-unread { background: #E11D48 !important; color: #FFFFFF !important; border: 2px solid #FFFFFF !important; box-shadow: none !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demorail.demorail button.active .rail-unread { border-color: #0B1020 !important; }
 
 
 /* ==== DevUI themes (vendor/devui-themes.css) ==== */
