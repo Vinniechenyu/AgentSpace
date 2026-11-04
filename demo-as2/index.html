@@ -10633,6 +10633,425 @@ html:root[data-appearance-style="pixel"] body #demo.slack-shell.slack-shell .sid
 html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell > .demoside .sidehead--switch .projectswitch { background: rgba(255,255,255,.07) !important; border-color: rgba(255,255,255,.16) !important; }
 html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell > .demoside .sidehead--switch .projectswitch:hover { background: rgba(255,255,255,.12) !important; border-color: rgba(255,255,255,.24) !important; }
 
+/* =====================================================================
+ * Bento：浅灰画布 + 分块的大圆角白色卡片。侧栏、各内容面板都是独立的「块」；
+ * 胶囊标签、深色选中；强调色 --bn（设置里可选，默认活力橙）只用于主按钮、链接与进度。
+ * ===================================================================== */
+:root[data-appearance-style="bento"] {
+  color-scheme: light;
+  --bn: #F2541B; --bn-ink: #17181C; --bn-canvas: #E8E9EC; --bn-hatch: repeating-linear-gradient(135deg, rgba(20,22,30,.22) 0 1.5px, transparent 1.5px 5px);
+  --as-bg: var(--bn-canvas); --as-panel: #FFFFFF; --as-panel-stroke: transparent; --as-card: #FFFFFF; --as-stage: var(--bn-canvas); --as-sunken: #F3F4F6; --as-overlay: rgba(20,22,30,.4);
+  --as-text: #17181C; --as-text-2: #3B3E46; --as-text-muted: #6C7078; --as-text-subtle: #8A9099; --as-text-invert: #FFFFFF;
+  --as-border: rgba(20,22,30,.09); --as-border-soft: rgba(20,22,30,.06); --as-border-strong: rgba(20,22,30,.18);
+  --as-hover: rgba(20,22,30,.045); --as-pressed: rgba(20,22,30,.08); --as-muted-bg: #F3F4F6;
+  --as-selected: #17181C; --as-selected-ink: #FFFFFF;
+  --as-brand: var(--bn); --as-brand-hover: color-mix(in srgb, var(--bn) 86%, #000); --as-brand-soft: color-mix(in srgb, var(--bn) 10%, #fff); --as-brand-line: color-mix(in srgb, var(--bn) 38%, transparent); --as-focus-ring: #2B5BE8; --as-focus-soft: rgba(43,91,232,.2);
+  --as-btn-top: var(--bn); --as-btn-bottom: var(--bn); --as-btn-top-hover: color-mix(in srgb, var(--bn) 90%, #000); --as-btn-bottom-hover: color-mix(in srgb, var(--bn) 90%, #000);
+  --as-btn-edge-1: var(--bn); --as-btn-edge-2: var(--bn); --as-btn-edge-3: var(--bn); --as-btn-ring: transparent; --as-btn-ink: #FFFFFF; --as-btn-shadow: none;
+  --as-btn2-bg: #FFFFFF; --as-btn2-ink: #17181C;
+  --as-run: #2B5BE8; --as-run-bg: #E4EBFD; --as-run-line: rgba(43,91,232,.35);
+  --as-id-human: #FFE3D6; --as-id-human-ink: #8A2E0A; --as-id-agent: #DDE6FD; --as-id-agent-ink: #1F3FA8;
+  --as-r-xs: 8px; --as-r-sm: 10px; --as-r-md: 14px; --as-r-row: 12px; --as-r-card: 26px; --as-r-dec: 26px; --as-r-panel: 28px; --as-r-input: 999px; --as-r-pill: 999px;
+  --as-shadow-card: 0 1px 2px rgba(20,22,30,.04), 0 14px 30px -20px rgba(20,22,30,.18); --as-shadow-tile: 0 1px 2px rgba(20,22,30,.04); --as-shadow-panel: 0 1px 2px rgba(20,22,30,.04), 0 14px 30px -20px rgba(20,22,30,.18);
+  --as-shadow-pop: 0 18px 44px -14px rgba(20,22,30,.28), 0 0 0 1px rgba(20,22,30,.06); --as-shadow-dialog: 0 30px 80px -24px rgba(20,22,30,.4), 0 0 0 1px rgba(20,22,30,.06);
+  --rail-tile: #17181C; --rail-ink: #FFFFFF; --rail-tile-shadow: none;
+  --vb-a: var(--bn); --vb-b: color-mix(in srgb, var(--bn) 70%, #fff);
+}
+:root[data-appearance-style="bento"] body { background: var(--bn-canvas) !important; background-image: none !important; }
+:root[data-appearance-style="bento"] :is(.appbar, #demo, #demo.slack-shell) { background: transparent !important; }
+:root[data-appearance-style="bento"] ::selection { background: color-mix(in srgb, var(--bn) 25%, transparent); }
+/* 字形：大数字与标题用较轻的字重，更像参考图的几何细体 */
+:root[data-appearance-style="bento"] #demo :is(h1, .demohead h1, .nova-home-head h1) { font-weight: 700 !important; letter-spacing: -.02em !important; }
+:root[data-appearance-style="bento"] #demo :is(.as-num, .bn-metric b, .project-overview-metrics b, .as2-stat b) { font-weight: 600 !important; letter-spacing: -.01em; }
+
+/* ===== 分块结构：侧栏、内容面板各自是白色大圆角块，块之间留 10px 画布 ===== */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell { gap: 10px; padding-right: 10px; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoside { background: var(--bn-surface) !important; border: 0 !important; border-radius: 28px !important; margin: 4px 0 10px 0; box-shadow: var(--as-shadow-card) !important; overflow: hidden; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoarea { background: transparent !important; border: 0 !important; border-radius: 0 !important; box-shadow: none !important; margin: 4px 0 10px 0 !important; overflow: visible !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoarea > .demopage { padding-top: 4px; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.democrumb, .demoside .sidehead, .demoside .sidehead.sidehead--switch) { border-bottom-color: var(--as-border-soft) !important; }
+/* 需要「整块白板」的页面：任务详情左右栏、消息页、频道页 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .tp-page { gap: 10px; background: transparent !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.tp-left, .tp-tool, .ms-list-pane, .ms-stage, .channelwrap) { background: var(--bn-surface) !important; border: 0 !important; border-radius: 28px !important; overflow: hidden; box-shadow: var(--as-shadow-card) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .messenger-shell { gap: 10px; background: transparent !important; }
+
+/* 卡片：纯白、大圆角、柔和投影；里面的数据块是浅灰 */
+:root[data-appearance-style="bento"] #demo.slack-shell :is(.card, .benchcard, .wfcard, .runcard, .extension-card, .automation-card, .collaboration-task-card,
+  .knowledge-space-card, .project-channel-card, .project-agent-card, .kanban-card, .evo-panel, .evo-stage, .evo-memory-card, .as2-stat, .tablewrap,
+  .project-overview-metrics > button, .wb-dash-panel, .threadlink, .co-thread-entry, .co-decision, .wc-plan, .as-tasklist, .as-tool-group, .tk-card, .bn-card, .pc-card, .ac-card, .ca-book) {
+  background: var(--bn-surface) !important; border: 0 !important; border-radius: 26px !important; box-shadow: var(--as-shadow-card) !important; }
+:root[data-appearance-style="bento"] #demo.slack-shell :is(.benchcard, .extension-card, .kanban-card, .project-channel-card, .threadlink, .co-thread-entry, .as2-stat, .tk-card, .bn-card):hover { transform: translateY(-2px) !important; box-shadow: 0 1px 2px rgba(20,22,30,.04), 0 20px 36px -20px rgba(20,22,30,.26) !important; }
+:root[data-appearance-style="bento"] #demo.slack-shell .kanban-card { border-radius: 18px !important; }
+:root[data-appearance-style="bento"] #demo.slack-shell .kanban-column { background: rgba(255,255,255,.55) !important; border: 0 !important; border-radius: 26px !important; box-shadow: none !important; }
+:root[data-appearance-style="bento"] #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) { background: var(--bn-surface) !important; border: 1px solid var(--as-border) !important; border-radius: 24px !important; box-shadow: none !important; }
+:root[data-appearance-style="bento"] #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card):focus-within { border-color: var(--as-border-strong) !important; box-shadow: 0 0 0 3px var(--as-focus-soft) !important; }
+
+/* 胶囊标签页 / 筛选：未选中白底，选中深色 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.projecttabs, .board-main-tabs, .channelhead .dtabs, .demohead + .dtabs, .ext-page-tabs, .evo-tabs, .board-tabs, .dtabs) { border-bottom: 0 !important; gap: 6px; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.projecttabs, .board-main-tabs, .channelhead .dtabs, .demohead + .dtabs, .ext-page-tabs, .evo-tabs, .board-tabs, .dtabs) > button { height: 34px; padding: 0 16px !important; border: 0 !important; border-radius: 999px !important; background: var(--bn-surface) !important; color: var(--as-text-2) !important; box-shadow: 0 1px 2px rgba(20,22,30,.05) !important; font-weight: 500; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.projecttabs, .board-main-tabs, .channelhead .dtabs, .demohead + .dtabs, .ext-page-tabs, .evo-tabs, .board-tabs, .dtabs) > button:hover { background: var(--bn-hover) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.projecttabs, .board-main-tabs, .channelhead .dtabs, .demohead + .dtabs, .ext-page-tabs, .evo-tabs, .board-tabs, .dtabs) > button.active { background: var(--bn-strong) !important; color: var(--bn-on-strong) !important; box-shadow: none !important; border-bottom: 0 !important; font-weight: 500; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.dtabs, .board-tabs) > button.active :is(.board-tab-count, .as-num, small) { background: rgba(255,255,255,.2) !important; color: var(--bn-on-strong) !important; }
+:root[data-appearance-style="bento"] #demo :is(.board-tab-count, .co-tab-count) { border-radius: 999px !important; background: var(--bn-chip) !important; }
+
+/* 按钮：主 = 强调色胶囊；次 = 白色胶囊；图标按钮 = 虚线圆 */
+:root[data-appearance-style="bento"] :is(#demo, #modalHost) .btn { border-radius: 999px !important; font-weight: 500; }
+:root[data-appearance-style="bento"] :is(#demo, #modalHost) .btn.primary { background: var(--bn) !important; color: var(--bn-on-strong) !important; border: 0 !important; box-shadow: none !important; }
+:root[data-appearance-style="bento"] :is(#demo, #modalHost) .btn.primary:hover { background: color-mix(in srgb, var(--bn) 88%, #000) !important; }
+:root[data-appearance-style="bento"] :is(#demo, #modalHost) .btn:not(.primary):not(.link) { background: var(--bn-surface) !important; border: 1px solid var(--as-border-strong) !important; box-shadow: none !important; color: var(--as-text) !important; }
+:root[data-appearance-style="bento"] :is(#demo, #modalHost) .btn:not(.primary):not(.link):hover { background: var(--bn-hover) !important; }
+:root[data-appearance-style="bento"] :is(#demo, #modalHost) .btn.link { color: #2B5BE8 !important; background: transparent !important; border-color: transparent !important; }
+:root[data-appearance-style="bento"] #demo.slack-shell .wc-send { background: var(--bn) !important; color: #fff !important; box-shadow: none !important; border-radius: 50% !important; }
+:root[data-appearance-style="bento"] :is(.appbar .iconbtn, .as2-side-toggle, .as2-side-bar) { border: 1px dashed rgba(var(--bn-rgb), .3) !important; border-radius: 50% !important; background: transparent !important; }
+:root[data-appearance-style="bento"][data-side="collapsed"] .as2-side-bar { border: 1px dashed rgba(var(--bn-rgb), .3) !important; width: 32px; height: 32px; }
+:root[data-appearance-style="bento"] .appbar .appsearch { background: var(--bn-surface) !important; border: 1px solid var(--as-border) !important; border-radius: 999px !important; box-shadow: none !important; }
+
+/* 导航：侧栏选中 = 深色胶囊；左侧工具栏选中 = 深色圆角块 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav { border-radius: 999px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active { background: var(--bn-strong) !important; color: var(--bn-on-strong) !important; box-shadow: none !important; font-weight: 500 !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active :is(span, small, .icon) { color: var(--bn-on-strong) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active small { background: rgba(255,255,255,.2) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav small { background: var(--bn-chip) !important; border-radius: 999px !important; }
+:root[data-appearance-style="bento"] #demo.slack-shell .as2-nav-line { display: none !important; }
+:root[data-appearance-style="bento"] #demo.slack-shell .as2-nav-hover { background: var(--as-hover) !important; border-radius: 999px; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demorail.demorail button.active { background: var(--bn-strong) !important; color: var(--bn-on-strong) !important; border: 0 !important; border-radius: 16px !important; box-shadow: none !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demorail.demorail button.active :is(svg.icon.lucide, span, small) { background: transparent !important; color: var(--bn-on-strong) !important; box-shadow: none !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demorail.demorail button .rail-unread { background: var(--bn) !important; color: #FFFFFF !important; border: 2px solid var(--bn-canvas) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demorail.demorail button.active .rail-unread { border-color: #17181C !important; }
+:root[data-appearance-style="bento"] #demo.slack-shell :is(.ms-conversation.selected, .ms-contact-item.selected, .co-thread-entry.selected, .wc-ext-row.selected, .wc-project-row.selected, .co-thread-index-card.selected, .threadlink.selected, .searchresult.selected) { background: var(--bn-chip) !important; box-shadow: none !important; }
+
+/* 标签 / 状态 / 进度（剩余部分用斜纹） / 输入 */
+:root[data-appearance-style="bento"] #demo :is(.as-status, .tag) { border-radius: 999px !important; }
+:root[data-appearance-style="bento"] .as-progress { height: 10px; border-radius: 999px; background: var(--bn-hatch), var(--bn-chip); overflow: hidden; }
+:root[data-appearance-style="bento"] .as-progress > i { border-radius: 999px; background: linear-gradient(90deg, #2B5BE8, color-mix(in srgb, #2B5BE8 55%, #fff)) !important; }
+:root[data-appearance-style="bento"] :is(#demo, #modalHost) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]), select) { border-radius: 999px !important; background: var(--bn-surface) !important; border: 1px solid var(--as-border-strong) !important; box-shadow: none !important; }
+:root[data-appearance-style="bento"] :is(#demo, #modalHost) textarea { border-radius: 20px !important; }
+:root[data-appearance-style="bento"] :is(#demo, #modalHost) :is(input, select, textarea):focus { border-color: #2B5BE8 !important; box-shadow: 0 0 0 3px var(--as-focus-soft) !important; }
+:root[data-appearance-style="bento"] :is(.as-seg, .settings-modal .as-seg) { border-radius: 999px !important; }
+:root[data-appearance-style="bento"] :is(.as-seg > button, .settings-modal .as-seg > button)[aria-checked="true"] { background: var(--bn-strong) !important; color: var(--bn-on-strong) !important; }
+:root[data-appearance-style="bento"] :is(.as2-menu, .modal, .as2-switcher, .toast, .as2-palette) { background: var(--bn-surface) !important; border-radius: 22px !important; box-shadow: var(--as-shadow-pop) !important; }
+:root[data-appearance-style="bento"] .user-menu .um-fly { background: var(--bn-surface); border-radius: 18px; }
+:root[data-appearance-style="bento"] .user-menu .um-fly .um-opt[aria-checked="true"] { background: var(--bn-strong) !important; color: var(--bn-on-strong) !important; }
+:root[data-appearance-style="bento"] .user-menu .um-fly .um-opt[aria-checked="true"] .icon { color: var(--bn-on-strong); }
+:root[data-appearance-style="bento"] .as2-side-float { display: none !important; }
+
+/* 设置缩略图 */
+#modalHost .ap-art--bento { border-radius: 10px; background: #E8E9EC; }
+#modalHost .ap-art--bento .ap-art-win { border-radius: 10px; background: #FFFFFF; box-shadow: 0 6px 14px -8px rgba(20,22,30,.3); }
+#modalHost .ap-art--bento .ap-art-side { background: #FFFFFF; border-radius: 10px 0 0 10px; box-shadow: inset -1px 0 0 rgba(20,22,30,.08); }
+#modalHost .ap-art--bento .ap-art-title { background: #17181C; border-radius: 999px; }
+#modalHost .ap-art--bento .ap-art-line { background: #E3E5EA; border-radius: 999px; }
+#modalHost .ap-art--bento .ap-art-btn { background: #F2541B; border-radius: 999px; }
+/* Bento：标签页要压过各页面自带的下划线样式 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs > button:not(#_x) { height: 34px; padding: 0 16px !important; border: 0 !important; border-bottom: 0 !important; border-radius: 999px !important; background: var(--bn-surface) !important; color: var(--as-text-2) !important; box-shadow: 0 1px 2px rgba(20,22,30,.05) !important; font-weight: 500; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs > button:not(#_x):hover { background: var(--bn-hover) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs > button.active:not(#_x) { background: var(--bn-strong) !important; color: var(--bn-on-strong) !important; box-shadow: none !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs > button.active:not(#_x)::after, html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs > button:not(#_x)::after { display: none !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs:not(#_x) { border-bottom: 0 !important; gap: 6px; }
+/* Bento：卡片里嵌套的条目不再叠投影；选中 / 下划线用中性深色，强调色不参与选中 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.card, .bn-card, .wb-dash-panel) :is(.threadlink, .co-thread-entry):not(#_x) { background: var(--bn-inset) !important; box-shadow: none !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-conversation.selected:not(#_x) { background: var(--bn-chip) !important; border-color: transparent !important; box-shadow: none !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .ms-primary-tabs button.active:not(#_x) { border-bottom-color: #17181C !important; color: var(--bn-ink) !important; }
+
+/* ===== Bento · 第二轮：右侧整体是一张大卡片；圆角收小；主按钮中性；选中变轻（仅左侧入口保持深色） ===== */
+:root[data-appearance-style="bento"] { --as-r-card: 18px; --as-r-dec: 18px; --as-r-panel: 20px; --as-r-md: 12px; }
+/* 右侧内容区 = 一张白色大卡片；多面板页面（任务详情 / 消息 / 频道）仍保持各自分块 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoarea:not(#_x) { background: var(--bn-surface) !important; border-radius: 20px !important; overflow: hidden !important; box-shadow: var(--as-shadow-card) !important; margin: 4px 0 10px 0 !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoarea:not(#_x):has(> .tp-page, > .messenger-shell, > .channelwrap, .tp-page, .messenger-shell) { background: transparent !important; box-shadow: none !important; overflow: visible !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoside:not(#_x) { border-radius: 20px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.tp-left, .tp-tool, .ms-list-pane, .ms-stage, .channelwrap):not(#_x) { border-radius: 20px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .proj-sticky:not(#_x) { background: transparent !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
+/* 大卡片里的卡片：浅灰底、无投影；卡片内嵌的数据块用白色 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoarea:not(:has(.tp-page, .messenger-shell)) :is(.card, .benchcard, .wfcard, .runcard, .extension-card, .automation-card, .collaboration-task-card, .knowledge-space-card, .project-channel-card, .project-agent-card, .evo-panel, .evo-stage, .evo-memory-card, .as2-stat, .tablewrap, .project-overview-metrics > button, .wb-dash-panel, .threadlink, .co-thread-entry, .co-decision, .wc-plan, .as-tasklist, .as-tool-group, .tk-card, .bn-card, .pc-card, .ac-card, .ca-book):not(#_x) { background: var(--bn-inset) !important; border: 0 !important; border-radius: 18px !important; box-shadow: none !important; --as-muted-bg: #FFFFFF; --as-sunken: #FFFFFF; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoarea :is(.benchcard, .extension-card, .project-channel-card, .as2-stat, .tk-card, .bn-card):hover:not(#_x) { background: var(--bn-soft2) !important; transform: none !important; box-shadow: none !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .kanban-column:not(#_x) { background: var(--bn-inset) !important; border-radius: 18px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .kanban-card:not(#_x) { background: var(--bn-surface) !important; border-radius: 14px !important; box-shadow: 0 1px 2px rgba(20,22,30,.06) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .threadlink :is(.threadlink, .co-thread-entry):not(#_x) { background: var(--bn-surface) !important; }
+/* 主要按钮 = 深色中性（强调色只留给链接 / 进度 / 未读） */
+html:root[data-appearance-style="bento"] body :is(#demo, #modalHost) .btn.primary:not(#_x) { background: var(--bn-strong) !important; color: var(--bn-on-strong) !important; }
+html:root[data-appearance-style="bento"] body :is(#demo, #modalHost) .btn.primary:not(#_x):hover { background: var(--bn-strong-hover) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell .wc-send:not(#_x) { background: var(--bn-strong) !important; }
+:root[data-appearance-style="bento"] { --as-btn-top: #17181C; --as-btn-bottom: #17181C; --as-btn-top-hover: #2B2E37; --as-btn-bottom-hover: #2B2E37; --as-btn-edge-1: #17181C; --as-btn-edge-2: #17181C; --as-btn-edge-3: #17181C; }
+/* 选中变轻：标签页 / 筛选胶囊 = 未选透明，选中浅灰底深字；分段 = 白色滑块；菜单选项 = 浅灰 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs > button:not(#_x) { background: transparent !important; box-shadow: none !important; color: var(--as-text-muted) !important; font-weight: 500; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs > button:not(#_x):hover { background: var(--bn-soft2) !important; color: var(--as-text) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs > button.active:not(#_x) { background: var(--bn-soft) !important; color: var(--bn-ink) !important; font-weight: 600; box-shadow: none !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs > button.active:not(#_x) :is(.board-tab-count, .as-num, small) { background: var(--bn-surface) !important; color: var(--bn-ink) !important; }
+:root[data-appearance-style="bento"] #demo :is(.board-tab-count, .co-tab-count) { background: var(--bn-soft) !important; }
+:root[data-appearance-style="bento"] :is(.as-seg, .settings-modal .as-seg) { background: var(--bn-soft) !important; }
+:root[data-appearance-style="bento"] :is(.as-seg > button, .settings-modal .as-seg > button)[aria-checked="true"] { background: var(--bn-surface) !important; color: var(--bn-ink) !important; box-shadow: 0 1px 2px rgba(20,22,30,.12) !important; }
+:root[data-appearance-style="bento"] .user-menu .um-fly .um-opt[aria-checked="true"] { background: var(--bn-soft) !important; color: var(--bn-ink) !important; }
+:root[data-appearance-style="bento"] .user-menu .um-fly .um-opt[aria-checked="true"] .icon { color: var(--bn-ink); }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoarea > .demopage:not(#_x) { padding-top: 22px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoarea .kanban-column .kanban-card:not(#_x):not(#_y) { background: var(--bn-surface) !important; border-radius: 14px !important; box-shadow: 0 1px 2px rgba(20,22,30,.06) !important; }
+
+/* ===== Bento · 第三轮：更紧凑；选中不再用主按钮的深色（侧栏 / 左侧入口都改浅灰与白） ===== */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell:not(#_x) { gap: 8px; padding-right: 8px; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoside:not(#_x) { margin: 2px 0 8px 0; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoarea:not(#_x) { margin: 2px 0 8px 0 !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoarea > .demopage:not(#_x) { padding: 16px 20px 20px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .proj-sticky:not(#_x) { margin: -16px -20px 12px !important; padding: 16px 20px 0 !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.demohead h1, .nova-home-head h1, .evo-page-head h1):not(#_x) { font-size: 28px !important; line-height: 1.15 !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demohead:not(#_x) { margin-bottom: 10px !important; padding-bottom: 0 !important; }
+/* 侧栏更紧：行高 32、分区间距小 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav:not(#_x) { min-height: 32px !important; height: 32px !important; padding: 0 10px !important; font-size: 13px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .side-sec:not(#_x) { margin-top: 6px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .side-sec-head:not(#_x) { min-height: 28px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .side-sec--main:not(#_x) { gap: 2px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidehead:not(#_x), html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidehead.sidehead--switch:not(#_x) { height: 46px !important; }
+/* 标签页 / 筛选 / 工具条更紧 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs > button:not(#_x):not(#_y) { height: 30px !important; padding: 0 12px !important; font-size: 13px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs:not(#_x):not(#_y) { gap: 4px !important; margin-bottom: 10px !important; }
+html:root[data-appearance-style="bento"] body :is(#demo, #modalHost) :is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]), select):not(#_x):not(#_y) { min-height: 32px; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.benchgrid, .kanban-cards, .extension-grid, .project-overview-metrics, .bento-grid):not(#_x) { gap: 10px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .kanban-board:not(#_x), html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .kanban:not(#_x) { gap: 10px !important; }
+/* 选中：侧栏 = 浅灰底 + 深字；左侧入口 = 白色块 + 轻投影 + 深图标 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active:not(#_x) { background: var(--bn-soft) !important; color: var(--bn-ink) !important; font-weight: 600 !important; box-shadow: none !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active:not(#_x) :is(span, .icon) { color: var(--bn-ink) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active:not(#_x) small { background: var(--bn-surface) !important; color: var(--bn-ink) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demorail.demorail button.active:not(#_x) { background: var(--bn-surface) !important; color: var(--bn-ink) !important; box-shadow: 0 1px 2px rgba(20,22,30,.08), 0 6px 14px -8px rgba(20,22,30,.2) !important; border-radius: 14px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demorail.demorail button.active:not(#_x) :is(svg.icon.lucide, span, small) { background: transparent !important; color: var(--bn-ink) !important; }
+:root[data-appearance-style="bento"] { --rail-tile: #FFFFFF; --rail-ink: #17181C; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demorail.demorail button.active:not(#_x) .rail-unread { border-color: #FFFFFF !important; }
+/* Bento：选中用白色底。侧栏块改成极浅灰，白色选中块才有对比（轻投影）；左侧入口同样是白色块 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoside:not(#_x) { background: var(--bn-inset) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active:not(#_x):not(#_y) { background: var(--bn-surface) !important; box-shadow: 0 1px 2px rgba(20,22,30,.08), 0 4px 10px -6px rgba(20,22,30,.18) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active:not(#_x):not(#_y) small { background: var(--bn-chip) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav small:not(#_x):not(#_y) { background: var(--bn-chip) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav:hover:not(.active):not(#_x) { background: rgba(255,255,255,.6) !important; }
+:root[data-appearance-style="bento"] #demo.slack-shell .as2-nav-hover { background: rgba(255,255,255,.6) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside :is(.sidehead, .sidehead.sidehead--switch):not(#_x) { border-bottom-color: rgba(var(--bn-rgb), .06) !important; }
+/* Bento：选中块里的子元素规则会把未读红点一并清掉，红点单独保住 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demorail.demorail button .rail-unread:not(#_x):not(#_y):not(#_z) { background: #E5392B !important; color: #FFFFFF !important; border: 2px solid var(--bn-canvas) !important; box-shadow: none !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demorail.demorail button.active .rail-unread:not(#_x):not(#_y):not(#_z) { border-color: #FFFFFF !important; }
+/* Bento：左侧菜单栏与侧栏块之间的间距收小（列间距归零，由侧栏块自己右侧留 8px） */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell:not(#_x):not(#_y) { column-gap: 0; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoside:not(#_x):not(#_y) { margin-left: 0; margin-right: 8px; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell:not(:has(> .demoside:not(:empty))) > .demoarea:not(#_x):not(#_y) { margin-left: 4px !important; }
+html:root[data-appearance-style="bento"][data-side="collapsed"] body #demo.slack-shell.slack-shell > .demoside:not(#_x):not(#_y) { margin-right: 0; }
+html:root[data-appearance-style="bento"][data-side="collapsed"] body #demo.slack-shell.slack-shell > .demoarea:not(#_x):not(#_y) { margin-left: 4px !important; }
+/* Bento：去掉图标按钮的虚线圆边框，只留图标；hover 时出现浅灰圆底 */
+html:root[data-appearance-style="bento"] body :is(.appbar .iconbtn, .as2-side-toggle, .as2-side-bar, #demo .as2-side-toggle):not(#_x):not(#_y) { border: 0 !important; background: transparent !important; border-radius: 50% !important; }
+html:root[data-appearance-style="bento"][data-side="collapsed"] body .as2-side-bar:not(#_x):not(#_y) { border: 0 !important; }
+html:root[data-appearance-style="bento"] body :is(.appbar .iconbtn, .as2-side-toggle, .as2-side-bar):not(#_x):not(#_y):hover { background: rgba(20,22,30,.06) !important; }
+
+/* Bento：页头节奏统一——上边距加大；标题 → 标签 → 筛选 → 内容 依次 12 / 12 / 14px */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoarea > .demopage:not(#_x):not(#_y) { padding: 28px 24px 22px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .proj-sticky:not(#_x):not(#_y) { margin: -28px -24px 14px !important; padding: 28px 24px 0 !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demohead:not(#_x):not(#_y) { margin-bottom: 12px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demohead + .dtabs:not(#_x):not(#_y), html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demohead ~ .dtabs:not(#_x):not(#_y) { margin-bottom: 12px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .aggregate-filters:not(#_x):not(#_y) { padding: 0 0 14px !important; margin: 0 !important; gap: 8px; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demopage > .dtabs.projecttabs:not(#_x):not(#_y) { margin-bottom: 0 !important; }
+/* Bento：一级标签的胶囊被容器裁掉了下沿——容器高度随内容，上下留 2px 呼吸空间 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs:not(#_x):not(#_y):not(#_z) { height: auto !important; min-height: 0 !important; padding: 2px 2px 4px !important; align-items: center; overflow-y: visible; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs > button:not(#_x):not(#_y):not(#_z) { flex: none; line-height: 1; display: inline-flex; align-items: center; gap: 6px; }
+
+/* Bento：所有页面标题统一加粗（页面 h1、频道标题、区块标题、弹窗标题），并压过各页面自带的字重 */
+html:root[data-appearance-style="bento"] body :is(#demo, #modalHost) :is(h1, h2, .demohead h1, .nova-home-head h1, .evo-page-head h1, .channelhead h2, .channelhead h1, .project-section-head h2, .art-head h2, .modalhead h3):not(#_x):not(#_y):not(#_z) { font-weight: 700 !important; letter-spacing: -.015em !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(h3, .card-title, .project-section-head h3):not(#_x):not(#_y) { font-weight: 600 !important; }
+
+/* Bento：一级标签用下划线（项目 / 看板 / 资产 / 扩展 / 进化）；次级筛选（全部 / 常用 / MCP …）仍是胶囊 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs:is(.projecttabs, .board-main-tabs, .asset-tabs, .ext-page-tabs):not(#_a):not(#_b):not(#_c):not(#_d), html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .evo-tabs:not(#_a):not(#_b):not(#_c):not(#_d) { border-bottom: 1px solid rgba(var(--bn-rgb), .09) !important; padding: 0 !important; gap: 2px !important; margin-bottom: 14px !important; height: auto !important; overflow-x: auto; overflow-y: hidden; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs:is(.projecttabs, .board-main-tabs, .asset-tabs, .ext-page-tabs) > button:not(#_a):not(#_b):not(#_c):not(#_d), html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .evo-tabs > button:not(#_a):not(#_b):not(#_c):not(#_d) { height: 38px !important; padding: 0 14px !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; color: var(--as-text-muted) !important; font-weight: 500 !important; border: 0 !important; border-bottom: 2px solid transparent !important; margin-bottom: -1px; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs:is(.projecttabs, .board-main-tabs, .asset-tabs, .ext-page-tabs) > button:not(#_a):not(#_b):not(#_c):not(#_d):hover, html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .evo-tabs > button:not(#_a):not(#_b):not(#_c):not(#_d):hover { background: transparent !important; color: var(--as-text) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs:is(.projecttabs, .board-main-tabs, .asset-tabs, .ext-page-tabs) > button.active:not(#_a):not(#_b):not(#_c):not(#_d), html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .evo-tabs > button.active:not(#_a):not(#_b):not(#_c):not(#_d) { background: transparent !important; color: var(--bn-ink) !important; font-weight: 600 !important; border-bottom: 2px solid #17181C !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .dtabs:is(.projecttabs, .board-main-tabs, .asset-tabs, .ext-page-tabs) > button.active:not(#_a):not(#_b):not(#_c):not(#_d) :is(.board-tab-count, .as-num, small), html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .evo-tabs > button.active:not(#_a):not(#_b):not(#_c):not(#_d) :is(.board-tab-count, .as-num, small) { background: var(--bn-soft) !important; color: var(--bn-ink) !important; }
+
+/* Bento：未读红点用红色（状态色，不跟随强调色） */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.rail-unread, .ms-unread):not(#_a):not(#_b):not(#_c):not(#_d) { background: #E5392B !important; color: #FFFFFF !important; }
+/* Bento：卡片内容间距收紧——卡片内边距 / 条目内边距 / 条目间距；条目用白底才看得出来 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .bn-card:not(#_a):not(#_b):not(#_c):not(#_d) { padding: 14px 16px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .bn-card > header:not(#_a):not(#_b):not(#_c):not(#_d) { margin-bottom: 8px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .bn-card :is(.threadlink, .co-thread-entry):not(#_a):not(#_b):not(#_c):not(#_d) { padding: 9px 12px !important; background: var(--bn-surface) !important; border-radius: 12px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .bn-card :is(.threadlink, .co-thread-entry) small:not(#_a):not(#_b):not(#_c):not(#_d) { margin-top: 2px !important; line-height: 1.4 !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .bn-card :is(.threadlink, .co-thread-entry) b:not(#_a):not(#_b):not(#_c):not(#_d) { line-height: 1.4 !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .bn-card :is(.bn-list, .bn-threads, .bn-body):not(#_a):not(#_b):not(#_c):not(#_d) { gap: 6px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .bn-note:not(#_a):not(#_b):not(#_c):not(#_d) { margin: 0 0 8px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .bn-card footer, html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .bn-card .bn-foot:not(#_a):not(#_b):not(#_c):not(#_d) { margin-top: 8px !important; padding-top: 8px !important; }
+
+/* Bento：侧栏块与右侧大卡片同为白色；侧栏选中改浅灰底（白底在白色上没有对比），悬停更浅 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoside:not(#_a):not(#_b):not(#_c):not(#_d) { background: var(--bn-surface) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active:not(#_a):not(#_b):not(#_c):not(#_d) { background: var(--bn-soft2) !important; box-shadow: none !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active:not(#_a):not(#_b):not(#_c):not(#_d) small { background: var(--bn-surface) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav small:not(#_a):not(#_b):not(#_c):not(#_d) { background: var(--bn-soft2) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav:hover:not(.active):not(#_a):not(#_b):not(#_c):not(#_d) { background: var(--bn-hover) !important; }
+:root[data-appearance-style="bento"] #demo.slack-shell .as2-nav-hover { background: var(--bn-hover) !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside :is(.sidehead, .sidehead.sidehead--switch):not(#_a):not(#_b):not(#_c):not(#_d) { border-bottom-color: rgba(var(--bn-rgb), .07) !important; }
+
+/* Bento：发送按钮是深色底，图标必须是白色 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.wc-send, .ms-send, .composerfoot .btn.primary):not(#_a):not(#_b):not(#_c):not(#_d), html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.wc-send, .ms-send, .composerfoot .btn.primary) :is(svg, .icon, path, i, span):not(#_a):not(#_b):not(#_c):not(#_d) { color: var(--bn-on-strong) !important; stroke: var(--bn-on-strong); }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.wc-send, .ms-send):not(#_a):not(#_b):not(#_c):not(#_d) svg path { fill: none; }
+
+
+/* Bento 明暗：表面 / 文字 / 线条都走变量，浅色和深色共用同一套规则 */
+:root[data-appearance-style="bento"] { --bn-surface:#FFFFFF; --bn-inset:#F5F6F8; --bn-soft:#ECEEF2; --bn-soft2:#F1F2F5; --bn-hover:#F7F8FA; --bn-chip:#F0F1F4; --bn-strong:#17181C; --bn-strong-hover:#2B2E37; --bn-on-strong:#FFFFFF; --bn-ink:#17181C; --bn-rgb:20,22,30; }
+:root[data-appearance-style="bento"][data-bn-mode="dark"] {
+  color-scheme: dark;
+  --bn-canvas:#0D0E10; --bn-surface:#17181C; --bn-inset:#1F2126; --bn-soft:#2C2F37; --bn-soft2:#262930; --bn-hover:#1C1E23; --bn-chip:#2C2F37; --bn-strong:#F2F3F5; --bn-strong-hover:#FFFFFF; --bn-on-strong:#17181C; --bn-ink:#F2F3F5; --bn-rgb:255,255,255;
+  --as-bg:#0D0E10; --as-panel:#17181C; --as-card:#17181C; --as-stage:#0D0E10; --as-sunken:#1F2126; --as-overlay:rgba(0,0,0,.6);
+  --as-text:#F2F3F5; --as-text-2:#CDD0D6; --as-text-muted:#9AA0AB; --as-text-subtle:#6F7580; --as-text-invert:#17181C;
+  --as-border:rgba(255,255,255,.1); --as-border-soft:rgba(255,255,255,.06); --as-border-strong:rgba(255,255,255,.2);
+  --as-hover:rgba(255,255,255,.06); --as-pressed:rgba(255,255,255,.1); --as-muted-bg:#1F2126;
+  --as-selected:#2C2F37; --as-selected-ink:#F2F3F5;
+  --as-btn-top:#F2F3F5; --as-btn-bottom:#F2F3F5; --as-btn-top-hover:#FFFFFF; --as-btn-bottom-hover:#FFFFFF; --as-btn-edge-1:#F2F3F5; --as-btn-edge-2:#F2F3F5; --as-btn-edge-3:#F2F3F5; --as-btn-ink:#17181C;
+  --as-btn2-bg:#1F2126; --as-btn2-ink:#F2F3F5;
+  --as-run:#6B93FF; --as-run-bg:rgba(107,147,255,.14); --as-run-line:rgba(107,147,255,.4);
+  --as-id-human:#3A2A22; --as-id-human-ink:#FFC9B0; --as-id-agent:#222B44; --as-id-agent-ink:#B8CCFF;
+  --as-wait:#FFB84D; --as-wait-bg:rgba(255,184,77,.14); --as-wait-line:rgba(255,184,77,.4);
+  --as-review:#B9A2FF; --as-review-bg:rgba(185,162,255,.14); --as-review-line:rgba(185,162,255,.4);
+  --as-done:#5FD39B; --as-done-bg:rgba(95,211,155,.14); --as-done-line:rgba(95,211,155,.4);
+  --as-fail:#FF7A6B; --as-fail-bg:rgba(255,122,107,.14); --as-fail-line:rgba(255,122,107,.4);
+  --as-idle:#9AA0AB; --as-idle-bg:#1F2126; --as-idle-line:rgba(255,255,255,.12);
+  --as-focus-ring:#6B93FF; --as-focus-soft:rgba(107,147,255,.28);
+  --as-shadow-card:0 1px 2px rgba(0,0,0,.4), 0 14px 30px -20px rgba(0,0,0,.6); --as-shadow-pop:0 18px 44px -14px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.08); --as-shadow-dialog:0 30px 80px -24px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.08);
+  --rail-tile:#262930; --rail-ink:#F2F3F5;
+}
+:root[data-appearance-style="bento"][data-bn-mode="dark"] body { background: #0D0E10 !important; }
+:root[data-appearance-style="bento"][data-bn-mode="dark"] ::selection { background: rgba(255,255,255,.22); color: #fff; }
+/* 深色：浮层 / 弹窗 / 设置面板底色；链接色用亮蓝；卡片里的小投影减弱 */
+:root[data-appearance-style="bento"][data-bn-mode="dark"] :is(.as2-menu, .modal, .as2-switcher, .toast, .as2-palette) { background: #1D1F24 !important; color: var(--as-text); }
+html:root[data-appearance-style="bento"][data-bn-mode="dark"] body #modalHost .modal.settings-modal { background: #17181C !important; }
+:root[data-appearance-style="bento"][data-bn-mode="dark"] :is(#demo, #modalHost) .btn.link { color: #8FADFF !important; }
+html:root[data-appearance-style="bento"][data-bn-mode="dark"] body #demo.slack-shell.slack-shell .kanban-card:not(#_a):not(#_b):not(#_c):not(#_d) { box-shadow: 0 1px 2px rgba(0,0,0,.5) !important; }
+:root[data-appearance-style="bento"][data-bn-mode="dark"] .appbar .appsearch { background: #17181C !important; }
+:root[data-appearance-style="bento"][data-bn-mode="dark"] .as-progress { background: repeating-linear-gradient(135deg, rgba(255,255,255,.18) 0 1.5px, transparent 1.5px 5px), #25272D; }
+
+/* 外观主题二级菜单：风格（一级）→ 颜色 / 明暗（二级） */
+.user-menu .um-style { position: relative; }
+.user-menu .um-fly2 { left: calc(100% + 6px); top: -6px; width: 188px; }
+.user-menu .um-style:hover > .um-fly2, .user-menu .um-style:focus-within > .um-fly2 { display: block; }
+.user-menu .um-fly .um-opt--style { gap: 10px; }
+.user-menu .um-ic { display: inline-grid; flex: none; width: 24px; height: 24px; }
+.user-menu .um-ic svg { width: 24px; height: 24px; display: block; }
+.user-menu .um-more { display: inline-grid; margin-left: 2px; text-decoration: none; }
+.user-menu .um-more .icon { width: 13px; height: 13px; color: var(--as-text-subtle); }
+.user-menu .um-sw--dot { width: 16px; height: 16px; border-radius: 50%; }
+.user-menu .um-fly2 .as2-menu-sep { margin: 4px 6px; }
+/* Bento 深色：左侧入口选中块是白色（浅色块 + 深色图标 / 文字），红点描边跟随 */
+:root[data-appearance-style="bento"][data-bn-mode="dark"] { --rail-tile: #F2F3F5; --rail-ink: #17181C; }
+html:root[data-appearance-style="bento"][data-bn-mode="dark"] body #demo.slack-shell.slack-shell .demorail.demorail button.active:not(#_a):not(#_b):not(#_c):not(#_d) { background: #F2F3F5 !important; color: #17181C !important; box-shadow: 0 6px 16px -8px rgba(0,0,0,.6) !important; }
+html:root[data-appearance-style="bento"][data-bn-mode="dark"] body #demo.slack-shell.slack-shell .demorail.demorail button.active:not(#_a):not(#_b):not(#_c):not(#_d) :is(svg.icon.lucide, span, small):not(.rail-unread) { background: transparent !important; color: #17181C !important; }
+html:root[data-appearance-style="bento"][data-bn-mode="dark"] body #demo.slack-shell.slack-shell .demorail.demorail button.active .rail-unread:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { border-color: #F2F3F5 !important; }
+
+/* ===== 设置 · 风格选择插图（精致版）：侧栏导航 + 标题 + 标签 + 三张卡片 + 主按钮 ===== */
+#modalHost .ap-art2 { aspect-ratio: 16 / 11; }
+#modalHost .ap-art2::before { content: ""; position: absolute; left: 7%; right: 7%; top: 14%; bottom: 0; border-radius: 9px 9px 0 0; pointer-events: none; }
+#modalHost .ap2-side { left: 7%; top: 14%; bottom: 0; width: 26%; padding: 9px 8px; border-radius: 9px 0 0 0; display: flex !important; flex-direction: column; gap: 6px; }
+#modalHost .ap2-main { left: 33%; right: 7%; top: 14%; bottom: 0; padding: 10px 11px; border-radius: 0 9px 0 0; display: flex !important; flex-direction: column; gap: 7px; }
+#modalHost .ap2-side b, #modalHost .ap2-main b, #modalHost .ap2-main s { display: block; }
+#modalHost .ap2-dot { width: 58%; height: 8px; border-radius: 4px; margin-bottom: 3px; }
+#modalHost .ap2-nav { width: 100%; height: 7px; border-radius: 4px; }
+#modalHost .ap2-nav.on { height: 10px; }
+#modalHost .ap2-nav:nth-child(3) { width: 78%; } #modalHost .ap2-nav:nth-child(4) { width: 64%; }
+#modalHost .ap2-h { width: 40%; height: 9px; border-radius: 4px; }
+#modalHost .ap2-tabs { display: flex !important; gap: 6px; }
+#modalHost .ap2-tabs s { width: 20%; height: 5px; border-radius: 3px; }
+#modalHost .ap2-cards { flex: 1; min-height: 0; display: flex !important; gap: 6px; }
+#modalHost .ap2-cards s { flex: 1; border-radius: 6px; }
+#modalHost .ap2-btn { align-self: flex-end; width: 28%; height: 10px; border-radius: 999px; }
+/* 极简 · 浅 */
+#modalHost .ap-art2.ap-art--minimal { background: #F1F1F2; }
+#modalHost .ap-art2.ap-art--minimal::before { box-shadow: 0 10px 24px -12px rgba(16,24,40,.3), 0 0 0 1px rgba(16,24,40,.07); }
+#modalHost .ap-art2.ap-art--minimal .ap2-side { background: #F7F7F8; box-shadow: inset -1px 0 0 rgba(16,24,40,.06); }
+#modalHost .ap-art2.ap-art--minimal .ap2-main { background: #FFFFFF; }
+#modalHost .ap-art2.ap-art--minimal .ap2-dot { background: #C9C9CF; }
+#modalHost .ap-art2.ap-art--minimal .ap2-nav { background: #E4E4E7; }
+#modalHost .ap-art2.ap-art--minimal .ap2-nav.on { background: #FFFFFF; box-shadow: 0 1px 2px rgba(16,24,40,.12); }
+#modalHost .ap-art2.ap-art--minimal .ap2-h { background: #1F1F23; }
+#modalHost .ap-art2.ap-art--minimal .ap2-tabs s { background: #E4E4E7; } #modalHost .ap-art2.ap-art--minimal .ap2-tabs s.on { background: #3F3F46; }
+#modalHost .ap-art2.ap-art--minimal .ap2-cards s { background: #F4F4F5; box-shadow: inset 0 0 0 1px rgba(16,24,40,.05); }
+#modalHost .ap-art2.ap-art--minimal .ap2-btn { background: #1E1E22; }
+/* 极简 · 深 */
+#modalHost .ap-art2.ap-art--minimal[data-tone="dark"] { background: #0C0C0D; }
+#modalHost .ap-art2.ap-art--minimal[data-tone="dark"]::before { box-shadow: 0 0 0 1px rgba(255,255,255,.08); }
+#modalHost .ap-art2.ap-art--minimal[data-tone="dark"] .ap2-side { background: #141416; box-shadow: inset -1px 0 0 rgba(255,255,255,.06); }
+#modalHost .ap-art2.ap-art--minimal[data-tone="dark"] .ap2-main { background: #1B1B1D; }
+#modalHost .ap-art2.ap-art--minimal[data-tone="dark"] .ap2-dot { background: #4A4A50; }
+#modalHost .ap-art2.ap-art--minimal[data-tone="dark"] .ap2-nav { background: #2A2A2D; }
+#modalHost .ap-art2.ap-art--minimal[data-tone="dark"] .ap2-nav.on { background: #3A3A40; box-shadow: none; }
+#modalHost .ap-art2.ap-art--minimal[data-tone="dark"] .ap2-h { background: #EDEDED; }
+#modalHost .ap-art2.ap-art--minimal[data-tone="dark"] .ap2-tabs s { background: #34343A; } #modalHost .ap-art2.ap-art--minimal[data-tone="dark"] .ap2-tabs s.on { background: #EDEDED; }
+#modalHost .ap-art2.ap-art--minimal[data-tone="dark"] .ap2-cards s { background: #242428; box-shadow: none; }
+#modalHost .ap-art2.ap-art--minimal[data-tone="dark"] .ap2-btn { background: #EDEDED; }
+/* 液态玻璃 */
+#modalHost .ap-art2.ap-art--liquid::before { background: linear-gradient(160deg, rgba(255,255,255,.2), rgba(255,255,255,.06)); box-shadow: inset 0 1px 0 rgba(255,255,255,.6), inset 0 0 0 1px rgba(255,255,255,.32), 0 12px 24px -14px rgba(0,0,0,.5); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+#modalHost .ap-art2.ap-art--liquid .ap2-side { background: rgba(255,255,255,.1); box-shadow: inset -1px 0 0 rgba(255,255,255,.22); }
+#modalHost .ap-art2.ap-art--liquid .ap2-main { background: transparent; }
+#modalHost .ap-art2.ap-art--liquid .ap2-dot { background: rgba(255,255,255,.7); }
+#modalHost .ap-art2.ap-art--liquid .ap2-nav { background: rgba(255,255,255,.32); }
+#modalHost .ap-art2.ap-art--liquid .ap2-nav.on { background: rgba(255,255,255,.78); }
+#modalHost .ap-art2.ap-art--liquid .ap2-h { background: rgba(255,255,255,.95); }
+#modalHost .ap-art2.ap-art--liquid .ap2-tabs s { background: rgba(255,255,255,.35); } #modalHost .ap-art2.ap-art--liquid .ap2-tabs s.on { background: #fff; }
+#modalHost .ap-art2.ap-art--liquid .ap2-cards s { background: linear-gradient(160deg, rgba(255,255,255,.3), rgba(255,255,255,.1)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.3); }
+#modalHost .ap-art2.ap-art--liquid .ap2-btn { background: linear-gradient(90deg, var(--a), var(--b)); box-shadow: 0 0 12px var(--a); }
+/* 像素（浅 / 深） */
+#modalHost .ap-art2.ap-art--pixel::before { border-radius: 0; box-shadow: inset 0 0 0 2px #3B3B3B, 4px 4px 0 0 #000; }
+#modalHost .ap-art2.ap-art--pixel .ap2-side { border-radius: 0; background: #101010; box-shadow: inset -2px 0 0 #2A2A2A; }
+#modalHost .ap-art2.ap-art--pixel .ap2-main { border-radius: 0; background: #141414; }
+#modalHost .ap-art2.ap-art--pixel :is(.ap2-dot, .ap2-nav, .ap2-h, .ap2-tabs s, .ap2-cards s, .ap2-btn) { border-radius: 0; }
+#modalHost .ap-art2.ap-art--pixel .ap2-dot { background: var(--ink); }
+#modalHost .ap-art2.ap-art--pixel .ap2-nav { background: #2A2A2A; } #modalHost .ap-art2.ap-art--pixel .ap2-nav.on { background: #EDEDED; }
+#modalHost .ap-art2.ap-art--pixel .ap2-h { background: var(--ink); }
+#modalHost .ap-art2.ap-art--pixel .ap2-tabs s { background: #3B3B3B; } #modalHost .ap-art2.ap-art--pixel .ap2-tabs s.on { background: #EDEDED; }
+#modalHost .ap-art2.ap-art--pixel .ap2-cards s { background: #1D1D1D; box-shadow: inset 0 0 0 1px #3B3B3B; }
+#modalHost .ap-art2.ap-art--pixel .ap2-btn { background: var(--ink); box-shadow: 3px 3px 0 0 #000; }
+#modalHost .ap-art2.ap-art--pixel[data-tone="light"]::before { box-shadow: inset 0 0 0 2px #8A8A8A, 4px 4px 0 0 rgba(0,0,0,.25); }
+#modalHost .ap-art2.ap-art--pixel[data-tone="light"] .ap2-side { background: #E8E8E8; box-shadow: inset -2px 0 0 #B5B5B5; }
+#modalHost .ap-art2.ap-art--pixel[data-tone="light"] .ap2-main { background: #F6F6F6; }
+#modalHost .ap-art2.ap-art--pixel[data-tone="light"] .ap2-dot, #modalHost .ap-art2.ap-art--pixel[data-tone="light"] .ap2-h { background: #111; }
+#modalHost .ap-art2.ap-art--pixel[data-tone="light"] .ap2-nav { background: #C9C9C9; } #modalHost .ap-art2.ap-art--pixel[data-tone="light"] .ap2-nav.on { background: #111; }
+#modalHost .ap-art2.ap-art--pixel[data-tone="light"] .ap2-tabs s { background: #C6C6C6; } #modalHost .ap-art2.ap-art--pixel[data-tone="light"] .ap2-tabs s.on { background: #111; }
+#modalHost .ap-art2.ap-art--pixel[data-tone="light"] .ap2-cards s { background: #EAEAEA; box-shadow: inset 0 0 0 1px #B5B5B5; }
+#modalHost .ap-art2.ap-art--pixel[data-tone="light"] .ap2-btn { background: var(--ink); box-shadow: 3px 3px 0 0 rgba(0,0,0,.35); }
+/* 极光 */
+#modalHost .ap-art2.ap-art--aurora { background: radial-gradient(60% 70% at 0% 0%, color-mix(in srgb, var(--au) 32%, transparent), transparent 70%), radial-gradient(50% 60% at 100% 100%, color-mix(in srgb, var(--au) 20%, transparent), transparent 70%), #EEF2FB; }
+#modalHost .ap-art2.ap-art--aurora::before { box-shadow: 0 12px 24px -14px color-mix(in srgb, var(--au) 60%, #000); }
+#modalHost .ap-art2.ap-art--aurora .ap2-side { background: radial-gradient(90% 55% at 0% 0%, color-mix(in srgb, var(--au) 60%, transparent), transparent 65%), linear-gradient(180deg, color-mix(in srgb, var(--au) 18%, #120C24), #0E0A1C); }
+#modalHost .ap-art2.ap-art--aurora .ap2-main { background: #FFFFFF; }
+#modalHost .ap-art2.ap-art--aurora .ap2-dot { background: rgba(255,255,255,.75); }
+#modalHost .ap-art2.ap-art--aurora .ap2-nav { background: rgba(255,255,255,.28); } #modalHost .ap-art2.ap-art--aurora .ap2-nav.on { background: rgba(255,255,255,.62); }
+#modalHost .ap-art2.ap-art--aurora .ap2-h { background: #12182B; }
+#modalHost .ap-art2.ap-art--aurora .ap2-tabs s { background: #D9E0F2; } #modalHost .ap-art2.ap-art--aurora .ap2-tabs s.on { background: #12182B; }
+#modalHost .ap-art2.ap-art--aurora .ap2-cards s { background: #EEF2FB; }
+#modalHost .ap-art2.ap-art--aurora .ap2-btn { background: linear-gradient(180deg, #2C344C, #161B2C); box-shadow: 0 4px 10px -3px rgba(12,16,32,.6); }
+/* Bento（浅 / 深）：两块独立的圆角卡片落在画布上 */
+#modalHost .ap-art2.ap-art--bento { background: #E8E9EC; }
+#modalHost .ap-art2.ap-art--bento::before { display: none; }
+#modalHost .ap-art2.ap-art--bento .ap2-side { left: 7%; width: 25%; background: #FFFFFF; border-radius: 10px 10px 0 0; box-shadow: 0 6px 14px -10px rgba(20,22,30,.4); }
+#modalHost .ap-art2.ap-art--bento .ap2-main { left: 35%; background: #FFFFFF; border-radius: 10px 10px 0 0; box-shadow: 0 6px 14px -10px rgba(20,22,30,.4); }
+#modalHost .ap-art2.ap-art--bento .ap2-dot { background: #D5D8DE; }
+#modalHost .ap-art2.ap-art--bento .ap2-nav { background: #E6E8ED; } #modalHost .ap-art2.ap-art--bento .ap2-nav.on { background: #17181C; }
+#modalHost .ap-art2.ap-art--bento .ap2-h { background: #17181C; }
+#modalHost .ap-art2.ap-art--bento .ap2-tabs s { background: #E6E8ED; } #modalHost .ap-art2.ap-art--bento .ap2-tabs s.on { background: #17181C; }
+#modalHost .ap-art2.ap-art--bento .ap2-cards s { background: #F2F3F6; border-radius: 7px; }
+#modalHost .ap-art2.ap-art--bento .ap2-btn { background: #F2541B; }
+#modalHost .ap-art2.ap-art--bento[data-tone="dark"] { background: #0D0E10; }
+#modalHost .ap-art2.ap-art--bento[data-tone="dark"] :is(.ap2-side, .ap2-main) { background: #17181C; box-shadow: none; }
+#modalHost .ap-art2.ap-art--bento[data-tone="dark"] .ap2-dot { background: #4A4D55; }
+#modalHost .ap-art2.ap-art--bento[data-tone="dark"] .ap2-nav { background: #2C2F37; } #modalHost .ap-art2.ap-art--bento[data-tone="dark"] .ap2-nav.on { background: #F2F3F5; }
+#modalHost .ap-art2.ap-art--bento[data-tone="dark"] .ap2-h { background: #F2F3F5; }
+#modalHost .ap-art2.ap-art--bento[data-tone="dark"] .ap2-tabs s { background: #2C2F37; } #modalHost .ap-art2.ap-art--bento[data-tone="dark"] .ap2-tabs s.on { background: #F2F3F5; }
+#modalHost .ap-art2.ap-art--bento[data-tone="dark"] .ap2-cards s { background: #1F2126; }
+.user-menu .um-fly .um-opt--style > .um-ic { flex: none !important; }
+.user-menu .um-fly .um-opt--style > span:not(.um-ic) { flex: 1; text-align: left; }
+
+/* Bento · 间距再收：面板之间 6px、内容区内边距缩小、卡片行距 / 卡片内边距更紧凑 */
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { column-gap: 0; padding-right: 6px; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoside:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { margin: 2px 6px 6px 0; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoarea:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { margin: 2px 0 6px 0 !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell > .demoarea > .demopage:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { padding: 20px 20px 16px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .proj-sticky:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { margin: -20px -20px 10px !important; padding: 20px 20px 0 !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demohead:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { margin-bottom: 10px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .tp-page:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e), html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .messenger-shell:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { gap: 6px; }
+html:root[data-appearance-style="bento"][data-side="collapsed"] body #demo.slack-shell.slack-shell > .demoside:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { margin-right: 0; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.grid2, .project-overview-metrics, .bn-grid, .benchgrid, .extension-grid, .kanban, .kanban-board):not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { gap: 8px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .grid2:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { margin-top: 8px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.bn-card, .card.pad):not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { padding: 12px 14px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .bn-metric:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e), html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .project-overview-metrics > button:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { padding: 12px 14px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .benchcard .benchbody:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { padding: 12px 14px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .kanban-column:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { padding: 8px !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .kanban-column .kanban-cards:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e) { gap: 6px !important; }
+
 </style></head><body class="as-root">
 <header class="appbar"><div class="appbrand"><button class="iconbtn navtoggle" onclick="toggleSidebar()" aria-label="打开导航"><svg class="icon lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button><span class="logo" aria-hidden="true"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.000000" height="28.000000" fill="none">
 	<defs>
@@ -11297,7 +11716,8 @@ const APPEARANCE_STYLES={
   dark:{name:'深色',tone:'dark',tagline:'逐层提亮',description:'画布最暗、卡片逐层提亮；主按钮自动反转为浅色，状态色保持三重编码。'},
   liquid:{name:'流光',tone:'light',tagline:'液态玻璃 · 自定义配色',description:'个性化皮肤：双色渐变底，面板与浮层为半透明液态玻璃；配色可选预设或自定义。'},
   pixel:{name:'像素',tone:'dark',tagline:'终端 · 等宽 · 像素',description:'开发者皮肤：严格中性灰、等宽字体与像素标题，直角硬边；白色表示选中，橙红表示异常。'},
-  aurora:{name:'极光',tone:'light',tagline:'网格渐变 · 深色侧栏',description:'深色网格渐变侧栏 + 浅色柔光内容区，大圆角卡片与带光晕的强调色；强调色可选。'}
+  aurora:{name:'极光',tone:'light',tagline:'网格渐变 · 深色侧栏',description:'深色网格渐变侧栏 + 浅色柔光内容区，大圆角卡片与带光晕的强调色；强调色可选。'},
+  bento:{name:'Bento',tone:'light',tagline:'分块卡片 · 浅灰画布',description:'浅灰画布上，侧栏与每个内容区都是独立的大圆角白色卡片；胶囊标签、深色选中，主操作使用可选强调色。'}
 };
 const APPEARANCE_COLORS={
   purple:{name:'紫色',hue:267,companionHue:212},
@@ -11969,7 +12389,7 @@ function pixelInks(mode){mode=mode||(settingsConfig().pixelMode==='dark'?'dark':
 function pixelInkNormalize(st){const list=pixelInks(st.pixelMode==='dark'?'dark':'light');if(!list.some(x=>x[0].toLowerCase()===String(st.pixelInk||'').toLowerCase()))st.pixelInk=list[0][0];}
 function autonomyPresets(){return {ask:{read:'ask',write:'ask',send:'ask'},risky:{read:'auto',write:'ask',send:'ask'},auto:{read:'auto',write:'auto',send:'ask'}};}
 function settingsConfig(){
-  const d={density:'comfortable',reduceMotion:false,unreadBadge:true,needYou:'inapp',digest:true,quietHours:false,defaultAgent:'CodeAgent',autonomy:'risky',actions:{...autonomyPresets().risky},approvalTtl:'once',learn:true,retention:'90',extApproval:true,liquidPreset:'blue-orange',liquidA:'#2B76F0',liquidB:'#F08A3C',pixelInk:'#FF6B1A',pixelMode:'light',auroraAccent:'#3F6BFF'};
+  const d={density:'comfortable',reduceMotion:false,unreadBadge:true,needYou:'inapp',digest:true,quietHours:false,defaultAgent:'CodeAgent',autonomy:'risky',actions:{...autonomyPresets().risky},approvalTtl:'once',learn:true,retention:'90',extApproval:true,liquidPreset:'blue-orange',liquidA:'#2B76F0',liquidB:'#F08A3C',pixelInk:'#FF6B1A',pixelMode:'light',auroraAccent:'#3F6BFF',bentoAccent:'#F2541B',bentoMode:'light'};
   if(!s.settings||typeof s.settings!=='object')s.settings={};
   s.settings={...d,...s.settings,actions:{...d.actions,...(s.settings.actions||{})}};
   return s.settings;
@@ -11984,12 +12404,13 @@ function logoFilter(hex){
   return `hue-rotate(${Math.round(h-224)}deg) saturate(${Math.min(1.25,Math.max(.4,s/.85)).toFixed(2)})`;
 }
 function logoTintApply(hex){document.documentElement.style.setProperty('--lg-filter',hex?logoFilter(hex):'none');}
-function themeTone(style){if(style==='pixel')return settingsConfig().pixelMode==='dark'?'dark':'light';return APPEARANCE_STYLES[style]?.tone||'light';}
+function themeTone(style){if(style==='pixel')return settingsConfig().pixelMode==='dark'?'dark':'light';if(style==='bento')return settingsConfig().bentoMode==='dark'?'dark':'light';return APPEARANCE_STYLES[style]?.tone||'light';}
 function settingsApply(){const st=settingsConfig(),root=document.documentElement;root.dataset.density=st.density;root.dataset.motion=st.reduceMotion?'reduce':'full';root.dataset.unreadBadge=st.unreadBadge?'on':'off';root.style.setProperty('--lq-a',st.liquidA);root.style.setProperty('--lq-b',st.liquidB);try{const _style=appearanceConfig().style;logoTintApply(_style==='liquid'?st.liquidA:_style==='aurora'?(st.auroraAccent||'#3F6BFF'):_style==='pixel'?(pixelInks(st.pixelMode==='dark'?'dark':'light').find(x=>x[0].toLowerCase()===String(st.pixelInk).toLowerCase())||[])[0]:'');}catch(e){}
-  pixelInkNormalize(st);root.dataset.pxMode=st.pixelMode==='dark'?'dark':'light';const _ink=pixelInks(root.dataset.pxMode).find(x=>x[0].toLowerCase()===st.pixelInk.toLowerCase())||pixelInks(root.dataset.pxMode)[0];root.style.setProperty('--px-ink',_ink[0]);root.style.setProperty('--px-ink-text',_ink[2]);root.style.setProperty('--px-on-ink',_ink[3]);pixelFontsEnsure();root.style.setProperty('--au',st.auroraAccent||'#3F6BFF');}
+  pixelInkNormalize(st);root.dataset.pxMode=st.pixelMode==='dark'?'dark':'light';const _ink=pixelInks(root.dataset.pxMode).find(x=>x[0].toLowerCase()===st.pixelInk.toLowerCase())||pixelInks(root.dataset.pxMode)[0];root.style.setProperty('--px-ink',_ink[0]);root.style.setProperty('--px-ink-text',_ink[2]);root.style.setProperty('--px-on-ink',_ink[3]);pixelFontsEnsure();root.style.setProperty('--au',st.auroraAccent||'#3F6BFF');root.style.setProperty('--bn',st.bentoAccent||'#F2541B');root.dataset.bnMode=st.bentoMode==='dark'?'dark':'light';}
 // 像素皮肤字体：仅在选用时按需加载（Silkscreen 像素标题 + JetBrains Mono 正文；离线回退系统等宽字体）。
 function pixelFontsEnsure(){if(s?.appearance?.style!=='pixel'||document.getElementById('as2-pixel-fonts'))return;const l=document.createElement('link');l.id='as2-pixel-fonts';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Silkscreen:wght@400;700&display=swap';document.head.appendChild(l);}
 function auroraAccents(){return [['#3F6BFF','极光蓝'],['#7A4DFF','星云紫'],['#06B6D4','冰川青'],['#14B8A6','森林绿'],['#EC4899','晚霞粉']];}
+function bentoAccents(){return [['#F2541B','活力橙'],['#2B5BE8','钴蓝'],['#12A58B','松石绿'],['#7A4DFF','星云紫'],['#17181C','墨黑']];}
 function settingsSet(key,value){
   const st=settingsConfig();
   if(key.startsWith('actions.'))st.actions[key.slice(8)]=value;
@@ -11999,6 +12420,7 @@ function settingsSet(key,value){
   else if(key==='liquidA'||key==='liquidB'){st[key]=value;st.liquidPreset=liquidPalettes().find(x=>x[2].toLowerCase()===st.liquidA.toLowerCase()&&x[3].toLowerCase()===st.liquidB.toLowerCase())?.[0]||'custom';}
   else st[key]=value;
   if(key.startsWith('actions.'))st.autonomy=Object.entries(autonomyPresets()).find(([,p])=>Object.entries(p).every(([k,v])=>st.actions[k]===v))?.[0]||'custom';
+  if(key==='bentoMode'){save();appearanceApply();openSettings('appearance');return;}
   if(key==='pixelMode'){pixelInkNormalize(st);st.pixelInk=pixelInks(value)[0][0];save();appearanceApply();openSettings('appearance');return;}
   save();settingsApply();if(key==='defaultProject')render();openSettings();
 }
@@ -12016,18 +12438,19 @@ function settingsPane(sec){
       settingsRow('时区','任务时间、定时触发按此时区计算','<span class="settings-value">Asia/Shanghai · UTC+8</span>'))+
     settingsGroup('入门',settingsRow('产品指引','重新浏览四种工作方式：工作台、个人助理、Thread、固定流程',btn('导航精灵','settings-guide','','sm')));
   if(sec==='appearance'){
-    const fam=style==='liquid'?'liquid':style==='pixel'?'pixel':style==='aurora'?'aurora':'minimal';
+    const fam=style==='liquid'?'liquid':style==='pixel'?'pixel':style==='aurora'?'aurora':style==='bento'?'bento':'minimal';
     const lp=liquidPalettes().find(x=>x[0]===st.liquidPreset),la=lp?lp[2]:st.liquidA,lb=lp?lp[3]:st.liquidB;
-    const fams=[['minimal','极简','中性灰阶 · 墨色主按钮',style==='dark'?'dark':'light'],['liquid','液态玻璃','渐变光晕 · 半透明玻璃',''],['pixel','像素','网格蓝图 · 等宽 · 直角硬边',''],['aurora','极光','网格渐变 · 深色侧栏 · 光晕强调','']];
-    const card=([key,name,tag,tone0])=>{const tone=key==='pixel'?(st.pixelMode==='dark'?'dark':'light'):tone0;return`<button class="ap-style" role="radio" aria-checked="${fam===key}" data-a="appearance-family" data-v="${key}"><span class="ap-art ap-art--${key}" data-tone="${tone}" style="--a:${la};--b:${lb};--ink:${st.pixelInk||'#F2F2F2'}" aria-hidden="true"><i class="ap-art-win"><i class="ap-art-side"></i><i class="ap-art-title"></i><i class="ap-art-line"></i><i class="ap-art-line"></i><i class="ap-art-btn"></i></i></span><span class="ap-style-copy"><b>${name}</b><small>${tag}</small></span></button>`;};
+    const fams=[['minimal','极简','中性灰阶 · 墨色主按钮',style==='dark'?'dark':'light'],['liquid','液态玻璃','渐变光晕 · 半透明玻璃',''],['pixel','像素','网格蓝图 · 等宽 · 直角硬边',''],['aurora','极光','网格渐变 · 深色侧栏 · 光晕强调',''],['bento','Bento','分块卡片 · 浅灰画布 · 胶囊标签','']];
+    const card=([key,name,tag,tone0])=>{const tone=key==='pixel'?(st.pixelMode==='dark'?'dark':'light'):key==='bento'?(st.bentoMode==='dark'?'dark':'light'):tone0;return`<button class="ap-style" role="radio" aria-checked="${fam===key}" data-a="appearance-family" data-v="${key}"><span class="ap-art ap-art2 ap-art--${key}" data-tone="${tone}" style="--a:${la};--b:${lb};--ink:${st.pixelInk||'#F2F2F2'}" aria-hidden="true"><i class="ap2-side"><b class="ap2-dot"></b><b class="ap2-nav on"></b><b class="ap2-nav"></b><b class="ap2-nav"></b></i><i class="ap2-main"><b class="ap2-h"></b><b class="ap2-tabs"><s class="on"></s><s></s><s></s></b><b class="ap2-cards"><s></s><s></s><s></s></b><b class="ap2-btn"></b></i></span><span class="ap-style-copy"><b>${name}</b><small>${tag}</small></span></button>`;};
     const sw=(a,v,on,label,bg)=>`<button class="ap-swatch" role="radio" aria-checked="${on}" data-a="${a}" data-v="${esc(v)}" title="${esc(label)}"><i style="background:${bg}"></i><span>${esc(label)}</span></button>`;
     const colors=fam==='minimal'?sw('appearance-style','classic',style==='classic','浅色','linear-gradient(135deg,#FFFFFF 50%,#E5E5E5 50%)')+sw('appearance-style','dark',style==='dark','深色','linear-gradient(135deg,#2A2A2C 50%,#0C0C0D 50%)')
       :fam==='liquid'?liquidPalettes().map(([id,name,c1,c2])=>sw('settings-set','liquidPreset|'+id,st.liquidPreset===id,name.split(' · ')[1],`linear-gradient(135deg,${c1},${c2})`)).join('')+sw('settings-set','liquidPreset|custom',st.liquidPreset==='custom','自定义',`conic-gradient(from 200deg,#FF7A45,#F5C842,#2AE9CB,#23ADFF,#A165FF,#FF7A45)`)
+      :fam==='bento'?bentoAccents().map(([c,n])=>sw('settings-set','bentoAccent|'+c,(st.bentoAccent||'#F2541B').toUpperCase()===c.toUpperCase(),n,`linear-gradient(135deg,${c} 55%,#E7E8EB 55%)`)).join('')
       :fam==='aurora'?auroraAccents().map(([c,n])=>sw('settings-set','auroraAccent|'+c,(st.auroraAccent||'#3F6BFF').toUpperCase()===c.toUpperCase(),n,`linear-gradient(135deg,${c} 55%,#0B1020 55%)`)).join('')
       :pixelInks().map(([c,n])=>sw('settings-set','pixelInk|'+c,(st.pixelInk||'').toUpperCase()===c.toUpperCase(),n,`linear-gradient(135deg,${c} 55%,${st.pixelMode==='dark'?'#0A0A0A':'#E4E4E4'} 55%)`)).join('');
     return settingsGroup('风格',`<div class="ap-styles" role="radiogroup" aria-label="风格">${fams.map(card).join('')}</div>`)+
-      settingsGroup('颜色',`<div class="ap-swatches" role="radiogroup" aria-label="颜色">${colors}</div>`+(fam==='pixel'?settingsRow('底色','浅色蓝图：灰底网格 + 橙色强调；深色终端：黑底等宽',settingsSeg('pixelMode',st.pixelMode==='dark'?'dark':'light',[['light','浅色 · 蓝图'],['dark','深色 · 终端']])):'')+(fam==='liquid'&&st.liquidPreset==='custom'?settingsRow('自定义颜色','主色用于选中、运行与背景上部；辅色用于等待、高亮与背景下部',`<span class="liquid-custom"><label class="liquid-color"><input type="color" value="${esc(st.liquidA)}" data-setting="liquidA" data-liquid-color="--lq-a" aria-label="主色">主色 <code>${esc(st.liquidA.toUpperCase())}</code></label><label class="liquid-color"><input type="color" value="${esc(st.liquidB)}" data-setting="liquidB" data-liquid-color="--lq-b" aria-label="辅色">辅色 <code>${esc(st.liquidB.toUpperCase())}</code></label></span>`):''),
-        fam==='liquid'?'背景渐变、选中底色与状态色都由所选的两种颜色自动推导。':fam==='pixel'?'强调色用于选中、主按钮与焦点；状态色保持不变。':fam==='aurora'?'强调色用于选中、主按钮与侧栏光晕；状态色保持不变。':'')+
+      settingsGroup('颜色',`<div class="ap-swatches" role="radiogroup" aria-label="颜色">${colors}</div>`+(fam==='bento'?settingsRow('明暗','浅色：浅灰画布 + 白色卡片；深色：近黑画布 + 深灰卡片',settingsSeg('bentoMode',st.bentoMode==='dark'?'dark':'light',[['light','浅色'],['dark','深色']])):'')+(fam==='pixel'?settingsRow('底色','浅色蓝图：灰底网格 + 橙色强调；深色终端：黑底等宽',settingsSeg('pixelMode',st.pixelMode==='dark'?'dark':'light',[['light','浅色 · 蓝图'],['dark','深色 · 终端']])):'')+(fam==='liquid'&&st.liquidPreset==='custom'?settingsRow('自定义颜色','主色用于选中、运行与背景上部；辅色用于等待、高亮与背景下部',`<span class="liquid-custom"><label class="liquid-color"><input type="color" value="${esc(st.liquidA)}" data-setting="liquidA" data-liquid-color="--lq-a" aria-label="主色">主色 <code>${esc(st.liquidA.toUpperCase())}</code></label><label class="liquid-color"><input type="color" value="${esc(st.liquidB)}" data-setting="liquidB" data-liquid-color="--lq-b" aria-label="辅色">辅色 <code>${esc(st.liquidB.toUpperCase())}</code></label></span>`):''),
+        fam==='liquid'?'背景渐变、选中底色与状态色都由所选的两种颜色自动推导。':fam==='pixel'?'强调色用于选中、主按钮与焦点；状态色保持不变。':fam==='aurora'?'强调色用于选中、主按钮与侧栏光晕；状态色保持不变。':fam==='bento'?'强调色用于主按钮、链接与进度；选中固定为深色胶囊；状态色保持不变。':'')+
       (fam==='liquid'?glassPaneHtml():'')+
       settingsGroup('显示',
         settingsRow('界面密度','紧凑模式收紧行高与间距，一屏显示更多任务与消息',settingsSeg('density',st.density,[['comfortable','舒适'],['compact','紧凑']]))+
@@ -13405,15 +13828,39 @@ try{LUCIDE_SVG.logout='<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path 
 const USER_MANUAL_URL='https://github.com/Vinniechenyu/AgentSpace';
 function userMenuClose(){document.querySelector('.as2-menu.user-menu')?.remove();document.querySelector('[data-a="user-menu"]')?.setAttribute('aria-expanded','false');}
 function userLang(){try{return localStorage.getItem('as2-lang')||'zh';}catch(e){return 'zh';}}
+// 风格小图标：每个风格一张迷你界面示意（固定配色，不随主题变）
+const UM_STYLE_ICON={
+  classic:'<svg viewBox="0 0 24 24"><rect x="2.5" y="3.5" width="19" height="17" rx="4.5" fill="#FAFAFA" stroke="#D4D4D8"/><path d="M9 4v16" stroke="#E4E4E7"/><rect x="11.5" y="8" width="7" height="2" rx="1" fill="#3F3F46"/><rect x="11.5" y="12" width="5" height="2" rx="1" fill="#D4D4D8"/><rect x="4.5" y="8" width="2.6" height="2" rx="1" fill="#A1A1AA"/><rect x="4.5" y="12" width="2.6" height="2" rx="1" fill="#D4D4D8"/></svg>',
+  liquid:'<svg viewBox="0 0 24 24"><defs><linearGradient id="umg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2B76F0"/><stop offset=".55" stop-color="#7A5CE0"/><stop offset="1" stop-color="#F08A3C"/></linearGradient></defs><rect x="2" y="2" width="20" height="20" rx="6" fill="url(#umg1)"/><rect x="5" y="6" width="14" height="12" rx="3.5" fill="#fff" fill-opacity=".28" stroke="#fff" stroke-opacity=".6"/><rect x="8" y="9.5" width="7" height="1.8" rx=".9" fill="#fff"/><rect x="8" y="13" width="4.5" height="1.8" rx=".9" fill="#fff" fill-opacity=".6"/></svg>',
+  pixel:'<svg viewBox="0 0 24 24" shape-rendering="crispEdges"><rect x="2" y="2" width="20" height="20" fill="#E4E4E4"/><path d="M2 8h20M2 14h20M8 2v20M14 2v20" stroke="#CFCFCF" stroke-width=".6"/><rect x="5" y="5" width="9" height="3" fill="#111"/><rect x="5" y="10" width="14" height="2" fill="#9B9B9B"/><rect x="5" y="14" width="9" height="2" fill="#9B9B9B"/><rect x="13" y="17" width="6" height="3" fill="#F2541B"/></svg>',
+  aurora:'<svg viewBox="0 0 24 24"><defs><linearGradient id="umg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3F6BFF"/><stop offset="1" stop-color="#0B1020"/></linearGradient></defs><rect x="2.5" y="3" width="19" height="18" rx="5" fill="#EEF2FB"/><path d="M7.5 3h2v18h-2a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5z" fill="url(#umg2)"/><rect x="12" y="7.5" width="7" height="2" rx="1" fill="#1B2133"/><rect x="12" y="11.5" width="5" height="2" rx="1" fill="#C9D3EE"/><rect x="12" y="15.5" width="4.5" height="2.4" rx="1.2" fill="#3F6BFF"/></svg>',
+  bento:'<svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="6" fill="#E8E9EC"/><rect x="4" y="4" width="6.5" height="16" rx="2.6" fill="#fff"/><rect x="12" y="4" width="8" height="7" rx="2.6" fill="#fff"/><rect x="12" y="13" width="8" height="7" rx="2.6" fill="#fff"/><circle cx="16" cy="16.5" r="1.6" fill="#F2541B"/><rect x="5.6" y="7" width="3.4" height="1.6" rx=".8" fill="#17181C"/><rect x="13.6" y="6.6" width="4.6" height="1.6" rx=".8" fill="#17181C"/></svg>'
+};
+function umSwatch(bg,ring){return `<b class="um-sw um-sw--dot" style="background:${bg}${ring?';box-shadow:inset 0 0 0 1px rgba(0,0,0,.14)':''}"></b>`;}
+// 二级菜单：每个风格自己的「颜色 / 明暗」选项
+function umColorOptions(key){
+  const st=settingsConfig(),ap=appearanceConfig().style;
+  const o=(v,label,on,sw)=>`<button role="menuitemradio" aria-checked="${on}" class="um-opt" data-a="user-color" data-v="${key}|${v}">${sw||''}<span>${label}</span><i>${on?ico('check'):''}</i></button>`;
+  const sep='<div class="as2-menu-sep"></div>';
+  if(key==='classic')return o('classic','浅色',ap==='classic',umSwatch('linear-gradient(135deg,#fff 50%,#E5E5E5 50%)',1))+o('dark','深色',ap==='dark',umSwatch('linear-gradient(135deg,#3A3A3E 50%,#0C0C0D 50%)'));
+  if(key==='liquid')return liquidPalettes().map(([id,name,c1,c2])=>o('preset:'+id,name.split(' · ')[1]||name,ap==='liquid'&&st.liquidPreset===id,umSwatch(`linear-gradient(135deg,${c1},${c2})`))).join('');
+  if(key==='pixel')return o('mode:light','浅色 · 蓝图',ap==='pixel'&&st.pixelMode!=='dark',umSwatch('linear-gradient(135deg,#F2F2F2 50%,#C8C8C8 50%)',1))+o('mode:dark','深色 · 终端',ap==='pixel'&&st.pixelMode==='dark',umSwatch('linear-gradient(135deg,#2A2A2A 50%,#0A0A0A 50%)'))+sep+pixelInks().map(([c,n])=>o('ink:'+c,n,ap==='pixel'&&String(st.pixelInk||'').toUpperCase()===c.toUpperCase(),umSwatch(c))).join('');
+  if(key==='aurora')return auroraAccents().map(([c,n])=>o('accent:'+c,n,ap==='aurora'&&String(st.auroraAccent||'#3F6BFF').toUpperCase()===c.toUpperCase(),umSwatch(c))).join('');
+  if(key==='bento')return o('mode:light','浅色',ap==='bento'&&st.bentoMode!=='dark',umSwatch('linear-gradient(135deg,#fff 50%,#E8E9EC 50%)',1))+o('mode:dark','深色',ap==='bento'&&st.bentoMode==='dark',umSwatch('linear-gradient(135deg,#2C2F37 50%,#0D0E10 50%)'))+sep+bentoAccents().map(([c,n])=>o('accent:'+c,n,ap==='bento'&&String(st.bentoAccent||'#F2541B').toUpperCase()===c.toUpperCase(),umSwatch(c))).join('');
+  return '';
+}
 function userMenuHtml(){
   const style=appearanceConfig().style,lang=userLang(),open=window.__userMenuOpen||{};
   const row=(a,v,icon,label,extra='')=>`<button role="menuitem" data-a="${a}" data-v="${v}">${ico(icon)}<span>${label}</span>${extra}</button>`;
-  const sw={classic:'linear-gradient(135deg,#fff 50%,#E5E5E5 50%)',dark:'linear-gradient(135deg,#3A3A3E 50%,#0C0C0D 50%)',liquid:'linear-gradient(135deg,#2B76F0,#F08A3C)',pixel:'linear-gradient(135deg,#FF6B1A 55%,#E4E4E4 55%)',aurora:'linear-gradient(135deg,#3F6BFF 50%,#0B1020 50%)'};
-  const opt=(a,v,label,on)=>`<button role="menuitemradio" aria-checked="${on}" class="um-opt" data-a="${a}" data-v="${v}">${sw[v]?`<b class="um-sw" style="background:${sw[v]}"></b>`:''}<span>${label}</span><i>${on?ico('check'):''}</i></button>`;
+  const opt=(a,v,label,on)=>`<button role="menuitemradio" aria-checked="${on}" class="um-opt" data-a="${a}" data-v="${v}"><span>${label}</span><i>${on?ico('check'):''}</i></button>`;
   const group=(key,icon,label,cur,opts)=>`<div class="um-item" data-open="${!!open[key]}"><button role="menuitem" aria-haspopup="menu" class="um-group" data-a="user-group" data-v="${key}" aria-expanded="${!!open[key]}">${ico(icon)}<span>${label}</span><em>${cur}</em><i>${ico('chevron')}</i></button><div class="um-fly" role="menu">${opts}</div></div>`;
+  const styles=[['classic','极简'],['liquid','液态玻璃'],['pixel','像素'],['aurora','极光'],['bento','Bento']];
+  const cur=style==='dark'?'classic':style;
+  const styleOpts=styles.map(([k,l])=>`<div class="um-style"><button role="menuitemradio" aria-haspopup="menu" aria-checked="${cur===k}" class="um-opt um-opt--style" data-a="user-style" data-v="${k}"><span class="um-ic" aria-hidden="true">${UM_STYLE_ICON[k]}</span><span>${l}</span><i>${cur===k?ico('check'):''}</i><u class="um-more">${ico('chevron')}</u></button><div class="um-fly um-fly2" role="menu" aria-label="${l} 颜色">${umColorOptions(k)}</div></div>`).join('');
+  const curLabel=({classic:'极简 · 浅色',dark:'极简 · 深色',liquid:'液态玻璃',pixel:'像素',aurora:'极光',bento:'Bento'})[style]||'';
   return `<div class="um-head"><span class="um-face" role="img" aria-label="Vinnie" style="${((window.AS2_AVATARS||{}).me)?'background-image:url(&quot;'+window.AS2_AVATARS.me+'&quot;)':''}"></span><b>Vinnie</b></div><div class="as2-menu-sep"></div>`
    +row('user-settings','','settings','设置')
-   +group('appearance','spark','外观主题',({classic:'极简 · 浅色',dark:'极简 · 深色',liquid:'液态玻璃',pixel:'像素',aurora:'极光'})[style]||'',[['classic','极简 · 浅色'],['dark','极简 · 深色'],['liquid','液态玻璃'],['pixel','像素'],['aurora','极光']].map(([v,l])=>opt('user-appearance',v,l,style===v)).join(''))
+   +group('appearance','spark','外观主题',curLabel,styleOpts)
    +group('lang','chat','语言',lang==='zh'?'简体中文':'English',[['zh','简体中文'],['en','English']].map(([v,l])=>opt('user-lang',v,l,lang===v)).join(''))
    +'<div class="as2-menu-sep"></div>'
    +row('user-manual','','book','用户手册','<i class="um-ext">'+ico('arrow')+'</i>')
@@ -13426,11 +13873,25 @@ function userMenuOpen(){
 }
 function userMenuPlace(btn){const m=document.querySelector('.user-menu');if(!m)return;const r=btn.getBoundingClientRect();m.style.left=Math.round(Math.max(8,r.left))+'px';m.style.bottom=Math.round(innerHeight-r.top+8)+'px';m.style.top='auto';}
 function userMenuRefresh(){const m=document.querySelector('.user-menu');if(!m)return;m.innerHTML=userMenuHtml();userMenuPlace(document.querySelector('[data-a="user-menu"]'));if(typeof avatarsDecorate==='function')avatarsDecorate();}
+// 二级菜单选中一个颜色 / 明暗：必要时先切到该风格，再写入对应设置并立即生效（不打开设置弹窗）
+function userColorApply(v){
+  const [key,rest]=String(v).split('|'),[kind,val]=rest.includes(':')?[rest.slice(0,rest.indexOf(':')),rest.slice(rest.indexOf(':')+1)]:['',rest];
+  if(key==='classic'){appearanceSelect('style',val);userMenuRefresh();return;}
+  if(appearanceConfig().style!==key)appearanceSelect('style',key);
+  const st=settingsConfig();  // 切换风格会重建 settings 对象，必须在切换之后再取
+  if(key==='liquid'){const p=liquidPalettes().find(x=>x[0]===val);st.liquidPreset=val;if(p){st.liquidA=p[2];st.liquidB=p[3];}}
+  else if(key==='pixel'){if(kind==='mode'){st.pixelMode=val;pixelInkNormalize(st);st.pixelInk=pixelInks(val)[0][0];}else if(kind==='ink')st.pixelInk=val;}
+  else if(key==='aurora')st.auroraAccent=val;
+  else if(key==='bento'){if(kind==='mode')st.bentoMode=val;else st.bentoAccent=val;}
+  save();appearanceApply();userMenuRefresh();
+}
 function userMenuAction(a,v){
   if(!a.startsWith('user-'))return false;
   if(a==='user-menu'){document.querySelector('.user-menu')?userMenuClose():userMenuOpen();return true;}
   if(a==='user-group')return true; // 子菜单只在悬停 / 键盘聚焦时展开（同一时间只会有一个），点击不再切换状态
   if(a==='user-appearance'){appearanceSelect('style',v);userMenuRefresh();return true;}
+  if(a==='user-style'){const cur=appearanceConfig().style;appearanceSelect('style',v==='classic'?(cur==='dark'?'dark':'classic'):v);userMenuRefresh();return true;}
+  if(a==='user-color'){userColorApply(v);return true;}
   if(a==='user-lang'){try{localStorage.setItem('as2-lang',v);}catch(e){}if(typeof i18nApplyAll==='function')i18nApplyAll();userMenuRefresh();return true;}
   if(a==='user-settings'){userMenuClose();openSettings();return true;}
   if(a==='user-manual'){userMenuClose();window.open(USER_MANUAL_URL,'_blank','noopener');return true;}
@@ -13440,6 +13901,18 @@ function userMenuAction(a,v){
 document.addEventListener('pointerdown',e=>{const m=document.querySelector('.user-menu');if(m&&!m.contains(e.target)&&!e.target.closest('[data-a="user-menu"]'))userMenuClose();},true);
 document.addEventListener('keydown',e=>{if(e.key==='Escape')userMenuClose();if((e.metaKey||e.ctrlKey)&&e.key===','){e.preventDefault();openSettings();}});
 window.addEventListener('resize',userMenuClose);
+
+// 二级菜单（颜色 / 明暗）可能比窗口剩余高度更高：悬停时把它整体上移，保证不超出界面；极端情况下限高并可滚动。
+function userFlyFit(style){
+  const fly=style&&style.querySelector(':scope > .um-fly2');if(!fly)return;
+  fly.style.top='-6px';fly.style.maxHeight=(innerHeight-16)+'px';fly.style.overflowY='auto';
+  const r=fly.getBoundingClientRect();let dy=0;
+  if(r.bottom>innerHeight-8)dy=innerHeight-8-r.bottom;
+  if(r.top+dy<8)dy=8-r.top;
+  if(dy)fly.style.top=(-6+dy)+'px';
+}
+document.addEventListener('mouseover',e=>{const st=e.target.closest?.('.user-menu .um-style');if(st)requestAnimationFrame(()=>userFlyFit(st));});
+document.addEventListener('focusin',e=>{const st=e.target.closest?.('.user-menu .um-style');if(st)requestAnimationFrame(()=>userFlyFit(st));});
 
 // ---- 语言切换（简体中文 / English）：界面文案用词典翻译（精确匹配 + 子串替换），MutationObserver 保证重绘后立刻翻译；切回中文时还原。
 // 说明：任务标题、消息正文等演示数据以中文为主，仅翻译其中的常见词与状态；头像、代码不翻译。
