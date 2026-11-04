@@ -10321,6 +10321,8 @@ html:root body .as2-menu.bc-menu b, html:root body .as2-menu.bc-menu small { dis
 :root[data-appearance-style="dark"] { --vb-a: #6FA1FF; --vb-b: #B39BFF; }
 :root[data-appearance-style="liquid"] { --vb-a: var(--lq-a, #2B76F0); --vb-b: var(--lq-b, #F08A3C); }
 :root[data-appearance-style="pixel"] { --vb-a: var(--px-ink, #FF6B1A); --vb-b: var(--px-ink, #FF6B1A); }
+:root[data-appearance-style="aurora"] { --vb-a: var(--au, #3F6BFF); --vb-b: color-mix(in srgb, var(--au, #3F6BFF) 70%, #fff); }
+:root[data-appearance-style="aurora"] .appbar .appbrand b small { color: color-mix(in srgb, var(--vb-a) 80%, #000) !important; }
 html:root body .appbar .appbrand b small { display: inline-flex; align-items: center; height: 20px; padding: 0 9px !important; margin-left: 6px; border: 0 !important; border-radius: 999px !important;
   background: linear-gradient(135deg, color-mix(in srgb, var(--vb-a) 14%, #fff), color-mix(in srgb, var(--vb-b) 16%, #fff)) !important; -webkit-background-clip: border-box !important; background-clip: border-box !important;
   box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--vb-a) 32%, transparent), 0 1px 3px color-mix(in srgb, var(--vb-a) 16%, transparent) !important;
@@ -10396,6 +10398,208 @@ html:root body #demo.slack-shell .projecticon[data-pcolor], html:root body .as2-
 .ps-reset:hover { background: var(--as-hover); color: var(--as-text); }
 .ps-foot { display: flex; justify-content: flex-end; margin-top: 20px; padding-top: 16px; border-top: 1px dashed var(--as-border-strong); }
 @media (max-width: 720px) { .ps-field { grid-template-columns: 1fr; gap: 8px; } }
+
+/* =====================================================================
+ * 极光（Aurora）：深蓝网格渐变「半包围」外框（左 / 上 / 下）+ 右侧浅色内容面板。
+ * 强调色 --au（设置里可选，默认极光蓝）推导按钮、选中、焦点与光晕；左侧工具栏选中用深色中性块。
+ * ===================================================================== */
+:root[data-appearance-style="aurora"] {
+  color-scheme: light;
+  --au-gap-r: 8px; --au-gap-b: 8px;
+  --au: #3F6BFF; --au-2: color-mix(in srgb, var(--au) 72%, #fff); --au-navy: color-mix(in srgb, var(--au) 16%, #070B16);
+  --as-bg: #EEF2FB; --as-panel: #FFFFFF; --as-panel-stroke: rgba(63,107,255,.12); --as-card: #FFFFFF; --as-stage: #EEF2FB; --as-sunken: #E9EEFA; --as-overlay: rgba(8,14,40,.4);
+  --as-text: #12182B; --as-text-2: #333B55; --as-text-muted: #636C86; --as-text-subtle: #8791AB; --as-text-invert: #FFFFFF;
+  --as-border: rgba(30,50,110,.12); --as-border-soft: rgba(30,50,110,.07); --as-border-strong: rgba(30,50,110,.22);
+  --as-hover: rgba(18,24,43,.035); --as-pressed: rgba(18,24,43,.07); --as-muted-bg: #F0F3FB;
+  --as-selected: #E6EAF4; --as-selected-ink: #12182B;
+  --as-brand: var(--au); --as-brand-hover: color-mix(in srgb, var(--au) 86%, #000); --as-brand-soft: #E6EAF4; --as-brand-line: rgba(30,40,80,.28); --as-focus-ring: var(--au); --as-focus-soft: color-mix(in srgb, var(--au) 22%, transparent);
+  --as-btn-top: #2C344C; --as-btn-bottom: #161B2C; --as-btn-top-hover: #38425E; --as-btn-bottom-hover: #1C2236;
+  --as-btn-edge-1: #2C344C; --as-btn-edge-2: #161B2C; --as-btn-edge-3: #0E121F; --as-btn-ring: rgba(22,27,44,.4); --as-btn-ink: #FFFFFF;
+  --as-btn-shadow: 0 8px 18px -8px rgba(12,16,32,.6);
+  --as-btn2-bg: #FFFFFF; --as-btn2-ink: #12182B;
+  --as-run: var(--au); --as-run-bg: color-mix(in srgb, var(--au) 10%, #fff); --as-run-line: color-mix(in srgb, var(--au) 35%, transparent);
+  --as-id-human: #E6ECFF; --as-id-human-ink: #2442B8; --as-id-agent: color-mix(in srgb, var(--au) 13%, #fff); --as-id-agent-ink: color-mix(in srgb, var(--au) 78%, #12182B);
+  --as-r-xs: 8px; --as-r-sm: 10px; --as-r-md: 12px; --as-r-row: 12px; --as-r-card: 18px; --as-r-dec: 18px; --as-r-panel: 22px; --as-r-input: 12px; --as-r-pill: 999px;
+  --as-shadow-card: 0 10px 26px -16px color-mix(in srgb, var(--au) 40%, transparent), 0 1px 2px rgba(18,24,43,.06);
+  --as-shadow-tile: 0 6px 16px -10px color-mix(in srgb, var(--au) 35%, transparent), 0 0 0 1px rgba(30,50,110,.06);
+  --as-shadow-panel: none;
+  --as-shadow-pop: 0 18px 44px -12px rgba(10,20,70,.28), 0 0 0 1px rgba(30,50,110,.1); --as-shadow-dialog: 0 30px 80px -20px rgba(10,20,70,.4), 0 0 0 1px rgba(30,50,110,.1);
+  --rail-tile: #FFFFFF; --rail-ink: #12182B; --rail-tile-shadow: 0 8px 18px -8px rgba(15,25,70,.4), inset 0 0 0 1px rgba(30,50,110,.08);
+  --au-frame: radial-gradient(85% 42% at 0% 0%, color-mix(in srgb, var(--au) 52%, transparent), transparent 68%), radial-gradient(75% 40% at 100% 100%, color-mix(in srgb, var(--au) 30%, transparent), transparent 70%), linear-gradient(180deg, color-mix(in srgb, var(--au) 16%, #0B1020), #070B16);
+}
+/* 页面底：浅蓝网格渐变 */
+:root[data-appearance-style="aurora"] body {
+  background-color: var(--as-bg) !important;
+  background-image:
+    radial-gradient(55% 48% at 4% 0%, color-mix(in srgb, var(--au) 24%, transparent), transparent 70%),
+    radial-gradient(42% 42% at 98% 6%, color-mix(in srgb, var(--au) 12%, transparent), transparent 70%),
+    radial-gradient(52% 46% at 88% 100%, color-mix(in srgb, var(--au) 16%, transparent), transparent 70%),
+    radial-gradient(40% 40% at 0% 100%, color-mix(in srgb, var(--au) 14%, transparent), transparent 70%) !important;
+  background-attachment: fixed !important; }
+:root[data-appearance-style="aurora"] :is(.appbar, #demo, #demo.slack-shell) { background: transparent !important; }
+:root[data-appearance-style="aurora"] ::selection { background: color-mix(in srgb, var(--au) 28%, transparent); }
+
+/* ===== 半包围结构：深色网格渐变外框从侧栏起，包住内容面板的左 / 上 / 下；右侧开放 ===== */
+:root[data-appearance-style="aurora"] #demo.slack-shell { position: relative; }
+:root[data-appearance-style="aurora"] #demo.slack-shell::before {
+  content: ""; position: absolute; z-index: 0; pointer-events: none; top: 0; bottom: var(--au-gap-b); right: var(--au-gap-r); left: var(--as-rail-w, 60px);
+  border-radius: 22px; background: var(--au-frame); box-shadow: none; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > * { position: relative; z-index: 1; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoarea,
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell > .demoarea,
+html:root[data-appearance-style="aurora"] body[data-taskdetail] #demo.slack-shell.slack-shell > .demoarea,
+html:root[data-appearance-style="aurora"][data-side="collapsed"] body[data-taskdetail] #demo.slack-shell.slack-shell > .demoarea,
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell[data-solo] > .demoarea {
+  margin: 4px calc(4px + var(--au-gap-r)) calc(4px + var(--au-gap-b)) 0 !important; border-radius: 18px !important; border: 0 !important; overflow: hidden; background: #F7F9FE !important;
+  box-shadow: none !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell > .demoside { border-radius: 0 !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoarea > * { border-radius: 0; }
+
+/* 卡片：纯白、大圆角、带主色的柔和投影 */
+:root[data-appearance-style="aurora"] #demo.slack-shell :is(.card, .benchcard, .wfcard, .runcard, .extension-card, .automation-card, .collaboration-task-card,
+  .knowledge-space-card, .project-channel-card, .project-agent-card, .kanban-card, .evo-panel, .evo-stage, .evo-memory-card, .as2-stat, .tablewrap,
+  .project-overview-metrics > button, .wb-dash-panel, .threadlink, .co-thread-entry, .co-decision, .wc-plan, .as-tasklist, .as-tool-group, .tk-card, .bn-card, .pc-card, .ac-card, .ca-book) {
+  background: #FFFFFF !important; border: 1px solid rgba(30,50,110,.07) !important; border-radius: 18px !important; box-shadow: var(--as-shadow-card) !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell :is(.benchcard, .extension-card, .kanban-card, .project-channel-card, .threadlink, .co-thread-entry, .as2-stat, .tk-card, .bn-card):hover {
+  transform: translateY(-2px) !important; box-shadow: 0 16px 34px -18px rgba(18,24,43,.28), 0 1px 2px rgba(18,24,43,.06) !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell .kanban-column { background: rgba(63,107,255,.045) !important; border: 1px solid rgba(30,50,110,.06) !important; border-radius: 20px !important; box-shadow: none !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card) { background: #FFFFFF !important; border: 1px solid rgba(30,50,110,.08) !important; border-radius: 18px !important; box-shadow: var(--as-shadow-card) !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell :is(.composer, .ms-composer, .wc-composer-card):focus-within { box-shadow: 0 0 0 2px color-mix(in srgb, var(--au) 55%, transparent), var(--as-shadow-card) !important; }
+
+/* 按钮：主 = 渐变强调色 + 光晕；次 = 白色 */
+:root[data-appearance-style="aurora"] :is(#demo, #modalHost) .btn.primary { background: linear-gradient(135deg, var(--au-2), var(--au)) !important; color: #FFFFFF !important; border: 0 !important; box-shadow: 0 8px 18px -6px color-mix(in srgb, var(--au) 75%, transparent), inset 0 1px 0 rgba(255,255,255,.35) !important; }
+:root[data-appearance-style="aurora"] :is(#demo, #modalHost) .btn.primary:hover { filter: brightness(1.06); }
+:root[data-appearance-style="aurora"] :is(#demo, #modalHost) .btn:not(.primary):not(.link) { background: #FFFFFF !important; border: 1px solid rgba(30,50,110,.12) !important; box-shadow: 0 2px 6px -2px rgba(20,30,90,.12) !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell .wc-send { background: linear-gradient(135deg, var(--au-2), var(--au)) !important; color: #fff !important; box-shadow: 0 6px 14px -4px color-mix(in srgb, var(--au) 70%, transparent) !important; }
+
+/* 标签页 / 未读 / 顶栏搜索 / 进度 */
+:root[data-appearance-style="aurora"] #demo.slack-shell :is(.projecttabs, .board-main-tabs, .channelhead .dtabs, .demohead + .dtabs, .ext-page-tabs, .evo-tabs) > button.active { color: var(--as-text) !important; border-bottom: 2px solid #1B2133 !important; }
+:root[data-appearance-style="aurora"] #demo :is(.rail-unread, .ms-unread) { background: #E11D48 !important; color: #fff !important; }
+:root[data-appearance-style="aurora"] .appbar .appsearch { background: rgba(255,255,255,.75) !important; border: 1px solid rgba(255,255,255,.95) !important; box-shadow: 0 6px 18px -12px color-mix(in srgb, var(--au) 50%, transparent); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+:root[data-appearance-style="aurora"] .as-progress > i { background: linear-gradient(90deg, var(--au-2), var(--au)) !important; }
+
+/* 左侧工具栏：选中 = 深色中性块 + 白色图标 */
+:root[data-appearance-style="aurora"] #demo.slack-shell .demorail button { color: var(--as-text-muted) !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell .demorail button.active { color: var(--as-text) !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell .as2-nav-hover { background: rgba(255,255,255,.7) !important; }
+
+/* 浮层 */
+:root[data-appearance-style="aurora"] :is(.as2-menu, .modal, .as2-switcher, .toast, .as2-palette) { background: rgba(255,255,255,.97) !important; border-radius: 16px !important; box-shadow: var(--as-shadow-pop) !important; -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
+:root[data-appearance-style="aurora"] .user-menu .um-fly { background: rgba(255,255,255,.98); border-radius: 14px; }
+
+/* ===== 侧栏：透明（外框的网格渐变透出来），内部文字整体反白 ===== */
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoside {
+  --as-text: #F2F5FF; --as-text-2: rgba(242,245,255,.84); --as-text-3: rgba(242,245,255,.68); --as-text-muted: rgba(242,245,255,.72); --as-text-subtle: rgba(242,245,255,.6);
+  --as-border: rgba(255,255,255,.1); --as-border-soft: rgba(255,255,255,.06); --as-border-strong: rgba(255,255,255,.2);
+  --as-hover: rgba(255,255,255,.08); --as-card: rgba(255,255,255,.07); --as-input: rgba(255,255,255,.08);
+  background: transparent !important; border: 0 !important; box-shadow: none !important; color: var(--as-text); }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoside :is(.sidehead, .sidehead.sidehead--switch) { border-bottom: 1px solid rgba(255,255,255,.1) !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoside .sidenav { color: var(--as-text-2) !important; border-radius: 12px !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoside .sidenav:hover { background: rgba(255,255,255,.08) !important; color: #fff !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active { background: rgba(255,255,255,.16) !important; color: #FFFFFF !important; box-shadow: inset 0 0 0 1px rgba(255,255,255,.2), 0 6px 16px -8px rgba(0,0,0,.5) !important; font-weight: 600 !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoside .sidenav.active :is(span, small, .icon) { color: #FFFFFF !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoside .sidenav small { background: rgba(255,255,255,.14) !important; color: #fff !important; border-radius: 999px !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoside :is(.side-sec-toggle, .side-sec-add, .side-sec-more, .side-sec-extra) { color: var(--as-text-muted) !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoside :is(.side-sec-add, .side-sec-more, .side-sec-extra):hover { background: rgba(255,255,255,.1) !important; color: #fff !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoside .projectswitch { background: rgba(255,255,255,.07) !important; border-color: rgba(255,255,255,.1) !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoside .sidenav > span[style] { color: var(--as-text-subtle) !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoside .sidenav.active > span[style] { color: rgba(255,255,255,.8) !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoside .side-ent-more { color: var(--as-text-muted); }
+
+/* 设置缩略图 */
+#modalHost .ap-art--aurora { border-radius: 8px; background: #EEF2FB; }
+#modalHost .ap-art--aurora .ap-art-win { border-radius: 8px 0 0 8px; background: #FFFFFF; box-shadow: 0 8px 18px -8px rgba(40,70,200,.5); }
+#modalHost .ap-art--aurora .ap-art-side { background: linear-gradient(180deg, color-mix(in srgb, var(--au) 62%, #0B1020), color-mix(in srgb, var(--au) 14%, #070B16)); box-shadow: none; }
+#modalHost .ap-art--aurora .ap-art-title { background: #12182B; }
+#modalHost .ap-art--aurora .ap-art-line { background: #D5DCEF; }
+#modalHost .ap-art--aurora .ap-art-btn { background: linear-gradient(180deg, #2C344C, #161B2C); box-shadow: 0 4px 10px -4px rgba(12,16,32,.6); }
+
+/* 极光：所有「选中」统一中性色（深灰蓝底 + 白字 / 浅灰底 + 深字），强调色只留给主按钮、链接与进度 */
+:root[data-appearance-style="aurora"] :is(.as-seg > button, .settings-modal .as-seg > button)[aria-checked="true"], :root[data-appearance-style="aurora"] #demo :is(.pillbtn, .chip, .filter-chip, .dtabs.pills button, .ms-filter button).active { background: #1B2133 !important; color: #FFFFFF !important; border-color: #1B2133 !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell :is(.ms-conversation.selected, .ms-contact-item.selected, .co-thread-entry.selected, .wc-ext-row.selected, .wc-project-row.selected, .co-thread-index-card.selected, .threadlink.selected, .searchresult.selected) { background: #E6EAF4 !important; box-shadow: inset 0 0 0 1px rgba(30,40,80,.16) !important; }
+
+/* 极光：hover 统一中性（不带蓝色），避免和选中 / 强调混淆 */
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoarea :is(.btn:not(.primary):not(.link), .iconbtn, .co-msg, .ms-conversation, .ms-contact-item, .co-thread-entry, .wc-ext-row, .wc-project-row):hover { background-color: #F1F3F9 !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoarea .btn:not(.primary):not(.link):hover { box-shadow: 0 4px 10px -4px rgba(18,24,43,.18) !important; }
+:root[data-appearance-style="aurora"] .as2-menu > button:hover, :root[data-appearance-style="aurora"] .user-menu > button:hover, :root[data-appearance-style="aurora"] .user-menu .um-item:hover > button.um-group, :root[data-appearance-style="aurora"] .user-menu .um-fly .um-opt:hover { background: #F1F3F9 !important; }
+:root[data-appearance-style="aurora"] .user-menu .um-fly .um-opt[aria-checked="true"] { background: #E6EAF4 !important; color: #12182B !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell :is(.dtabs, .dtabs.projecttabs) button.active { color: var(--as-text) !important; font-weight: 600; }
+:root[data-appearance-style="aurora"] #demo.slack-shell .dtabs button.active .as-num, :root[data-appearance-style="aurora"] #demo.slack-shell .dtabs button.active small { color: inherit !important; }
+
+/* 极光：没有侧栏的页面（构建 / 扩展 / 进化）仍是半包围：深色外框 + 四周留 4px 的圆角白板 */
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell:not(:has(> .demoside:not(:empty))) > .demoarea { margin: 4px calc(4px + var(--au-gap-r)) calc(4px + var(--au-gap-b)) 4px !important; border-radius: 18px !important; background: #F7F9FE !important; box-shadow: none !important; }
+
+/* 极光：左侧工具栏 / 侧栏选中与 hover 统一为同一组「深海军蓝石板」色，不再混入灰白 */
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active { background: linear-gradient(135deg, rgba(120,150,255,.34), rgba(120,150,255,.18)) !important; box-shadow: inset 0 0 0 1px rgba(170,195,255,.34), 0 8px 18px -10px rgba(5,10,40,.7) !important; color: #FFFFFF !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav:hover:not(.active) { background: rgba(120,150,255,.14) !important; color: #FFFFFF !important; box-shadow: none !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav:hover:not(.active) :is(span, small, .icon) { color: inherit !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav small { background: rgba(160,185,255,.22) !important; color: #FFFFFF !important; }
+
+/* 极光 · 第三轮：选中 = 中性；左侧入口选中 = 白底；hover 更浅；主要按钮 = 深色中性 */
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active { background: rgba(255,255,255,.17) !important; box-shadow: inset 0 0 0 1px rgba(255,255,255,.22), 0 8px 18px -10px rgba(0,0,0,.5) !important; color: #FFFFFF !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav:hover:not(.active) { background: rgba(255,255,255,.07) !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav small { background: rgba(255,255,255,.16) !important; }
+:root[data-appearance-style="aurora"] #demo.slack-shell > .demoarea :is(.btn:not(.primary):not(.link), .iconbtn, .co-msg, .ms-conversation, .ms-contact-item, .co-thread-entry, .wc-ext-row, .wc-project-row):hover { background-color: #F7F8FC !important; }
+:root[data-appearance-style="aurora"] .as2-menu > button:hover, :root[data-appearance-style="aurora"] .user-menu > button:hover, :root[data-appearance-style="aurora"] .user-menu .um-item:hover > button.um-group, :root[data-appearance-style="aurora"] .user-menu .um-fly .um-opt:hover { background: #F5F6FA !important; }
+html:root[data-appearance-style="aurora"] body :is(#demo, #modalHost) .btn.primary { background: linear-gradient(180deg, #2C344C, #161B2C) !important; color: #FFFFFF !important; box-shadow: 0 8px 16px -8px rgba(12,16,32,.65), inset 0 1px 0 rgba(255,255,255,.14) !important; }
+html:root[data-appearance-style="aurora"] body :is(#demo, #modalHost) .btn.primary:hover { background: linear-gradient(180deg, #38425E, #1C2236) !important; filter: none; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell .wc-send, html:root[data-appearance-style="aurora"] body #demo.slack-shell :is(.composerfoot, .ms-compose-toolbar) .btn.primary { background: linear-gradient(180deg, #2C344C, #161B2C) !important; color: #FFFFFF !important; box-shadow: 0 6px 14px -6px rgba(12,16,32,.6) !important; }
+/* 极光：侧栏滑动 hover 底是深色半透明白（之前误用了浅色 .7 白，白字看不清） */
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demoside .as2-nav-hover { background: rgba(255,255,255,.1) !important; box-shadow: none !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demoside .side-sec-newbtn:hover { background: rgba(255,255,255,.1) !important; color: #FFFFFF !important; }
+
+/* ===== 极光 · 消息页：会话列表 = 深色侧栏，聊天区 = 圆角白板（同样的半包围结构） ===== */
+:root[data-appearance-style="aurora"] #demo.slack-shell:has(.messenger-shell)::before { display: block; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell:not(:has(> .demoside:not(:empty))):has(.messenger-shell) > .demoarea { margin: 0 var(--au-gap-r) var(--au-gap-b) 0 !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; overflow: visible !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .messenger-shell { background: transparent !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-stage { margin: 4px 4px 4px 0 !important; border-radius: 18px !important; overflow: hidden; background: #F7F9FE !important; box-shadow: none !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane {
+  --as-text: #F2F5FF; --as-text-2: rgba(242,245,255,.84); --as-text-3: rgba(242,245,255,.68); --as-text-muted: rgba(242,245,255,.72); --as-text-subtle: rgba(242,245,255,.6);
+  --as-border: rgba(255,255,255,.1); --as-border-soft: rgba(255,255,255,.06); --as-border-strong: rgba(255,255,255,.2);
+  --as-hover: rgba(255,255,255,.07); --as-card: rgba(255,255,255,.07); --as-input: rgba(255,255,255,.08);
+  background: transparent !important; border: 0 !important; box-shadow: none !important; color: var(--as-text) !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane :is(.ms-list-head, .ms-list-foot) { background: transparent !important; border-color: rgba(255,255,255,.1) !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane :is(h1, h2, b, strong) { color: #F2F5FF !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane :is(small, p, time, span, em, .ms-list-caption) { color: var(--as-text-muted); }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-primary-tabs button { color: var(--as-text-muted) !important; background: transparent !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-primary-tabs button.active { color: #FFFFFF !important; border-bottom-color: #FFFFFF !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-list-search { background: rgba(255,255,255,.08) !important; border: 1px solid rgba(255,255,255,.14) !important; box-shadow: none !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-list-search :is(input, svg) { color: #F2F5FF !important; background: transparent !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-list-search input::placeholder { color: rgba(242,245,255,.55); }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-filter-tabs button { background: transparent !important; border: 1px solid rgba(255,255,255,.18) !important; color: var(--as-text-2) !important; box-shadow: none !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-filter-tabs button.active { background: rgba(255,255,255,.17) !important; color: #FFFFFF !important; border-color: rgba(255,255,255,.28) !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-conversation { background: transparent !important; box-shadow: none !important; border-color: transparent !important; color: var(--as-text-2) !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-conversation:hover:not(#_x), html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-contact-item:hover:not(#_x) { background: rgba(255,255,255,.08) !important; color: var(--as-text-2) !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-conversation.selected { background: rgba(255,255,255,.17) !important; box-shadow: inset 0 0 0 1px rgba(255,255,255,.22) !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-conversation :is(.tag, .as-status) { background: rgba(255,255,255,.12) !important; color: #F2F5FF !important; box-shadow: none !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-conversation :is(.ms-avatar, .hub-channel-avatar, .as-avatar):not(.as2-photo) { background: rgba(255,255,255,.14) !important; color: #FFFFFF !important; box-shadow: none !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane :is(.btn, .iconbtn, button.ms-list-add) { color: #F2F5FF !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .btn:not(.primary) { background: transparent !important; border-color: rgba(255,255,255,.18) !important; box-shadow: none !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane { --as-muted-bg: rgba(255,255,255,.12); --as-sunken: rgba(255,255,255,.08); }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane :is(.ms-conversation i, .ms-list-head h1 + span, .ms-list-head span) { background: rgba(255,255,255,.14) !important; color: #F2F5FF !important; box-shadow: none !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-conversation .ms-avatar.as2-photo { box-shadow: none !important; }
+
+/* 极光：侧栏收起后，白板左侧同样留 4px 深色边（与上 / 下 / 右一致） */
+html:root[data-appearance-style="aurora"][data-side="collapsed"] body #demo.slack-shell.slack-shell:has(> .demoside) > .demoarea { margin-left: 4px !important; }
+
+/* 极光 · 消息页列表：行的所有状态（hover / focus / 按下 / 未读 / 选中）都保持深色半透明，子元素不带白底 */
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-conversation :is(.ms-conversation-copy, .ms-conversation-title, .ms-conversation-meta, .hub-channel-source, .ms-conversation-preview, .ms-conversation-line) { background: transparent !important; box-shadow: none !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-conversation:is(:focus, :focus-visible, :active, [aria-pressed="true"]) { background: rgba(255,255,255,.1) !important; color: var(--as-text-2) !important; outline: 0 !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-conversation.selected:is(:hover, :focus, :focus-visible, :active) { background: rgba(255,255,255,.2) !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-conversation.unread { background: transparent !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-conversation :is(b, strong) { color: #F2F5FF !important; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .ms-list-pane .ms-conversation .ms-avatar:not(.as2-photo) { border: 0 !important; }
+
+/* 极光：外框右 / 下留白；侧栏底部与外框对齐；展开浮钮压在吸顶头部之上 */
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell > .demoside { margin-bottom: var(--au-gap-b); }
+
+/* 极光：展开侧栏按钮放在顶栏品牌旁（仅收起时出现），纯图标无背景；内容区浮钮不再使用 */
+.as2-side-bar { display: none; }
+:root[data-appearance-style="aurora"][data-side="collapsed"] .as2-side-bar { display: inline-grid; place-items: center; width: 30px; height: 30px; margin-left: 8px; border: 0; border-radius: 8px; background: transparent; color: var(--as-text-muted); box-shadow: none; cursor: pointer; transition: color .15s; }
+:root[data-appearance-style="aurora"][data-side="collapsed"] .as2-side-bar:hover { background: transparent; color: var(--as-text); }
+:root[data-appearance-style="aurora"] .as2-side-bar .icon { width: 17px; height: 17px; }
+:root[data-appearance-style="aurora"] .as2-side-float { display: none !important; }
+:root[data-appearance-style="aurora"][data-side="collapsed"] body:has(#demo .democrumb .as2-side-toggle--crumb) .as2-side-bar { display: none; }
 
 </style></head><body class="as-root">
 <header class="appbar"><div class="appbrand"><button class="iconbtn navtoggle" onclick="toggleSidebar()" aria-label="打开导航"><svg class="icon lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button><span class="logo" aria-hidden="true"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.000000" height="28.000000" fill="none">
@@ -11060,7 +11264,8 @@ const APPEARANCE_STYLES={
   classic:{name:'浅色',tone:'light',tagline:'中性灰阶',description:'AgentSpace 2.0 默认：中性灰承载信息，墨色胶囊是唯一主操作，品牌蓝只表示选中、焦点与运行中。'},
   dark:{name:'深色',tone:'dark',tagline:'逐层提亮',description:'画布最暗、卡片逐层提亮；主按钮自动反转为浅色，状态色保持三重编码。'},
   liquid:{name:'流光',tone:'light',tagline:'液态玻璃 · 自定义配色',description:'个性化皮肤：双色渐变底，面板与浮层为半透明液态玻璃；配色可选预设或自定义。'},
-  pixel:{name:'像素',tone:'dark',tagline:'终端 · 等宽 · 像素',description:'开发者皮肤：严格中性灰、等宽字体与像素标题，直角硬边；白色表示选中，橙红表示异常。'}
+  pixel:{name:'像素',tone:'dark',tagline:'终端 · 等宽 · 像素',description:'开发者皮肤：严格中性灰、等宽字体与像素标题，直角硬边；白色表示选中，橙红表示异常。'},
+  aurora:{name:'极光',tone:'light',tagline:'网格渐变 · 深色侧栏',description:'深色网格渐变侧栏 + 浅色柔光内容区，大圆角卡片与带光晕的强调色；强调色可选。'}
 };
 const APPEARANCE_COLORS={
   purple:{name:'紫色',hue:267,companionHue:212},
@@ -11732,7 +11937,7 @@ function pixelInks(mode){mode=mode||(settingsConfig().pixelMode==='dark'?'dark':
 function pixelInkNormalize(st){const list=pixelInks(st.pixelMode==='dark'?'dark':'light');if(!list.some(x=>x[0].toLowerCase()===String(st.pixelInk||'').toLowerCase()))st.pixelInk=list[0][0];}
 function autonomyPresets(){return {ask:{read:'ask',write:'ask',send:'ask'},risky:{read:'auto',write:'ask',send:'ask'},auto:{read:'auto',write:'auto',send:'ask'}};}
 function settingsConfig(){
-  const d={density:'comfortable',reduceMotion:false,unreadBadge:true,needYou:'inapp',digest:true,quietHours:false,defaultAgent:'CodeAgent',autonomy:'risky',actions:{...autonomyPresets().risky},approvalTtl:'once',learn:true,retention:'90',extApproval:true,liquidPreset:'blue-orange',liquidA:'#2B76F0',liquidB:'#F08A3C',pixelInk:'#FF6B1A',pixelMode:'light'};
+  const d={density:'comfortable',reduceMotion:false,unreadBadge:true,needYou:'inapp',digest:true,quietHours:false,defaultAgent:'CodeAgent',autonomy:'risky',actions:{...autonomyPresets().risky},approvalTtl:'once',learn:true,retention:'90',extApproval:true,liquidPreset:'blue-orange',liquidA:'#2B76F0',liquidB:'#F08A3C',pixelInk:'#FF6B1A',pixelMode:'light',auroraAccent:'#3F6BFF'};
   if(!s.settings||typeof s.settings!=='object')s.settings={};
   s.settings={...d,...s.settings,actions:{...d.actions,...(s.settings.actions||{})}};
   return s.settings;
@@ -11748,10 +11953,11 @@ function logoFilter(hex){
 }
 function logoTintApply(hex){document.documentElement.style.setProperty('--lg-filter',hex?logoFilter(hex):'none');}
 function themeTone(style){if(style==='pixel')return settingsConfig().pixelMode==='dark'?'dark':'light';return APPEARANCE_STYLES[style]?.tone||'light';}
-function settingsApply(){const st=settingsConfig(),root=document.documentElement;root.dataset.density=st.density;root.dataset.motion=st.reduceMotion?'reduce':'full';root.dataset.unreadBadge=st.unreadBadge?'on':'off';root.style.setProperty('--lq-a',st.liquidA);root.style.setProperty('--lq-b',st.liquidB);try{const _style=appearanceConfig().style;logoTintApply(_style==='liquid'?st.liquidA:_style==='pixel'?(pixelInks(st.pixelMode==='dark'?'dark':'light').find(x=>x[0].toLowerCase()===String(st.pixelInk).toLowerCase())||[])[0]:'');}catch(e){}
-  pixelInkNormalize(st);root.dataset.pxMode=st.pixelMode==='dark'?'dark':'light';const _ink=pixelInks(root.dataset.pxMode).find(x=>x[0].toLowerCase()===st.pixelInk.toLowerCase())||pixelInks(root.dataset.pxMode)[0];root.style.setProperty('--px-ink',_ink[0]);root.style.setProperty('--px-ink-text',_ink[2]);root.style.setProperty('--px-on-ink',_ink[3]);pixelFontsEnsure();}
+function settingsApply(){const st=settingsConfig(),root=document.documentElement;root.dataset.density=st.density;root.dataset.motion=st.reduceMotion?'reduce':'full';root.dataset.unreadBadge=st.unreadBadge?'on':'off';root.style.setProperty('--lq-a',st.liquidA);root.style.setProperty('--lq-b',st.liquidB);try{const _style=appearanceConfig().style;logoTintApply(_style==='liquid'?st.liquidA:_style==='aurora'?(st.auroraAccent||'#3F6BFF'):_style==='pixel'?(pixelInks(st.pixelMode==='dark'?'dark':'light').find(x=>x[0].toLowerCase()===String(st.pixelInk).toLowerCase())||[])[0]:'');}catch(e){}
+  pixelInkNormalize(st);root.dataset.pxMode=st.pixelMode==='dark'?'dark':'light';const _ink=pixelInks(root.dataset.pxMode).find(x=>x[0].toLowerCase()===st.pixelInk.toLowerCase())||pixelInks(root.dataset.pxMode)[0];root.style.setProperty('--px-ink',_ink[0]);root.style.setProperty('--px-ink-text',_ink[2]);root.style.setProperty('--px-on-ink',_ink[3]);pixelFontsEnsure();root.style.setProperty('--au',st.auroraAccent||'#3F6BFF');}
 // 像素皮肤字体：仅在选用时按需加载（Silkscreen 像素标题 + JetBrains Mono 正文；离线回退系统等宽字体）。
 function pixelFontsEnsure(){if(s?.appearance?.style!=='pixel'||document.getElementById('as2-pixel-fonts'))return;const l=document.createElement('link');l.id='as2-pixel-fonts';l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Silkscreen:wght@400;700&display=swap';document.head.appendChild(l);}
+function auroraAccents(){return [['#3F6BFF','极光蓝'],['#7A4DFF','星云紫'],['#06B6D4','冰川青'],['#14B8A6','森林绿'],['#EC4899','晚霞粉']];}
 function settingsSet(key,value){
   const st=settingsConfig();
   if(key.startsWith('actions.'))st.actions[key.slice(8)]=value;
@@ -11778,17 +11984,18 @@ function settingsPane(sec){
       settingsRow('时区','任务时间、定时触发按此时区计算','<span class="settings-value">Asia/Shanghai · UTC+8</span>'))+
     settingsGroup('入门',settingsRow('产品指引','重新浏览四种工作方式：工作台、个人助理、Thread、固定流程',btn('导航精灵','settings-guide','','sm')));
   if(sec==='appearance'){
-    const fam=style==='liquid'?'liquid':style==='pixel'?'pixel':'minimal';
+    const fam=style==='liquid'?'liquid':style==='pixel'?'pixel':style==='aurora'?'aurora':'minimal';
     const lp=liquidPalettes().find(x=>x[0]===st.liquidPreset),la=lp?lp[2]:st.liquidA,lb=lp?lp[3]:st.liquidB;
-    const fams=[['minimal','极简','中性灰阶 · 墨色主按钮',style==='dark'?'dark':'light'],['liquid','液态玻璃','渐变光晕 · 半透明玻璃',''],['pixel','像素','网格蓝图 · 等宽 · 直角硬边','']];
+    const fams=[['minimal','极简','中性灰阶 · 墨色主按钮',style==='dark'?'dark':'light'],['liquid','液态玻璃','渐变光晕 · 半透明玻璃',''],['pixel','像素','网格蓝图 · 等宽 · 直角硬边',''],['aurora','极光','网格渐变 · 深色侧栏 · 光晕强调','']];
     const card=([key,name,tag,tone0])=>{const tone=key==='pixel'?(st.pixelMode==='dark'?'dark':'light'):tone0;return`<button class="ap-style" role="radio" aria-checked="${fam===key}" data-a="appearance-family" data-v="${key}"><span class="ap-art ap-art--${key}" data-tone="${tone}" style="--a:${la};--b:${lb};--ink:${st.pixelInk||'#F2F2F2'}" aria-hidden="true"><i class="ap-art-win"><i class="ap-art-side"></i><i class="ap-art-title"></i><i class="ap-art-line"></i><i class="ap-art-line"></i><i class="ap-art-btn"></i></i></span><span class="ap-style-copy"><b>${name}</b><small>${tag}</small></span></button>`;};
     const sw=(a,v,on,label,bg)=>`<button class="ap-swatch" role="radio" aria-checked="${on}" data-a="${a}" data-v="${esc(v)}" title="${esc(label)}"><i style="background:${bg}"></i><span>${esc(label)}</span></button>`;
     const colors=fam==='minimal'?sw('appearance-style','classic',style==='classic','浅色','linear-gradient(135deg,#FFFFFF 50%,#E5E5E5 50%)')+sw('appearance-style','dark',style==='dark','深色','linear-gradient(135deg,#2A2A2C 50%,#0C0C0D 50%)')
       :fam==='liquid'?liquidPalettes().map(([id,name,c1,c2])=>sw('settings-set','liquidPreset|'+id,st.liquidPreset===id,name.split(' · ')[1],`linear-gradient(135deg,${c1},${c2})`)).join('')+sw('settings-set','liquidPreset|custom',st.liquidPreset==='custom','自定义',`conic-gradient(from 200deg,#FF7A45,#F5C842,#2AE9CB,#23ADFF,#A165FF,#FF7A45)`)
+      :fam==='aurora'?auroraAccents().map(([c,n])=>sw('settings-set','auroraAccent|'+c,(st.auroraAccent||'#3F6BFF').toUpperCase()===c.toUpperCase(),n,`linear-gradient(135deg,${c} 55%,#0B1020 55%)`)).join('')
       :pixelInks().map(([c,n])=>sw('settings-set','pixelInk|'+c,(st.pixelInk||'').toUpperCase()===c.toUpperCase(),n,`linear-gradient(135deg,${c} 55%,${st.pixelMode==='dark'?'#0A0A0A':'#E4E4E4'} 55%)`)).join('');
     return settingsGroup('风格',`<div class="ap-styles" role="radiogroup" aria-label="风格">${fams.map(card).join('')}</div>`)+
       settingsGroup('颜色',`<div class="ap-swatches" role="radiogroup" aria-label="颜色">${colors}</div>`+(fam==='pixel'?settingsRow('底色','浅色蓝图：灰底网格 + 橙色强调；深色终端：黑底等宽',settingsSeg('pixelMode',st.pixelMode==='dark'?'dark':'light',[['light','浅色 · 蓝图'],['dark','深色 · 终端']])):'')+(fam==='liquid'&&st.liquidPreset==='custom'?settingsRow('自定义颜色','主色用于选中、运行与背景上部；辅色用于等待、高亮与背景下部',`<span class="liquid-custom"><label class="liquid-color"><input type="color" value="${esc(st.liquidA)}" data-setting="liquidA" data-liquid-color="--lq-a" aria-label="主色">主色 <code>${esc(st.liquidA.toUpperCase())}</code></label><label class="liquid-color"><input type="color" value="${esc(st.liquidB)}" data-setting="liquidB" data-liquid-color="--lq-b" aria-label="辅色">辅色 <code>${esc(st.liquidB.toUpperCase())}</code></label></span>`):''),
-        fam==='liquid'?'背景渐变、选中底色与状态色都由所选的两种颜色自动推导。':fam==='pixel'?'强调色用于选中、主按钮与焦点；状态色保持不变。':'')+
+        fam==='liquid'?'背景渐变、选中底色与状态色都由所选的两种颜色自动推导。':fam==='pixel'?'强调色用于选中、主按钮与焦点；状态色保持不变。':fam==='aurora'?'强调色用于选中、主按钮与侧栏光晕；状态色保持不变。':'')+
       (fam==='liquid'?glassPaneHtml():'')+
       settingsGroup('显示',
         settingsRow('界面密度','紧凑模式收紧行高与间距，一屏显示更多任务与消息',settingsSeg('density',st.density,[['comfortable','舒适'],['compact','紧凑']]))+
@@ -11956,7 +12163,7 @@ document.addEventListener('keydown',e=>{if(e.key!=='Enter'||!(e.metaKey||e.ctrlK
 // ---- Sidebar motion (Kobra Sidebar: active line · highlight · press · collapse · team switch).
 // render() rebuilds #demo, so sidebar affordances are (re)attached by a MutationObserver after each render.
 function sidebarState(){return window.__asSidebar||(window.__asSidebar={line:null,collapsed:(()=>{try{return localStorage.getItem('as2-side-collapsed')==='1';}catch(e){return false;}})()});}
-function sidebarApplyCollapsed(){document.documentElement.dataset.side=sidebarState().collapsed?'collapsed':'open';}
+function sidebarApplyCollapsed(){document.documentElement.dataset.side=sidebarState().collapsed?'collapsed':'open';try{sidebarDecorate();}catch(e){}}  // 同步生成/移除「展开侧栏」浮钮（无面包屑的页面）
 function sidebarToggle(){const st=sidebarState();document.documentElement.dataset.sideToggling='1';clearTimeout(sidebarToggle._t);sidebarToggle._t=setTimeout(()=>{delete document.documentElement.dataset.sideToggling;},400);st.collapsed=!st.collapsed;try{localStorage.setItem('as2-side-collapsed',st.collapsed?'1':'0');}catch(e){}sidebarApplyCollapsed();}
 const SIDEBAR_TOGGLE_ICON=ico('panelLeft');
 // Row position in the sidebody's padding box (what an absolutely positioned child is placed against).
@@ -11967,6 +12174,9 @@ function sidebarDecorate(){
   // Collapse toggles: one in the sidebar header, one at the start of the breadcrumb (visible while collapsed).
   if(head&&!head.querySelector('.as2-side-toggle'))head.insertAdjacentHTML('beforeend',`<button class="as2-side-toggle" data-a="side-toggle" aria-label="收起侧栏" title="收起侧栏">${SIDEBAR_TOGGLE_ICON}</button>`);
   const crumb=document.querySelector('#demo .democrumb');
+  // 极光主题：侧栏收起后，展开按钮放在顶栏品牌旁（图标按钮，不压页面内容）；其他主题仍用内容区浮钮。
+  const brand=document.querySelector('.appbar .appbrand'),barBtn=brand?.querySelector(':scope > .as2-side-bar');
+  if(brand&&side?.children.length){if(!barBtn)brand.insertAdjacentHTML('beforeend',`<button class="as2-side-bar" data-a="side-toggle" aria-label="展开侧栏" title="展开侧栏">${SIDEBAR_TOGGLE_ICON}</button>`);}else barBtn?.remove();
   // 页面没有面包屑（任务看板 / 项目主页等）时，侧栏收起后需要一个展开入口：在内容区左上角浮出展开按钮。
   const area=document.querySelector('#demo .demoarea'),floatBtn=area?.querySelector(':scope > .as2-side-float');
   if(area&&!crumb&&side?.children.length&&sidebarState().collapsed){if(!floatBtn)area.insertAdjacentHTML('afterbegin',`<button class="as2-side-float" data-a="side-toggle" aria-label="展开侧栏" title="展开侧栏">${SIDEBAR_TOGGLE_ICON}</button>`);}else floatBtn?.remove();
@@ -13167,12 +13377,12 @@ function userLang(){try{return localStorage.getItem('as2-lang')||'zh';}catch(e){
 function userMenuHtml(){
   const style=appearanceConfig().style,lang=userLang(),open=window.__userMenuOpen||{};
   const row=(a,v,icon,label,extra='')=>`<button role="menuitem" data-a="${a}" data-v="${v}">${ico(icon)}<span>${label}</span>${extra}</button>`;
-  const sw={classic:'linear-gradient(135deg,#fff 50%,#E5E5E5 50%)',dark:'linear-gradient(135deg,#3A3A3E 50%,#0C0C0D 50%)',liquid:'linear-gradient(135deg,#2B76F0,#F08A3C)',pixel:'linear-gradient(135deg,#FF6B1A 55%,#E4E4E4 55%)'};
+  const sw={classic:'linear-gradient(135deg,#fff 50%,#E5E5E5 50%)',dark:'linear-gradient(135deg,#3A3A3E 50%,#0C0C0D 50%)',liquid:'linear-gradient(135deg,#2B76F0,#F08A3C)',pixel:'linear-gradient(135deg,#FF6B1A 55%,#E4E4E4 55%)',aurora:'linear-gradient(135deg,#3F6BFF 50%,#0B1020 50%)'};
   const opt=(a,v,label,on)=>`<button role="menuitemradio" aria-checked="${on}" class="um-opt" data-a="${a}" data-v="${v}">${sw[v]?`<b class="um-sw" style="background:${sw[v]}"></b>`:''}<span>${label}</span><i>${on?ico('check'):''}</i></button>`;
   const group=(key,icon,label,cur,opts)=>`<div class="um-item" data-open="${!!open[key]}"><button role="menuitem" aria-haspopup="menu" class="um-group" data-a="user-group" data-v="${key}" aria-expanded="${!!open[key]}">${ico(icon)}<span>${label}</span><em>${cur}</em><i>${ico('chevron')}</i></button><div class="um-fly" role="menu">${opts}</div></div>`;
   return `<div class="um-head"><span class="um-face" role="img" aria-label="Vinnie" style="${((window.AS2_AVATARS||{}).me)?'background-image:url(&quot;'+window.AS2_AVATARS.me+'&quot;)':''}"></span><b>Vinnie</b></div><div class="as2-menu-sep"></div>`
    +row('user-settings','','settings','设置')
-   +group('appearance','spark','外观主题',({classic:'极简 · 浅色',dark:'极简 · 深色',liquid:'液态玻璃',pixel:'像素'})[style]||'',[['classic','极简 · 浅色'],['dark','极简 · 深色'],['liquid','液态玻璃'],['pixel','像素']].map(([v,l])=>opt('user-appearance',v,l,style===v)).join(''))
+   +group('appearance','spark','外观主题',({classic:'极简 · 浅色',dark:'极简 · 深色',liquid:'液态玻璃',pixel:'像素',aurora:'极光'})[style]||'',[['classic','极简 · 浅色'],['dark','极简 · 深色'],['liquid','液态玻璃'],['pixel','像素'],['aurora','极光']].map(([v,l])=>opt('user-appearance',v,l,style===v)).join(''))
    +group('lang','chat','语言',lang==='zh'?'简体中文':'English',[['zh','简体中文'],['en','English']].map(([v,l])=>opt('user-lang',v,l,lang===v)).join(''))
    +'<div class="as2-menu-sep"></div>'
    +row('user-manual','','book','用户手册','<i class="um-ext">'+ico('arrow')+'</i>')
