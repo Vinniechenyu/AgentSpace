@@ -9297,3 +9297,48 @@ html:root[data-appearance-style="liquid"] body #demo#demo.slack-shell .wc-greeti
 /* Solo creation keeps only the icon rail outside the material. */
 html:root[data-appearance-style="liquid"] body #demo#demo.slack-shell:has(.wc-start){background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important;}
 html:root[data-appearance-style="liquid"] body #demo#demo.slack-shell > .demoarea:has(.wc-start){grid-column:2 / -1!important;margin-left:0!important;min-width:0;}
+
+/* Compact material controls and scene-specific color settings. */
+.glass-tuner{padding:10px 12px;width:280px;font-size:12px;}
+.glass-tuner label{margin-top:9px;gap:3px;line-height:18px;}
+.glass-tuner input[type="range"]{height:16px;margin:0;min-height:0!important;padding:0!important;}
+.glass-tuner button{margin-top:9px;padding:4px 8px;font-size:12px;}
+.mat-colors{display:none;position:fixed;right:252px;bottom:18px;z-index:270;color:#18181b;font:13px system-ui;}
+body[data-wallpaper-index="1"] .mat-colors{display:block;}
+.mat-colors summary{list-style:none;display:grid;place-items:center;width:32px;height:32px;background:#ffffffe6;backdrop-filter:blur(12px);border-radius:50%;cursor:pointer;}
+.mat-colors summary::-webkit-details-marker{display:none;}
+.mat-color-panel{position:absolute;right:0;bottom:42px;width:200px;padding:14px;background:#fff;border-radius:14px;box-shadow:0 8px 30px #0002;}
+.mat-color-panel label{display:flex;align-items:center;justify-content:space-between;margin-top:10px;}
+.mat-color-panel input{width:52px;height:28px;padding:2px;border:1px solid #e4e4e7;border-radius:6px;cursor:pointer;}
+.mat-color-panel button{margin-top:12px;padding:5px 9px;background:#f4f4f5;border:0;border-radius:6px;cursor:pointer;}
+body:has(#modalHost .modal) .mat-colors{visibility:hidden;}
+
+/* One baseline for preview controls; panels open above the dock. */
+.preview-controls{position:fixed;right:18px;bottom:18px;z-index:270;display:flex;align-items:center;gap:8px;}
+.preview-controls > :is(.glass-tuner,.mat-colors,.wallpaper-picker){position:relative;inset:auto;margin:0;box-sizing:border-box;flex:none;}
+.preview-controls > .glass-tuner{width:auto;max-height:none;overflow:visible;padding:0;border-radius:999px;}
+.preview-controls .glass-tuner > summary{height:36px;display:flex;align-items:center;padding:0 14px;box-sizing:border-box;list-style:none;}
+.preview-controls .glass-tuner > summary::before{content:'▸';margin-right:6px;}
+.preview-controls .glass-tuner[open] > summary::before{content:'▾';}
+.preview-controls .glass-tuner > summary::-webkit-details-marker{display:none;}
+.preview-controls .glass-tuner-panel{position:absolute;bottom:46px;right:0;width:280px;max-height:calc(100dvh - 100px);overflow:auto;padding:12px;background:#fff;color:#18181b;box-shadow:0 8px 30px #0002;border-radius:14px;box-sizing:border-box;}
+.preview-controls .mat-colors summary{width:36px;height:36px;}
+.preview-controls .wallpaper-picker{height:36px;padding:0 8px;}
+:root[data-theme="dark"] .preview-controls .glass-tuner-panel{background:#202024;color:#fafafa;}
+body:has(#modalHost .modal) .preview-controls{visibility:hidden;}
+@media(max-width:540px){.preview-controls{right:10px;bottom:10px;gap:5px;}.preview-controls .glass-tuner > summary{padding:0 9px;font-size:11px;}}
+
+/* Dark conversation surfaces use one continuous charcoal input. */
+html:root[data-appearance-style="liquid"][data-theme="dark"] body #demo#demo.slack-shell :is(.channelcomposer,.co-thread-compose)[data-liquid-glass]{background:transparent!important;border:0!important;outline:0!important;box-shadow:none!important;}
+html:root[data-appearance-style="liquid"][data-theme="dark"] body #demo#demo.slack-shell.slack-shell :is(.composer,.ms-composer,.wc-composer-card){background:rgb(32 32 36 / .96)!important;color:#fafafa!important;border:0!important;outline:0!important;box-shadow:none!important;--as-muted-bg:#343438;--as-pressed:#45454b;--as-text:#fafafa;--as-hover:#ffffff26;}
+html:root[data-appearance-style="liquid"][data-theme="dark"] body #demo#demo.slack-shell :is(.composer,.ms-composer,.wc-composer-card) :is(textarea,.composerfoot,.ms-compose-toolbar,.wc-compose-foot){background:transparent!important;color:#fafafa!important;box-shadow:none!important;}
+html:root[data-appearance-style="liquid"][data-theme="dark"] body #demo#demo.slack-shell :is(.composer,.ms-composer,.wc-composer-card) textarea::placeholder{color:#a1a1aa!important;}
+html:root[data-appearance-style="liquid"][data-theme="dark"] body #demo#demo.slack-shell :is(.composer,.ms-composer,.wc-composer-card) :is(.as2-model,.co-mention,.co-icon,.as2-add,.as2-mic){background:#ffffff1a!important;color:#fafafa!important;border:0!important;box-shadow:none!important;}
+html:root[data-appearance-style="liquid"][data-theme="dark"] body #demo#demo.slack-shell :is(.composer,.ms-composer,.wc-composer-card) button:hover{background:#ffffff33!important;color:#fff!important;}
+
+/* Open surfaces: remove structural dividers and decorative button strokes. */
+html:root[data-appearance-style="liquid"] body #demo#demo.slack-shell :is(.sidehead,.sidebody,.sidefoot,.democrumb,.channelhead,.threadheader,.co-channel-tabs,.co-tabs,.hub-tabs,.dtoolbar,.project-tabs,.side-section,.sidelabel){border:0!important;box-shadow:none!important;}
+html:root[data-appearance-style="liquid"] body #demo#demo.slack-shell > .demoside:not(:empty){border:0!important;}
+html:root[data-appearance-style="liquid"] body #demo#demo.slack-shell :is(.rule,.divider,hr){display:none!important;}
+html:root[data-appearance-style="liquid"] body :is(#demo#demo.slack-shell,#modalHost,.appbar,.preview-controls) button{border:0!important;box-shadow:none!important;}
+html:root[data-appearance-style="liquid"] body #demo#demo.slack-shell :is(.dtabs,.projecttabs,.board-main-tabs,.ext-page-tabs,.evo-tabs,.tp-tool-tabs){border:0!important;box-shadow:none!important;}
