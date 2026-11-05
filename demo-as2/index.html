@@ -7339,7 +7339,7 @@ body[data-view="evolution"] #demo.slack-shell .demoarea { background: var(--as-p
 #modalHost .btn.primary, #modalHost .btn.primary:hover { border-color: transparent !important; }
 
 /* ===================== 设置 ===================== */
-.modal.settings-modal { width: 880px !important; max-width: calc(100vw - 32px); height: min(640px, 92dvh); max-height: none !important; display: flex; flex-direction: column; overflow: hidden !important; }
+.modal.settings-modal { width: clamp(880px, 58vw, 1320px) !important; max-width: calc(100vw - 32px); height: clamp(640px, 74dvh, 920px); max-height: 92dvh !important; display: flex; flex-direction: column; overflow: hidden !important; }
 .settings-modal .modalbody { padding: 0 !important; flex: 1; min-height: 0; overflow: hidden; }
 .settings-layout { display: grid; grid-template-columns: 200px minmax(0, 1fr); height: 100%; min-height: 0; }
 .settings-nav { display: flex; flex-direction: column; gap: 2px; padding: 12px 8px; border-right: 1px solid var(--as-border); background: var(--as-stage); overflow: auto; }
@@ -11630,6 +11630,41 @@ html:root body #demo.slack-shell.slack-shell .tk-space > ul > li > em:not(#_a):n
    挤出新的一行、压矮内容区（极光主题下表现为底部留白 + 页面跳动）。强制固定定位，不参与网格布局。 */
 html:root body #demo.slack-shell.slack-shell > .side-task-pop:not(#_a):not(#_b):not(#_c), html:root body #demo.slack-shell.slack-shell > .as2-railtip:not(#_a):not(#_b):not(#_c) { position: fixed !important; grid-area: auto; }
 
+/* 设置左侧导航分组标题（基础设置 / 个人设置） */
+.settings-nav-group { padding: 14px 10px 4px; font-size: 11px; line-height: 16px; letter-spacing: .02em; color: var(--as-text-subtle, var(--as-muted)); }
+.settings-nav-group:first-child { padding-top: 2px; }
+@media (max-width: 760px) { .settings-nav-group { display: none; } }
+
+/* 构建左侧类型 tab 用完整名称（Workflow / 任务模板 / 环境配置 / Agent 角色），收紧内边距与字号让四项放得下 */
+html:root body #demo.slack-shell.slack-shell .bd-body > .bd-seg > button:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { padding: 4px 2px !important; font-size: 12px !important; letter-spacing: 0; }
+
+/* 构建入口卡插图：更大的画布（320×120），白色卡片 + 渐变主体 + 点阵底纹 */
+html:root body #demo.slack-shell.slack-shell .bd-entry-art:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { padding: 6px; overflow: hidden; }
+html:root body #demo.slack-shell.slack-shell .bd-entry-art svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { display: block; width: 100%; height: 118px; }
+
+/* 构建页双色图标：入口卡里是带渐变与细描边的 32px 图标块；左侧卡片里是 18px 无底色图标 */
+html:root body #demo.slack-shell.slack-shell .bd-entry .bd-glyph:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { width: 34px; height: 34px; border-radius: 11px; background: linear-gradient(145deg, color-mix(in srgb, var(--ic) 22%, var(--as-panel, #fff)), color-mix(in srgb, var(--ic) 8%, var(--as-panel, #fff))) !important; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ic) 22%, transparent), 0 2px 6px -3px color-mix(in srgb, var(--ic) 55%, transparent); color: var(--ic); }
+html:root body #demo.slack-shell.slack-shell .bd-entry .bd-glyph svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { width: 21px !important; height: 21px !important; color: var(--ic); }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-glyph svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { width: 18px !important; height: 18px !important; color: var(--ic); }
+html:root body #demo.slack-shell.slack-shell .bd-card--add .bd-glyph:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { display: none; }
+
+/* 扩展页工具栏：数量已在 tab 上，去掉后只剩搜索 + 范围筛选 + 说明 ⓘ（放在最右） */
+html:root body #demo.slack-shell.slack-shell .ext-toolbar:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { justify-content: flex-end !important; gap: 8px; }
+html:root body #demo.slack-shell.slack-shell .ext-toolbar > .ext-count-row:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { order: 2; margin: 0; }
+
+/* 扩展页工具栏：范围筛选 + 说明 ⓘ 在左，搜索在右 */
+html:root body #demo.slack-shell.slack-shell .ext-toolbar:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { display: flex !important; align-items: center; justify-content: flex-start !important; gap: 8px; }
+html:root body #demo.slack-shell.slack-shell .ext-toolbar > .row:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { display: contents !important; }
+html:root body #demo.slack-shell.slack-shell .ext-toolbar #extensionScope:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { order: 1; }
+html:root body #demo.slack-shell.slack-shell .ext-toolbar > .ext-count-row:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { order: 2; margin: 0; }
+html:root body #demo.slack-shell.slack-shell .ext-toolbar #extensionQuery:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { order: 3; margin-left: auto; }
+
+/* ===== 提示框（ⓘ 说明 / 侧栏图标提示）：固定深色底 + 近白文字，不再借用页面背景色（原先文字偏灰、对比度低）；像素主题保留自己的配色 ===== */
+:root:not([data-appearance-style="pixel"]) body :is(#demo, #modalHost) :is(.as2-hint-pop, .as2-railtip):not(#_a):not(#_b):not(#_c):not(#_d) { background: #17181C !important; color: #F5F6F8 !important; box-shadow: 0 10px 24px -6px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.07) !important; }
+:root:not([data-appearance-style="pixel"]) body :is(#demo, #modalHost) .as2-hint-pop :is(b, strong, span, em, small, p, a):not(#_a):not(#_b):not(#_c):not(#_d) { color: inherit !important; }
+:root:not([data-appearance-style="pixel"]) body :is(#demo, #modalHost) .as2-hint-pop b:not(#_a):not(#_b):not(#_c):not(#_d) { font-weight: 600; color: #fff !important; }
+:root[data-appearance-tone="dark"]:not([data-appearance-style="pixel"]) body :is(#demo, #modalHost) :is(.as2-hint-pop, .as2-railtip):not(#_a):not(#_b):not(#_c):not(#_d), :root[data-glass-tone="dark"]:not([data-appearance-style="pixel"]) body :is(#demo, #modalHost) :is(.as2-hint-pop, .as2-railtip):not(#_a):not(#_b):not(#_c):not(#_d) { background: #30323A !important; box-shadow: 0 10px 24px -6px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.12) !important; }
+
 </style></head><body class="as-root">
 <header class="appbar"><div class="appbrand"><button class="iconbtn navtoggle" onclick="toggleSidebar()" aria-label="打开导航"><svg class="icon lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button><span class="logo" aria-hidden="true"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.000000" height="28.000000" fill="none">
 	<defs>
@@ -11779,7 +11814,7 @@ function openExtensions(page='installed'){
 function baseExtensionSidebar(){return `<div class="sidehead"><h3>扩展</h3><p>从 AgentCenter 安装工具与技能</p></div><div class="sidebody"><button class="sidenav ${s.extensionPage!=='catalog'?'active':''}" data-a="extensions" data-v="installed">${ico('grid')} 已安装扩展 <small>${s.installations.length}</small></button><button class="sidenav ${s.extensionPage==='catalog'?'active':''}" data-a="extensions" data-v="catalog">${ico('discover')} 从 AgentCenter 导入</button><div class="rule"></div><div class="sidelabel">生效范围</div><div class="ext-side-note"><b>全局</b><p>个人空间和项目均可使用。</p><b>项目</b><p>仅在指定项目中使用。</p></div><div class="agentcenter-side"><span class="ac-mark">A</span><div><b>AgentCenter</b><small>唯一扩展来源 · 内部平台</small></div>${ico('shield')}</div></div>`;}
 function renderExtensions(){if(!['MCP','Skill','CLI','Plugin'].includes(s.extensionType))s.extensionType='MCP';s.extensionPage='installed';if(!s.pluginSeeded){s.pluginSeeded=true;if(!s.installations.some(i=>i.id==='I-1005'))s.installations.push({id:'I-1005',assetId:'ac-plugin-lark',version:'1.1.0',source:'AgentCenter',scope:'global',project:null,enabled:true,installedAt:'10月28日'});}return `<div class="demopage extension-page"><div class="demohead"><div>${s.workbenchReturnKey?btn(ico('back')+'返回工作台构建','wb2-return-extensions','','link sm'):''}<h1>扩展${as2Hint('扩展统一从 <b>AgentCenter</b>（内部 AI 能力平台）导入，这是唯一导入来源；保留资产来源、版本和安装范围。','关于扩展来源')}</h1><p>让 Agent，用上顺手的工具。安装 MCP、技能、CLI 与插件，选择全局或项目生效，构建 Workflow 时直接引用已安装的能力。</p></div>${btn(ico('plus')+'从 AgentCenter 导入','ext-import','','primary')}</div><nav class="dtabs ext-page-tabs" aria-label="扩展类型">${[['MCP','MCP'],['Skill','技能'],['CLI','CLI'],['Plugin','插件']].map(([v,l])=>`<button class="${s.extensionType===v?'active':''}" data-a="ext-type" data-v="${v}">${l}<span class="as-num">${s.installations.filter(i=>asset(i.assetId)?.type===v).length}</span></button>`).join('')}</nav>${s.extensionPage==='catalog'?renderAgentCenterCatalog():renderInstalledExtensions()}</div>`;}
 function extensionMatches(i){const a=asset(i.assetId);return a&&(s.extensionType==='all'||a.type===s.extensionType)&&(s.extensionScope==='all'||(s.extensionScope==='global'?i.scope==='global':i.scope==='project'&&i.project===s.extensionScope))&&(!s.extensionQuery||(a.name+a.desc+a.type).toLowerCase().includes(s.extensionQuery.toLowerCase()));}
-function extFilterToolbar(catalog=false){return `<div class="ext-toolbar"><div class="ext-count-row"><span class="tiny muted ext-count">${s.installations.filter(extensionMatches).length} 项安装</span>${as2Hint('同一资产可分别安装到全局和不同项目。<br>已启用的项目版本优先于全局版本；项目未安装或停用时，使用可用的全局版本。<br>安装范围决定可用位置，实际调用仍按授权执行。','关于安装范围')}</div><div class="row wrap"><input class="ext-query" id="extensionQuery" aria-label="搜索扩展" placeholder="搜索名称或能力" value="${esc(s.extensionQuery)}">${catalog?'':`<select id="extensionScope" aria-label="按安装范围筛选"><option value="all">全部范围</option><option value="global" ${s.extensionScope==='global'?'selected':''}>全局</option>${projectNames.map(p=>`<option value="${esc(p)}" ${s.extensionScope===p?'selected':''}>${esc(p)}</option>`).join('')}</select>`}</div></div>`;}
+function extFilterToolbar(catalog=false){return `<div class="ext-toolbar"><div class="ext-count-row">${as2Hint('同一资产可分别安装到全局和不同项目。<br>已启用的项目版本优先于全局版本；项目未安装或停用时，使用可用的全局版本。<br>安装范围决定可用位置，实际调用仍按授权执行。','关于安装范围')}</div><div class="row wrap"><input class="ext-query" id="extensionQuery" aria-label="搜索扩展" placeholder="搜索名称或能力" value="${esc(s.extensionQuery)}">${catalog?'':`<select id="extensionScope" aria-label="按安装范围筛选"><option value="all">全部范围</option><option value="global" ${s.extensionScope==='global'?'selected':''}>全局</option>${projectNames.map(p=>`<option value="${esc(p)}" ${s.extensionScope===p?'selected':''}>${esc(p)}</option>`).join('')}</select>`}</div></div>`;}
 function renderInstalledExtensions(){return `${extFilterToolbar()}<div id="extensionResults">${installedResults()}</div>`;}
 function installedResults(){const rows=s.installations.filter(extensionMatches);return rows.length?`<div class="extension-grid ext-list">${rows.map(i=>{const a=asset(i.assetId);return `<article class="extension-card ext-item ${i.enabled?'':'is-off'}" data-a="ext-detail" data-v="${i.id}" tabindex="0" aria-label="${esc(a.name)} · 详情与配置"><span class="ext-icon ${a.type.toLowerCase()}">${ico(a.icon)}</span><div class="ext-item-main"><div class="ext-item-title"><b>${esc(a.name)}</b>${extensionTypeTag(a.type)}${i.enabled?'':tag('已停用','gray')}</div><p title="${esc(a.desc)}">${a.desc}</p><div class="ext-item-meta"><span>${ico(i.scope==='global'?'personal':'team')}${i.scope==='global'?'全局生效':esc(i.project)+' 项目'}</span><span class="as-num">v${i.version}</span><span>${ico('shield')}AgentCenter</span></div></div><div class="ext-item-actions"><button class="as2-switch" role="switch" aria-checked="${i.enabled}" aria-label="${i.enabled?'停用':'启用'} ${esc(a.name)}" title="${i.enabled?'已启用 · 点击停用':'已停用 · 点击启用'}" data-a="ext-toggle" data-v="${i.id}"><i></i></button><button class="iconbtn ext-more" data-a="ext-menu" data-v="${i.id}" aria-label="更多操作" title="更多操作" aria-haspopup="menu" aria-expanded="false">${ico('more')}</button></div></article>`;}).join('')}</div>`:`<div class="ext-empty">${ico('grid')}<h3>这里还没有扩展</h3><p>从 AgentCenter 选择 MCP、CLI 或 Skill，并确定安装范围。</p>${btn('从 AgentCenter 导入','ext-import','','primary')}</div>`;}
 function renderAgentCenterCatalog(){return `${extFilterToolbar(true)}<div class="ext-count-row"><span class="tiny muted ext-count">${filteredCatalog().length} 个 AgentCenter 资产</span>${as2Hint('当前为资产样例，用于交互演示；真实资产、版本与权限以 AgentCenter 平台为准。','关于资产数据')}</div><div id="extensionResults">${catalogResults()}</div>`;}
@@ -12958,7 +12993,8 @@ function novaRenderBenchesBase(){
 // ---- Settings (AS2): global preferences grouped by what they govern.
 // Wired: theme, density, reduced motion, unread badge, default project,
 // shortcuts into Evolution / Extensions / Guide, local data reset. Others are marked as mock.
-const SETTINGS_SECTIONS=[['general','通用','settings'],['appearance','外观','spark'],['nav','侧导航','panelLeft'],['notify','通知','bell'],['agent','Agent 与自主权','shield'],['memory','记忆与进化','evolution'],['extensions','扩展与权限','grid'],['shortcuts','快捷键','code'],['data','数据与隐私','file']];
+const SETTINGS_SECTIONS=[['general','通用','settings'],['appearance','外观','spark'],['nav','侧导航','panelLeft'],['notify','通知','bell'],['agent','Agent 与自主权','shield'],['memory','记忆与进化','evolution'],['extensions','扩展与权限','grid'],['shortcuts','快捷键','code'],['data','数据与隐私','file'],['runtime','本地运行时','terminal'],['welink','WeLink 通知','chat']];
+const SETTINGS_GROUPS=[['基础设置',['general','appearance','nav','notify','agent','memory','extensions','shortcuts','data']],['个人设置',['runtime','welink']]];
 const SETTINGS_ACTIONS=[['read','读取资料与检索','safe','查询项目空间、仓库、日志'],['write','修改工作台与草稿','risky','生成新版本、改写内容，可撤销'],['send','代我发送消息','risky','在频道、Thread 或飞书中发言'],['destructive','删除或对外发布','destructive','删除数据、发布 Workflow、合入代码']];
 // Functions, not consts: settingsApply() runs during the first render, before this block executes.
 // 流光皮肤配色：主色（冷，决定选中 / 运行 / 背景上部）+ 辅色（暖，决定等待 / 高亮 / 背景下部）。
@@ -12973,7 +13009,7 @@ function pixelInks(mode){mode=mode||(settingsConfig().pixelMode==='dark'?'dark':
 function pixelInkNormalize(st){const list=pixelInks(st.pixelMode==='dark'?'dark':'light');if(!list.some(x=>x[0].toLowerCase()===String(st.pixelInk||'').toLowerCase()))st.pixelInk=list[0][0];}
 function autonomyPresets(){return {ask:{read:'ask',write:'ask',send:'ask'},risky:{read:'auto',write:'ask',send:'ask'},auto:{read:'auto',write:'auto',send:'ask'}};}
 function settingsConfig(){
-  const d={density:'comfortable',reduceMotion:false,unreadBadge:true,needYou:'inapp',digest:true,quietHours:false,defaultAgent:'CodeAgent',autonomy:'risky',actions:{...autonomyPresets().risky},approvalTtl:'once',learn:true,retention:'90',extApproval:true,liquidPreset:'blue-orange',liquidA:'#2B76F0',liquidB:'#F08A3C',pixelInk:'#FF6B1A',pixelMode:'light',auroraAccent:'#3F6BFF',bentoAccent:'#F2541B',bentoMode:'light',rail:{labels:true,top:['personal','team','messages'],bottom:['studio','extensions','evolution'],more:[]}};
+  const d={density:'comfortable',reduceMotion:false,unreadBadge:true,needYou:'inapp',digest:true,quietHours:false,defaultAgent:'CodeAgent',autonomy:'risky',actions:{...autonomyPresets().risky},approvalTtl:'once',learn:true,retention:'90',extApproval:true,rtAutoStart:true,rtConcurrency:'2',rtNet:false,rtLog:'info',rtWorkdir:'~/AgentSpace/workspace',rtPort:'7788',welinkOn:true,wlBound:true,wlDone:true,wlNeed:true,wlFail:true,wlMention:true,wlApproval:true,wlQuiet:'off',wlFormat:'card',liquidPreset:'blue-orange',liquidA:'#2B76F0',liquidB:'#F08A3C',pixelInk:'#FF6B1A',pixelMode:'light',auroraAccent:'#3F6BFF',bentoAccent:'#F2541B',bentoMode:'light',rail:{labels:true,top:['personal','team','messages'],bottom:['studio','extensions','evolution'],more:[]}};
   if(!s.settings||typeof s.settings!=='object')s.settings={};
   s.settings={...d,...s.settings,actions:{...d.actions,...(s.settings.actions||{})}};
   return s.settings;
@@ -13069,6 +13105,31 @@ function settingsPane(sec){
       settingsGroup('',settingsRow('管理扩展','安装范围、版本与依赖统一在「扩展」中管理',btn('打开扩展','settings-extensions','','sm'))+
         settingsRow('新扩展需管理员审批','项目范围的 MCP / CLI 安装需项目管理员批准后生效',settingsToggle('extApproval',st.extApproval)),`${SETTINGS_MOCK} 审批流为示例。`);
   }
+  if(sec==='runtime')return settingsGroup('运行状态',
+      settingsRow('本地运行时',`让任务在你的设备上执行，可访问本机文件与内网资源。`,`${tag('已连接','green')}`)+
+      settingsRow('版本','v1.4.2 · 最新','<span class="settings-value">agentspace-runtime</span>')+
+      settingsRow('连接检测','确认运行时在线、可被任务调度',btn('检测连接','rt-check','','sm')+' '+btn('重启','rt-restart','','sm')),`${SETTINGS_MOCK} 运行状态为示例。`)+
+    settingsGroup('运行配置',
+      settingsRow('开机自动启动','登录系统后自动启动运行时，设备在线时任务可直接使用',settingsToggle('rtAutoStart',st.rtAutoStart))+
+      settingsRow('工作目录','任务产生的文件默认保存位置',`<span class="settings-value">${esc(st.rtWorkdir)}</span> `+btn('更改…','rt-pick','','sm'))+
+      settingsRow('本地端口','运行时与 AgentSpace 通信的端口',`<span class="settings-value">${esc(st.rtPort)}</span>`)+
+      settingsRow('同时执行任务数','设备资源有限时可降低并发',settingsSeg('rtConcurrency',st.rtConcurrency,[['1','1'],['2','2'],['4','4']]))+
+      settingsRow('访问内网资源','允许任务通过本机访问公司内网服务（需你所在网络可达）',settingsToggle('rtNet',st.rtNet))+
+      settingsRow('日志级别','排查问题时可调为调试',settingsSelect('rtLog',st.rtLog,[['error','仅错误'],['info','信息'],['debug','调试']],'日志级别')))+
+    settingsGroup('安装',settingsRow('下载安装包','macOS / Windows / Linux，安装后会自动连接',btn('下载安装','rt-download','','sm')));
+  if(sec==='welink')return settingsGroup('账号',
+      settingsRow('WeLink 账号',st.wlBound?'已绑定：陈宇 · 10052186，通知将发送到该账号':'尚未绑定，绑定后才能收到 WeLink 通知',st.wlBound?tag('已绑定','green')+' '+btn('解除绑定','wl-bind','','sm'):btn('绑定账号','wl-bind','','sm primary'))+
+      settingsRow('启用 WeLink 通知','关闭后所有类型的通知都不再发送到 WeLink',settingsToggle('welinkOn',st.welinkOn)),`${SETTINGS_MOCK} 账号与送达为示例。`)+
+    settingsGroup('通知类型',
+      settingsRow('任务完成 / 待验收','任务执行结束，等你验收结果时通知',settingsToggle('wlDone',st.wlDone))+
+      settingsRow('需要我确认','Agent 等待输入、审批或决策卡时通知',settingsToggle('wlNeed',st.wlNeed))+
+      settingsRow('失败与异常','任务失败、中断或需要人工介入时通知',settingsToggle('wlFail',st.wlFail))+
+      settingsRow('@ 我','在频道、Thread 中被提及时通知',settingsToggle('wlMention',st.wlMention))+
+      settingsRow('审批进展','你发起或需要你处理的审批有更新时通知',settingsToggle('wlApproval',st.wlApproval)))+
+    settingsGroup('送达',
+      settingsRow('消息样式','卡片可直接点击进入任务',settingsSeg('wlFormat',st.wlFormat,[['card','卡片'],['text','文本']]))+
+      settingsRow('免打扰时段','该时段内不推送，待办照常进入列表',settingsSeg('wlQuiet',st.wlQuiet,[['off','关闭'],['night','22:00–08:00'],['work','仅工作日白天']]))+
+      settingsRow('发送测试通知','确认能在 WeLink 里收到',btn('发送测试','wl-test','','sm')));
   if(sec==='shortcuts')return settingsGroup('全局',[['⌘ / Ctrl','K','全局搜索'],['Esc','','关闭弹窗或浮层']].map(([a,b,l])=>settingsRow(l,'',`<span class="settings-keys"><kbd>${a}</kbd>${b?`<kbd>${b}</kbd>`:''}</span>`)).join(''))+
     settingsGroup('输入与决策',[['Enter','','发送消息'],['Shift','Enter','换行'],['@','','指定 Agent 或成员'],['⌘','↵','批准当前决策卡']].map(([a,b,l])=>settingsRow(l,'',`<span class="settings-keys"><kbd>${a}</kbd>${b?`<kbd>${b}</kbd>`:''}</span>`)).join(''),`「批准当前决策卡」为规范约定，原型中尚未接入。`);
   if(sec==='data'){let kb=0;try{kb=Math.round(JSON.stringify(s).length/1024);}catch(err){}
@@ -13082,7 +13143,11 @@ function settingsPane(sec){
 function openSettings(section){
   const __keep=settingsScrollSnap(section);
   settingsConfig();s.settingsSection=section||s.settingsSection||'general';const sec=s.settingsSection,label=SETTINGS_SECTIONS.find(x=>x[0]===sec)?.[1]||'';
-  modal('设置',`<div class="settings-layout"><nav class="settings-nav" aria-label="设置分类">${SETTINGS_SECTIONS.map(([id,l,icon])=>`<button class="settings-nav-item ${sec===id?'active':''}" data-a="settings-section" data-v="${id}" ${sec===id?'aria-current="page"':''}>${ico(icon)}<span>${l}</span></button>`).join('')}</nav><section class="settings-pane" aria-label="${label}"><h3 class="settings-pane-title">${label}</h3>${settingsPane(sec)}</section></div>`);  // 设置即时生效，不需要底部「完成」栏；右上角关闭即可
+  const __html=`<div class="settings-layout"><nav class="settings-nav" aria-label="设置分类">${SETTINGS_GROUPS.map(([g,ids])=>`<div class="settings-nav-group">${g}</div>`+ids.map(id=>SETTINGS_SECTIONS.find(x=>x[0]===id)).map(([id,l,icon])=>`<button class="settings-nav-item ${sec===id?'active':''}" data-a="settings-section" data-v="${id}" ${sec===id?'aria-current="page"':''}>${ico(icon)}<span>${l}</span></button>`).join('')).join('')}</nav><section class="settings-pane" aria-label="${label}"><h3 class="settings-pane-title">${label}</h3>${settingsPane(sec)}</section></div>`;
+  // 设置弹窗已打开时只替换内容区，不重建弹窗（否则每点一次都会重播进场动画 = 闪动）。
+  const __open=document.querySelector('#modalHost .settings-modal .modalbody');
+  if(__open){__open.innerHTML=__html;appearanceApply();settingsScrollRestore(__keep);return;}
+  modal('设置',__html);  // 设置即时生效，不需要底部「完成」栏；右上角关闭即可
   $('#modalHost .modal').classList.add('settings-modal');appearanceApply();settingsScrollRestore(__keep);
 }
 function settingsAction(a,v){
@@ -13092,6 +13157,12 @@ function settingsAction(a,v){
     case 'settings-section':openSettings(v);return true;
     case 'settings-toggle':{const st=settingsConfig();if(v==='railLabels'){const r=railConfig();settingsConfig().rail={labels:!r.labels,top:r.top,bottom:r.bottom,more:r.more};save();settingsApply();render();openSettings('nav');return true;}st[v]=!st[v];save();settingsApply();openSettings();return true;}
     case 'settings-set':{const i=v.indexOf('|');settingsSet(v.slice(0,i),v.slice(i+1));return true;}
+    case 'rt-check':notify('本地运行时已连接 · v1.4.2 · 延迟 12 ms（示例）');return true;
+    case 'rt-restart':notify('已发送重启指令，运行时将在几秒内重新上线（示例）');return true;
+    case 'rt-pick':notify('演示：此处会弹出系统目录选择器。');return true;
+    case 'rt-download':notify('演示：此处会开始下载本地运行时安装包。');return true;
+    case 'wl-bind':{const st=settingsConfig();st.wlBound=!st.wlBound;save();openSettings('welink');notify(st.wlBound?'已绑定 WeLink 账号（示例）':'已解除绑定');return true;}
+    case 'wl-test':notify(settingsConfig().wlBound&&settingsConfig().welinkOn?'已向 WeLink 发送一条测试通知（示例）':'请先绑定账号并开启 WeLink 通知');return true;
     case 'settings-guide':closeModal();showGuide();return true;
     case 'settings-evolution':closeModal();openEvolution('memory');return true;
     case 'settings-extensions':closeModal();openExtensions('installed');return true;
@@ -13119,6 +13190,14 @@ function settingsScrollRestore(snap){
   if(!snap)return;const m=document.querySelector('#modalHost .settings-modal');if(!m)return;
   const go=()=>snap.forEach(([c,top])=>{const e=[...m.querySelectorAll('*')].find(x=>x.className===c);if(e)e.scrollTop=top;});go();requestAnimationFrame(go);
 }
+
+// 点击设置弹窗以外的任何区域关闭弹窗。需要按下与松开都落在遮罩上，避免在弹窗内拖选文字、松手落到外面时误关。
+(function(){
+  let downOnBackdrop=false;
+  const isBackdrop=t=>t&&t.classList&&t.classList.contains('modalback')&&t.querySelector(':scope > .settings-modal');
+  document.addEventListener('pointerdown',e=>{downOnBackdrop=!!isBackdrop(e.target);},true);
+  document.addEventListener('click',e=>{if(downOnBackdrop&&isBackdrop(e.target)){downOnBackdrop=false;closeModal();}else downOnBackdrop=false;});
+})();
 
 // ---- Run view (AS2 · 执行可见性): Thinking Loader → Task List → Tool Call Group, plus 停止.
 // Simulated: steps advance by elapsed time from startTask; the last step waits for “推进演示”.
@@ -14859,20 +14938,68 @@ function railSettingsHtml(){
     if(it&&it.dataset.rl!==id){idx=list.indexOf(it.dataset.rl);if(idx<0)idx=list.length;else{const r=it.getBoundingClientRect();if(e.clientY>=r.top+r.height/2)idx+=1;}}
     list.splice(idx,0,id);settingsConfig().rail={labels:cfg.labels,top:cfg.top,bottom:cfg.bottom,more:cfg.more};save();render();openSettings('nav');});
 })();
-// ---- 构建页：左侧面板按 Workflow / 任务模板 / 环境模板 / Agent 角色四类列出卡片；右侧默认是四个类型的新建入口，
+// ---- 构建页：左侧面板按 Workflow / 任务模板 / 环境配置 / Agent 角色四类列出卡片；右侧默认是四个类型的新建入口，
 // 选中条目或点「新建」后在右侧打开：Workflow = 编辑器，其余三类 = 表单页（演示数据，保存在本地）。
 function buildTypes(){return [
   ['workflow','Workflow','workflow','编排 Agent、Skill 与工具的执行流程，发布后绑定任务。'],
   ['task','任务模板','list','预设目标与验收，一键生成同类任务。'],
-  ['env','环境模板','grid','预设镜像、工具与变量，按模板创建执行环境。'],
+  ['env','环境配置','grid','预设镜像、工具与变量，按模板创建执行环境。'],
   ['role','Agent 角色','agent','定义职责、能力与自主权，供节点与任务引用。']];}
 function bdAccent(t){return 'var(--as-brand,#0A59F7)';}
 function bdIcon(t){return {workflow:'#4C7DF0',task:'#F08A3C',env:'#1FA79A',role:'#8B5CF6'}[t]||'#4C7DF0';}
-function bdArt(t){return {
-  workflow:'<svg viewBox="0 0 240 96" fill="none" aria-hidden="true"><path d="M70 48C84 48 82 28 96 28M70 48C84 48 82 68 96 68M148 28C162 28 160 48 174 48M148 68C162 68 160 48 174 48" stroke="var(--ac)" stroke-opacity=".45" stroke-width="2" stroke-linecap="round"/><rect x="18" y="34" width="52" height="28" rx="9" fill="var(--ac)" fill-opacity=".2"/><rect x="96" y="14" width="52" height="28" rx="9" fill="var(--ac)" fill-opacity=".34"/><rect x="96" y="54" width="52" height="28" rx="9" fill="var(--ac)" fill-opacity=".2"/><rect x="174" y="34" width="52" height="28" rx="9" fill="var(--ac)" fill-opacity=".55"/><circle cx="32" cy="48" r="4" fill="var(--ac)"/></svg>',
-  task:'<svg viewBox="0 0 240 96" fill="none" aria-hidden="true"><g fill="var(--ac)"><circle cx="48" cy="24" r="9" fill-opacity=".5"/><circle cx="48" cy="48" r="9" fill-opacity=".5"/><circle cx="48" cy="72" r="9" fill-opacity=".2"/><rect x="68" y="20" width="132" height="8" rx="4" fill-opacity=".3"/><rect x="68" y="44" width="104" height="8" rx="4" fill-opacity=".3"/><rect x="68" y="68" width="76" height="8" rx="4" fill-opacity=".16"/></g><path d="M44 24l3 3 5-6M44 48l3 3 5-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-  env:'<svg viewBox="0 0 240 96" fill="none" aria-hidden="true"><rect x="82" y="56" width="100" height="26" rx="9" fill="var(--ac)" fill-opacity=".18"/><rect x="70" y="38" width="100" height="26" rx="9" fill="var(--ac)" fill-opacity=".32"/><rect x="58" y="18" width="100" height="26" rx="9" fill="var(--ac)" fill-opacity=".55"/><circle cx="74" cy="31" r="3.5" fill="#fff"/><circle cx="86" cy="31" r="3.5" fill="#fff" fill-opacity=".6"/><rect x="184" y="30" width="28" height="8" rx="4" fill="var(--ac)" fill-opacity=".3"/><rect x="196" y="48" width="16" height="8" rx="4" fill="var(--ac)" fill-opacity=".2"/></svg>',
-  role:'<svg viewBox="0 0 240 96" fill="none" aria-hidden="true"><circle cx="72" cy="48" r="30" fill="var(--ac)" fill-opacity=".2"/><circle cx="72" cy="40" r="10" fill="var(--ac)" fill-opacity=".65"/><path d="M52 68a20 20 0 0 1 40 0z" fill="var(--ac)" fill-opacity=".65"/><rect x="118" y="24" width="84" height="18" rx="9" fill="var(--ac)" fill-opacity=".24"/><rect x="118" y="50" width="60" height="18" rx="9" fill="var(--ac)" fill-opacity=".4"/><rect x="186" y="50" width="32" height="18" rx="9" fill="var(--ac)" fill-opacity=".18"/></svg>'}[t];}
+// 四个类型的双色图标（currentColor：半透明底 + 线条 + 一个实心强调块），比通用线框图标更有辨识度。
+function bdGlyph(t){
+  const S='stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"';
+  const g={
+    workflow:`<rect x="3" y="3.5" width="7.5" height="6.5" rx="2.2" fill="currentColor" fill-opacity=".2" ${S}/><rect x="3" y="14" width="7.5" height="6.5" rx="2.2" fill="currentColor" fill-opacity=".2" ${S}/><path d="M10.5 6.75h1.5a2 2 0 0 1 2 2v.5M10.5 17.25h1.5a2 2 0 0 0 2-2v-.5" fill="none" ${S}/><rect x="13.5" y="9" width="7.5" height="6" rx="2.2" fill="currentColor"/><path d="M15.8 12l1.2 1.2 2.2-2.4" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>`,
+    task:`<rect x="4.5" y="4" width="15" height="17.5" rx="3.2" fill="currentColor" fill-opacity=".16" ${S}/><rect x="8.8" y="2.2" width="6.4" height="3.8" rx="1.4" fill="currentColor"/><path d="M8 11.2l1.4 1.4 2.4-2.6M8 16.2l1.4 1.4 2.4-2.6" fill="none" ${S}/><path d="M14.2 11.6h2.6M14.2 16.6h2.6" fill="none" ${S}/>`,
+    env:`<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z" fill="currentColor" fill-opacity=".14" ${S}/><path d="M12 12l8-4.5M12 12L4 7.5M12 12v9" fill="none" ${S}/><path d="M12 12l8-4.5v9L12 21z" fill="currentColor" fill-opacity=".34"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/>`,
+    role:`<rect x="4" y="8.4" width="16" height="11.6" rx="4.2" fill="currentColor" fill-opacity=".16" ${S}/><path d="M12 8.4V5.6" fill="none" ${S}/><circle cx="12" cy="4.4" r="1.5" fill="currentColor"/><circle cx="9" cy="13.4" r="1.4" fill="currentColor"/><circle cx="15" cy="13.4" r="1.4" fill="currentColor"/><path d="M9.6 16.8h4.8" fill="none" ${S}/><path d="M2.2 12.6v3.2M21.8 12.6v3.2" fill="none" ${S}/>`};
+  return `<i class="bd-ic bd-glyph ${t}"><svg viewBox="0 0 24 24" aria-hidden="true">${g[t]||''}</svg></i>`;
+}
+function bdArt(t){
+  const W='var(--as-panel,#fff)',A='var(--ac)';
+  const defs=id=>`<defs><linearGradient id="bdg-${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${A}" stop-opacity=".95"/><stop offset="1" stop-color="${A}" stop-opacity=".7"/></linearGradient><pattern id="bdp-${id}" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1" fill="${A}" fill-opacity=".22"/></pattern></defs><rect width="320" height="120" fill="url(#bdp-${id})"/>`;
+  const card=(x,y,w,h,r=12)=>`<rect x="${x}" y="${y+3}" width="${w}" height="${h}" rx="${r}" fill="${A}" fill-opacity=".1"/><rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${W}" stroke="${A}" stroke-opacity=".28" stroke-width="1.2"/>`;
+  const bar=(x,y,w,o=.28,h=5)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${h/2}" fill="${A}" fill-opacity="${o}"/>`;
+  const art={
+    workflow:`<svg viewBox="0 0 320 120" fill="none" aria-hidden="true">${defs('w')}
+      <path d="M88 60C108 60 108 36 128 36M88 60C108 60 108 84 128 84M204 36C224 36 224 60 244 60M204 84C224 84 224 60 244 60" stroke="${A}" stroke-opacity=".5" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 5"/>
+      ${card(28,44,60,32,10)}<circle cx="46" cy="60" r="7" stroke="${A}" stroke-width="1.6"/><path d="M46 56v4l3 2" stroke="${A}" stroke-width="1.6" stroke-linecap="round"/>${bar(58,57,22,.3)}
+      ${card(128,20,76,32,10)}<rect x="138" y="30" width="12" height="12" rx="4" fill="${A}" fill-opacity=".18"/><path d="M141 36l2.5 2.5L148 34" stroke="${A}" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>${bar(156,33,34,.32)}
+      ${card(128,68,76,32,10)}<rect x="138" y="78" width="12" height="12" rx="4" fill="${A}" fill-opacity=".18"/><path d="M142 84h4M144 82v4" stroke="${A}" stroke-width="1.6" stroke-linecap="round"/>${bar(156,81,28,.32)}
+      <rect x="244" y="47" width="52" height="38" rx="12" fill="url(#bdg-w)"/><path d="M261 66l5 5 9-10" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="88" cy="60" r="3.5" fill="${A}"/><circle cx="244" cy="60" r="3.5" fill="${A}"/></svg>`,
+    task:`<svg viewBox="0 0 320 120" fill="none" aria-hidden="true">${defs('t')}
+      <g transform="rotate(-5 160 62)"><rect x="104" y="14" width="112" height="92" rx="14" fill="${A}" fill-opacity=".12"/></g>
+      ${card(100,12,120,96,14)}
+      <rect x="112" y="24" width="38" height="8" rx="4" fill="${A}" fill-opacity=".4"/><rect x="176" y="22" width="32" height="12" rx="6" fill="${A}" fill-opacity=".16"/><circle cx="184" cy="28" r="2.5" fill="${A}"/><rect x="190" y="26" width="12" height="4" rx="2" fill="${A}" fill-opacity=".45"/>
+      <path d="M112 44h96" stroke="${A}" stroke-opacity=".16"/>
+      <circle cx="122" cy="58" r="7.5" fill="url(#bdg-t)"/><path d="M118.5 58l2.6 2.6 4.6-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>${bar(136,55.5,56,.3)}
+      <circle cx="122" cy="78" r="7.5" fill="url(#bdg-t)"/><path d="M118.5 78l2.6 2.6 4.6-5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>${bar(136,75.5,44,.3)}
+      <circle cx="122" cy="98" r="7" stroke="${A}" stroke-opacity=".4" stroke-width="1.6"/>${bar(136,95.5,34,.2)}
+      <circle cx="226" cy="30" r="13" fill="url(#bdg-t)"/><circle cx="226" cy="30" r="6" stroke="#fff" stroke-width="1.8"/><circle cx="226" cy="30" r="1.8" fill="#fff"/></svg>`,
+    env:`<svg viewBox="0 0 320 120" fill="none" aria-hidden="true">${defs('e')}
+      ${card(96,50,128,52,12)}<rect x="96" y="50" width="128" height="14" rx="12" fill="${A}" fill-opacity=".1"/>
+      ${card(84,32,128,52,12)}
+      ${card(72,14,128,52,12)}<rect x="72" y="14" width="128" height="16" rx="12" fill="url(#bdg-e)"/><rect x="72" y="22" width="128" height="8" fill="url(#bdg-e)"/><circle cx="84" cy="22" r="2.4" fill="#fff" fill-opacity=".95"/><circle cx="92" cy="22" r="2.4" fill="#fff" fill-opacity=".6"/><circle cx="100" cy="22" r="2.4" fill="#fff" fill-opacity=".35"/>
+      <path d="M84 42l6 5-6 5" stroke="${A}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>${bar(96,45.5,52,.34)}${bar(84,58,76,.18)}
+      <g><rect x="226" y="28" width="62" height="20" rx="10" fill="${W}" stroke="${A}" stroke-opacity=".3"/><circle cx="238" cy="38" r="3.5" fill="${A}"/>${bar(246,36,30,.35,4)}
+      <rect x="236" y="54" width="62" height="20" rx="10" fill="${W}" stroke="${A}" stroke-opacity=".3"/><circle cx="248" cy="64" r="3.5" fill="${A}" fill-opacity=".55"/>${bar(256,62,30,.3,4)}
+      <rect x="226" y="80" width="46" height="20" rx="10" fill="${W}" stroke="${A}" stroke-opacity=".3"/><circle cx="238" cy="90" r="3.5" fill="${A}" fill-opacity=".35"/>${bar(246,88,18,.28,4)}</g>
+      <path d="M212 40h14M222 66h14M212 90h14" stroke="${A}" stroke-opacity=".4" stroke-width="1.6" stroke-dasharray="1 4" stroke-linecap="round"/></svg>`,
+    role:`<svg viewBox="0 0 320 120" fill="none" aria-hidden="true">${defs('r')}
+      ${card(84,16,152,88,16)}
+      <circle cx="122" cy="52" r="26" fill="${A}" fill-opacity=".1"/><circle cx="122" cy="52" r="22" fill="url(#bdg-r)"/>
+      <rect x="110" y="44" width="24" height="18" rx="7" fill="#fff"/><circle cx="117" cy="53" r="2.4" fill="${A}"/><circle cx="127" cy="53" r="2.4" fill="${A}"/><path d="M122 44v-5" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="122" cy="37.5" r="2.6" fill="#fff"/>
+      <rect x="156" y="34" width="62" height="8" rx="4" fill="${A}" fill-opacity=".42"/>${bar(156,48,44,.24)}
+      <rect x="156" y="62" width="30" height="14" rx="7" fill="${A}" fill-opacity=".16"/><rect x="190" y="62" width="26" height="14" rx="7" fill="${A}" fill-opacity=".1" stroke="${A}" stroke-opacity=".25"/><circle cx="164" cy="69" r="2.2" fill="${A}"/>${bar(169,67.5,12,.4,3)}${bar(196,67.5,14,.34,3)}
+      <rect x="98" y="88" width="124" height="5" rx="2.5" fill="${A}" fill-opacity=".14"/><rect x="98" y="88" width="78" height="5" rx="2.5" fill="url(#bdg-r)"/><circle cx="176" cy="90.5" r="6.5" fill="${W}" stroke="${A}" stroke-width="1.6"/>
+      <g><rect x="244" y="26" width="50" height="22" rx="11" fill="${W}" stroke="${A}" stroke-opacity=".3"/><path d="M256 37l3 3 6-6" stroke="${A}" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>${bar(268,35,18,.32,4)}
+      <rect x="252" y="60" width="44" height="22" rx="11" fill="${W}" stroke="${A}" stroke-opacity=".3"/><circle cx="264" cy="71" r="3.5" fill="${A}" fill-opacity=".5"/>${bar(272,69,16,.3,4)}</g>
+      <path d="M236 38h8M236 70h16" stroke="${A}" stroke-opacity=".4" stroke-width="1.6" stroke-dasharray="1 4" stroke-linecap="round"/></svg>`};
+  return art[t]||'';
+}
 function agentRoles(){return buildMerge('role',[
   {id:'role-dev',name:'研发工程师',agent:'CodeAgent',desc:'实现需求、修复缺陷、提交 MR 并补充回归用例',skills:['代码读写','Git','测试执行'],autonomy:'低风险自动 · 合入需确认',uses:36},
   {id:'role-qa',name:'质量验证',agent:'QA Agent',desc:'读取质量平台与回归报告，按严重程度整理阻塞项',skills:['质量平台','回归测试','报表'],autonomy:'只读 · 结论需确认',uses:41},
@@ -14901,12 +15028,12 @@ function buildOpenState(t){const o=s.buildOpen||{};return o[t]!==false;}
 function buildTabOf(){const sel=buildSelOf();return buildTypes().some(t=>t[0]===s.buildTab)?s.buildTab:(sel?sel.type:'workflow');}
 function studioSidebar(){
   const sel=buildSelOf(),cur=buildTabOf(),def=buildTypes().find(t=>t[0]===cur),items=buildItems(cur);
-  const tabs=`<nav class="bd-seg as2-seg" role="tablist" aria-label="构建类型">${buildTypes().map(([t,label])=>`<button role="tab" aria-selected="${t===cur}" class="${t===cur?'active':''}" data-a="build-tab" data-v="${t}" title="${label}">${{workflow:'Workflow',task:'任务',env:'环境',role:'角色'}[t]}</button>`).join('')}</nav>`;
-  const list=`<div class="bd-list" style="--ac:${bdAccent(cur)};--ic:${bdIcon(cur)}">${items.map(i=>{const on=sel&&sel.type===cur&&sel.id===i.id&&!(cur==='workflow'&&s.studioPage==='import'),p=buildCardParts(cur,i);return `<button class="bd-card ${on?'active':''}" data-a="build-open" data-v="${esc(cur+':'+i.id)}"><span class="bd-card-top"><i class="bd-ic ${cur}">${ico(def[2])}</i><b>${esc(i.name)}</b>${p.tag?`<span class="bd-card-tag">${esc(p.tag)}</span>`:''}</span><span class="bd-card-desc">${esc(p.desc||'')}</span><span class="bd-card-meta">${p.meta.map(m=>`<em>${esc(m)}</em>`).join('')}</span></button>`;}).join('')}<button class="bd-card bd-card--add ${sel&&sel.type===cur&&sel.id==='new'?'active':''}" data-a="build-new" data-v="${cur}"><span class="bd-card-top"><i class="bd-ic ${cur}">${ico('plus')}</i><b>新建 ${def[1]}</b></span></button></div>`;
+  const tabs=`<nav class="bd-seg as2-seg" role="tablist" aria-label="构建类型">${buildTypes().map(([t,label])=>`<button role="tab" aria-selected="${t===cur}" class="${t===cur?'active':''}" data-a="build-tab" data-v="${t}" title="${label}">${label}</button>`).join('')}</nav>`;
+  const list=`<div class="bd-list" style="--ac:${bdAccent(cur)};--ic:${bdIcon(cur)}">${items.map(i=>{const on=sel&&sel.type===cur&&sel.id===i.id&&!(cur==='workflow'&&s.studioPage==='import'),p=buildCardParts(cur,i);return `<button class="bd-card ${on?'active':''}" data-a="build-open" data-v="${esc(cur+':'+i.id)}"><span class="bd-card-top">${bdGlyph(cur)}<b>${esc(i.name)}</b>${p.tag?`<span class="bd-card-tag">${esc(p.tag)}</span>`:''}</span><span class="bd-card-desc">${esc(p.desc||'')}</span><span class="bd-card-meta">${p.meta.map(m=>`<em>${esc(m)}</em>`).join('')}</span></button>`;}).join('')}<button class="bd-card bd-card--add ${sel&&sel.type===cur&&sel.id==='new'?'active':''}" data-a="build-new" data-v="${cur}"><span class="bd-card-top"><i class="bd-ic ${cur}">${ico('plus')}</i><b>新建 ${def[1]}</b></span></button></div>`;
   return `<div class="sidehead sidehead--build"><h3>构建</h3><p>可复用的流程、模板与角色</p><button class="bd-head-new ${sel?'':'active'}" data-a="build-home" aria-label="新建" title="新建">${ico('plus')}</button></div><div class="sidebody bd-body">${tabs}${list}</div>`;
 }
 function renderBuildHome(){
-  return `<div class="demopage bd-home"><div class="demohead"><div><h1>构建</h1><p>创建可复用的 Workflow、模板与角色，沉淀为个人与项目的资产。</p></div></div><div class="bd-entries">${buildTypes().map(([t,label,icon,desc])=>`<button class="bd-entry" data-a="build-new" data-v="${t}" style="--ac:${bdIcon(t)};--ic:${bdIcon(t)}"><span class="bd-entry-art">${bdArt(t)}</span><span class="bd-entry-body"><span class="bd-entry-title"><i class="bd-ic ${t}">${ico(icon)}</i><b>${label}</b><span class="bd-entry-go">去构建${ico('arrow')}</span></span><small>${esc(desc)}</small></span></button>`).join('')}</div></div>`;
+  return `<div class="demopage bd-home"><div class="demohead"><div><h1>构建</h1><p>创建可复用的 Workflow、模板与角色，沉淀为个人与项目的资产。</p></div></div><div class="bd-entries">${buildTypes().map(([t,label,icon,desc])=>`<button class="bd-entry" data-a="build-new" data-v="${t}" style="--ac:${bdIcon(t)};--ic:${bdIcon(t)}"><span class="bd-entry-art">${bdArt(t)}</span><span class="bd-entry-body"><span class="bd-entry-title">${bdGlyph(t)}<b>${label}</b><span class="bd-entry-go">去构建${ico('arrow')}</span></span><small>${esc(desc)}</small></span></button>`).join('')}</div></div>`;
 }
 function buildFields(type,it){
   const agents=DIRECTORY.filter(p=>p.type==='agent').map(a=>a.name),opt=(list,cur)=>list.map(v=>`<option ${v===cur?'selected':''}>${esc(v)}</option>`).join('');
