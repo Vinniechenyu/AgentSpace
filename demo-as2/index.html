@@ -10808,7 +10808,7 @@ html:root[data-appearance-style="bento"] body :is(#demo, #modalHost) :is(input:n
 html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell :is(.benchgrid, .kanban-cards, .extension-grid, .project-overview-metrics, .bento-grid):not(#_x) { gap: 10px !important; }
 html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .kanban-board:not(#_x), html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .kanban:not(#_x) { gap: 10px !important; }
 /* 选中：侧栏 = 浅灰底 + 深字；左侧入口 = 白色块 + 轻投影 + 深图标 */
-html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active:not(#_x) { background: var(--bn-soft) !important; color: var(--bn-ink) !important; font-weight: 600 !important; box-shadow: none !important; }
+html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active:not(#_x) { background: var(--bn-soft) !important; color: var(--bn-ink) !important; font-weight: 500 !important; box-shadow: none !important; }
 html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active:not(#_x) :is(span, .icon) { color: var(--bn-ink) !important; }
 html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active:not(#_x) small { background: var(--bn-surface) !important; color: var(--bn-ink) !important; }
 html:root[data-appearance-style="bento"] body #demo.slack-shell.slack-shell .demorail.demorail button.active:not(#_x) { background: var(--bn-surface) !important; color: var(--bn-ink) !important; box-shadow: 0 1px 2px rgba(20,22,30,.08), 0 6px 14px -8px rgba(20,22,30,.2) !important; border-radius: 14px !important; }
@@ -11082,9 +11082,9 @@ html:root[data-appearance-style="bento"] body :is(#demo, #modalHost) :is(.btn.li
 html:root[data-appearance-style="bento"] body :is(#demo, #modalHost) .tk-empty:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f) svg, html:root[data-appearance-style="bento"] body :is(#demo, #modalHost) .tk-empty:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f) .icon { color: rgba(var(--bn-rgb), .38) !important; }
 
 /* ===== 全局：侧栏导航项（新建任务 / 主页 / 看板 / 资产 / 频道 / 任务行）统一用主文本色，字重 500，选中 600 ===== */
-html:root body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { color: var(--as-text) !important; font-weight: 500 !important; }
+html:root body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { color: var(--as-text) !important; font-weight: 400 !important; }
 html:root body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) svg.icon, html:root body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) .icon { color: var(--as-text) !important; }
-html:root body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { font-weight: 600 !important; }
+html:root body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav.active:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { font-weight: 500 !important; }
 html:root body #demo.slack-shell.slack-shell .demoside .sidebody .sidenav:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) > span:not([style]):not(.side-done-at):not(.side-task-status):not([class*="status"]) { color: inherit; }
 
 /* ===== 全局：标签页选中项加粗（700），未选中保持 500，选中状态更明显 ===== */
