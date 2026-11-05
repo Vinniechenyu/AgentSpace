@@ -11665,6 +11665,167 @@ html:root body #demo.slack-shell.slack-shell .ext-toolbar #extensionQuery:not(#_
 :root:not([data-appearance-style="pixel"]) body :is(#demo, #modalHost) .as2-hint-pop b:not(#_a):not(#_b):not(#_c):not(#_d) { font-weight: 600; color: #fff !important; }
 :root[data-appearance-tone="dark"]:not([data-appearance-style="pixel"]) body :is(#demo, #modalHost) :is(.as2-hint-pop, .as2-railtip):not(#_a):not(#_b):not(#_c):not(#_d), :root[data-glass-tone="dark"]:not([data-appearance-style="pixel"]) body :is(#demo, #modalHost) :is(.as2-hint-pop, .as2-railtip):not(#_a):not(#_b):not(#_c):not(#_d) { background: #30323A !important; box-shadow: 0 10px 24px -6px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.12) !important; }
 
+/* ===== Thread 面板头部：标题（主）+ 操作同一行；下面一行弱化的元信息（# 频道 · 回复数 · 参与者） ===== */
+html:root body #demo.slack-shell.slack-shell .threadheader .co-thread-top:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 4px; }
+html:root body #demo.slack-shell.slack-shell .threadheader .co-thread-titlewrap:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { flex: 1; min-width: 0; }
+html:root body #demo.slack-shell.slack-shell .threadheader .co-thread-titlewrap > h3:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { margin: 0; font-size: 18px; font-weight: 600; line-height: 26px; letter-spacing: -.2px; color: var(--as-text); }
+html:root body #demo.slack-shell.slack-shell .threadheader .co-thread-sub:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; flex-wrap: wrap; align-items: center; gap: 0; margin: 6px 0 0; font-size: 12px; line-height: 18px; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .threadheader .co-thread-sub > *:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { color: inherit; font-size: inherit; }
+html:root body #demo.slack-shell.slack-shell .threadheader .co-thread-sub > * + *:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f)::before { content: "·"; margin: 0 8px; color: color-mix(in srgb, var(--as-text) 30%, transparent); }
+html:root body #demo.slack-shell.slack-shell .threadheader .co-thread-sub > .co-thread-location:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { padding: 0; margin: 0; border: 0; background: transparent; cursor: pointer; }
+html:root body #demo.slack-shell.slack-shell .threadheader .co-thread-sub > .co-thread-location:hover:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { color: var(--as-text); text-decoration: underline; text-underline-offset: 2px; }
+html:root body #demo.slack-shell.slack-shell .threadheader .co-thread-actions:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; flex: none; gap: 4px; }
+html:root body #demo.slack-shell.slack-shell .threadheader .co-thread-actions > .co-icon:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { width: 32px; height: 32px; }
+html:root body #demo.slack-shell.slack-shell .threadheader .co-thread-actions > .co-icon svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { width: 16px !important; height: 16px !important; }
+
+/* 任务页「来源」行：可点击回到原 Thread */
+html:root body #demo.slack-shell.slack-shell .tp-srclink:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: inline-flex; align-items: center; gap: 4px; padding: 0; border: 0; background: transparent; color: var(--as-brand, #0A59F7); font: inherit; cursor: pointer; text-align: left; }
+html:root body #demo.slack-shell.slack-shell .tp-srclink:hover:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { text-decoration: underline; text-underline-offset: 2px; }
+html:root body #demo.slack-shell.slack-shell .tp-srclink svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { width: 12px !important; height: 12px !important; flex: none; }
+
+/* ===== Thread 对话流：任务卡 / 产物 / 验收作为流里的事件，缩进到消息正文对齐 ===== */
+html:root body #demo.slack-shell.slack-shell .co-ev:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { margin: 2px 0 18px 44px; }
+html:root body #demo.slack-shell.slack-shell .co-ev .runcard:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { margin: 0; }
+html:root body #demo.slack-shell.slack-shell .co-ev-card:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { border-radius: 14px; background: var(--as-panel, #fff); box-shadow: 0 0 0 1px var(--as-border-soft, var(--as-border)); overflow: hidden; }
+html:root body #demo.slack-shell.slack-shell .co-ev-card > header:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--as-border-soft, var(--as-border)); }
+html:root body #demo.slack-shell.slack-shell .co-ev-card > header > b:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; color: var(--as-text); }
+html:root body #demo.slack-shell.slack-shell .co-ev-card > header > b svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { width: 15px !important; height: 15px !important; color: var(--as-success, #2E7D52); }
+html:root body #demo.slack-shell.slack-shell .co-ev-card > header > span:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { font-size: 12px; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .co-ev-card > ul:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { list-style: none; margin: 0; padding: 4px 0; }
+html:root body #demo.slack-shell.slack-shell .co-ev-card > ul > li:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; align-items: center; gap: 10px; min-height: 36px; padding: 0 14px; font-size: 13px; }
+html:root body #demo.slack-shell.slack-shell .co-ev-card > ul > li > i:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: inline-flex; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .co-ev-card > ul > li > i svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { width: 15px !important; height: 15px !important; }
+html:root body #demo.slack-shell.slack-shell .co-ev-card > ul > li > span:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { font-weight: 500; color: var(--as-text); }
+html:root body #demo.slack-shell.slack-shell .co-ev-card > ul > li > small:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { margin-left: auto; font-size: 12px; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .co-ev-actions:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; gap: 8px; padding: 8px 14px 12px; }
+html:root body #demo.slack-shell.slack-shell .co-ev-line:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12px; line-height: 20px; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .co-ev-line > i:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: inline-flex; width: 18px; height: 18px; align-items: center; justify-content: center; border-radius: 50%; background: color-mix(in srgb, #2E7D52 14%, var(--as-panel, #fff)); color: #2E7D52; }
+html:root body #demo.slack-shell.slack-shell .co-ev-line > i svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { width: 11px !important; height: 11px !important; }
+
+/* ===== Thread · 执行与产物：概要 → 执行过程（时间线）→ 产物 ===== */
+html:root body #demo.slack-shell.slack-shell .te-flow:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; flex-direction: column; gap: 20px; }
+html:root body #demo.slack-shell.slack-shell .te-sum:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; flex-direction: column; gap: 6px; }
+html:root body #demo.slack-shell.slack-shell .te-sum-top:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; align-items: center; gap: 8px; }
+html:root body #demo.slack-shell.slack-shell .te-run:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { font-size: 12px; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .te-title:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { margin: 4px 0 0; font-size: 15px; font-weight: 600; line-height: 22px; color: var(--as-text); }
+html:root body #demo.slack-shell.slack-shell .te-meta:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { margin: 0; font-size: 12px; line-height: 18px; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .te-acts:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; gap: 8px; margin-top: 6px; }
+html:root body #demo.slack-shell.slack-shell .te-sec > h5:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; align-items: center; gap: 8px; margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--as-text); }
+html:root body #demo.slack-shell.slack-shell .te-sec > h5 > span:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { font-weight: 400; font-size: 12px; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .te-steps:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { list-style: none; margin: 0; padding: 0; position: relative; }
+html:root body #demo.slack-shell.slack-shell .te-step:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { position: relative; }
+html:root body #demo.slack-shell.slack-shell .te-step:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g)::before { content: ""; position: absolute; left: 12px; top: 30px; bottom: -2px; width: 1px; background: var(--as-border); }
+html:root body #demo.slack-shell.slack-shell .te-step:last-child:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g)::before { display: none; }
+html:root body #demo.slack-shell.slack-shell .te-step-head:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; align-items: flex-start; gap: 10px; width: 100%; padding: 4px 6px 4px 0; border: 0; background: transparent; text-align: left; color: inherit; font: inherit; }
+html:root body #demo.slack-shell.slack-shell button.te-step-head:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { cursor: pointer; border-radius: 10px; }
+html:root body #demo.slack-shell.slack-shell button.te-step-head:hover:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { background: var(--as-hover); }
+html:root body #demo.slack-shell.slack-shell .te-dot:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--as-panel, #fff); box-shadow: 0 0 0 1px var(--as-border); color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .te-dot svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { width: 13px !important; height: 13px !important; }
+html:root body #demo.slack-shell.slack-shell .te-step[data-state="done"] .te-dot:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { background: color-mix(in srgb, #2E7D52 14%, var(--as-panel, #fff)); box-shadow: 0 0 0 1px color-mix(in srgb, #2E7D52 35%, transparent); color: #2E7D52; }
+html:root body #demo.slack-shell.slack-shell .te-step[data-state="running"] .te-dot:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { background: color-mix(in srgb, var(--as-brand, #0A59F7) 12%, var(--as-panel, #fff)); box-shadow: 0 0 0 1px color-mix(in srgb, var(--as-brand, #0A59F7) 40%, transparent); color: var(--as-brand, #0A59F7); }
+html:root body #demo.slack-shell.slack-shell .te-step[data-state="running"] .te-dot svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { animation: as2-spin 1s linear infinite; }
+html:root body #demo.slack-shell.slack-shell .te-step[data-state="waiting"] .te-dot:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { background: color-mix(in srgb, #B45309 14%, var(--as-panel, #fff)); box-shadow: 0 0 0 1px color-mix(in srgb, #B45309 40%, transparent); color: #B45309; }
+html:root body #demo.slack-shell.slack-shell .te-label:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; padding-top: 2px; }
+html:root body #demo.slack-shell.slack-shell .te-label > b:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { font-size: 13px; font-weight: 500; line-height: 20px; color: var(--as-text); }
+html:root body #demo.slack-shell.slack-shell .te-step[data-state="pending"] .te-label > b:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { color: var(--as-muted); font-weight: 400; }
+html:root body #demo.slack-shell.slack-shell .te-label > small:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { font-size: 12px; line-height: 18px; color: var(--as-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html:root body #demo.slack-shell.slack-shell .te-time:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { flex: none; padding-top: 4px; font-size: 12px; font-variant-numeric: tabular-nums; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .te-chev:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { flex: none; display: inline-flex; padding-top: 5px; color: var(--as-muted); transition: transform .15s; }
+html:root body #demo.slack-shell.slack-shell .te-chev svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { width: 14px !important; height: 14px !important; }
+html:root body #demo.slack-shell.slack-shell .te-step[data-open="true"] .te-chev:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { transform: rotate(90deg); }
+html:root body #demo.slack-shell.slack-shell .te-step-body:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: none; margin: 4px 0 10px 34px; padding: 10px 12px; border-radius: 12px; background: color-mix(in srgb, var(--as-text) 4%, var(--as-panel, #fff)); }
+html:root body #demo.slack-shell.slack-shell .te-step[data-open="true"] .te-step-body:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: grid; gap: 8px; }
+html:root body #demo.slack-shell.slack-shell .te-step-body em:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: block; font-style: normal; font-size: 11px; color: var(--as-muted); margin-bottom: 2px; }
+html:root body #demo.slack-shell.slack-shell .te-step-body pre:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { margin: 0; font-size: 12px; line-height: 18px; white-space: pre-wrap; word-break: break-word; color: var(--as-text-2); }
+html:root body #demo.slack-shell.slack-shell .te-arts:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { list-style: none; margin: 0; padding: 0; border-radius: 12px; box-shadow: 0 0 0 1px var(--as-border-soft, var(--as-border)); background: var(--as-panel, #fff); }
+html:root body #demo.slack-shell.slack-shell .te-arts > li:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display: flex; align-items: center; gap: 10px; padding: 8px 12px; }
+html:root body #demo.slack-shell.slack-shell .te-arts > li + li:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { border-top: 1px solid var(--as-border-soft, var(--as-border)); }
+html:root body #demo.slack-shell.slack-shell .te-art-ic:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 9px; background: color-mix(in srgb, var(--as-text) 6%, var(--as-panel, #fff)); color: var(--as-text-2); }
+html:root body #demo.slack-shell.slack-shell .te-art-ic svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { width: 16px !important; height: 16px !important; }
+html:root body #demo.slack-shell.slack-shell .te-art-t:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+html:root body #demo.slack-shell.slack-shell .te-art-t > b:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { font-size: 13px; font-weight: 500; color: var(--as-text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html:root body #demo.slack-shell.slack-shell .te-art-t > small:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { font-size: 12px; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .te-hint:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { margin: 0; font-size: 12px; color: var(--as-muted); }
+
+@keyframes as2-spin { to { transform: rotate(360deg); } }
+
+/* artifact tabs per file */
+html:root body #demo.slack-shell.slack-shell .co-ev-card > ul > li:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) {  padding: 0 !important; }
+html:root body #demo.slack-shell.slack-shell .co-ev-art:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display:flex;align-items:center;gap:10px;width:100%;min-height:38px;padding:0 14px;border:0;background:transparent;font:inherit;font-size:13px;color:var(--as-text);cursor:pointer;text-align:left; }
+html:root body #demo.slack-shell.slack-shell .co-ev-art:hover:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { background:var(--as-hover); }
+html:root body #demo.slack-shell.slack-shell .co-ev-art > i:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { display:inline-flex;color:var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .co-ev-art > span:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { font-weight:500; }
+html:root body #demo.slack-shell.slack-shell .co-ev-art > small:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { margin-left:auto;font-size:12px;color:var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .co-ev-art > .icon:last-child:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { width:13px;height:13px;color:var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .tp-tool-tabs > button .tpx-lbl:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g) { max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap; }
+
+/* ---- 导航精灵 ---- */
+.gd-root { --gd-ink: #1d1d1f; --gd-fill: #eef2ff; --gd-acc: #0A59F7; position: fixed; inset: 0; z-index: 99999; font-family: inherit; }
+:root[data-theme="dark"] .gd-root, html.dark .gd-root { --gd-ink: #e8e8ea; --gd-fill: #23304f; }
+.gd-mask, .gd-draw { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.gd-dim { fill: rgba(16, 20, 32, .56); pointer-events: all; }
+.gd-sketch, .gd-line, .gd-head { fill: none; stroke: #fff; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; animation: gd-draw .7s ease-out .05s forwards; }
+.gd-sketch { stroke: #fff; }
+.gd-line { animation-delay: .35s; stroke-dasharray: 1; }
+.gd-head { animation-delay: .9s; animation-duration: .25s; }
+@keyframes gd-draw { to { stroke-dashoffset: 0; } }
+.gd-card { position: absolute; width: 340px; max-width: calc(100vw - 32px); box-sizing: border-box; padding: 16px 18px 14px; border-radius: 20px; background: var(--as-panel, #fff); color: var(--as-text, #1d1d1f); box-shadow: 0 18px 48px rgba(0,0,0,.28), 0 0 0 1px rgba(0,0,0,.06); outline: none; transition: left .3s ease, top .3s ease; }
+.gd-art { display: grid; place-items: center; height: 150px; margin-bottom: 10px; border-radius: 14px; background: var(--as-muted-bg, #f5f6f8); }
+.gd-art svg { width: 100%; height: 100%; max-width: 240px; }
+.gd-step { font-size: 12px; color: var(--as-muted, #8a8f98); font-variant-numeric: tabular-nums; }
+.gd-card h3 { margin: 4px 0 6px; font-size: 18px; font-weight: 700; letter-spacing: -.01em; }
+.gd-card p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--as-muted, #6b7077); }
+.gd-points { margin: 10px 0 0; padding: 0; list-style: none; display: grid; gap: 5px; }
+.gd-points li { position: relative; padding-left: 16px; font-size: 13px; color: var(--as-text, #1d1d1f); }
+.gd-points li::before { content: ""; position: absolute; left: 2px; top: .62em; width: 6px; height: 6px; border-radius: 50%; background: var(--gd-acc); }
+.gd-start { display: grid; gap: 8px; margin-top: 12px; }
+.gd-start button { display: flex; align-items: center; gap: 8px; height: 38px; padding: 0 12px; border: 1px solid var(--as-border, #e3e5e8); border-radius: 12px; background: transparent; color: inherit; font: inherit; font-size: 13px; cursor: pointer; }
+.gd-start button:hover { background: var(--as-hover, #f2f3f5); }
+.gd-card footer { display: flex; align-items: center; gap: 8px; margin-top: 14px; }
+.gd-card footer .spacer { flex: 1; }
+.gd-dots { display: inline-flex; gap: 5px; }
+.gd-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--as-border, #d5d8dd); transition: width .2s, background .2s; }
+.gd-dots i.on { width: 18px; border-radius: 3px; background: var(--as-text, #1d1d1f); }
+.gd-skip, .gd-prev { height: 32px; padding: 0 10px; border: 0; border-radius: 999px; background: transparent; color: var(--as-muted, #6b7077); font: inherit; font-size: 13px; cursor: pointer; }
+.gd-skip:hover, .gd-prev:hover { background: var(--as-hover, #f2f3f5); color: var(--as-text, #1d1d1f); }
+.gd-next { display: inline-flex; align-items: center; gap: 4px; height: 34px; padding: 0 14px; border: 0; border-radius: 999px; background: var(--as-text, #1d1d1f); color: var(--as-panel, #fff); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+.gd-next .icon { width: 14px; height: 14px; }
+.gd-card[data-busy="1"] { opacity: .0; }
+html:root body .gd-root .gd-card { width: 372px; }
+html:root body .gd-root .gd-card footer { flex-wrap: nowrap; white-space: nowrap; }
+html:root body .gd-root .gd-card footer button { flex: none; white-space: nowrap; writing-mode: horizontal-tb; width: auto; min-width: 0; line-height: 1; }
+html:root body .gd-root .gd-card footer .gd-next { background: #111 !important; color: #fff !important; padding: 0 14px; gap: 4px; }
+html:root body .gd-root .gd-dots { flex: none; gap: 4px; }
+html:root body .gd-root .gd-dots i { width: 5px; height: 5px; }
+html:root body .gd-root .gd-dots i.on { width: 14px; }
+html:root body .gd-root .gd-card { width: 420px; }
+html:root body .gd-root .gd-card footer { gap: 4px; }
+html:root body .gd-root .gd-card footer .gd-skip, html:root body .gd-root .gd-card footer .gd-prev { padding: 0 8px; }
+html:root body .gd-root .gd-card footer .gd-dots { margin-right: 4px; }
+/* 导航精灵：所有风格下卡片都用不透明实色，保证可读 */
+html:root body .gd-root { --gd-card: #ffffff; --gd-text: #1d1d1f; --gd-muted: #5f646b; --gd-soft: #f2f3f5; --gd-line: #dfe2e6; }
+html[data-theme="dark"] body .gd-root, html[data-appearance-tone="dark"] body .gd-root, html[data-appearance-style="dark"] body .gd-root { --gd-card: #1f2024; --gd-text: #f2f2f4; --gd-muted: #a4a8b0; --gd-soft: #2b2d33; --gd-line: #3a3c44; --gd-ink: #e8e8ea; --gd-fill: #2c3a5c; }
+html:root body .gd-root .gd-card { background: var(--gd-card) !important; color: var(--gd-text) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; filter: none !important; opacity: 1; box-shadow: 0 24px 64px rgba(0,0,0,.38), 0 0 0 1px var(--gd-line) !important; border: 0 !important; }
+html:root body .gd-root .gd-card[data-busy="1"] { opacity: 0; }
+html:root body .gd-root .gd-card .gd-art { background: var(--gd-soft) !important; backdrop-filter: none !important; }
+html:root body .gd-root .gd-card h3, html:root body .gd-root .gd-card .gd-points li { color: var(--gd-text) !important; }
+html:root body .gd-root .gd-card p, html:root body .gd-root .gd-card .gd-step, html:root body .gd-root .gd-card .gd-skip, html:root body .gd-root .gd-card .gd-prev { color: var(--gd-muted) !important; }
+html:root body .gd-root .gd-card .gd-skip:hover, html:root body .gd-root .gd-card .gd-prev:hover { background: var(--gd-soft) !important; color: var(--gd-text) !important; }
+html:root body .gd-root .gd-card .gd-dots i { background: var(--gd-line) !important; }
+html:root body .gd-root .gd-card .gd-dots i.on { background: var(--gd-text) !important; }
+html:root body .gd-root .gd-card footer .gd-next { background: var(--gd-text) !important; color: var(--gd-card) !important; }
+html:root body .gd-root .gd-card .gd-start button { border-color: var(--gd-line) !important; color: var(--gd-text) !important; background: transparent !important; }
+html:root body .gd-root .gd-card .gd-start button:hover { background: var(--gd-soft) !important; }
+html:root body .gd-root .gd-dim { fill: rgba(12,15,26,.62); }
+/* 导航精灵：切换动效 —— 聚光与卡片平滑移动，内容淡入 */
+html:root body .gd-root #gdHole { transition: x .38s cubic-bezier(.3,.7,.2,1), y .38s cubic-bezier(.3,.7,.2,1), width .38s cubic-bezier(.3,.7,.2,1), height .38s cubic-bezier(.3,.7,.2,1); }
+html:root body .gd-root .gd-card { transition: left .4s cubic-bezier(.3,.7,.2,1), top .4s cubic-bezier(.3,.7,.2,1), height .3s ease; }
+html:root body .gd-root .gd-card.gd-swap > * { animation: gd-in .28s ease both; }
+@keyframes gd-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+html:root body .gd-root .gd-card[data-busy="1"] { opacity: 1; }
+/* 一级导航未读徽标：贴在图标右上角（不随按钮宽度漂移） */
+html:root body #demo.slack-shell.slack-shell .demorail.demorail > button .rail-unread:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { left: calc(50% + 3px) !important; right: auto !important; top: 3px !important; transform: none !important; }
+
 
 /* ==== DevUI themes (vendor/devui-themes.css) ==== */
 /* AUTO-GENERATED by build.py — 不要手改。官方主题取自 source/devui-official-design.md，扩展主题取自 tokens.py */
@@ -14521,7 +14682,7 @@ function normalizeConversationExamples(){
 function normalizeChannelHub(){
  if(!s?.conversations||!s.channelMessages)return;
  const joined=new Set(joinedProjects());s.hubSeededChannels=s.hubSeededChannels||{};
- normalizeConversationExamples();
+ normalizeConversationExamples();casesSeed();
  hubChannelSeeds().forEach((seed,i)=>{const key=seed.project+'::'+seed.channel;if(!joined.has(seed.project)||s.hubSeededChannels[key])return;
   const channel=projectChannels(seed.project).find(c=>c.id===seed.channel);if(!channel)return;
   seed.rows.forEach(([id,by,time,text])=>{const mid='channel-demo-'+id;if(!s.channelMessages.some(m=>m.id===mid))s.channelMessages.push({id:mid,project:seed.project,channel:seed.channel,by,name:msSender(by),time,day:'今天',text});});
@@ -14972,7 +15133,7 @@ function artifact(id){const t=s.tasks.find(x=>x.id===id);modal('产物预览 · 
 function addNode(type){s.nodes.push({type,label:type==='Skill'?'选择 Skill 方法':type==='MCP 工具'?'选择已安装 MCP':type==='CLI 工具'?'选择已安装 CLI':type==='Agent'?'配置 Agent':type,hint:'待配置',icon:type==='Skill'?'spark':type==='MCP 工具'?'link':type==='CLI 工具'?'code':type==='Agent'?'team':type==='人工确认'?'shield':'workflow'});s.selectedNode=s.nodes.length-1;s.wfDirty=true;s.wfTested=false;closeModal();render();}
 function legacyDependencies(){modal('当前 Workflow 的依赖与连接',`<p class="small muted">依赖由 Workflow 统一引用和发布。以下为示例配置。</p>${s.nodes.filter(n=>['Skill','MCP 工具','Agent','人工确认'].includes(n.type)).map(n=>`<div class="sourceitem"><span class="sourcedot">${ico(NODE_ICON[n.type]||n.icon)}</span><div class="grow"><b>${esc(n.type)} · ${esc(n.label)}</b><small>${esc(n.hint)}</small></div>${tag(n.hint==='待配置'?'待配置':'已就绪',n.hint==='待配置'?'gold':'green')}</div>`).join('')}<div class="note" style="margin-top:18px">发布固定方法与工具版本。MCP 凭证在运行时按 Binding 的执行身份解析；缺少授权时暂停并请求授权。</div>`,`${btn('关闭','close-modal')}`);}
 function workflowBinding(){modal('选择 Workflow 的采用位置',`<div class="note">${esc(s.wfLabel)} · 已发布 v${s.wfVersion}<br>同一流程定义可以创建个人或团队 Binding。</div><div class="grid2" style="margin-top:20px"><div class="card pad"><span class="tag">个人 Binding</span><h4 style="margin:12px 0">工作台 / 订阅</h4><p class="small muted">配置来源范围、更新频率和接收工作台。</p><div style="margin-top:17px">${btn('在个人视图采用','bind-personal','','primary sm')}</div></div><div class="card pad"><span class="tag">项目 Binding</span><h4 style="margin:12px 0">Project / Channel / Thread</h4><p class="small muted">配置项目范围、Owner、人工节点与接收位置。</p><div style="margin-top:17px">${btn('在团队项目采用','bind-team','','primary sm')}</div></div></div>`,`${btn('关闭','close-modal')}`);}
-async function action(a,v){if(channelTabsAction(a,v)||projSettingsAction(a,v)||railAction(a,v)||buildAction(a,v)||wfEditorAction(a,v)||mentionAction(a,v)||newTaskAction(a,v)||taskPageAction(a,v)||settingsAction(a,v)||glassAction(a,v)||assetAction(a,v)||bentoAction(a,v)||userMenuAction(a,v)||personalTabAction(a,v)||runAction(a,v)||sidebarAction(a,v)||messageAction(a,v)||composerAction(a,v)||boardAction(a,v)||extensionAction(a,v))return;if(a.startsWith('wbh-')){wbhAction(a,v);save();return;}if(a.startsWith('wb2-')){await wb2Action(a,v);save();return;}if(a.startsWith('wb-')){await wbAction(a,v);save();return;}if(a.startsWith('co-members-')){coMembersAction(a,v);save();return;}if(s.channelMemberPanel&&['mode','channel','project','project-tab','task-board','select-project','project-thread-open','open-thread','studio','extensions','evolution'].includes(a))s.channelMemberPanel.open=false;if(a==='evolution'||a.startsWith('evolution-')){evolutionAction(a,v);save();return;}const t=s.tasks.find(x=>x.id===v),b=s.benches.find(x=>x.id===v);switch(a){
+async function action(a,v){if(channelTabsAction(a,v)||projSettingsAction(a,v)||railAction(a,v)||buildAction(a,v)||casesAction(a,v)||wfEditorAction(a,v)||mentionAction(a,v)||newTaskAction(a,v)||taskPageAction(a,v)||settingsAction(a,v)||glassAction(a,v)||assetAction(a,v)||bentoAction(a,v)||userMenuAction(a,v)||personalTabAction(a,v)||runAction(a,v)||sidebarAction(a,v)||messageAction(a,v)||composerAction(a,v)||boardAction(a,v)||extensionAction(a,v))return;if(a.startsWith('wbh-')){wbhAction(a,v);save();return;}if(a.startsWith('wb2-')){await wb2Action(a,v);save();return;}if(a.startsWith('wb-')){await wbAction(a,v);save();return;}if(a.startsWith('co-members-')){coMembersAction(a,v);save();return;}if(s.channelMemberPanel&&['mode','channel','project','project-tab','task-board','select-project','project-thread-open','open-thread','studio','extensions','evolution'].includes(a))s.channelMemberPanel.open=false;if(a==='evolution'||a.startsWith('evolution-')){evolutionAction(a,v);save();return;}const t=s.tasks.find(x=>x.id===v),b=s.benches.find(x=>x.id===v);switch(a){
 
 case 'appearance-settings':openSettings();break;
 case 'appearance-preset':appearanceSetTransparency(v);break;
@@ -15166,7 +15327,7 @@ case 'thread-tab':s.threadTab=v;render();break;
 case 'prepare-temp':prepareTemp();break;
 case 'start-spec':startSpec();break;
 case 'create-spec':{const goal=$('#specGoal').value.trim(),scope=$('#specScope').value.trim(),accept=$('#specAccept').value.trim();if(!goal||!scope||!accept){notify('目标、范围和验收条件均需确认。');break;}const old=threadTask('fixed');if(old&&old.status!=='cancelled'){closeModal();notify('本需求已有任务 '+old.id+'，可继续原任务。');break;}s.tasks.push({id:nextTaskId(),title:(customThread()?.title||'资源组优先策略')+' · SpecX 交付',scope:s.project,type:'fixed',trigger:'manual',origin:'thread',collaborationMode:'workflow',workflowName:'SpecX · 需求到交付',workflowVersion:'1.4',executor:'SpecX · 需求到交付',threadKey:activeThreadKey('fixed'),threadRef:{project:s.project,channel:currentThreadChannel(),key:activeThreadKey('fixed'),kind:'fixed'},status:'pending',source:'# '+currentThreadChannel()+' / '+threadTitle(),owner:'张三',triggeredBy:'我',rev:1,run:0,kind:'spec',goal:goal+' 范围：'+scope,accept});s.threadTab='discussion';closeModal();render();notify('结构化输入已确认，任务已创建，待确认执行。');break;}
-case 'approve-spec':modal('Owner 确认 Spec 与设计',`<div class="note">${esc(t.title)} · 目标 V${t.rev}<br>SpecX v1.4 · 人工确认节点</div><p class="small" style="margin-top:18px"><b>规格目标：</b>${esc(t.goal)}</p><p class="small muted"><b>设计摘要：</b>先检索指定资源组，再验证可用资源；无资源时回退现有路径。</p><p class="small muted"><b>验证范围：</b>${esc(t.accept)}</p>`,`${btn('返回讨论','close-modal')}${btn('确认 Spec，进入开发测试','confirm-spec',v,'primary')}`);break;
+case 'approve-spec':modal('Owner 确认 Spec 与设计',`<div class="note">${esc(t.title)} · 目标 V${t.rev}<br>SpecX v1.4 · 人工确认节点</div><p class="small" style="margin-top:18px"><b>规格目标：</b>${esc(t.goal)}</p><p class="small muted"><b>设计摘要：</b>${esc(t.caseDesign||'先检索指定资源组，再验证可用资源；无资源时回退现有路径。')}</p><p class="small muted"><b>验证范围：</b>${esc(t.accept)}</p>`,`${btn('返回讨论','close-modal')}${btn('确认 Spec，进入开发测试','confirm-spec',v,'primary')}`);break;
 case 'confirm-spec':t.status='running';closeModal();render();notify('Spec 人工节点已通过，原实例继续开发与测试。');break;
 case 'thread-send':coSendThread();break;
 case 'legacy-thread-send':{const text=$('#threadInput').value.trim();if(!text){notify('请输入回复或 @CodeAgent。');break;}s.threadMessages.push({name:'我',role:'刚刚',text,project:s.project,kind:s.threadKind,threadKey:activeThreadKey()});if(!threadTask()){if(s.threadKind==='fixed')startSpec();else prepareTemp();}else{render();notify('已补充到 Thread；涉及目标变更时可点“提出修订”。');}break;}
@@ -15323,7 +15484,7 @@ function coThreadDiscussion(fixed,t){
 function coRenderThread(){
  const fixed=s.threadKind==='fixed',t=threadTask(),info=coThreadInfo(),replies=coReplies(info),people=[...new Set([info.name,...replies.filter(r=>!['CodeAgent','QA Agent','OfficeACE'].includes(r.name)).map(r=>r.name)])],agentCount=new Set(replies.filter(r=>['CodeAgent','QA Agent','OfficeACE'].includes(r.name)).map(r=>r.name)).size,followed=s.coFollowed[coThreadKey()]!==false;
  const agent=s.coAgents[coThreadKey()]||'CodeAgent';
- return `<aside class="threadpanel${s.threadExpanded?' expanded':''}" aria-label="Thread 话题详情"><header class="threadheader"><div class="co-thread-toolbar"><strong>${ico('chat')}Thread</strong><span class="spacer"></span><button class="co-icon${followed?' active':''}" data-a="co-follow" aria-label="${followed?'取消关注话题':'关注话题'}" aria-pressed="${followed}">${ico('bell')}</button><button class="co-icon" data-a="expand-thread" aria-label="${s.threadExpanded?'还原 Thread':'展开 Thread'}">${ico(s.threadExpanded?'collapse':'expand')}</button><button class="co-icon" data-a="close-thread" aria-label="关闭 Thread">${ico('close')}</button></div><button class="co-thread-location" data-a="channel" data-v="${esc(info.channel)}"># ${esc(info.channel)} ${ico('chevron')} ${esc(s.project)}</button><h3>${esc(info.title)}</h3><div class="co-thread-people"><span>${people.length} 位成员${agentCount?' · '+agentCount+' 个 Agent':''}</span><span>${replies.length} 条回复</span>${fixed?'<span>SpecX Workflow</span>':''}</div><nav class="dtabs" aria-label="Thread 内容">${[['discussion','讨论'],['execution','执行与产物'],['context','上下文']].map(([v,l])=>`<button class="${s.threadTab===v?'active':''}" data-a="thread-tab" data-v="${v}" aria-current="${s.threadTab===v?'page':'false'}">${l}${v==='execution'&&t?'<i class="co-status-dot"></i>':''}</button>`).join('')}</nav></header><div class="threadcontent" id="coThreadStream">${s.threadTab==='context'?renderThreadContext(fixed,t):s.threadTab==='execution'?renderThreadExecution(fixed,t):coThreadDiscussion(fixed,t)}</div><div class="co-thread-compose"><div class="co-session-line"><span>${t||agentCount?'CodeAgent 已在此话题':'邀请 Agent 参与当前话题'}</span><small>回复可补充 · 变更目标需确认</small></div><div class="composer"><textarea id="threadInput" aria-label="Thread 回复" placeholder="回复，或 @CodeAgent 交给它继续…">${esc(s.threadDrafts[coThreadKey()]||'')}</textarea><div class="composerfoot"><button class="co-mention" data-a="co-mention-thread" data-v="${esc(agent)}">@${esc(agent)}</button><button class="co-icon" data-a="co-agent-picker" aria-label="选择参与协作的 Agent">${ico('down')}</button><span class="spacer"></span>${btn(ico('send')+'发送','thread-send','','primary sm')}</div></div><div class="co-quick-prompts"><button data-a="co-prompt" data-v="fix">帮我修复</button><button data-a="co-prompt" data-v="plan">先给方案</button><button data-a="co-prompt" data-v="summary">总结讨论</button><span>Shift + Enter 换行</span></div></div></aside>`;
+ return `<aside class="threadpanel${s.threadExpanded?' expanded':''}" aria-label="Thread 话题详情"><header class="threadheader"><div class="co-thread-top"><div class="co-thread-titlewrap"><h3>${esc(info.title)}</h3><p class="co-thread-sub"><button class="co-thread-location" data-a="channel" data-v="${esc(info.channel)}"># ${esc(info.channel)}</button><span>${replies.length} 条回复</span><span>${people.length+agentCount} 位参与者</span>${fixed?'<span>SpecX Workflow</span>':''}</p></div><div class="co-thread-actions"><button class="co-icon${followed?' active':''}" data-a="co-follow" aria-label="${followed?'取消关注话题':'关注话题'}" aria-pressed="${followed}">${ico('bell')}</button><button class="co-icon" data-a="expand-thread" aria-label="${s.threadExpanded?'还原 Thread':'展开 Thread'}">${ico(s.threadExpanded?'collapse':'expand')}</button><button class="co-icon" data-a="close-thread" aria-label="关闭 Thread">${ico('close')}</button></div></div><nav class="dtabs" aria-label="Thread 内容">${[['discussion','讨论'],['execution','执行与产物'],['context','上下文']].map(([v,l])=>`<button class="${s.threadTab===v?'active':''}" data-a="thread-tab" data-v="${v}" aria-current="${s.threadTab===v?'page':'false'}">${l}${v==='execution'&&t?'<i class="co-status-dot"></i>':''}</button>`).join('')}</nav></header><div class="threadcontent" id="coThreadStream">${s.threadTab==='context'?renderThreadContext(fixed,t):s.threadTab==='execution'?renderThreadExecution(fixed,t):coThreadDiscussion(fixed,t)}</div><div class="co-thread-compose"><div class="composer"><textarea id="threadInput" aria-label="Thread 回复" placeholder="回复，或 @CodeAgent 交给它继续…">${esc(s.threadDrafts[coThreadKey()]||'')}</textarea><div class="composerfoot"><button class="co-mention" data-a="co-mention-thread" data-v="${esc(agent)}">@${esc(agent)}</button><button class="co-icon" data-a="co-agent-picker" aria-label="选择参与协作的 Agent">${ico('down')}</button><span class="spacer"></span>${btn(ico('send')+'发送','thread-send','','primary sm')}</div></div><div class="co-quick-prompts"><button data-a="co-prompt" data-v="fix">帮我修复</button><button data-a="co-prompt" data-v="plan">先给方案</button><button data-a="co-prompt" data-v="summary">总结讨论</button><span>Shift + Enter 换行</span></div></div></aside>`;
 }
 let coFocus='',coBottom='';
 function captureCollaborationViewport(){
@@ -15573,6 +15734,7 @@ function settingsScrollRestore(snap){
 function runStepMs(){return 7000;}
 function runUIState(){return window.__asRunUI||(window.__asRunUI={closed:{},open:{},plan:{},reason:{}});}
 function runPlan(t){
+  if(t.casePlan)return t.casePlan;
   if(t.kind==='spec')return [
     ['读取需求与讨论','thread.read','需求 #206 · 12 条讨论',{thread:'requirement',limit:50},{messages:12,attachments:2}],
     ['生成 Spec 与设计','specx.generate','resource-priority-spec.md',{template:'SpecX v1.4',target:'V'+t.rev},{file:'resource-priority-spec.md',sections:7}],
@@ -16248,6 +16410,7 @@ try{const bmObs=new MutationObserver(()=>{boardMergeRow();bmObs.takeRecords();})
 function taskPageTask(){return s.taskDetail?s.tasks?.find(x=>x.id===s.taskDetail):null;}
 function taskPageOpen(id){if(!s.tasks?.find(x=>x.id===id))return false;s.taskDetail=id;s.taskTool=s.taskTool||'run';closeModal();render();document.querySelector('#demo .tp-flow')?.scrollTo({top:1e6});return true;}
 function taskArtifacts(t){
+  if(t.caseArtifacts)return ['review','done'].includes(t.status)?t.caseArtifacts:[];
   if(!['review','done'].includes(t.status))return [];
   const v='V'+t.rev;
   if(t.kind==='spec')return [['spec-'+t.id.toLowerCase()+'.md','Spec · '+v,'file','md'],['MR-1284','合并请求 · 待审查','code','mr'],['test-report.md','测试报告 · 32 / 32 通过','shield','md']];
@@ -16305,8 +16468,8 @@ function taskPageFlow(t){
 }
 // ---- 右侧工具窗口：多标签（概览 / 执行过程 / 变更 / 终端 / 浏览器 / 文件 / 产物），「+」打开新标签页选择工具。
 function tpToolDefs(){return [['overview','概览','list'],['changes','变更','edit'],['terminal','终端','terminal'],['browser','浏览器','link'],['files','文件','file'],['artifact','产物','archive'],['new','新标签页','plus']];}
-function tpTabs(){if(!Array.isArray(s.taskTabs)||!s.taskTabs.length)s.taskTabs=['overview','changes','terminal'];if(s.taskTabs.includes('run')||!s.taskTabs.includes('overview')){s.taskTabs=['overview',...s.taskTabs.filter(x=>x!=='run'&&x!=='overview')];if(s.taskTool==='run')s.taskTool='overview';}return s.taskTabs;}
-function tpOpen(tool){if(tool==='run'||tool==='context')tool='overview';const tabs=tpTabs();if(!tabs.includes(tool))tabs.push(tool);s.taskTool=tool;}
+function tpTabs(){if(!Array.isArray(s.taskTabs)||!s.taskTabs.length)s.taskTabs=['overview','changes','terminal'];s.taskTabs=s.taskTabs.map(v=>v==='artifact'?'art:'+(s.taskArtifact||0):v).filter((v,i,a)=>a.indexOf(v)===i);if(s.taskTool==='artifact')s.taskTool='art:'+(s.taskArtifact||0);if(s.taskTabs.includes('run')||!s.taskTabs.includes('overview')){s.taskTabs=['overview',...s.taskTabs.filter(x=>x!=='run'&&x!=='overview')];if(s.taskTool==='run')s.taskTool='overview';}return s.taskTabs;}
+function tpOpen(tool){if(tool==='run'||tool==='context')tool='overview';if(tool==='artifact')tool='art:'+(s.taskArtifact||0);const tabs=tpTabs();if(!tabs.includes(tool))tabs.push(tool);s.taskTool=tool;}
 // 示例变更集（按任务类型生成，仅演示用）
 function taskChanges(t){
   const perf=t.kind==='performance'||/性能|翻页/.test(t.title||'');
@@ -16358,15 +16521,17 @@ function tpOverviewView(t){
   const todo=`<ul class="ov2-todo">${plan.map(([label],k)=>`<li data-state="${states[k][0]}">${states[k][0]==='done'?ico('check'):states[k][0]==='running'?'<span class="as-spinner"></span>':'<i></i>'}<span>${esc(label)}</span></li>`).join('')}</ul>`;
   const artBody=arts.length?`<div class="ov2-arts">${arts.map(([name,meta,icon],k)=>`<button data-a="task-artifact" data-v="${k}"><i>${ico(icon)}</i><span><b>${esc(name)}</b><small>${esc(meta)}</small></span>${ico('chevron')}</button>`).join('')}</div>`:'<p class="ov2-empty">执行完成后，产物会出现在这里</p>';
   const run=t.run?'R-'+t.id.slice(2)+'-'+t.run:'待确认后创建';
-  const rows=[['负责',`${esc(t.owner||'未分配')}<i>·</i>${esc(t.executor||'CodeAgent')}`],['触发',`${esc(triggerLabel(taskTrigger(t)))}<i>·</i>${esc(taskTriggeredBy(t))}`],['来源',`${esc(t.source||'—')}<i>·</i>${esc(t.scope)}`],['验收',esc(t.accept||'结果完整、来源可追溯，按当前目标版本确认。')]];
+  const rows=[['负责',`${esc(t.owner||'未分配')}<i>·</i>${esc(t.executor||'CodeAgent')}`],['触发',`${esc(triggerLabel(taskTrigger(t)))}<i>·</i>${esc(taskTriggeredBy(t))}`],['来源',(t.threadKey||t.threadRef)?`<button class="tp-srclink" data-a="task-open-thread" data-v="${esc(t.id)}" title="回到来源 Thread 与频道消息">${esc(t.source||'—')}${ico('arrow')}</button><i>·</i>${esc(t.scope)}`:`${esc(t.source||'—')}<i>·</i>${esc(t.scope)}`],['验收',esc(t.accept||'结果完整、来源可追溯，按当前目标版本确认。')]];
   const head=`<header class="ov2-top"><div class="ov2-top-row">${taskChip(t)}<span>V${t.rev} · ${esc(run)}</span></div><h3>${esc(t.title)}</h3>${t.goal?`<p>${esc(t.goal)}</p>`:''}<div class="ov2-progress" role="progressbar" aria-valuenow="${pct}"><i style="width:${pct}%"></i></div><dl class="ov2-facts">${rows.map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}<div><dt>上下文</dt><dd class="ov2-ctxline"><b class="as-num">${use}k</b><small> / 200k</small><span class="ov2-bar"><i style="width:${use/2}%"></i></span></dd></div></dl></header>`;
   return `<div class="ov2">${head}${sec('prog',live?'进展':'待办',done+' / '+plan.length,live&&t.run?(runView(t,'full')||todo):todo)}${sec('art','任务产物',arts.length,artBody)}${taskKnowledgeSummary(t)?sec('ctx','知识范围',null,taskKnowledgeSummary(t)):''}</div>`;
 }
 function taskPageTool(t){
-  const tabs=tpTabs(),defs=Object.fromEntries(tpToolDefs().map(d=>[d[0],d]));
+  const arts=taskArtifacts(t),defs=Object.fromEntries(tpToolDefs().map(d=>[d[0],d]));
+  const tabs=tpTabs().filter(v=>!v.startsWith('art:')||arts[Number(v.slice(4))]);
+  arts.forEach((a,i)=>{defs['art:'+i]=['art:'+i,a[0],a[2]||'file'];});
   let tab=tabs.includes(s.taskTool)?s.taskTool:(s.taskTool==='context'?'overview':tabs[0]);
   if(!tabs.includes(tab))tab=tabs[0];
-  const arts=taskArtifacts(t),k=Math.min(s.taskArtifact||0,Math.max(arts.length-1,0)),a=arts[k];
+  const k=tab.startsWith('art:')?Number(tab.slice(4)):0,a=arts[k];
   let body='',flush=false;
   if(tab==='overview')body=tpOverviewView(t);
   else if(tab==='changes'){body=tpChangesView(t);flush=true;}
@@ -16374,8 +16539,8 @@ function taskPageTool(t){
   else if(tab==='terminal'){body=tpTerminalView(t);flush=true;}
   else if(tab==='browser'){body=tpBrowserView(t);flush=true;}
   else if(tab==='new'){body=tpNewView(t);}
-  else body=a?`<div class="tp-file-head">${ico(a[2])}<div><b>${esc(a[0])}</b><small>${esc(a[1])} · 来自 ${esc(t.id)}</small></div><span class="spacer"></span>${arts.length>1?arts.map((x,i)=>`<button class="tp-file-tab ${i===k?'active':''}" data-a="task-artifact" data-v="${i}">${esc(x[0])}</button>`).join(''):''}</div><pre class="tp-file-body">${taskArtifactPreview(t,a)}</pre>`:`<div class="tk-empty">${ico('archive')}<span>任务完成后，产物会在这里预览</span></div>`;
-  return `<aside class="tp-tool"><nav class="tp-tool-tabs" role="tablist">${tabs.map(v=>`<button role="tab" aria-selected="${tab===v}" class="${tab===v?'active':''}" data-a="task-tool" data-v="${v}"><span class="tpx-ic">${ico(defs[v][2])}${v!=='overview'?`<i class="tpx-x" data-a="task-tab-close" data-v="${v}" role="button" aria-label="关闭${defs[v][1]}">${ico('close')}</i>`:''}</span><span>${defs[v][1]}${v==='artifact'&&arts.length?' '+arts.length:''}</span></button>`).join('')}<button class="tpx-add" data-a="task-tab-new" aria-label="新标签页" title="新标签页">${ico('plus')}</button></nav><div class="tp-tool-body ${flush?'is-flush':''}">${body}</div></aside>`;
+  else body=a?`<div class="tp-file-head">${ico(a[2])}<div><b>${esc(a[0])}</b><small>${esc(a[1])} · 来自 ${esc(t.id)}</small></div></div><pre class="tp-file-body">${taskArtifactPreview(t,a)}</pre>`:`<div class="tk-empty">${ico('archive')}<span>任务完成后，产物会在这里预览</span></div>`;
+  return `<aside class="tp-tool"><nav class="tp-tool-tabs" role="tablist">${tabs.map(v=>`<button role="tab" aria-selected="${tab===v}" class="${tab===v?'active':''}" data-a="task-tool" data-v="${v}"><span class="tpx-ic">${ico(defs[v][2])}${v!=='overview'?`<i class="tpx-x" data-a="task-tab-close" data-v="${v}" role="button" aria-label="关闭${defs[v][1]}">${ico('close')}</i>`:''}</span><span class="tpx-lbl">${esc(defs[v][1])}</span></button>`).join('')}<button class="tpx-add" data-a="task-tab-new" aria-label="新标签页" title="新标签页">${ico('plus')}</button></nav><div class="tp-tool-body ${flush?'is-flush':''}">${body}</div></aside>`;
 }
 function taskArtifactPreview(t,a){
   if(a[3]==='diff')return esc(`diff --git a/task/list.ts b/task/list.ts\n@@ -42,9 +42,7 @@ export async function listTasks(page) {\n-  for (const task of page.items) {\n-    task.resource = await getResourceStatus(task.id)\n-  }\n+  const ids = page.items.map(t => t.id)\n+  const status = await batchResourceStatus(ids)   // 20 次 → 1 次\n+  page.items.forEach(t => (t.resource = status[t.id]))\n   return page\n }`);
@@ -16400,11 +16565,11 @@ function taskPageAction(a,v){
   if(a==='task-edit-msg'){document.getElementById('taskPageInput')?.focus();return true;}
   if(a==='task-tab-close'){const tabs=tpTabs(),i=tabs.indexOf(v);if(i>=0&&tabs.length>1){tabs.splice(i,1);if(s.taskTool===v)s.taskTool=tabs[Math.min(i,tabs.length-1)];}render();return true;}
   if(a==='task-tab-new'){tpOpen('new');render();return true;}
-  if(a==='task-tool-pick'){const tabs=tpTabs(),i=tabs.indexOf('new');if(tabs.includes(v)){if(i>=0)tabs.splice(i,1);}else if(i>=0)tabs[i]=v;else tabs.push(v);s.taskTool=v;render();return true;}
+  if(a==='task-tool-pick'){if(v==='artifact')v='art:'+(s.taskArtifact||0);const tabs=tpTabs(),i=tabs.indexOf('new');if(tabs.includes(v)){if(i>=0)tabs.splice(i,1);}else if(i>=0)tabs[i]=v;else tabs.push(v);s.taskTool=v;render();return true;}
   if(a==='task-change'){s.taskChange=Number(v)||0;render();return true;}
   if(a==='task-file'){s.taskFilePath=v;render();return true;}
   if(a==='task-ov'){const ov=taskPageUI().ov;ov[v]=!ov[v];render();return true;}
-  if(a==='task-artifact'){tpOpen('artifact');const tb=tpTabs(),ni=tb.indexOf('new');if(ni>=0&&s.taskTool!=='new'){}s.taskArtifact=Number(v)||0;if(ni>=0)tb.splice(ni,1);render();return true;}
+  if(a==='task-artifact'){s.taskArtifact=Number(v)||0;tpOpen('art:'+s.taskArtifact);const tb=tpTabs(),ni=tb.indexOf('new');if(ni>=0)tb.splice(ni,1);render();return true;}
   if(a==='task-send'){const t=s.tasks.find(x=>x.id===v),ta=document.getElementById('taskPageInput'),text=ta?.value.trim();if(!t||!text)return true;t.chat=[...(t.chat||[]),{who:'me',text},{who:'agent',text:'已记录补充要求，会在下一轮执行中采用；变更目标前会先请你确认。'}];render();document.querySelector('#demo .tp-flow')?.scrollTo({top:1e6});return true;}
   return false;
 }
@@ -16842,7 +17007,7 @@ function channelTabsAction(a,v){
     render();requestAnimationFrame(()=>{const c=document.getElementById('caChat');c&&(c.scrollTop=c.scrollHeight);document.getElementById('artifactInput')?.focus();});return true;}
   if(a==='ca-copy'){const el=document.getElementById('caPreviewBody');try{navigator.clipboard?.writeText(el?.textContent||'');}catch(e){}notify('已复制产物内容。');return true;}
   if(a==='channel-task-filter'){s.channelTaskFilter=v;render();return true;}
-  if(a==='open-task-artifact'){const [id,k]=String(v).split('|');if(taskPageOpen(id)){s.taskTool='artifact';s.taskArtifact=Number(k)||0;render();}return true;}
+  if(a==='open-task-artifact'){const [id,k]=String(v).split('|');if(taskPageOpen(id)){s.taskArtifact=Number(k)||0;tpOpen('art:'+s.taskArtifact);render();}return true;}
   return false;
 }
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList?.contains('ca-book'))e.target.click();if(e.target.id==='artifactInput'&&e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();document.querySelector('#demo [data-a="ca-ask"]')?.click();}});
@@ -17489,6 +17654,268 @@ segObs.observe(document.body,{childList:true,subtree:true});
 window.addEventListener('resize',()=>requestAnimationFrame(segDecorate));
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>segDecorate());
 segDecorate();
+// ---- 频道 → Thread → 任务：四个完整案例（AgentSpace 2.0）。覆盖任务的四种状态，频道卡片 / Thread / 任务页共用同一条任务记录。
+//  ① #IM能力构建「频道消息重复」  已验收：讨论 → 创建任务 → 执行 → 补丁与回归报告 → 验收 → 频道同步
+//  ② #多人多Agent协同「SpecX 研发输入」  等 Owner 确认：输入快照 + Spec 草稿已生成，停在人工确认节点
+//  ③ #千人千面工作台「多工作台切换」  执行中：CodeAgent 正在修，可「推进演示」到结果再验收
+//  ④ #千人千面工作台「容器 QA」  未开始：SpecX 输入已整理，等你确认后启动
+// 只在首次加载时写入一次（s.casesSeededV3）；旧存档里同一批 Thread 上由演示操作临时生成的任务会被这批案例替换。
+function casesSeed(){
+  if(typeof s==='undefined'||!s||!Array.isArray(s.tasks)||!s.customThreads||s.casesSeededV3)return;
+  const P='AgentSpace 2.0',T=s.customThreads,keys=['space23-im-dedup','space23-collab-specx','space23-bench-switch','space23-bench-quality'];
+  if(!keys.every(k=>T[k]))return;
+  const addReplies=(k,rows)=>{const cur=T[k].demoReplies||(T[k].demoReplies=[]);rows.forEach(r=>{const ex=cur.find(c=>c.text===r.text);if(ex)Object.assign(ex,r);else cur.push({...r});});};
+  const msg=(id,channel,by,time,text)=>{if(!s.channelMessages.some(m=>m.id===id))s.channelMessages.push({id,project:P,channel,by,name:msSender(by),time,day:'今天',text});};
+  const mk=(o)=>({scope:P,origin:'thread',trigger:'manual',rev:1,...o,threadRef:{project:P,channel:T[o.threadKey].channel,key:o.threadKey,kind:o.type==='fixed'?'fixed':'temp'}});
+  // 清掉这几个 Thread 上旧的演示任务
+  for(let i=s.tasks.length-1;i>=0;i--){const t=s.tasks[i];if(t.scope===P&&keys.includes(t.threadKey||(t.threadRef&&t.threadRef.key)))s.tasks.splice(i,1);}
+
+  // ① 已验收
+  addReplies('space23-im-dedup',[
+    {name:'李四',role:'研发',time:'09:42',text:'同意。@CodeAgent 请按消息 ID 去重：先复现再改，验收条件按上面这几条。'},
+    {event:'task-created',name:'CodeAgent',role:'Agent',time:'09:44',text:'已创建协作任务 T-5201。输入快照 V1：话题原文、4 条共识，以及项目空间《IM 消息链路说明》V2。预计 12 分钟，进度会回到这个话题。'},
+    {event:'task-result',name:'CodeAgent',role:'Agent',time:'09:58',text:'已完成。根因是断线重连补拉与实时推送各追加了一次，缺少按消息 ID 的幂等。修复补丁 3 个文件（+46 −12），补充 6 条回归用例，18 / 18 通过。'},
+    {name:'王五',role:'QA',time:'10:06',text:'回归通过：弱网重试、断线补拉、双端同时在线都不再重复；相同内容的不同消息仍然保留，刷新后顺序稳定。'},
+    {event:'accepted',name:'我',role:'项目参与者',time:'10:10',text:'验收通过，补丁并入 MR !431。结论同步回频道。'}]);
+  s.tasks.push(mk({id:'T-5201',title:'频道消息重复：核对重连与去重边界',type:'temp',collaborationMode:'temporary',threadKey:'space23-im-dedup',status:'done',kind:'performance',executor:'CodeAgent',owner:'李四',triggeredBy:'李四',run:1,source:'# IM能力构建 / 频道消息重复 Thread',
+    goal:'按消息 ID 对「重连补拉」与「实时推送」去重；消息页与项目频道共用同一条记录；刷新后不重复追加。',accept:'断线重连、弱网重试、双端同时在线三类场景不再重复；相同内容的不同消息仍保留。',
+    knowledgeSnapshot:[{name:'AgentSpace 2.0 项目空间',documents:[{title:'IM 消息链路说明',version:2},{title:'消息去重与幂等约定',version:1}]}],
+    casePlan:[['读取话题与链路日志','thread.read','话题 4 条讨论 · 发送 / 确认 / 补拉 3 段日志',{thread:'space23-im-dedup',logs:['send','ack','resync']},{messages:4,logLines:1284}],
+      ['复现重复追加路径','sandbox.run','弱网重试 + 断线补拉 · 已复现',{scenarios:['weak-net-retry','reconnect-resync','multi-device']},{reproduced:true,path:'resync + push 各追加一次'}],
+      ['按消息 ID 去重并生成补丁','repo.patch','dedup-fix.diff · 3 个文件',{files:['MessageStore.ts','ChannelSync.ts','hubMessages.ts']},{added:46,removed:12}],
+      ['运行回归测试','ci.test','18 / 18 通过',{suite:'im-sync',cases:18},{passed:18,failed:0}]],
+    caseArtifacts:[['dedup-fix.diff','修复补丁 · 3 个文件 · +46 −12','code','diff'],['regression-report.md','回归报告 · 18 / 18 通过','shield','md'],['MR-431','合并请求 · 已合入','code','mr']]}));
+  msg('case-v1-im-done','IM能力构建','agent-code','10:12','T-5201 已验收：消息去重补丁已并入 MR !431，回归 18 / 18 通过。详情和产物在「频道消息重复」Thread。');
+
+  // ② 等 Owner 确认
+  addReplies('space23-collab-specx',[
+    {event:'task-created',name:'CodeAgent',role:'Agent',time:'10:34',text:'已把讨论整理成输入快照 V1（目标 / 范围 / 约束 / 验收各 3–4 条），并生成 Spec 草稿（7 个章节）。其中「输入完整性校验」是否纳入本期，需要 Owner 判断。'},
+    {name:'张三',role:'Owner',time:'10:38',text:'范围里先不做「自动合并多人补充」，只做冲突提示。我看完 Spec 再确认。'},
+    {name:'王五',role:'QA',time:'10:41',text:'验收补两条：目标被修订后保留旧版本；多人同时补充时按时间合并并标注来源。'}]);
+  s.tasks.push(mk({id:'T-5202',title:'SpecX：从讨论到可确认的研发输入 · SpecX 交付',type:'fixed',collaborationMode:'workflow',workflowName:'SpecX · 需求到交付',workflowVersion:'1.4',threadKey:'space23-collab-specx',status:'wait',kind:'spec',executor:'SpecX · 需求到交付',owner:'张三',triggeredBy:'我',run:1,source:'# 多人多Agent协同 / SpecX Thread',
+    goal:'把 Thread 讨论整理为目标、范围、约束和验收，经 Owner 确认后进入开发与测试。',caseDesign:'输入快照保存话题原文、已确认共识与本次补充；执行时只读取快照，多人同时补充按时间合并并标注来源，目标被修订时保留旧版本。',accept:'Spec 与测试矩阵覆盖「输入完整性、版本追溯、多人补充」三类情况，并保留每次执行使用的输入快照。',
+    knowledgeSnapshot:[{name:'AgentSpace 2.0 项目空间',documents:[{title:'多人多 Agent 协同规范',version:3},{title:'执行身份与云端环境说明',version:1}]}],
+    casePlan:[['读取 Thread 讨论','thread.read','14 条讨论 · 2 份附件',{thread:'space23-collab-specx',limit:50},{messages:14,attachments:2}],
+      ['整理输入快照与 Spec 草稿','specx.generate','agent-context-spec.md · 7 个章节',{template:'SpecX v1.4',target:'V1'},{file:'agent-context-spec.md',sections:7}],
+      ['等待 Owner 确认','owner.review','需求 Owner 张三审阅',{reviewer:'张三'},{status:'pending'}],
+      ['开发与测试','codehub.mr','MR · 测试报告',{branch:'feat/agent-input-snapshot'},{mr:'待创建'}],
+      ['验收与归档','accept.sign','验收结论 + 产物归档',{},{}]]}));
+  msg('case-v1-spec-wait','多人多Agent协同','channel-owner','10:42','SpecX 的输入快照和 Spec 草稿已经就绪，等我确认范围后进入开发与测试。细节在 SpecX Thread，需要补充的直接回在那里。');
+
+  // ③ 执行中
+  addReplies('space23-bench-switch',[
+    {name:'陈工',role:'架构',time:'10:55',text:'切换前把来源、会话和草稿都写进工作台状态，切回来原样恢复，不要靠页面缓存。'},
+    {name:'我',role:'项目参与者',time:'10:58',text:'@CodeAgent 按这个思路修，改动限制在工作台状态层。验收看三个场景：切换保留草稿、来源标记不丢、会话不串。'},
+    {event:'task-created',name:'CodeAgent',role:'Agent',time:'11:01',text:'已创建协作任务 T-5203 并开始执行：先定位状态丢失点，再改状态层、补用例。进度可以在「执行与产物」里看。'}]);
+  s.tasks.push(mk({id:'T-5203',title:'多工作台切换：保留来源、会话与草稿',type:'temp',collaborationMode:'temporary',threadKey:'space23-bench-switch',status:'running',kind:'performance',executor:'CodeAgent',owner:'我',triggeredBy:'我',run:1,runStartedAt:Date.now()-9000,source:'# 千人千面工作台 / 多工作台切换 Thread',
+    goal:'切换工作台前保存来源、会话与草稿，切回时原样恢复；改动限制在工作台状态层。',accept:'切换保留草稿、来源标记不丢、多个会话不串；已有工作台行为不变。',
+    knowledgeSnapshot:[{name:'AgentSpace 2.0 项目空间',documents:[{title:'工作台状态模型',version:2}]}],
+    casePlan:[['定位状态丢失点','code.search','工作台切换流程 · 2 处未保存草稿',{repo:'agentspace-web',query:'switchBench'},{hits:9,suspect:'BenchState.restore'}],
+      ['修改状态层并保存快照','repo.patch','bench-state.diff · 3 个文件',{files:['BenchState.ts','useBench.ts','draft.ts']},{added:58,removed:21}],
+      ['补充切换场景用例','ci.test','12 / 12 通过',{suite:'bench-switch',cases:12},{passed:12,failed:0}],
+      ['整理变更说明','report.write','变更说明 V1',{format:'report'},{file:'switch-notes.md'}]],
+    caseArtifacts:[['bench-state.diff','修复补丁 · 3 个文件 · +58 −21','code','diff'],['switch-test-report.md','测试报告 · 12 / 12 通过','shield','md']]}));
+  msg('case-v1-switch-run','千人千面工作台','agent-code','11:02','多工作台切换的修复任务 T-5203 已经开始，状态层改动完成后会在 Thread 里回报，再请大家验收。');
+
+  // ④ 未开始
+  addReplies('space23-bench-quality',[
+    {name:'我',role:'项目参与者',time:'11:20',text:'来源先选「质量平台日报」和「回归报告」两个，生成的工作台默认按迭代汇总。'},
+    {event:'task-created',name:'CodeAgent',role:'Agent',time:'11:23',text:'已整理 SpecX 输入草稿：目标、范围、约束、验收。你确认后再启动，不确认不会执行。'}]);
+  s.tasks.push(mk({id:'T-5204',title:'容器 QA：先选质量来源，再生成工作台 · SpecX 交付',type:'fixed',collaborationMode:'workflow',workflowName:'SpecX · 需求到交付',workflowVersion:'1.4',threadKey:'space23-bench-quality',status:'pending',kind:'spec',executor:'SpecX · 需求到交付',owner:'我',triggeredBy:'我',run:0,source:'# 千人千面工作台 / 容器 QA Thread',
+    goal:'先选择质量数据来源，再按所选来源生成容器 QA 工作台；默认按迭代汇总，保留来源标记。',accept:'未选来源时不能生成；生成后的工作台每个指标都标注来源与更新时间。'}));
+
+  s.casesSeededV3=true;
+}
+
+// 任务页「来源」→ 回到原 Thread（频道里的原消息卡片同时选中）。
+function casesAction(a,v){
+  if(a==='te-step'){const o=runUIState().open;o[v]=!o[v];const b=document.querySelector(`.te-step-head[data-v="${CSS.escape(v)}"]`),li=b&&b.closest('.te-step');if(li){li.dataset.open=String(!!o[v]);b.setAttribute('aria-expanded',String(!!o[v]));}return true;}
+  if(a!=='task-open-thread')return false;
+  const t=s.tasks.find(x=>x.id===v);if(!t)return true;
+  const ref=collaborationThreadRef(t);
+  s.taskDetail=null;s.project=t.scope;s.view='team';
+  openProjectThread(ref.key,t.scope,ref.kind==='fixed'?'fixed':'temp');
+  return true;
+}
+
+
+// ---- Thread「讨论」改成一条按时间走的对话流：消息、任务卡、产物、验收按发生顺序出现在同一条流里（原来是按阶段分段 + 任务卡孤立在中间）。
+function coEvRow(inner,cls=''){return `<div class="co-ev ${cls}">${inner}</div>`;}
+function coEvArtifacts(t){
+  const arts=taskArtifacts(t);if(!arts.length)return '';
+  return coEvRow(`<div class="co-ev-card"><header><b>${ico('checkCircle')}产物 ${arts.length} 个</b><span>${esc(t.id)} · 目标 V${t.rev}</span></header><ul>${arts.map((a,k)=>`<li><button class="co-ev-art" data-a="open-task-artifact" data-v="${esc(t.id)}|${k}" title="查看 ${esc(a[0])}"><i>${ico(a[2]||'file')}</i><span>${esc(a[0])}</span><small>${esc(a[1])}</small>${ico('chevron')}</button></li>`).join('')}</ul><div class="co-ev-actions">${btn('查看产物','open-task',t.id,'sm')}${t.kind==='performance'||t.kind==='spec'?btn('查看执行过程','thread-tab','execution','link sm'):''}</div></div>`);
+}
+function coThreadDiscussion(fixed,t){
+  const info=coThreadInfo(),replies=coReplies(info),seedLen=coSeedReplies(info).length,agent=s.coAgents?.[coThreadKey()]||'CodeAgent';
+  const hasEv=replies.some(r=>r.event==='task-created');
+  const taskCard=()=>`<div id="coTaskCard">${coEvRow(t?renderTaskInline(t):fixed?`<div class="runcard"><span class="tag">Workflow 协作 · SpecX v1.4</span><h4>从当前讨论整理 SDD 输入</h4><p>目标 / 范围 / 约束 / 验收 → Owner 确认 → Spec / 设计 → 开发 / 测试 → 验收。</p>${btn('整理输入并启动 SpecX','start-spec','','primary sm')}${btn('查看流程','studio','SpecX · 需求到交付','link sm')}</div>`:`<div class="runcard"><span class="tag">临时协作 · @${esc(agent)}</span><h4>邀请 Agent，先给方案</h4><p>结合当前话题与项目授权资料，确认目标、范围和验收条件后创建协作任务。</p>${btn('@'+esc(agent)+' 分析并给方案','prepare-temp','','primary sm')}</div>`)}</div>`;
+  const parts=[];let cardPlaced=false;
+  replies.forEach((m,i)=>{
+    parts.push(coMessage(i>=seedLen?{...m,time:m.time||'刚刚'}:m,i>=seedLen?{reaction:true,part:'reply-'+(i-seedLen)}:{}));
+    if(m.event==='task-created'&&!cardPlaced){parts.push(taskCard());cardPlaced=true;}
+    if(m.event==='task-result'&&t&&['review','done'].includes(t.status))parts.push(coEvArtifacts(t));
+    if(m.event==='accepted'&&t?.status==='done')parts.push(coEvRow(`<div class="co-ev-line"><i>${ico('check')}</i>已按目标 V${t.rev} 验收 · ${esc(t.id)} · 讨论、Run 与产物已保留 ${btn('查看验收结论','open-task',t.id,'link sm')}</div>`));
+    // 没有显式事件的话题：任务卡放在预置讨论之后、新增回复之前
+    if(!hasEv&&!cardPlaced&&i===seedLen-1){parts.push(taskCard());cardPlaced=true;}
+  });
+  if(!cardPlaced)parts.push(taskCard());
+  const accepted=replies.some(r=>r.event==='accepted')&&t?.status==='done';
+  const tail=t&&!accepted?`<div class="co-ev"><div class="co-decision"><strong>${t.status==='done'?'当前目标已验收':t.status==='review'?'结果已返回，等待验收':t.status==='cancelled'?'本次执行已停止':'任务进行中'}</strong>${t.status==='review'?'请核对交付产物与验收条件；通过后同步更新项目和个人任务。':t.status==='done'?`目标 V${t.rev} 的执行与产物已保留，可查看完整结论。`:'任务状态、修订记录和交付证据会保留在当前 Thread。'}<div>${btn(t.status==='done'?'查看验收结论':'查看任务与产物','open-task',t.id,'sm')}</div></div></div>`:'';
+  return `<div class="co-root-label">话题起点</div><div id="coPhase-root">${coMessage(info,{root:true,reaction:true})}</div><div class="co-divider">${replies.length} 条回复</div>${parts.join('')}${!replies.length?'<p style="font-size:12px;color:var(--muted);margin-bottom:16px">补充背景与验收条件，或邀请 Agent 一起推进。</p>':''}${tail}${replies.length&&!t?'<p style="font-size:12px;color:var(--muted)">继续补充信息；涉及目标变更时，保留版本并由责任人确认。</p>':''}`;
+}
+
+
+// ---- Thread「执行与产物」：一条清晰的结构 —— 概要（状态 / 运行号 / 操作）→ 执行过程（每步一行，点开看输入输出）→ 产物。
+// 去掉与「讨论」里重复的大任务卡，把「任务清单」和「工具调用」合成同一列步骤，把零散的执行记录并入概要。
+function teStepTimes(){return ['1.4s','6.2s','3.8s','12.5s','2.1s'];}
+function renderThreadExecution(fixed,t){
+  if(!t)return `<div class="empty">暂无执行。${fixed?btn('整理输入并启动 SpecX','start-spec','','link'):btn('@CodeAgent 给方案','prepare-temp','','link')}</div>`;
+  const plan=runPlan(t),states=runStates(t),n=plan.length,done=states.filter(x=>x[0]==='done').length,cur=states.findIndex(x=>['running','waiting','stopped'].includes(x[0]));
+  const running=t.status==='running',started=t.runStartedAt||Date.now(),runId='R-'+t.id.slice(2)+'-'+(t.run||1);
+  const elapsed=running?runClock(Date.now()-started):(t.runFinishedAt?runDuration(t.runFinishedAt-started):'');
+  const acts={pending:btn('确认并开始执行','start-task',t.id,'primary sm'),wait:t.kind==='spec'?btn('查看 Spec 并确认','approve-spec',t.id,'primary sm'):'',running:btn('推进演示：生成结果','finish-task',t.id,'primary sm')+btn('停止','cancel-task',t.id,'link sm'),review:'',done:''}[t.status]||'';
+  const times=teStepTimes();
+  const rows=plan.map(([label,tool,summary,input,output],k)=>{
+    const st=states[k][0],key=t.id+'|'+k,open=!!runUIState().open[key],can=['done','running'].includes(st)&&tool!=='owner.review';
+    const icon=st==='done'?'check':st==='running'?'loader':st==='waiting'?'inputWait':st==='stopped'?'stop':'dashed';
+    const pct=st==='running'?Math.round(states[k][1]*100)+'%':'';
+    return `<li class="te-step" data-state="${st}" data-open="${can&&open}"><${can?'button type="button" data-a="te-step" data-v="'+esc(key)+'" aria-expanded="'+(can&&open)+'"':'div'} class="te-step-head"><i class="te-dot">${ico(icon)}</i><span class="te-label"><b>${esc(label)}</b>${summary?`<small>${esc(summary)}</small>`:''}</span><span class="te-time">${st==='done'?esc(times[k]||''):pct}</span>${can?`<i class="te-chev">${ico('chevron')}</i>`:''}</${can?'button':'div'}>${can?`<div class="te-step-body"><div><em>输入</em><pre>${runJSON(input||{})}</pre></div><div><em>输出</em><pre>${runJSON(output||{})}</pre></div></div>`:''}</li>`;
+  }).join('');
+  const arts=taskArtifacts(t);
+  return `<div class="te-flow">
+    <section class="te-sum"><div class="te-sum-top">${taskChip(t)}<span class="te-run as-num">${runId}${elapsed?' · '+(running?'已运行 '+elapsed:'用时 '+elapsed):''}</span><span class="spacer"></span>${btn('打开任务页','open-task',t.id,'link sm')}</div><h4 class="te-title">${esc(t.title)}</h4><p class="te-meta">${esc(t.executor||'CodeAgent')} · 云端沙箱 · 目标 V${t.rev} · 责任人 ${esc(t.owner||'我')}</p>${acts?`<div class="te-acts">${acts}</div>`:''}</section>
+    <section class="te-sec"><h5>执行过程<span class="as-num">${done} / ${n}</span></h5><ol class="te-steps">${rows}</ol></section>
+    ${arts.length?`<section class="te-sec"><h5>产物<span class="as-num">${arts.length}</span></h5><ul class="te-arts">${arts.map((a,k)=>`<li><i class="te-art-ic">${ico(a[2]||'file')}</i><span class="te-art-t"><b>${esc(a[0])}</b><small>${esc(a[1])}</small></span>${btn('查看','open-task-artifact',t.id+'|'+k,'sm')}</li>`).join('')}</ul></section>`:(['review','done'].includes(t.status)?'':'<p class="te-hint">任务完成后，补丁、报告等产物会出现在这里。</p>')}
+  </div>`;
+}
+// ---- 导航精灵：新手引导。半透明遮罩 + 手绘风格圈注与箭头 + 线稿插画 + 文字；每一步自动切到对应页面，结束后恢复原来的位置。
+// 触发：顶部「导航精灵」、设置 · 产品指引（showGuide 被本模块接管）。
+let __gd=null;
+function gdInk(){return 'stroke="var(--gd-ink)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"';}
+function gdArt(id){
+  const I=gdInk(),F='style="fill:var(--gd-fill)"',A='style="fill:var(--gd-acc);stroke:none"',AS='style="stroke:var(--gd-acc)"';
+  const spark=(x,y,r=7)=>`<path d="M${x} ${y-r}l${r*.28} ${r*.72} ${r*.72} ${r*.28}-${r*.72} ${r*.28}-${r*.28} ${r*.72}-${r*.28}-${r*.72}-${r*.72}-${r*.28} ${r*.72}-${r*.28}z" ${A}/>`;
+  const art={
+    welcome:`<rect x="28" y="20" width="184" height="104" rx="14" ${I}/><path d="M28 48h184" ${I}/><circle cx="42" cy="34" r="2.6" fill="var(--gd-ink)"/><circle cx="52" cy="34" r="2.6" fill="var(--gd-ink)"/><rect x="36" y="56" width="22" height="60" rx="7" ${F} ${I}/><circle cx="47" cy="68" r="3" fill="var(--gd-ink)"/><circle cx="47" cy="83" r="3" fill="var(--gd-ink)"/><circle cx="47" cy="98" r="3" fill="var(--gd-ink)"/><path d="M66 64h34M66 76h26M66 88h30" ${I}/><rect x="110" y="56" width="94" height="28" rx="8" ${F} ${I}/><rect x="110" y="90" width="44" height="26" rx="8" ${I}/><rect x="160" y="90" width="44" height="26" rx="8" ${I}/>${spark(206,22,9)}<path d="M18 40l5 3M16 56l6 0" ${I}/>`,
+    rail:`<rect x="86" y="14" width="68" height="112" rx="16" ${I}/><circle cx="120" cy="34" r="8" ${F} ${I}/><path d="M108 56h24v12h-24zM108 78h24v8a6 6 0 0 1-6 6h-12z" ${I}/><circle cx="116" cy="106" r="4" ${I}/><circle cx="128" cy="112" r="4" fill="var(--gd-fill)" stroke="var(--gd-ink)" stroke-width="2"/><path d="M60 38h16M60 62h16M60 86h16M60 110h16M164 38h16M164 62h16M164 86h16M164 110h16" stroke="var(--gd-ink)" stroke-opacity=".35" stroke-width="2" stroke-linecap="round"/>${spark(176,20,8)}`,
+    personal:`<circle cx="76" cy="50" r="16" ${F} ${I}/><path d="M48 112c0-18 12-30 28-30s28 12 28 30" ${I}/><rect x="124" y="30" width="86" height="40" rx="10" ${I}/><path d="M134 44h40M134 56h26" ${I}/><circle cx="196" cy="50" r="6" ${F} ${I}/><rect x="124" y="80" width="86" height="40" rx="10" ${F} ${I}/><path d="M134 94h30M134 106h46" ${I}/>${spark(204,24,7)}`,
+    project:`<rect x="30" y="22" width="180" height="100" rx="14" ${I}/><path d="M30 46h180" ${I}/><path d="M48 34h40" ${I}/><rect x="42" y="58" width="48" height="52" rx="8" ${I}/><rect x="96" y="58" width="48" height="52" rx="8" ${F} ${I}/><rect x="150" y="58" width="48" height="52" rx="8" ${I}/><rect x="48" y="66" width="36" height="12" rx="4" ${I}/><rect x="102" y="66" width="36" height="12" rx="4" ${I}/><rect x="102" y="84" width="36" height="12" rx="4" ${I}/><rect x="156" y="66" width="36" height="12" rx="4" ${I}/>${spark(204,22,8)}`,
+    space:`<path d="M40 48a8 8 0 0 1 8-8h38l10 12h76a8 8 0 0 1 8 8v54a8 8 0 0 1-8 8H48a8 8 0 0 1-8-8z" ${F} ${I}/><path d="M40 62h176" ${I}/><rect x="56" y="76" width="34" height="20" rx="6" ${I}/><rect x="98" y="76" width="34" height="20" rx="6" ${I}/><rect x="140" y="76" width="34" height="20" rx="6" ${I}/><path d="M56 108h72" ${I}/>${spark(196,28,8)}`,
+    channel:`<path d="M92 26l-10 88M132 26l-10 88M64 52h92M58 88h92" ${I}/><rect x="164" y="42" width="52" height="26" rx="9" ${F} ${I}/><path d="M174 52h24M174 60h14" ${I}/><rect x="168" y="78" width="46" height="24" rx="9" ${I}/><path d="M178 87h22" ${I}/>${spark(30,36,8)}`,
+    thread:`<rect x="30" y="26" width="96" height="52" rx="14" ${F} ${I}/><path d="M44 44h54M44 56h34" ${I}/><path d="M60 78l-8 14 20-8" ${I}/><path d="M126 52c28 0 22 36 50 36" ${I} stroke-dasharray="3 6"/><rect x="150" y="64" width="64" height="30" rx="10" ${I}/><path d="M162 76h34M162 84h20" ${I}/><rect x="164" y="98" width="52" height="24" rx="9" ${I}/><circle cx="176" cy="110" r="5" ${F} ${I}/>${spark(212,24,8)}`,
+    flow:`<rect x="18" y="38" width="60" height="44" rx="12" ${F} ${I}/><path d="M30 54h36M30 66h22" ${I}/><path d="M78 60h22" ${I}/><path d="M94 54l8 6-8 6" ${I}/><rect x="104" y="36" width="42" height="48" rx="12" ${I}/><rect x="114" y="48" width="22" height="16" rx="6" ${F} ${I}/><circle cx="121" cy="56" r="2" fill="var(--gd-ink)"/><circle cx="129" cy="56" r="2" fill="var(--gd-ink)"/><path d="M125 48v-6" ${I}/><path d="M146 60h20" ${I}/><path d="M160 54l8 6-8 6" ${I}/><rect x="170" y="34" width="52" height="56" rx="10" ${I}/><path d="M180 50l5 5 9-10M180 70h32M180 80h22" ${I}/>${spark(40,22,8)}`,
+    task:`<rect x="62" y="16" width="116" height="108" rx="16" ${I}/><rect x="104" y="10" width="32" height="14" rx="6" ${F} ${I}/><path d="M80 52l6 6 10-12M104 52h56M80 76l6 6 10-12M104 76h46M80 100l6 6 10-12M104 100h36" ${I}/><rect x="190" y="38" width="36" height="8" rx="4" ${I}/><rect x="190" y="38" width="24" height="8" rx="4" ${A}/>${spark(206,70,8)}`,
+    build:`<rect x="26" y="26" width="48" height="32" rx="10" ${F} ${I}/><rect x="96" y="14" width="48" height="32" rx="10" ${I}/><rect x="96" y="66" width="48" height="32" rx="10" ${I}/><rect x="166" y="40" width="48" height="32" rx="10" ${F} ${I}/><path d="M74 42c12 0 12-12 22-12M74 42c12 0 12 40 22 40M144 30c12 0 12 26 22 26M144 82c12 0 12-26 22-26" ${I} stroke-dasharray="3 6"/><path d="M40 112h160M60 124h120" stroke="var(--gd-ink)" stroke-opacity=".35" stroke-width="2.2" stroke-linecap="round"/>${spark(196,22,8)}`,
+    chain:`<path d="M66 38l-8 64M96 38l-8 64M46 54h62M42 86h62" ${I}/><path d="M118 70h20" ${I}/><path d="M132 64l8 6-8 6" ${I}/><rect x="146" y="46" width="48" height="48" rx="14" ${F} ${I}/><path d="M158 62h24M158 74h16" ${I}/><path d="M194 70h14" ${I}/><path d="M202 64l8 6-8 6" ${I}/><rect x="190" y="98" width="34" height="26" rx="8" ${I}/><path d="M198 111l5 5 9-10" ${I}/>${spark(30,28,8)}`
+  };
+  return `<svg viewBox="0 0 240 140" aria-hidden="true">${art[id]||''}</svg>`;
+}
+function gdSteps(){return [
+  {art:'welcome',title:'欢迎来到 AgentSpace',desc:'一个让你和团队、Agent 一起把事情做完的工作空间。我带你用 3 分钟看一圈：整体结构，然后是项目、频道、Thread 和任务是怎么串在一起的。',points:['个人 · 项目 · 消息：三种空间','构建 · 扩展 · 进化：三个工具']},
+  {art:'rail',title:'左侧：一级导航',desc:'最左边这一列是全局入口。上面是你工作的三种空间，下面是三个工具，随时可以切换。',points:['个人 / 项目 / 消息：在哪里工作','构建：做可复用的 Workflow、模板和角色','扩展 / 进化：装能力、沉淀经验'],target:'.demorail',side:'right'},
+  {art:'personal',title:'个人空间',desc:'只有你自己可见。我的主页放常用工作台，我的任务汇总你负责或触发的任务，我的空间存个人的知识库、Workflow 和模板。',go:()=>action('mode','personal'),target:'.demoside .side-sec--main',side:'right'},
+  {art:'project',title:'项目主页',desc:'每个项目一个主页：看频道、线程、产物和扩展，成员与设置也在这里。主页的卡片可以按你的习惯自己排布。',go:()=>{action('mode','team');if(s.project!=='AgentSpace 2.0')s.project='AgentSpace 2.0';action('project');},target:'.projecttabs',side:'bottom'},
+  {art:'space',title:'项目空间',desc:'项目里共享的「家当」都在这里：知识库、代码仓、环境配置、Workflow、Agent 角色和任务模板。任务和 Agent 都从这里取上下文。',go:()=>action('project-assets'),target:'.asset-tabs',side:'bottom'},
+  {art:'channel',title:'频道 Channel',desc:'按话题划分的项目讨论区，成员和 Agent 都在里面。适合同步进展、抛出问题；需要深入讨论的，就开一个 Thread。',go:()=>action('channel','IM能力构建'),target:'.demoside .side-sec[data-sec="channels"]',side:'right'},
+  {art:'thread',title:'Thread：把讨论聚焦',desc:'频道里的一条消息可以展开成 Thread，在里面把问题聊清楚。结论留在原 Thread，频道里只同步进展——这张卡片就是入口，会显示回复数和任务状态。',target:'.co-thread-entry',side:'left'},
+  {art:'flow',title:'从讨论到任务',desc:'在 Thread 里 @Agent，它会整理目标和验收条件、创建任务；执行过程、产物和验收都按时间出现在同一条对话里。',points:['讨论 → @CodeAgent → 创建任务','执行中的步骤、产物实时回到这里','验收通过后，结论同步回频道'],go:()=>openProjectThread('space23-im-dedup'),target:'.threadpanel',side:'left'},
+  {art:'task',title:'任务：一次可追溯的执行',desc:'任务页记录目标、执行步骤、产物和验收。「来源」会带你回到原 Thread，所以频道、Thread、任务始终是同一件事的三个视角。',go:()=>{if(s.tasks.some(t=>t.id==='T-5201'))taskPageOpen('T-5201');},target:'.tp-tool',side:'left'},
+  {art:'build',title:'构建：沉淀可复用的东西',desc:'把做成功的流程、常用的任务和环境、Agent 的职责，沉淀成 Workflow、任务模板、环境配置和 Agent 角色，之后一键复用。',go:()=>{s.taskDetail=null;action('studio','@home');},target:'.bd-entries',side:'bottom'},
+  {art:'chain',title:'一句话记住',desc:'频道里聊，Thread 里定，任务里做。三者共用同一条记录，随时可以来回跳转。现在选一条路径开始，或者随便逛逛。',final:true}
+];}
+function gdSnap(){return {view:s.view,page:s.page,project:s.project,channel:s.channel,taskDetail:s.taskDetail,threadOpen:s.threadOpen,projectTab:s.projectTab,buildSel:s.buildSel,studioPage:s.studioPage};}
+function gdRestore(sn){if(!sn)return;try{Object.assign(s,sn);s.taskDetail=sn.taskDetail||null;render();}catch(e){}}
+function gdRand(seed){let x=seed*9301+49297;return ()=>{x=(x*9301+49297)%233280;return x/233280;};}
+// 手绘感：圆角矩形圈注（两遍略有偏差的描线）与带箭头的曲线
+function gdSketchRect(r,seed){
+  const R=gdRand(seed),j=()=>(R()-.5)*3.2,rad=Math.min(14,r.h/2,r.w/2),x=r.x,y=r.y,w=r.w,h=r.h;
+  const one=()=>`M${x+rad+j()} ${y+j()}L${x+w-rad+j()} ${y+j()}Q${x+w+j()} ${y+j()} ${x+w+j()} ${y+rad+j()}L${x+w+j()} ${y+h-rad+j()}Q${x+w+j()} ${y+h+j()} ${x+w-rad+j()} ${y+h+j()}L${x+rad+j()} ${y+h+j()}Q${x+j()} ${y+h+j()} ${x+j()} ${y+h-rad+j()}L${x+j()} ${y+rad+j()}Q${x+j()} ${y+j()} ${x+rad+j()+3} ${y+j()}`;
+  return one()+' '+one();
+}
+function gdArrow(x1,y1,x2,y2,seed){
+  const R=gdRand(seed),dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy)||1,nx=-dy/len,ny=dx/len,bow=Math.min(60,len*.28)*(R()>.5?1:-1);
+  const c1x=x1+dx*.3+nx*bow,c1y=y1+dy*.3+ny*bow,c2x=x1+dx*.7+nx*bow*.6,c2y=y1+dy*.7+ny*bow*.6;
+  const ang=Math.atan2(y2-c2y,x2-c2x),hl=14,a1=ang+Math.PI*.84,a2=ang-Math.PI*.84;
+  const head=`M${x2+Math.cos(a1)*hl} ${y2+Math.sin(a1)*hl}L${x2} ${y2}L${x2+Math.cos(a2)*(hl-2)} ${y2+Math.sin(a2)*(hl-2)}`;
+  return {line:`M${x1} ${y1}C${c1x} ${c1y} ${c2x} ${c2y} ${x2} ${y2}`,head};
+}
+function guideStart(){
+  if(__gd)return;
+  const steps=gdSteps();__gd={i:0,snap:gdSnap(),steps};
+  closeModal();
+  const root=document.createElement('div');root.className='gd-root';root.setAttribute('role','dialog');root.setAttribute('aria-modal','true');root.setAttribute('aria-label','导航精灵');
+  root.innerHTML='<svg class="gd-mask" aria-hidden="true"><defs><mask id="gdMask"><rect width="100%" height="100%" fill="#fff"/><rect id="gdHole" rx="14" fill="#000"/></mask></defs><rect class="gd-dim" width="100%" height="100%" mask="url(#gdMask)"/></svg><svg class="gd-draw" aria-hidden="true"><path class="gd-sketch" pathLength="1"/><path class="gd-line" pathLength="1"/><path class="gd-head" pathLength="1"/></svg><section class="gd-card" tabindex="-1"></section>';
+  document.body.appendChild(root);
+  document.addEventListener('keydown',gdKey,true);window.addEventListener('resize',gdPlace);
+  gdShow(0);
+}
+function guideStop(done){
+  const g=__gd;if(!g)return;__gd=null;
+  document.removeEventListener('keydown',gdKey,true);window.removeEventListener('resize',gdPlace);
+  document.querySelector('.gd-root')?.remove();
+  gdRestore(g.snap);
+  if(done)try{s.guideSeen=true;save();}catch(e){}
+}
+function gdKey(e){if(!__gd)return;if(e.key==='Escape'){e.preventDefault();e.stopPropagation();guideStop(false);}else if(e.key==='ArrowRight'||e.key==='Enter'){e.preventDefault();e.stopPropagation();gdGo(1);}else if(e.key==='ArrowLeft'){e.preventDefault();e.stopPropagation();gdGo(-1);}}
+function gdGo(d){const g=__gd;if(!g)return;const n=g.i+d;if(n<0)return;if(n>=g.steps.length){guideStop(true);return;}gdShow(n);}
+async function gdShow(i){
+  const g=__gd;if(!g)return;g.i=i;const st=g.steps[i];
+  const card=document.querySelector('.gd-card');if(!card)return;
+  const root=document.querySelector('.gd-root');
+  root.querySelectorAll('.gd-sketch,.gd-line,.gd-head').forEach(p=>{p.setAttribute('d','');});
+  const last=i===g.steps.length-1;
+  card.innerHTML=`<div class="gd-art">${gdArt(st.art)}</div><div class="gd-step">${i+1} / ${g.steps.length}</div><h3>${esc(st.title)}</h3><p>${esc(st.desc)}</p>${st.points?`<ul class="gd-points">${st.points.map(p=>`<li>${esc(p)}</li>`).join('')}</ul>`:''}${st.final?`<div class="gd-start"><button data-gd="start" data-a="nav-personal" data-v="benches">${ico('bench')}<span>搭一个我的主页</span></button><button data-gd="start" data-a="open-thread" data-v="temp">${ico('chat')}<span>在 Thread 里 @Agent</span></button></div>`:''}<footer><span class="gd-dots">${g.steps.map((_,k)=>`<i class="${k===i?'on':''}"></i>`).join('')}</span><span class="spacer"></span><button class="gd-skip" data-gd="skip">${last?'随便逛逛':'跳过'}</button>${i>0?`<button class="gd-prev" data-gd="prev">上一步</button>`:''}<button class="gd-next" data-gd="next">${last?'开始使用':'下一步'}${ico('arrow')}</button></footer>`;
+  card.classList.remove('gd-swap');void card.offsetWidth;card.classList.add('gd-swap');
+  if(!st.go)gdPlace();
+  if(st.go){try{st.go();}catch(e){}}
+  // 等目标出现（最多 700ms），再平滑移动聚光与卡片，并重画箭头
+  const t0=Date.now();
+  while(__gd&&__gd.i===i&&Date.now()-t0<700){const el=st.target&&document.querySelector(st.target);if(!st.target||(el&&el.getBoundingClientRect().width>4&&Date.now()-t0>=(st.go?160:0)))break;await new Promise(r=>setTimeout(r,40));}
+  if(!__gd||__gd.i!==i)return;
+  gdPlace();
+  card.focus({preventScroll:true});
+}
+function gdPlace(){
+  const g=__gd;if(!g)return;const st=g.steps[g.i],card=document.querySelector('.gd-card'),root=document.querySelector('.gd-root');if(!card||!root)return;
+  const vw=innerWidth,vh=innerHeight,cw=card.offsetWidth,ch=card.offsetHeight,M=16;
+  const hole=document.getElementById('gdHole'),draw=root.querySelector('.gd-draw'),sk=draw.querySelector('.gd-sketch'),ln=draw.querySelector('.gd-line'),hd=draw.querySelector('.gd-head');
+  const el=st.target?document.querySelector(st.target):null;let rect=null;
+  if(el){const b=el.getBoundingClientRect();if(b.width>4&&b.height>4)rect={x:Math.max(4,b.left-6),y:Math.max(4,b.top-6),w:Math.min(vw-8,b.width+12),h:Math.min(vh-8,b.height+12)};}
+  [sk,ln,hd].forEach(p=>{p.removeAttribute('style');p.setAttribute('d','');});
+  if(!rect){hole.setAttribute('width',0);hole.setAttribute('height',0);card.style.left=Math.round((vw-cw)/2)+'px';card.style.top=Math.round(Math.max(M,(vh-ch)/2))+'px';root.dataset.hasTarget='0';return;}
+  root.dataset.hasTarget='1';
+  hole.setAttribute('x',rect.x);hole.setAttribute('y',rect.y);hole.setAttribute('width',rect.w);hole.setAttribute('height',rect.h);
+  const gap=84,order=[st.side,'right','bottom','left','top'].filter((v,k,a)=>v&&a.indexOf(v)===k);
+  let pos=null;
+  for(const sd of order){let x,y;
+    if(sd==='right'){x=rect.x+rect.w+gap;y=rect.y+rect.h/2-ch/2;}
+    else if(sd==='left'){x=rect.x-gap-cw;y=rect.y+rect.h/2-ch/2;}
+    else if(sd==='bottom'){x=rect.x+rect.w/2-cw/2;y=rect.y+rect.h+gap;}
+    else{x=rect.x+rect.w/2-cw/2;y=rect.y-gap-ch;}
+    x=Math.min(Math.max(M,x),vw-cw-M);y=Math.min(Math.max(M,y),vh-ch-M);
+    const fits=(sd==='right'&&rect.x+rect.w+gap+cw<=vw-M)||(sd==='left'&&rect.x-gap-cw>=M)||(sd==='bottom'&&rect.y+rect.h+gap+ch<=vh-M)||(sd==='top'&&rect.y-gap-ch>=M);
+    if(fits){pos={sd,x,y};break;}
+  }
+  if(!pos){pos={sd:'inside',x:Math.round((vw-cw)/2),y:Math.round(vh-ch-M)};}
+  card.style.left=Math.round(pos.x)+'px';card.style.top=Math.round(pos.y)+'px';
+  // 手绘圈注 + 箭头（从卡片边缘出发，指向目标最近的一侧）
+  const seed=g.i+3;let x1,y1,x2,y2;
+  const cx=pos.x,cy=pos.y;
+  if(pos.sd==='right'){x1=cx-4;y1=Math.min(Math.max(cy+ch/2,cy+30),cy+ch-30);x2=rect.x+rect.w+10;y2=Math.min(Math.max(y1,rect.y+18),rect.y+rect.h-18);}
+  else if(pos.sd==='left'){x1=cx+cw+4;y1=Math.min(Math.max(cy+ch/2,cy+30),cy+ch-30);x2=rect.x-10;y2=Math.min(Math.max(y1,rect.y+18),rect.y+rect.h-18);}
+  else if(pos.sd==='bottom'){x1=Math.min(Math.max(rect.x+rect.w/2,cx+40),cx+cw-40);y1=cy-4;x2=Math.min(Math.max(x1,rect.x+18),rect.x+rect.w-18);y2=rect.y+rect.h+10;}
+  else if(pos.sd==='top'){x1=Math.min(Math.max(rect.x+rect.w/2,cx+40),cx+cw-40);y1=cy+ch+4;x2=Math.min(Math.max(x1,rect.x+18),rect.x+rect.w-18);y2=rect.y-10;}
+  sk.setAttribute('d',gdSketchRect(rect,seed));
+  if(pos.sd!=='inside'){const a=gdArrow(x1,y1,x2,y2,seed+7);ln.setAttribute('d',a.line);hd.setAttribute('d',a.head);}
+  [sk,ln,hd].forEach(p=>{p.style.animation='none';void p.getBoundingClientRect();p.style.animation='';});
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest&&e.target.closest('.gd-root [data-gd]');if(!b||!__gd)return;
+  const k=b.dataset.gd;
+  if(k==='next'){gdGo(1);}else if(k==='prev'){gdGo(-1);}else if(k==='skip'){guideStop(__gd.i===__gd.steps.length-1);}
+  else if(k==='start'){const a=b.dataset.a,v=b.dataset.v;guideStop(true);try{action(a,v);}catch(err){}}
+});
+function showGuide(){guideStart();}
 
 // ---- 项目主页 · 概览：Bento 卡片工作台。可编辑：右侧「卡片市场」添加 / 移除卡片，拖动调整位置，切换卡片大小；布局按项目保存。
 // 卡片尺寸：s = 1×1，w = 2×1，l = 2×2（4 列网格，dense 排布）。
