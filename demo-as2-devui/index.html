@@ -11825,6 +11825,175 @@ html:root body .gd-root .gd-card.gd-swap > * { animation: gd-in .28s ease both; 
 html:root body .gd-root .gd-card[data-busy="1"] { opacity: 1; }
 /* 一级导航未读徽标：贴在图标右上角（不随按钮宽度漂移） */
 html:root body #demo.slack-shell.slack-shell .demorail.demorail > button .rail-unread:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { left: calc(50% + 3px) !important; right: auto !important; top: 3px !important; transform: none !important; }
+/* 频道头部：窄面板下标题不竖排，成员条自动换到下一行 */
+html:root body #demo.slack-shell.slack-shell .co-channel-heading:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { flex-wrap: wrap !important; align-items: flex-start !important; gap: 10px 12px !important; }
+html:root body #demo.slack-shell.slack-shell .co-channel-heading > div:first-child:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { flex: 1 1 220px !important; min-width: 0 !important; }
+html:root body #demo.slack-shell.slack-shell .co-channel-heading h2:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; max-width: 100% !important; }
+html:root body #demo.slack-shell.slack-shell .co-channel-heading .co-heading-people:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { flex: 0 0 auto !important; max-width: 100% !important; margin-left: auto; }
+/* 构建：一级范围 tab（全部 / 个人 / 项目）+ 卡片范围标签 */
+html:root body #demo.slack-shell.slack-shell .bd-card-scope:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { margin-left: auto; flex: none; height: 18px; padding: 0 7px; border-radius: 999px; font-size: 11px; line-height: 18px; background: var(--as-muted-bg, #f0f1f3); color: var(--as-muted, #6b7077); }
+html:root body #demo.slack-shell.slack-shell .bd-card-scope.project:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { background: rgba(10,89,247,.1); color: var(--as-brand, #0A59F7); }
+html:root body #demo.slack-shell.slack-shell .bd-card-scope + .bd-card-tag:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { margin-left: 6px; }
+html:root body #demo.slack-shell.slack-shell .bd-scopefield:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { grid-column: 1 / -1; }
+/* 频道头部成员入口：宽屏区分人员 / Agent，窄屏合并为「成员 N」 */
+html:root body #demo.slack-shell.slack-shell .channelhead:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { container-type: inline-size; container-name: chh; }
+html:root body #demo.slack-shell.slack-shell .co-members-toggle .co-mt-full:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { display: inline-flex; align-items: center; gap: 10px; }
+html:root body #demo.slack-shell.slack-shell .co-mt-grp:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { display: inline-flex; align-items: center; gap: 8px; }
+html:root body #demo.slack-shell.slack-shell .co-mt-n:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { display: inline-flex; align-items: baseline; gap: 3px; font-size: 13px; color: var(--as-muted); white-space: nowrap; }
+html:root body #demo.slack-shell.slack-shell .co-mt-n > b:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { background: transparent !important; padding: 0 !important; min-width: 0 !important; height: auto !important; font-weight: 700; font-size: 14px; color: var(--as-text); font-variant-numeric: tabular-nums; }
+html:root body #demo.slack-shell.slack-shell .co-mt-sep:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { width: 1px; height: 18px; background: var(--as-border, #e3e5e8); }
+html:root body #demo.slack-shell.slack-shell .co-members-toggle .co-mt-lite:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { display: none; align-items: baseline; gap: 5px; font-size: 13px; white-space: nowrap; }
+html:root body #demo.slack-shell.slack-shell .co-mt-lite > b:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { background: transparent !important; padding: 0 !important; min-width: 0 !important; height: auto !important; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--as-text); }
+html:root body #demo.slack-shell.slack-shell .co-mt-lite > span:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { color: var(--as-muted); }
+@container chh (max-width: 560px) {
+  html:root body #demo.slack-shell.slack-shell .co-members-toggle .co-mt-full:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { display: none; }
+  html:root body #demo.slack-shell.slack-shell .co-members-toggle .co-mt-lite:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { display: inline-flex; }
+  html:root body #demo.slack-shell.slack-shell .co-members-toggle:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { height: 32px; padding: 0 12px !important; gap: 4px; }
+}
+/* 成员入口：+N 圆形计数，尺寸与头像一致 */
+html:root body #demo.slack-shell.slack-shell .co-members-toggle .co-mgroup > b:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { display: inline-grid !important; place-items: center; width: 26px !important; height: 26px !important; min-width: 26px !important; margin-left: -6px; padding: 0 !important; border-radius: 50% !important; background: color-mix(in srgb, var(--as-text, #1d1d1f) 11%, #fff) !important; box-shadow: 0 0 0 2px var(--as-panel, #fff); font-size: 12px !important; font-weight: 700 !important; color: var(--as-text) !important; font-variant-numeric: tabular-nums; }
+html:root body #demo.slack-shell.slack-shell .co-members-toggle .co-mt-full .co-msep:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { display: inline-block; width: 1px; height: 18px; margin: 0 6px; background: var(--as-border, #e3e5e8); }
+
+/* 构建：一级范围 tab（全部 / 个人 / 项目）—— 与其它一级 tab 同款：文字 + 底部下划线 */
+html:root body #demo.slack-shell.slack-shell .bd-body > .bd-scope:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { display: flex !important; justify-content: flex-start !important; gap: 24px !important; width: 100% !important; box-sizing: border-box; margin: 0 !important; padding: 0 2px !important; background: transparent !important; border-bottom: 1px solid var(--as-border, #e3e5e8) !important; }
+html:root body #demo.slack-shell.slack-shell .bd-body > .bd-scope > button:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { flex: none !important; width: auto !important; height: 40px !important; padding: 0 !important; margin: 0 0 -1px !important; border: 0 !important; border-bottom: 2px solid transparent !important; border-radius: 0 !important; background: transparent !important; box-shadow: none !important; color: var(--as-muted, #6b7077) !important; font-size: 14px !important; font-weight: 500 !important; cursor: pointer; }
+html:root body #demo.slack-shell.slack-shell .bd-body > .bd-scope > button:hover:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { color: var(--as-text) !important; }
+html:root body #demo.slack-shell.slack-shell .bd-body > .bd-scope > button.active:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { color: var(--as-text) !important; font-weight: 600 !important; border-bottom-color: var(--as-text) !important; }
+html:root body #demo.slack-shell.slack-shell .bd-body > .bd-search:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { display: flex; align-items: center; gap: 8px; height: 34px; margin: 12px 0 0; padding: 0 12px; border-radius: 10px; background: var(--as-muted-bg, rgba(0,0,0,.04)); color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .bd-search .icon, html:root body #demo.slack-shell.slack-shell .bd-search svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { width: 15px; height: 15px; flex: none; }
+html:root body #demo.slack-shell.slack-shell .bd-search input:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { flex: 1; min-width: 0; height: 100%; border: 0 !important; outline: 0 !important; background: transparent !important; box-shadow: none !important; font: inherit; font-size: 13px; color: var(--as-text); padding: 0 !important; }
+html:root body #demo.slack-shell.slack-shell .bd-body > .bd-empty:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { margin: 16px 4px; font-size: 13px; color: var(--as-muted); }
+
+/* 构建卡片：所属范围以字段形式显示（图标 + 个人 / 具体项目名） */
+html:root body #demo.slack-shell.slack-shell .bd-card .bd-scope-f:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { display: inline-flex; align-items: center; gap: 4px; color: var(--as-text-2, var(--as-text)); font-weight: 500; }
+html:root body #demo.slack-shell.slack-shell .bd-card .bd-scope-f svg, html:root body #demo.slack-shell.slack-shell .bd-card .bd-scope-f .icon:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { width: 13px; height: 13px; flex: none; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .bd-card .bd-scope-f.project svg, html:root body #demo.slack-shell.slack-shell .bd-card .bd-scope-f.project .icon:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { color: var(--as-brand, #0A59F7); }
+/* 窄屏频道头部：标题与成员入口同一行，不换行；频道名与说明超出时省略 */
+@container chh (max-width: 560px) {
+  html:root body #demo.slack-shell.slack-shell .co-channel-heading:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { flex-wrap: nowrap !important; align-items: center !important; }
+  html:root body #demo.slack-shell.slack-shell .co-channel-heading > div:first-child:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { flex: 1 1 0 !important; min-width: 0 !important; }
+  html:root body #demo.slack-shell.slack-shell .co-channel-heading h2:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i), html:root body #demo.slack-shell.slack-shell .co-channel-heading p:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
+  html:root body #demo.slack-shell.slack-shell .co-channel-heading .co-heading-people:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { flex: none !important; margin-left: 0 !important; }
+}
+/* 频道头部：去掉标题下的描述文案 */
+html:root body #demo.slack-shell.slack-shell .co-channel-heading > div:first-child > p:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { display: none !important; }
+/* 频道 / Thread 两侧头部等高，底部分割线在同一水平线 */
+html:root body #demo.slack-shell.slack-shell .colink-channel .channelhead:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i), html:root body #demo.slack-shell.slack-shell .colink-channel .threadpanel .threadheader:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { box-sizing: border-box !important; height: 116px !important; min-height: 116px !important; display: flex !important; flex-direction: column !important; justify-content: space-between !important; }
+/* 个人工作台详情：内容 tab 与下方内容之间留出呼吸间距 */
+html:root body #demo.slack-shell.slack-shell .wbh-resume-strip:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { margin-top: 20px !important; }
+
+/* 侧栏任务状态：圆点 + 语义色（与看板状态色一致） */
+html:root body #demo.slack-shell.slack-shell .side-st:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { animation: none !important; width: 16px; height: 16px; display: inline-grid; place-items: center; }
+html:root body #demo.slack-shell.slack-shell .side-st > .side-dot:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { width: 8px; height: 8px; border-radius: 50%; background: var(--dot, #9AA0A6) !important; box-shadow: none; }
+html:root body #demo.slack-shell.slack-shell .side-st[data-status="pending"]:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { --dot: #9AA0A6; }
+html:root body #demo.slack-shell.slack-shell .side-st[data-status="running"]:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { --dot: var(--as-run, #2B76F0); }
+html:root body #demo.slack-shell.slack-shell .side-st[data-status="wait"]:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { --dot: #E08A00; }
+html:root body #demo.slack-shell.slack-shell .side-st[data-status="review"]:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { --dot: var(--as-review, #5B5BD6); }
+html:root body #demo.slack-shell.slack-shell .side-st[data-status="done"]:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { --dot: var(--as-done, #18A058); }
+html:root body #demo.slack-shell.slack-shell .side-st[data-status="failed"]:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { --dot: var(--as-fail, #D93A2B); }
+html:root body #demo.slack-shell.slack-shell .side-st[data-status="cancelled"]:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { --dot: #B4B8BE; }
+html:root body #demo.slack-shell.slack-shell .side-st[data-status="running"] > .side-dot:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { animation: side-dot-pulse 1.6s ease-out infinite; }
+@keyframes side-dot-pulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--dot) 55%, transparent); } 70%, 100% { box-shadow: 0 0 0 6px transparent; } }
+@media (prefers-reduced-motion: reduce) { html:root body #demo.slack-shell.slack-shell .side-st[data-status="running"] > .side-dot:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { animation: none; } }
+
+/* 构建：切到「项目」时可切换具体项目 */
+html:root body #demo.slack-shell.slack-shell .bd-body > .bd-projsel:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { display: flex; align-items: center; gap: 8px; height: 34px; margin: 12px 0 0; padding: 0 10px; border-radius: 10px; border: 1px solid var(--as-border, #e3e5e8); background: transparent; color: var(--as-brand, #0A59F7); }
+html:root body #demo.slack-shell.slack-shell .bd-projsel svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { width: 15px; height: 15px; flex: none; }
+html:root body #demo.slack-shell.slack-shell .bd-projsel select:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { flex: 1; min-width: 0; height: 100%; border: 0 !important; outline: 0 !important; background: transparent !important; box-shadow: none !important; font: inherit; font-size: 13px; font-weight: 600; color: var(--as-text); cursor: pointer; padding: 0 !important; }
+html:root body #demo.slack-shell.slack-shell .bd-body > .bd-projsel + .bd-search:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { margin-top: 8px; }
+
+html:root body #demo.slack-shell.slack-shell .bd-projsel:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { position: relative; cursor: pointer; }
+html:root body #demo.slack-shell.slack-shell .bd-projsel-caret:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { display: inline-flex; flex: none; pointer-events: none; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .bd-projsel-caret svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { width: 15px; height: 15px; color: inherit; }
+html:root body #demo.slack-shell.slack-shell .bd-projsel:hover:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { background: var(--as-hover, rgba(0,0,0,.03)); }
+
+/* 全局下拉菜单（自绘） */
+html:root body .as2-selmenu:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { z-index: 99998 !important; padding: 4px !important; display: flex; flex-direction: column; gap: 1px; background: var(--as-card, #fff) !important; -webkit-backdrop-filter: none !important; backdrop-filter: none !important; border-radius: 12px !important; box-shadow: 0 0 0 1px var(--as-border, #e3e5e8), 0 14px 32px -8px rgba(0,0,0,.22) !important; box-sizing: border-box; }
+html:root body .as2-selmenu .sel-opt:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { display: flex !important; align-items: center; justify-content: space-between; gap: 12px; min-height: 34px; height: auto !important; padding: 6px 10px !important; border: 0; border-radius: 8px !important; background: transparent; color: var(--as-text); font: inherit; font-size: 13px; text-align: left; cursor: pointer; white-space: nowrap; }
+html:root body .as2-selmenu .sel-opt > span:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { overflow: hidden; text-overflow: ellipsis; }
+html:root body .as2-selmenu .sel-opt svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { width: 14px !important; height: 14px !important; flex: none; color: var(--as-brand, #0A59F7) !important; }
+html:root body .as2-selmenu .sel-opt:is(:hover, :focus-visible):not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { background: var(--as-hover, rgba(0,0,0,.05)) !important; outline: none; }
+html:root body .as2-selmenu .sel-opt.on:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { font-weight: 600; }
+html:root body .as2-selmenu .sel-group:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { padding: 8px 10px 4px; font-size: 11.5px; color: var(--as-muted); }
+/* 频道消息悬浮操作条：提示文字显示在按钮下方并右对齐，避免被页头遮挡 / 超出右边缘 */
+html body #demo.slack-shell .co-hover-actions > button[aria-label]:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h)::after { bottom: auto !important; top: calc(100% + 8px) !important; left: auto !important; right: 0 !important; transform: translate(0, -2px) !important; }
+html body #demo.slack-shell .co-hover-actions > button[aria-label]:is(:hover, :focus-visible):not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h)::after { transform: translate(0, 0) !important; }
+/* 自绘下拉菜单：所有风格（含液态玻璃）下使用不透明实色底，保证可读 */
+html:root body .as2-selmenu:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { background: #ffffff !important; color: #1d1d1f; box-shadow: 0 0 0 1px rgba(0,0,0,.08), 0 14px 32px -8px rgba(0,0,0,.28) !important; }
+html:root[data-theme="dark"] body .as2-selmenu:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i), html:root[data-appearance-tone="dark"] body .as2-selmenu:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i), html:root[data-appearance-style="dark"] body .as2-selmenu:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { background: #202127 !important; color: #f2f2f4; box-shadow: 0 0 0 1px rgba(255,255,255,.12), 0 14px 32px -8px rgba(0,0,0,.6) !important; }
+html:root body .as2-selmenu .sel-opt:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { color: inherit !important; }
+html:root body .as2-selmenu .sel-opt:is(:hover, :focus-visible):not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { background: rgba(10,89,247,.08) !important; }
+html:root[data-theme="dark"] body .as2-selmenu .sel-opt:is(:hover, :focus-visible):not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i), html:root[data-appearance-style="dark"] body .as2-selmenu .sel-opt:is(:hover, :focus-visible):not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { background: rgba(255,255,255,.1) !important; }
+html:root body .as2-selmenu .sel-opt.on:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { color: var(--as-brand, #0A59F7) !important; }
+
+/* 项目空间 / 我的空间：卡片 / 列表视图 */
+html:root body #demo.slack-shell.slack-shell .asset-viewbar:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { display: flex; align-items: center; gap: 12px; margin: 14px 0 12px; }
+html:root body #demo.slack-shell.slack-shell .asset-viewbar .spacer:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { flex: 1; }
+html:root body #demo.slack-shell.slack-shell .asset-viewbar .asset-count:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { font-size: 13px; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .asset-viewbar > .asset-subtabs:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { margin: 0; border-bottom: 0 !important; }
+html:root body #demo.slack-shell.slack-shell .asset-grid:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+html:root body #demo.slack-shell.slack-shell .asset-card-top:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+html:root body #demo.slack-shell.slack-shell .asset-card .asset-meta:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { display: flex; flex-wrap: wrap; gap: 4px 10px; margin-top: 6px; font-size: 12px; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .asset-card .asset-meta em:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { font-style: normal; display: inline-flex; align-items: center; gap: 3px; }
+html:root body #demo.slack-shell.slack-shell .asset-card-acts:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i) { display: inline-flex; align-items: center; gap: 4px; margin-left: auto; }
+
+/* 构建卡片：标题 / 说明 / 底部信息（所属范围 + 元信息）三段式 */
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { display: flex !important; flex-direction: column !important; align-items: stretch !important; gap: 8px !important; padding: 14px 16px !important; text-align: left; }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-card-desc:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { display: -webkit-box !important; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; padding-left: 28px !important; margin: 0 !important; font-size: 12.5px; line-height: 1.55; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-card-foot:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { display: flex; flex-direction: column; gap: 6px; margin: 2px 0 0 28px !important; padding-top: 10px; border-top: 1px solid color-mix(in srgb, var(--as-text) 8%, transparent); }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-scope-f:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 12px; font-weight: 600; color: var(--as-text) !important; }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-scope-f > span:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-scope-f svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { width: 14px !important; height: 14px !important; flex: none; color: var(--as-muted) !important; }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-chips:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { display: flex; flex-wrap: wrap; gap: 4px 6px; }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-chip:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { font-style: normal; display: inline-block; max-width: 100%; padding: 0 8px; border-radius: 6px; background: color-mix(in srgb, var(--as-text) 6%, transparent); color: var(--as-muted); font-size: 11.5px; line-height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+html:root[data-appearance-style="aurora"] body #demo.slack-shell.slack-shell .demoside .bd-body .bd-card :is(.bd-scope-f, .bd-chip):not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { color: rgba(255,255,255,.78) !important; }
+
+/* 项目空间 / 我的空间卡片：紧凑横向布局（图标 | 名称 + 说明 + 元信息 | 状态），操作按钮 hover / 聚焦时出现 */
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { position: relative; display: grid !important; grid-template-columns: 36px minmax(0,1fr) auto; align-items: start; column-gap: 12px; row-gap: 0; padding: 14px 16px !important; min-height: 0; outline: none; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-ic:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { grid-row: 1 / span 1; width: 36px !important; height: 36px !important; margin: 0 !important; border-radius: 10px !important; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-ic svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { width: 17px !important; height: 17px !important; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-card-body:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-card-body > b:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { font-size: 14px; font-weight: 600; line-height: 20px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-card-body > small:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 12.5px; line-height: 1.5; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-meta:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { margin-top: 4px; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-card-tag:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { margin-top: 1px; white-space: nowrap; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-card-acts:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { position: absolute; right: 10px; bottom: 8px; display: inline-flex; align-items: center; gap: 2px; padding: 2px 4px; border-radius: 999px; background: var(--as-card, #fff); box-shadow: 0 0 0 1px var(--as-border, #e3e5e8), 0 4px 12px -4px rgba(0,0,0,.14); opacity: 0; transform: translateY(4px); pointer-events: none; transition: opacity .14s ease, transform .14s ease; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card:is(:hover, :focus-within, :focus) .asset-card-acts:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { opacity: 1; transform: none; pointer-events: auto; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card:hover:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { box-shadow: 0 0 0 1px var(--as-border-strong, #d5d8dd), 0 6px 18px -8px rgba(0,0,0,.14); }
+@media (hover: none) { html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-card-acts:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { position: static; grid-column: 2 / -1; opacity: 1; transform: none; pointer-events: auto; box-shadow: none; background: transparent; padding: 6px 0 0; justify-self: start; } }
+
+/* 资产卡片（最终布局）：首行 图标 + 状态，下面 名称 / 说明 / 元信息；不再让图标单独占一列 */
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { display: flex !important; flex-direction: column !important; align-items: stretch !important; gap: 4px !important; padding: 14px 16px 14px !important; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-card-head:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-card-head .asset-ic:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { width: 30px !important; height: 30px !important; border-radius: 8px !important; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-card-head .asset-ic svg:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { width: 16px !important; height: 16px !important; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-card-name:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { font-size: 14.5px; font-weight: 600; line-height: 22px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-card-desc:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; font-size: 12.5px; line-height: 1.55; color: var(--as-muted); }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-meta:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { display: flex; flex-wrap: wrap; gap: 4px 6px; margin-top: 8px; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-meta em:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { font-style: normal; display: inline-flex; align-items: center; gap: 3px; max-width: 100%; padding: 0 8px; border-radius: 6px; background: color-mix(in srgb, var(--as-text) 6%, transparent); color: var(--as-muted); font-size: 11.5px; line-height: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-card-acts:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { bottom: 10px !important; right: 12px !important; }
+@media (hover: none) { html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-card-acts:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { position: static !important; margin-top: 6px; } }
+
+/* 任务工具面板 tab：浏览器标签样式（条形底 + 选中为卡片底色的标签） */
+html:root body #demo.slack-shell.slack-shell .tp-tool-tabs.tp-tool-tabs:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { align-items: flex-end !important; height: 46px !important; padding: 8px 12px 0 !important; gap: 4px !important; background: color-mix(in srgb, var(--as-text) 6%, var(--as-bg, #f6f6f8)) !important; border-bottom: 1px solid var(--as-border, #e3e5e8) !important; }
+html:root body #demo.slack-shell.slack-shell .tp-tool-tabs > button:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { height: 38px !important; padding: 0 12px !important; border-radius: 10px 10px 0 0 !important; background: transparent !important; box-shadow: none !important; color: var(--as-muted) !important; margin-bottom: -1px !important; }
+html:root body #demo.slack-shell.slack-shell .tp-tool-tabs > button:hover:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { background: color-mix(in srgb, var(--as-text) 5%, transparent) !important; color: var(--as-text) !important; }
+html:root body #demo.slack-shell.slack-shell .tp-tool-tabs > button.active:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { background: var(--as-card, #fff) !important; color: var(--as-text) !important; font-weight: 600; box-shadow: 0 0 0 1px var(--as-border, #e3e5e8) !important; clip-path: inset(-1px -1px 0 -1px); }
+html:root body #demo.slack-shell.slack-shell .tp-tool-tabs > .tpx-add:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j) { align-self: center; height: 30px !important; margin-bottom: 4px !important; border-radius: 8px !important; }
+/* 资产卡片 / 构建卡片 元信息：纯文本 + 竖线分隔（不再用标签块） */
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-meta:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { display: flex; flex-wrap: wrap; gap: 2px 0; margin-top: 8px; padding-top: 10px; border-top: 1px solid color-mix(in srgb, var(--as-text) 8%, transparent); }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-meta em:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { display: inline-flex; align-items: center; padding: 0 10px 0 0; margin: 0 10px 0 0; border-radius: 0; background: transparent !important; border-right: 1px solid color-mix(in srgb, var(--as-text) 16%, transparent); color: var(--as-muted); font-size: 12px; line-height: 16px; white-space: normal; max-width: 100%; }
+html:root body #demo.slack-shell.slack-shell .asset-grid > .asset-card .asset-meta em:last-child:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { border-right: 0; margin-right: 0; padding-right: 0; }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-chips:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { display: flex; flex-wrap: wrap; gap: 2px 0; }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-chip:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { display: inline-flex; align-items: center; max-width: 100%; padding: 0 10px 0 0; margin: 0 10px 0 0; border-radius: 0; background: transparent !important; border-right: 1px solid color-mix(in srgb, var(--as-text) 16%, transparent); color: var(--as-muted); font-size: 11.5px; line-height: 16px; white-space: normal; overflow: visible; }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-chip:last-child:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { border-right: 0; margin-right: 0; padding-right: 0; }
+
+/* 构建卡片：内容通栏（不再整体缩进给图标留空列），所属范围与元信息同一行，用竖线分隔 */
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-card-desc:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { padding-left: 0 !important; }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-card-foot:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { margin: 0 !important; flex-direction: row !important; flex-wrap: wrap; align-items: center; gap: 4px 0 !important; padding-top: 10px; }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-card-foot > .bd-scope-f:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { flex: none; max-width: 100%; padding-right: 10px; margin-right: 10px; border-right: 1px solid color-mix(in srgb, var(--as-text) 16%, transparent); }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-card-foot > .bd-chips:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { flex: 1 1 auto; min-width: 0; }
+html:root body #demo.slack-shell.slack-shell .bd-body .bd-card .bd-card-meta:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k) { padding-left: 0 !important; }
 
 
 /* ==== DevUI themes (vendor/devui-themes.css) ==== */
@@ -14852,6 +15021,7 @@ normalizeWorkflowBuilder();
 normalizeMessenger();
 normalizeCollaborationUI();
 if(!localStorage.getItem('agentspace-devui-mvp-workbench-history-v28')&&!localStorage.getItem('agentspace-devui-mvp-workbench-composer-v27')&&!localStorage.getItem('agentspace-devui-mvp-workbench-builder-v26')&&!localStorage.getItem('agentspace-devui-mvp-evolution-v25')&&!localStorage.getItem('agentspace-devui-mvp-channel-members-v24')&&!localStorage.getItem('agentspace-devui-mvp-product-project-v23')){s.view='team';s.page='project';s.personalPage=s.personalPage||'benches';s.teamPage='project';s.project=joinedProjects().includes('AgentSpace 2.0')?'AgentSpace 2.0':joinedProjects()[0]||'AgentSpace 2.0';s.projectTab='overview';s.channel=s.project==='AgentSpace 2.0'?'IM能力构建':'development';s.channelTab='messages';s.threadOpen=false;s.threadExpanded=false;s.threadKind='temp';s.activeTempThread='space23-im-dedup';s.threadTab='discussion';}
+(function resetNavOnOpen(){const ini=initialState();['view','page','personalPage','teamPage','project','channel','projectTab','channelTab','threadOpen','threadExpanded','threadKind','threadTab','taskFilter','selectedBench','benchTab','messageTab','messageScope','messageFilter','messageQuery','activeConversation','extensionPage','extensionType','extensionScope','extensionQuery'].forEach(k=>{if(k in ini)s[k]=ini[k];});['taskDetail','newTask','studioPage','buildSel','buildTab','bdScope','bdProject','buildQuery','taskTool','taskTabs','taskArtifact','taskChange','taskFilePath','boardAutomationId','channelMemberPanel','channelTaskFilter','personalSpaceId'].forEach(k=>{delete s[k];});s.coViewport={};s.messageScrolls={};})();
 let wizard={step:1,sources:['quality','issues','release'],prompt:'',name:'',range:'AICS / 当前迭代'},dragIndex=null,dragPalette=null,lastFocused=null,toastTimer;
 // Four interface styles and six independent colors form twenty-four themes.
 const APPEARANCE_STYLES={
@@ -14967,7 +15137,7 @@ function renderAssistant(){return `<div class="assistantwrap"><div class="row be
 function assistantTaskCard(id){const t=s.tasks.find(x=>x.id===id);if(!t)return '';return `<div class="runcard"><div class="row between">${tag('临时任务 · '+t.id)}${taskChip(t)}</div><h4>${esc(t.title)}</h4><p>Agent：CodeAgent · 环境：personal-analysis / 云端<br>目标 V${t.rev} · 验收：分析结论关联 MR 与 CI 证据</p>${runView(t,'compact')}${t.status==='pending'?btn('确认执行','start-task',t.id,'primary sm'):t.status==='running'?btn('推进演示：返回结果','finish-task',t.id,'primary sm'):t.status==='review'?btn('查看产物并验收','open-task',t.id,'primary sm'):tag('结果已采用','green')}${btn('查看任务','open-task',t.id,'link sm')}</div>`;}
 function renderPersonal(){if(s.page==='benchbuilder')return renderWorkbenchBuilder();if(s.page==='spaces')return crumb('我的空间')+`<div class="demopage">${renderPersonalSpaces()}</div>`;return legacyRenderPersonal();}
 function renderTeam(){if(s.page==='board')return `<div class="demopage">${renderTaskBoard()}</div>`;return (s.page==='project'?'':crumb('# '+s.channel))+(s.page==='project'?`<div class="demopage">${renderProject()}</div>`:renderChannel());}
-function projectHeader(){return `<div class="proj-sticky"><div class="demohead"><div class="row"><span class="projecticon" style="width:43px;height:43px;font-size:22px">${esc(projLetter(s.project))}</span><div><h1>${esc(s.project)}</h1><p style="margin-top:7px">${esc(projDesc())} · 6 位成员 · ${projectAgentList().length} 个 Agent</p></div></div><div class="row"></div></div><div class="dtabs projecttabs">${[['overview','项目工作台'],['channels','频道'],['threads','线程'],['artifacts','产物'],['extensions','扩展'],['members','成员与设置']].map(([v,l])=>`<button class="${s.projectTab===v?'active':''}" data-a="project-tab" data-v="${v}">${l}</button>`).join('')}</div></div>`;}
+function projectHeader(){return `<div class="proj-sticky"><div class="demohead"><div class="row"><span class="projecticon" style="width:43px;height:43px;font-size:22px">${esc(projLetter(s.project))}</span><div><h1>${esc(s.project)}</h1><p style="margin-top:7px">${esc(projDesc())}</p></div></div><div class="row">${projectHeaderPeople()}</div></div><div class="dtabs projecttabs">${[['overview','项目工作台'],['channels','频道'],['threads','线程'],['artifacts','产物'],['extensions','扩展'],['members','成员与设置']].map(([v,l])=>`<button class="${s.projectTab===v?'active':''}" data-a="project-tab" data-v="${v}">${l}</button>`).join('')}</div></div>`;}
 function renderProject(){const sections={overview:renderProjectBento,channels:renderProjectChannels,threads:renderProjectThreads,agents:renderProjectAgents,extensions:renderProjectExtensions,members:renderProjectMembers};if(sections[s.projectTab])return projectHeader()+sections[s.projectTab]();const ts=s.tasks.filter(t=>t.scope===s.project);if(s.projectTab==='space')return renderProjectAssets();if(s.projectTab==='artifacts')return projectHeader()+renderProjectArtifacts();return legacyRenderProject();}
 function legacyRenderProject(){return projectHeader()+(s.projectTab==='workflows'?renderProjectWorkflows():renderProjectOverview());}
 function renderProjectWorkflows(){return `<div class="row between" style="margin-bottom:18px"><div><h3>绑定到 ${esc(s.project)} 的 Workflow</h3><p class="tiny muted" style="margin-top:7px">流程定义可复用，输入、触发、责任人与接收位置由项目配置。</p></div>${btn('构建流程','studio','','sm')}</div><div class="wfgrid">${[['SpecX · 需求到交付','手动 / 讨论确认','澄清 → Spec → 开发 → 测试 → 验收','SpecX · 需求到交付'],['迭代质量巡检','每天 09:00','质量读取 → 风险摘要 → 团队确认','质量日报生成']].map(([n,t,path,label])=>`<div class="wfcard"><div class="row between">${tag('已发布 v1.4')}${tag('项目绑定','green')}</div><h3>${n}</h3><p>${path}</p><div class="minirow"><span>${t}</span><span>结果：原 Thread / 项目任务</span></div><div class="row wrap">${btn('在 Thread 启动','open-thread','fixed','primary sm')}${btn('查看 / 编辑','studio',label,'sm')}${btn('绑定设置','project-binding',n,'link sm')}</div></div>`).join('')}</div>`;}
@@ -15964,7 +16134,7 @@ function sideNewTaskBtn(){return `<button class="sidenav side-newtask" data-a="n
 function taskTitleFix(t){if(t&&!(t.title&&String(t.title).trim()))t.title=String(t.goal||'').split(/[\n。；;]/).map(x=>x.trim()).find(Boolean)?.slice(0,50)||'未命名任务';return t;}
 function sideTaskRow(t){taskTitleFix(t);
   const st={pending:'待开始',running:'运行中',wait:'待输入',review:'待验收',done:'已完成',failed:'失败',cancelled:'已取消'},ic={pending:'dashed',running:'running',wait:'needInput',review:'review',done:'checkCircle',failed:'xCircle',cancelled:'xCircle'};
-  return `<button class="sidenav compact side-task ${s.taskDetail===t.id?'active':''}" data-a="open-task" data-v="${esc(t.id)}" aria-label="${esc(t.title)}"><span class="side-title">${esc(t.title)}</span>${t.status==='done'?`<time class="side-done-at">${esc(boardFields(t).time.split(' ')[0])}</time>`:`<span class="side-st" data-status="${esc(t.status)}" title="${esc(st[t.status]||'')}">${ico(ic[t.status]||'dashed')}</span>`}</button>`;
+  return `<button class="sidenav compact side-task ${s.taskDetail===t.id?'active':''}" data-a="open-task" data-v="${esc(t.id)}" aria-label="${esc(t.title)}"><span class="side-title">${esc(t.title)}</span>${t.status==='done'?`<time class="side-done-at">${esc(boardFields(t).time.split(' ')[0])}</time>`:`<span class="side-st" data-status="${esc(t.status)}" title="${esc(st[t.status]||'')}"><i class="side-dot"></i></span>`}</button>`;
 }
 // ---- 左侧栏分区：整列栏目（导航 / 频道 / 常用工作台 / 各类任务…）都支持用户自定义分区。
 // 栏目（entry）可拖到任意分区，或点行右侧「···」选「移到分区」；分区可新建 / 重命名 / 移除 / 上移下移 / 收起，设置按视图（个人 / 各项目）分别保存。
@@ -15981,7 +16151,7 @@ function sideSoon(html){return html.replace(/<\/button>$/,'<em class="side-soon"
 function sidePersonalDefs(){
   const rank={wait:0,review:1,running:2,pending:3,done:4},by=(a,b)=>(rank[a.status]??5)-(rank[b.status]??5);
   const nav=[sideEntry('nav:benches',sideButton('bench','我的主页','benches',['benches','benchbuilder'].includes(s.page)||(s.page==='benchdetail'&&!s.benches.some(b=>b.id===s.selectedBench&&b.favorite&&!b.archived)))),
-    sideEntry('nav:tasks',sideButton('task','我的任务','tasks',s.page==='tasks',s.tasks.filter(t=>personallyRelatedTask(t)&&['pending','wait','review'].includes(t.status)).length)),
+    sideEntry('nav:tasks',sideButton('task','我的任务','tasks',s.page==='tasks')),
     sideEntry('nav:spaces',sideButton('book','我的空间','spaces',s.page==='spaces')),
     sideEntry('nav:discover',sideSoon(sideButton('discover','发现与订阅','discover',s.page==='discover'))),
     sideEntry('nav:assistant',sideSoon(sideButton('spark','个人助理','assistant',s.page==='assistant')))];
@@ -17034,6 +17204,11 @@ document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList?.
     save();
   }catch(e){}
 })();
+// 频道头部成员入口：宽屏区分人员 / Agent（各自头像堆叠 + 末尾「+N」圆形计数，无文字）；窄屏（头部容器 < 560px）合并为「成员 N」。
+function coMemberButton(){const rows=coMemberRoster(),ppl=rows.filter(p=>p.type==='person'),ags=rows.filter(p=>p.type!=='person'),open=coMembersVisible(),grp=(l,t)=>`<span class="co-mgroup" title="${l.length} ${t}">${coFaces(l.slice(0,3).map(p=>p.name),true)}${l.length>3?'<b>+'+(l.length-3)+'</b>':''}</span>`;return `<button class="co-members-toggle${open?' active':''}" data-a="co-members-toggle" aria-expanded="${open}" aria-controls="channelMembersPanel" aria-label="查看频道全部成员：${ppl.length} 位人员，${ags.length} 个 Agent" title="展开全部频道成员"><span class="co-mt-full">${grp(ppl,'位人员')}<i class="co-msep" aria-hidden="true"></i>${grp(ags,'个 Agent')}</span><span class="co-mt-lite"><span>成员</span><b>${rows.length}</b></span>${ico(open?'down':'chevron')}</button>`;}
+
+// 项目主页头部：成员 + Agent 头像（各最多 3 个，超出 +N）。
+function projectHeaderPeople(){const rows=coMemberRoster(),ppl=rows.filter(p=>p.type==='person'),ags=rows.filter(p=>p.type!=='person'),grp=(l,t)=>`<span class="co-mgroup" title="${l.length} ${t}">${coFaces(l.slice(0,3).map(p=>p.name),true)}${l.length>3?'<b>+'+(l.length-3)+'</b>':''}</span>`;return `<button class="co-members-toggle proj-members" data-a="project-tab" data-v="members" aria-label="查看项目成员：${ppl.length} 位人员，${ags.length} 个 Agent" title="成员与设置">${grp(ppl,'位成员')}<i class="co-msep" aria-hidden="true"></i>${grp(ags,'个 Agent')}${ico('chevron')}</button>`;}
 
 // ---- 「返回 / 全部…」这类层级返回操作放进面板头部（面包屑）：
 // 详情页（工作台详情、我的空间详情等）正文里的「← 全部工作台」不再占一行，改为面包屑上可点击的上一级，
@@ -17229,16 +17404,29 @@ function assetEnvTemplates(){return buildMerge('env',[
   {id:'et-secure',name:'受限网络 · 只读',desc:'接入预发布 / 生产只读凭证，需 Owner 审批',image:'node:20 · 只读凭证',tools:'git · kubectl(只读)',vars:5,inst:1},
   {id:'et-local',name:'本地执行器',desc:'连接用户设备，访问内网资源',image:'用户设备 · 按需连接',tools:'本机已安装工具',vars:3,inst:1}]);}
 function assetStatusTag(st){return {ready:['就绪','green'],review:['需审批','orange'],offline:['离线','gray']}[st]||['—','gray'];}
+// 项目空间 / 我的空间的内容列表：默认卡片，可切换为列表（s.assetView）。
+function assetView(){return s.assetView==='list'?'list':'card';}
+function assetItems(tab,d){
+  const em=a=>a.filter(Boolean);
+  if(tab==='repos')return d.repos.map(r=>({ic:'code',name:r.name,desc:r.desc,meta:[ico('chevron')+esc(r.branch),esc(r.commit),esc(r.time)],tag:[r.access,'gray'],acts:`<button class="btn link sm" data-a="asset-open" data-v="${esc(r.name)}">查看</button>`}));
+  if(tab==='role')return (d.roles||agentRoles()).map(r=>({ic:'agent',name:r.name,desc:r.desc,meta:[esc(r.agent),r.skills.map(esc).join(' · '),esc(r.autonomy)],tag:['已使用 '+r.uses+' 次','gray'],acts:`<button class="btn link sm" data-a="asset-open" data-v="${esc(r.name)}">编辑</button>`}));
+  if(tab==='workflow'){const per=!!d.wfs;return (d.wfs||assetWorkflows()).map(w=>({ic:'workflow',name:w.name,desc:w.path,meta:[esc(w.trigger),per?'结果：个人任务 / 绑定项目任务':'结果：原 Thread / 项目任务','已发布 '+esc(w.ver)],tag:[per?'个人':'项目绑定',per?'gray':'green'],acts:(per?'':'<button class="btn link sm" data-a="open-thread" data-v="fixed">在 Thread 启动</button>')+`<button class="btn link sm" data-a="studio" data-v="${esc(w.label)}">查看 / 编辑</button>`}));}
+  if(tab==='env'){
+    if(s.envTab==='templates')return d.envT.map(e=>({ic:'grid',name:e.name,desc:e.desc,meta:[esc(e.image),esc(e.tools),'默认 '+e.vars+' 个变量'],tag:[e.inst+' 个实例','gray'],acts:`<button class="btn link sm" data-a="asset-add" data-v="${esc(e.name)} 实例">创建实例</button>`}));
+    return d.envs.map(e=>{const [lb,cl]=assetStatusTag(e.status);return {ic:e.kind==='本地'?'monitor':'cloud',name:e.name,desc:e.note,meta:[esc(e.kind),esc(e.image),e.vars+' 个变量'],tag:[lb,cl],acts:`<button class="btn link sm" data-a="asset-open" data-v="${esc(e.name)}">配置</button>`};});}
+  return d.tpls.map(t=>({ic:'list',name:t.name,desc:t.desc,meta:[esc(t.agent),'已使用 '+t.uses+' 次'],tag:null,acts:`<button class="btn link sm" data-a="asset-use-template" data-v="${t.id}">使用模板</button>`}));
+}
+function assetViewToggle(){const v=assetView();return `<div class="art-view asset-viewtoggle" role="group" aria-label="视图切换">${[['card','卡片','grid'],['list','列表','list']].map(([k,l,i])=>`<button class="${v===k?'active':''}" data-a="asset-view" data-v="${k}" aria-pressed="${v===k}" title="${l}视图">${ico(i)}<span>${l}</span></button>`).join('')}</div>`;}
 function assetTabBody(tab,d){
-  if(tab==='repos')return `<div class="asset-list">${d.repos.map(r=>`<article class="asset-row"><i class="asset-ic">${ico('code')}</i><div class="asset-main"><b>${esc(r.name)}</b><small>${esc(r.desc)}</small><span class="asset-meta"><em>${ico('chevron')}${esc(r.branch)}</em><em>${esc(r.commit)}</em><em>${esc(r.time)}</em></span></div><span class="tag gray">${esc(r.access)}</span><button class="btn link sm" data-a="asset-open" data-v="${esc(r.name)}">查看</button></article>`).join('')}</div>`;
-  if(tab==='role')return `<div class="asset-list">${(d.roles||agentRoles()).map(r=>`<article class="asset-row"><i class="asset-ic">${ico('agent')}</i><div class="asset-main"><b>${esc(r.name)}</b><small>${esc(r.desc)}</small><span class="asset-meta"><em>${esc(r.agent)}</em><em>${r.skills.map(esc).join(' · ')}</em><em>${esc(r.autonomy)}</em></span></div><span class="tag gray">已使用 ${r.uses} 次</span><button class="btn link sm" data-a="asset-open" data-v="${esc(r.name)}">编辑</button></article>`).join('')}</div>`;
-  if(tab==='workflow'){const per=!!d.wfs;return `<div class="asset-list">${(d.wfs||assetWorkflows()).map(w=>`<article class="asset-row"><i class="asset-ic">${ico('workflow')}</i><div class="asset-main"><b>${esc(w.name)}</b><small>${esc(w.path)}</small><span class="asset-meta"><em>${esc(w.trigger)}</em><em>${per?'结果：个人任务 / 绑定项目任务':'结果：原 Thread / 项目任务'}</em><em>已发布 ${esc(w.ver)}</em></span></div><span class="tag ${per?'gray':'green'}">${per?'个人':'项目绑定'}</span>${per?'':'<button class="btn link sm" data-a="open-thread" data-v="fixed">在 Thread 启动</button>'}<button class="btn link sm" data-a="studio" data-v="${esc(w.label)}">查看 / 编辑</button></article>`).join('')}</div>`;}
-  if(tab==='env'){const et=s.envTab==='templates'?'templates':'instances';
-    const sub=`<div class="dtabs asset-subtabs">${[['templates','环境模板'],['instances','环境实例']].map(([v,l])=>`<button class="${et===v?'active':''}" data-a="asset-env-tab" data-v="${v}">${l}</button>`).join('')}</div>`;
-    const list=et==='templates'?`<div class="asset-list">${d.envT.map(e=>`<article class="asset-row"><i class="asset-ic">${ico('grid')}</i><div class="asset-main"><b>${esc(e.name)}</b><small>${esc(e.desc)}</small><span class="asset-meta"><em>${esc(e.image)}</em><em>${esc(e.tools)}</em><em>默认 ${e.vars} 个变量</em></span></div><span class="tag gray">${e.inst} 个实例</span><button class="btn link sm" data-a="asset-add" data-v="${esc(e.name)} 实例">创建实例</button></article>`).join('')}</div>`
-      :`<div class="asset-list">${d.envs.map(e=>{const [lb,cl]=assetStatusTag(e.status);return `<article class="asset-row"><i class="asset-ic">${ico(e.kind==='本地'?'monitor':'cloud')}</i><div class="asset-main"><b>${esc(e.name)}</b><small>${esc(e.note)}</small><span class="asset-meta"><em>${esc(e.kind)}</em><em>${esc(e.image)}</em><em>${e.vars} 个变量</em></span></div><span class="tag ${cl}">${lb}</span><button class="btn link sm" data-a="asset-open" data-v="${esc(e.name)}">配置</button></article>`;}).join('')}</div>`;
-    return sub+list;}
-  return `<div class="asset-grid">${d.tpls.map(t=>`<article class="asset-card"><i class="asset-ic">${ico('list')}</i><b>${esc(t.name)}</b><small>${esc(t.desc)}</small><div class="asset-card-foot"><span>${esc(t.agent)} · 已使用 ${t.uses} 次</span><button class="btn link sm" data-a="asset-use-template" data-v="${t.id}">使用模板</button></div></article>`).join('')}</div>`;
+  const items=assetItems(tab,d),v=assetView();
+  let sub='';
+  if(tab==='env'){const et=s.envTab==='templates'?'templates':'instances';sub=`<div class="dtabs asset-subtabs">${[['templates','环境模板'],['instances','环境实例']].map(([k,l])=>`<button class="${et===k?'active':''}" data-a="asset-env-tab" data-v="${k}">${l}</button>`).join('')}</div>`;}
+  const bar=`<div class="asset-viewbar">${sub||'<span class="asset-count">共 '+items.length+' 项</span>'}<span class="spacer"></span>${assetViewToggle()}</div>`;
+  const metaHtml=m=>m.filter(Boolean).map(t=>`<em>${t}</em>`).join('');
+  const body=v==='list'
+    ?`<div class="asset-list">${items.map(it=>`<article class="asset-row"><i class="asset-ic">${ico(it.ic)}</i><div class="asset-main"><b>${esc(it.name)}</b><small>${esc(it.desc)}</small><span class="asset-meta">${metaHtml(it.meta)}</span></div>${it.tag?`<span class="tag ${it.tag[1]}">${esc(it.tag[0])}</span>`:''}${it.acts}</article>`).join('')}</div>`
+    :`<div class="asset-grid">${items.map(it=>`<article class="asset-card" tabindex="0"><div class="asset-card-head"><i class="asset-ic">${ico(it.ic)}</i>${it.tag?`<span class="tag ${it.tag[1]} asset-card-tag">${esc(it.tag[0])}</span>`:''}</div><b class="asset-card-name">${esc(it.name)}</b><small class="asset-card-desc">${esc(it.desc)}</small><span class="asset-meta">${metaHtml(it.meta)}</span><span class="asset-card-acts">${it.acts}</span></article>`).join('')}</div>`;
+  return bar+(items.length?body:'<div class="empty">这里还没有内容，去「构建」里创建。</div>');
 }
 // 环境配置 / Workflow / Agent 角色 / 任务模板 的创建统一去「构建」页：顶部不放新建按钮，tab 下放「去构建」。
 function assetBuildBar(tab,spId){
@@ -17280,6 +17468,7 @@ function renderPersonalSpaces(){return renderPersonalAssets();}
 function assetAction(a,v){
   if(a==='project-assets'){s.view='team';s.page='project';s.projectTab='space';s.taskDetail=null;s.newTask=null;s.assetTab=v==='role'?'role':(s.assetTab||'knowledge');render();return true;}
   if(a==='art-view'){s.artView=v==='list'?'list':'card';render();return true;}
+  if(a==='asset-view'){s.assetView=v==='list'?'list':'card';render();return true;}
   if(a==='asset-tab'){s.assetTab=v;render();return true;}
   if(a==='passet-tab'){s.pAssetTab=v;render();return true;}
   if(a==='asset-env-tab'){s.envTab=v;render();return true;}
@@ -17555,31 +17744,45 @@ function buildCardParts(type,i){
   if(type==='env')return {desc:i.desc,tag:(i.inst||0)+' 个实例',meta:[i.image,'默认 '+(i.vars||0)+' 个变量']};
   return {desc:i.desc,tag:i.agent,meta:(i.skills||[]).slice(0,3)};
 }
+// 构建内容的所属范围：个人 / 项目。默认值按示例数据分配；新建与编辑时可改，改动存在 s.bdScopes。
+function bdScopes(){return [['all','全部'],['personal','个人'],['project','项目']];}
+function bdScopeNow(){return ['all','personal','project'].includes(s.bdScope)?s.bdScope:'all';}
+function bdProjectList(){return (typeof projectNames!=='undefined'?projectNames:[s.project||'AgentSpace 2.0']);}
+function bdProjectNow(){return s.bdProject==='all'||bdProjectList().includes(s.bdProject)?s.bdProject:(s.project||'AgentSpace 2.0');}
+function bdProjectOf(type,i){const k=type+':'+i.id,o=s.bdProjects&&s.bdProjects[k];if(o)return o;if(i.project)return i.project;return {'task:tpl-qa':'AICS','env:et-secure':'AICS','role:role-qa':'AICS'}[k]||'AgentSpace 2.0';}
+function bdScopeLabel(sc,proj){return sc==='project'?'项目 · '+(proj||s.project||'AgentSpace 2.0'):'个人';}
+function bdScopeOf(type,i){
+  const k=type+':'+i.id,o=s.bdScopes&&s.bdScopes[k];if(o)return o;if(i.scope)return i.scope;
+  const d={'workflow:SpecX · 需求到交付':'project','task:tpl-debug':'project','task:tpl-spec':'project','task:tpl-qa':'project','env:et-node':'project','env:et-secure':'project','role:role-dev':'project','role:role-qa':'project','role:role-review':'project'};
+  return d[k]||'personal';
+}
 function buildSelOf(){return s.buildSel&&buildTypes().some(t=>t[0]===s.buildSel.type)?s.buildSel:null;}
 function buildOpenState(t){const o=s.buildOpen||{};return o[t]!==false;}
 function buildTabOf(){const sel=buildSelOf();return buildTypes().some(t=>t[0]===s.buildTab)?s.buildTab:(sel?sel.type:'workflow');}
 function studioSidebar(){
-  const sel=buildSelOf(),cur=buildTabOf(),def=buildTypes().find(t=>t[0]===cur),items=buildItems(cur);
+  const sel=buildSelOf(),cur=buildTabOf(),def=buildTypes().find(t=>t[0]===cur),scope=bdScopeNow(),q=(s.buildQuery||'').trim().toLowerCase(),items=buildItems(cur).filter(i=>(scope==='all'||(bdScopeOf(cur,i)===scope&&(scope!=='project'||bdProjectNow()==='all'||bdProjectOf(cur,i)===bdProjectNow())))&&(!q||[i.name,i.desc,i.agent,i.image].join(' ').toLowerCase().includes(q)));
+  const scopeTabs=`<nav class="bd-scope" role="tablist" aria-label="所属范围">${bdScopes().map(([v,l])=>`<button role="tab" aria-selected="${v===scope}" class="${v===scope?'active':''}" data-a="build-scope" data-v="${v}">${l}</button>`).join('')}</nav>`;
   const tabs=`<nav class="bd-seg as2-seg" role="tablist" aria-label="构建类型">${buildTypes().map(([t,label])=>`<button role="tab" aria-selected="${t===cur}" class="${t===cur?'active':''}" data-a="build-tab" data-v="${t}" title="${label}">${label}</button>`).join('')}</nav>`;
-  const list=`<div class="bd-list" style="--ac:${bdAccent(cur)};--ic:${bdIcon(cur)}">${items.map(i=>{const on=sel&&sel.type===cur&&sel.id===i.id&&!(cur==='workflow'&&s.studioPage==='import'),p=buildCardParts(cur,i);return `<button class="bd-card ${on?'active':''}" data-a="build-open" data-v="${esc(cur+':'+i.id)}"><span class="bd-card-top">${bdGlyph(cur)}<b>${esc(i.name)}</b>${p.tag?`<span class="bd-card-tag">${esc(p.tag)}</span>`:''}</span><span class="bd-card-desc">${esc(p.desc||'')}</span><span class="bd-card-meta">${p.meta.map(m=>`<em>${esc(m)}</em>`).join('')}</span></button>`;}).join('')}<button class="bd-card bd-card--add ${sel&&sel.type===cur&&sel.id==='new'?'active':''}" data-a="build-new" data-v="${cur}"><span class="bd-card-top"><i class="bd-ic ${cur}">${ico('plus')}</i><b>新建 ${def[1]}</b></span></button></div>`;
-  return `<div class="sidehead sidehead--build"><h3>构建</h3><p>可复用的流程、模板与角色</p><button class="bd-head-new ${sel?'':'active'}" data-a="build-home" aria-label="新建" title="新建">${ico('plus')}</button></div><div class="sidebody bd-body">${tabs}${list}</div>`;
+  const list=`<div class="bd-list" style="--ac:${bdAccent(cur)};--ic:${bdIcon(cur)}">${items.map(i=>{const on=sel&&sel.type===cur&&sel.id===i.id&&!(cur==='workflow'&&s.studioPage==='import'),p=buildCardParts(cur,i);return `<button class="bd-card ${on?'active':''}" data-a="build-open" data-v="${esc(cur+':'+i.id)}"><span class="bd-card-top">${bdGlyph(cur)}<b>${esc(i.name)}</b>${p.tag?`<span class="bd-card-tag">${esc(p.tag)}</span>`:''}</span><span class="bd-card-desc">${esc(p.desc||'')}</span><span class="bd-card-foot"><span class="bd-scope-f ${bdScopeOf(cur,i)}">${ico(bdScopeOf(cur,i)==='project'?'project':'personal')}<span>${esc(bdScopeOf(cur,i)==='project'?bdProjectOf(cur,i):'个人')}</span></span><span class="bd-chips">${p.meta.map(m=>`<i class="bd-chip">${esc(m)}</i>`).join('')}</span></span></button>`;}).join('')}<button class="bd-card bd-card--add ${sel&&sel.type===cur&&sel.id==='new'?'active':''}" data-a="build-new" data-v="${cur}"><span class="bd-card-top"><i class="bd-ic ${cur}">${ico('plus')}</i><b>新建 ${def[1]}</b></span></button></div>`;
+  return `<div class="sidehead sidehead--build"><h3>构建</h3><p>可复用的流程、模板与角色</p><button class="bd-head-new ${sel?'':'active'}" data-a="build-home" aria-label="新建" title="新建">${ico('plus')}</button></div><div class="sidebody bd-body">${scopeTabs}${scope==='project'?`<label class="bd-projsel">${ico('project')}<select id="bdProject" aria-label="切换项目"><option value="all" ${bdProjectNow()==='all'?'selected':''}>全部项目</option>${bdProjectList().map(n=>`<option value="${esc(n)}" ${bdProjectNow()===n?'selected':''}>${esc(n)}</option>`).join('')}</select><i class="bd-projsel-caret" aria-hidden="true">${ico('down')}</i></label>`:''}<label class="bd-search">${ico('search')}<input id="bdSearch" type="search" value="${esc(s.buildQuery||'')}" placeholder="按名称、说明搜索" autocomplete="off" aria-label="搜索"></label>${tabs}${items.length?'':`<p class="bd-empty">${q?'没有匹配「'+esc(s.buildQuery)+'」的':'这里还没有'}${def[1]}。</p>`}${list}</div>`;
 }
 function renderBuildHome(){
   return `<div class="demopage bd-home"><div class="demohead"><div><h1>构建</h1><p>创建可复用的 Workflow、模板与角色，沉淀为个人与项目的资产。</p></div></div><div class="bd-entries">${buildTypes().map(([t,label,icon,desc])=>`<button class="bd-entry" data-a="build-new" data-v="${t}" style="--ac:${bdIcon(t)};--ic:${bdIcon(t)}"><span class="bd-entry-art">${bdArt(t)}</span><span class="bd-entry-body"><span class="bd-entry-title">${bdGlyph(t)}<b>${label}</b><span class="bd-entry-go">去构建${ico('arrow')}</span></span><small>${esc(desc)}</small></span></button>`).join('')}</div></div>`;
 }
-function buildFields(type,it){
+function buildFields(type,it,isNew){
   const agents=DIRECTORY.filter(p=>p.type==='agent').map(a=>a.name),opt=(list,cur)=>list.map(v=>`<option ${v===cur?'selected':''}>${esc(v)}</option>`).join('');
   const f=(id,label,val,ph,wide)=>`<label class="field ${wide?'wide':''}">${label}<input id="bdf-${id}" value="${esc(val||'')}" placeholder="${esc(ph||'')}"></label>`;
   const ta=(id,label,val,ph)=>`<label class="field wide">${label}<textarea id="bdf-${id}" rows="4" placeholder="${esc(ph||'')}">${esc(val||'')}</textarea></label>`;
   const sel=(id,label,list,cur)=>`<label class="field">${label}<select id="bdf-${id}">${opt(list,cur)}</select></label>`;
-  if(type==='task')return f('name','模板名称',it.name,'例如：问题排查')+f('desc','一句话说明',it.desc,'这个模板解决什么问题',true)+ta('goal','任务目标与验收',it.goal,'写清楚要做什么、做到什么程度算完成')+sel('agent','默认执行者',agents,it.agent||agents[0]);
-  if(type==='env')return f('name','模板名称',it.name,'例如：Node 全栈')+f('desc','一句话说明',it.desc,'适用的任务类型',true)+f('image','镜像',it.image,'node:20 · pnpm 9')+f('tools','预装工具',it.tools,'git · pnpm · playwright')+f('vars','默认变量数',it.vars==null?'':String(it.vars),'8');
-  return f('name','角色名称',it.name,'例如：研发工程师')+f('desc','职责说明',it.desc,'这个角色负责什么',true)+sel('agent','对应 Agent',agents,it.agent||agents[0])+sel('autonomy','自主权',['只读','只读 · 结论需确认','低风险自动 · 合入需确认','完全自主'],it.autonomy||'只读 · 结论需确认')+f('skills','可用能力（用 · 分隔）',(it.skills||[]).join(' · '),'代码读写 · Git · 测试执行',true);
+  const curV=isNew?(bdScopeNow()==='project'?'project:'+(bdProjectNow()==='all'?(s.project||'AgentSpace 2.0'):bdProjectNow()):'personal'):(bdScopeOf(type,it)==='project'?'project:'+bdProjectOf(type,it):'personal'),scopeSel=`<label class="field wide bd-scopefield">所属范围<select id="bdf-scope"><option value="personal" ${curV==='personal'?'selected':''}>个人 · 仅自己可见与使用</option>${bdProjectList().map(n=>`<option value="project:${esc(n)}" ${curV==='project:'+n?'selected':''}>项目 · ${esc(n)}（成员共享）</option>`).join('')}</select></label>`;
+  if(type==='task')return scopeSel+f('name','模板名称',it.name,'例如：问题排查')+f('desc','一句话说明',it.desc,'这个模板解决什么问题',true)+ta('goal','任务目标与验收',it.goal,'写清楚要做什么、做到什么程度算完成')+sel('agent','默认执行者',agents,it.agent||agents[0]);
+  if(type==='env')return scopeSel+f('name','模板名称',it.name,'例如：Node 全栈')+f('desc','一句话说明',it.desc,'适用的任务类型',true)+f('image','镜像',it.image,'node:20 · pnpm 9')+f('tools','预装工具',it.tools,'git · pnpm · playwright')+f('vars','默认变量数',it.vars==null?'':String(it.vars),'8');
+  return scopeSel+f('name','角色名称',it.name,'例如：研发工程师')+f('desc','职责说明',it.desc,'这个角色负责什么',true)+sel('agent','对应 Agent',agents,it.agent||agents[0])+sel('autonomy','自主权',['只读','只读 · 结论需确认','低风险自动 · 合入需确认','完全自主'],it.autonomy||'只读 · 结论需确认')+f('skills','可用能力（用 · 分隔）',(it.skills||[]).join(' · '),'代码读写 · Git · 测试执行',true);
 }
 function renderBuildForm(sel){
   const isNew=sel.id==='new',label=buildTypes().find(t=>t[0]===sel.type)[1],it=isNew?{}:(buildItems(sel.type).find(x=>x.id===sel.id)||{});
   const key=sel.type+':'+sel.id;
-  return `<div class="demopage bd-formpage"><div class="demohead"><div><h1>${isNew?'新建 '+label:esc(it.name||label)}</h1><p>${isNew?'填写后保存，会出现在左侧列表里，并同步到个人 / 项目空间。':'修改后保存即可生效。'}</p></div><div class="row wrap">${isNew?'':btn('删除','build-delete',key,'link sm bd-del')}${btn('取消','build-home','','sm')}${btn('保存','build-save',key,'primary sm')}</div></div><div class="bd-form-card" style="--ac:${bdAccent(sel.type)}"><div class="bd-form">${buildFields(sel.type,it)}</div></div></div>`;
+  return `<div class="demopage bd-formpage"><div class="demohead"><div><h1>${isNew?'新建 '+label:esc(it.name||label)}</h1><p>${isNew?'选择所属范围（个人 / 项目），填写后保存，会出现在左侧列表里，并同步到对应的个人 / 项目空间。':'修改后保存即可生效。'}</p></div><div class="row wrap">${isNew?'':btn('删除','build-delete',key,'link sm bd-del')}${btn('取消','build-home','','sm')}${btn('保存','build-save',key,'primary sm')}</div></div><div class="bd-form-card" style="--ac:${bdAccent(sel.type)}"><div class="bd-form">${buildFields(sel.type,it,isNew)}</div></div></div>`;
 }
 function renderStudioMain(){
   const sel=buildSelOf();
@@ -17594,18 +17797,19 @@ function buildSave(key){
   if(type==='task')patch={name,desc:val('desc'),goal:val('goal'),agent:val('agent')};
   else if(type==='env')patch={name,desc:val('desc'),image:val('image'),tools:val('tools'),vars:Number(val('vars'))||0};
   else patch={name,desc:val('desc'),agent:val('agent'),autonomy:val('autonomy'),skills:val('skills').split(/[·,，、]/).map(x=>x.trim()).filter(Boolean)};
-  s.buildExtra=s.buildExtra||{};s.buildEdits=s.buildEdits||{};
-  if(id==='new'){const nid={task:'tpl-',env:'et-',role:'role-'}[type]+'u'+Date.now().toString(36);const base=type==='task'?{uses:0}:type==='env'?{inst:0}:{uses:0};(s.buildExtra[type]=s.buildExtra[type]||[]).push({id:nid,...base,...patch});s.buildSel={type,id:nid};}
-  else s.buildEdits[id]={...(s.buildEdits[id]||{}),...patch};
-  notify('已保存「'+name+'」。');render();
+  s.buildExtra=s.buildExtra||{};s.buildEdits=s.buildEdits||{};s.bdScopes=s.bdScopes||{};s.bdProjects=s.bdProjects||{};const scopeRaw=val('scope'),scopeV=scopeRaw.startsWith('project')?'project':'personal',projV=scopeRaw.startsWith('project:')?scopeRaw.slice(8):'';
+  if(id==='new'){const nid={task:'tpl-',env:'et-',role:'role-'}[type]+'u'+Date.now().toString(36);const base=type==='task'?{uses:0}:type==='env'?{inst:0}:{uses:0};(s.buildExtra[type]=s.buildExtra[type]||[]).push({id:nid,...base,...patch});s.bdScopes[type+':'+nid]=scopeV;if(projV)s.bdProjects[type+':'+nid]=projV;s.buildSel={type,id:nid};}
+  else{s.buildEdits[id]={...(s.buildEdits[id]||{}),...patch};s.bdScopes[type+':'+id]=scopeV;if(projV)s.bdProjects[type+':'+id]=projV;}
+  notify('已保存「'+name+'」，所属：'+bdScopeLabel(scopeV,projV)+'。');render();
 }
 function buildAction(a,v){
   if(a==='build-home'){s.buildSel=null;s.studioPage='';render();return true;}
+  if(a==='build-scope'){s.bdScope=v;render();return true;}
   if(a==='build-tab'){s.buildTab=v;render();return true;}
   if(a==='build-open'||a==='build-new'||a==='go-build'){
     const [t0,id0]=a==='build-open'?[v.slice(0,v.indexOf(':')),v.slice(v.indexOf(':')+1)]:[{templates:'task'}[v]||v,'new'];
     s.view='studio';s.taskDetail=null;s.newTask=null;s.studioPage='';s.buildTab=t0;
-    if(t0==='workflow'){s.buildSel={type:'workflow',id:id0};openStudio(id0==='new'?'未命名 Workflow':id0);return true;}
+    if(t0==='workflow'){s.buildSel={type:'workflow',id:id0};if(id0==='new')s.bdScopes=Object.assign(s.bdScopes||{},{'workflow:未命名 Workflow':bdScopeNow()==='project'?'project':'personal'});openStudio(id0==='new'?'未命名 Workflow':id0);return true;}
     s.buildSel={type:t0,id:id0};render();return true;
   }
   if(a==='build-save'){buildSave(v);return true;}
@@ -17615,6 +17819,10 @@ function buildAction(a,v){
   if(a==='studio'&&v==='@home'){s.view='studio';s.buildSel=null;s.studioPage='';s.taskDetail=null;s.newTask=null;render();return true;}
   return false;
 }
+
+document.addEventListener('input',e=>{const el=e.target;if(!el||el.id!=='bdSearch')return;const pos=el.selectionStart;s.buildQuery=el.value;render();const n=document.getElementById('bdSearch');if(n){n.focus();try{n.setSelectionRange(pos,pos);}catch(err){}}});
+
+document.addEventListener('change',e=>{if(e.target&&e.target.id==='bdProject'){s.bdProject=e.target.value;render();}});
 // ---- 空数据：居中展示 + 统一插图。给 .empty / .tk-empty / .ch-empty / .co-members-empty 补一张插图（用主题色，深浅色通用）。
 const EMPTY_ART='<svg class="empty-art" viewBox="0 0 120 88" fill="none" aria-hidden="true"><ellipse cx="60" cy="78" rx="34" ry="5" fill="currentColor" opacity=".08"/><rect x="26" y="20" width="68" height="50" rx="10" fill="var(--as-panel,#fff)" stroke="currentColor" stroke-opacity=".28" stroke-width="2"/><path d="M26 34h68" stroke="currentColor" stroke-opacity=".18" stroke-width="2"/><rect x="38" y="44" width="30" height="5" rx="2.5" fill="currentColor" opacity=".16"/><rect x="38" y="55" width="20" height="5" rx="2.5" fill="currentColor" opacity=".1"/><circle cx="33" cy="27" r="2" fill="currentColor" opacity=".3"/><circle cx="40" cy="27" r="2" fill="currentColor" opacity=".2"/><path d="M92 8l2.4 6.2L100.5 16.6 94.4 19 92 25.2 89.6 19 83.5 16.6 89.6 14.2z" fill="var(--as-brand,#0A59F7)" opacity=".85"/><circle cx="100" cy="36" r="3" fill="var(--as-brand,#0A59F7)" opacity=".35"/><circle cx="18" cy="48" r="2.5" fill="var(--as-brand,#0A59F7)" opacity=".25"/></svg>';
 function emptyDecorate(){
@@ -17788,6 +17996,43 @@ function renderThreadExecution(fixed,t){
     ${arts.length?`<section class="te-sec"><h5>产物<span class="as-num">${arts.length}</span></h5><ul class="te-arts">${arts.map((a,k)=>`<li><i class="te-art-ic">${ico(a[2]||'file')}</i><span class="te-art-t"><b>${esc(a[0])}</b><small>${esc(a[1])}</small></span>${btn('查看','open-task-artifact',t.id+'|'+k,'sm')}</li>`).join('')}</ul></section>`:(['review','done'].includes(t.status)?'':'<p class="te-hint">任务完成后，补丁、报告等产物会出现在这里。</p>')}
   </div>`;
 }
+// ---- 全局下拉菜单：用自绘菜单替换系统原生 select 的弹层（原生弹层会盖住触发器和页头，位置不可控）。
+// 菜单固定在触发器下方，空间不够时翻到上方，并限制最大高度（内部滚动），始终不遮挡触发器。
+let __sel=null;
+function selClose(){if(!__sel)return;const {menu,el}=__sel;__sel=null;menu.remove();document.removeEventListener('mousedown',selOutside,true);document.removeEventListener('keydown',selKey,true);window.removeEventListener('resize',selClose);document.removeEventListener('scroll',selScroll,true);try{el.focus({preventScroll:true});}catch(e){}}
+function selOutside(e){if(__sel&&!__sel.menu.contains(e.target)&&e.target!==__sel.el)selClose();}
+function selScroll(e){if(__sel&&!__sel.menu.contains(e.target))selClose();}
+function selItems(){return [...__sel.menu.querySelectorAll('button.sel-opt:not([disabled])')];}
+function selKey(e){
+  if(!__sel)return;
+  if(e.key==='Escape'){e.preventDefault();e.stopPropagation();selClose();return;}
+  const items=selItems(),cur=items.indexOf(document.activeElement);
+  if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();const n=e.key==='ArrowDown'?Math.min(items.length-1,cur+1):Math.max(0,cur<0?0:cur-1);items[n]?.focus();}
+  else if(e.key==='Home'){e.preventDefault();items[0]?.focus();}
+  else if(e.key==='End'){e.preventDefault();items[items.length-1]?.focus();}
+  else if(e.key==='Tab'){selClose();}
+}
+function selOpen(el){
+  if(__sel){const same=__sel.el===el;selClose();if(same)return;}
+  const opts=[...el.querySelectorAll('option,optgroup')];
+  const menu=document.createElement('div');menu.className='as2-menu as2-selmenu';menu.setAttribute('role','listbox');
+  menu.innerHTML=opts.map(o=>o.tagName==='OPTGROUP'?`<div class="sel-group">${esc(o.label)}</div>`:`<button type="button" class="sel-opt${o.value===el.value&&o.selected?' on':''}" role="option" aria-selected="${o.selected}" data-i="${[...el.options].indexOf(o)}"${o.disabled?' disabled':''}><span>${esc(o.textContent)}</span>${o.selected?ico('check'):''}</button>`).join('');
+  document.body.appendChild(menu);
+  const r=el.getBoundingClientRect(),vh=innerHeight,vw=innerWidth,gap=4,pad=10;
+  menu.style.minWidth=Math.max(r.width,160)+'px';menu.style.maxWidth=Math.min(vw-pad*2,420)+'px';
+  const below=vh-r.bottom-gap-pad,above=r.top-gap-pad,h=menu.scrollHeight+8,up=below<Math.min(h,200)&&above>below;
+  const maxH=Math.max(120,Math.min(h,up?above:below,360));
+  menu.style.maxHeight=maxH+'px';menu.style.overflowY='auto';
+  const mh=Math.min(h,maxH);let left=Math.min(Math.max(pad,r.left),vw-menu.offsetWidth-pad);
+  menu.style.left=Math.round(left)+'px';menu.style.top=Math.round(up?r.top-gap-mh:r.bottom+gap)+'px';
+  __sel={el,menu};
+  menu.addEventListener('click',ev=>{const b=ev.target.closest('.sel-opt');if(!b||b.disabled)return;const i=Number(b.dataset.i);const target=el;selClose();if(target.selectedIndex!==i){target.selectedIndex=i;target.dispatchEvent(new Event('input',{bubbles:true}));target.dispatchEvent(new Event('change',{bubbles:true}));}});
+  document.addEventListener('mousedown',selOutside,true);document.addEventListener('keydown',selKey,true);window.addEventListener('resize',selClose);document.addEventListener('scroll',selScroll,true);
+  (menu.querySelector('.sel-opt.on')||menu.querySelector('.sel-opt'))?.focus({preventScroll:true});
+  const on=menu.querySelector('.sel-opt.on');if(on)on.scrollIntoView({block:'nearest'});
+}
+document.addEventListener('mousedown',e=>{const el=e.target.closest&&e.target.closest('select');if(!el||el.multiple||el.size>1||el.disabled||el.dataset.native==='1')return;e.preventDefault();selOpen(el);},true);
+document.addEventListener('keydown',e=>{const el=e.target;if(!el||el.tagName!=='SELECT'||el.multiple||el.disabled||el.dataset.native==='1'||__sel)return;if(e.key==='Enter'||e.key===' '||(e.key==='ArrowDown'&&e.altKey)){e.preventDefault();selOpen(el);}},true);
 // ---- 导航精灵：新手引导。半透明遮罩 + 手绘风格圈注与箭头 + 线稿插画 + 文字；每一步自动切到对应页面，结束后恢复原来的位置。
 // 触发：顶部「导航精灵」、设置 · 产品指引（showGuide 被本模块接管）。
 let __gd=null;
