@@ -16238,7 +16238,7 @@ function sidePersonalDefs(){
   const fav=s.benches.filter(b=>b.favorite&&!b.archived).map(b=>sideEntry('fav:'+b.id,`<button class="sidenav compact ${s.page==='benchdetail'&&s.selectedBench===b.id?'active':''}" data-a="open-bench" data-v="${esc(b.id)}">${ico('star')}<span>${esc(b.title)}</span></button>`));
   const mine=(s.tasks||[]).filter(t=>t.scope==='个人'&&!t.archived).sort(by).map(t=>sideEntry('tk:'+t.id,sideTaskRow(t)));
   const agg=(s.tasks||[]).filter(t=>t.scope!=='个人'&&!t.archived&&personallyRelatedTask(t)).sort(by).map(t=>sideEntry('tk:'+t.id,sideTaskRow(t)));
-  return [{id:'main',name:'导航栏',items:nav},{id:'fav',name:'常用工作台',items:fav},{id:'mine',name:'个人任务',items:mine},{id:'agg',name:'项目任务',items:agg}];
+  return [{id:'main',name:'导航栏',items:nav},{id:'fav',name:'常用工作台',items:fav},{id:'mine',name:'个人任务',items:mine}];
 }
 function sideTeamDefs(){
   const rank={wait:0,review:1,running:2,pending:3,done:4},by=(a,b)=>(rank[a.status]??5)-(rank[b.status]??5);
@@ -18142,7 +18142,7 @@ function personalTasksSeed(){
 function defaultBenchSeed(){
   if(!s||!Array.isArray(s.benches)||!s.benches.length||s.benches.some(b=>b.isDefault))return;
   const src=JSON.parse(JSON.stringify(s.benches[0]));
-  const title='个人工作台',range='个人 · 跨项目汇总',metrics=[['5','需要我处理'],['4','执行中'],['3','待验收']];
+  const title='默认工作台',range='个人 · 跨项目汇总',metrics=[['5','需要我处理'],['4','执行中'],['3','待验收']];
   const prompt='汇总我在个人空间和所有已参与项目中的待办、执行中与待验收任务，按紧急程度排序，并列出今天的日程。';
   const fix=v=>Object.assign(v,{title,range,project:null,metrics,prompt,instructions:[prompt],change:prompt,config:Object.assign({},v.config||{},{title,focus:prompt})});
   const b=Object.assign(src,{id:'mine',title,category:'个人',range,sources:['tasks','calendar'],sourceCount:2,version:1,favorite:true,archived:false,metrics,prompt,updated:'今天 08:30',workflow:'',project:null,extensions:[],isDefault:true});
@@ -18151,7 +18151,7 @@ function defaultBenchSeed(){
   s.benches.unshift(b);
 }
 // 修正：已写入本地的默认工作台标题（旧版被全局替换成了「我的主页」）
-(function(){try{const b=s&&s.benches&&s.benches.find(x=>x.isDefault);if(b&&b.title!=='个人工作台'){b.title='个人工作台';(b.history||[]).forEach(v=>{v.title='个人工作台';if(v.config)v.config.title='个人工作台';});}}catch(e){}})();
+(function(){try{const b=s&&s.benches&&s.benches.find(x=>x.isDefault);if(b&&b.title!=='默认工作台'){b.title='默认工作台';(b.history||[]).forEach(v=>{v.title='默认工作台';if(v.config)v.config.title='默认工作台';});}}catch(e){}})();
 // ---- 扩展页示例数据：扩展页是全平台视角（全局 + 各项目）的已安装能力，补充更多 MCP / 技能 / CLI / 插件与安装记录。
 function extSeedAssets(){
   const add=[
