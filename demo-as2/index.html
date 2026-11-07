@@ -12530,6 +12530,9 @@ html:root[data-appearance-style="aurora"][data-au-mode="light"] { --au-frame: ra
 html:root[data-appearance-style="aurora"][data-au-mode="light"] body #demo.slack-shell.slack-shell > .demoside .sidehead--switch .projectswitch:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k):not(#_l):not(#_m):not(#_n):not(#_o):not(#_p):not(#_q):not(#_r):not(#_s):not(#_t):not(#_u):not(#_v):not(#_w):not(#_x), html:root[data-appearance-style="aurora"][data-au-mode="light"] body #demo.slack-shell.slack-shell > .demoside .projectswitch:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k):not(#_l):not(#_m):not(#_n):not(#_o):not(#_p):not(#_q):not(#_r):not(#_s):not(#_t):not(#_u):not(#_v):not(#_w):not(#_x) { background: transparent !important; border: 1px solid rgba(22,33,62,.1) !important; box-shadow: none !important; border-radius: 12px !important; }
 html:root[data-appearance-style="aurora"][data-au-mode="light"] body #demo.slack-shell.slack-shell > .demoside .sidehead--switch .projectswitch:hover:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k):not(#_l):not(#_m):not(#_n):not(#_o):not(#_p):not(#_q):not(#_r):not(#_s):not(#_t):not(#_u):not(#_v):not(#_w):not(#_x), html:root[data-appearance-style="aurora"][data-au-mode="light"] body #demo.slack-shell.slack-shell > .demoside .sidehead--switch .projectswitch[aria-expanded="true"]:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k):not(#_l):not(#_m):not(#_n):not(#_o):not(#_p):not(#_q):not(#_r):not(#_s):not(#_t):not(#_u):not(#_v):not(#_w):not(#_x) { background: color-mix(in srgb, var(--au) 7%, transparent) !important; border-color: rgba(22,33,62,.16) !important; }
 html:root[data-appearance-style="aurora"][data-au-mode="light"] body #demo.slack-shell.slack-shell > .demoside .sidehead--switch:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h):not(#_i):not(#_j):not(#_k):not(#_l):not(#_m):not(#_n):not(#_o):not(#_p):not(#_q):not(#_r):not(#_s):not(#_t):not(#_u):not(#_v):not(#_w):not(#_x) { background: transparent !important; }
+/* 外观：四种风格一行排开 */
+html:root body #modalHost .ap-styles:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 12px !important; }
+html:root body #modalHost .ap-style .ap-style-copy small:not(#_a):not(#_b):not(#_c):not(#_d):not(#_e):not(#_f):not(#_g):not(#_h) { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
 </style></head><body class="as-root">
 <header class="appbar"><div class="appbrand"><button class="iconbtn navtoggle" onclick="toggleSidebar()" aria-label="打开导航"><svg class="icon lucide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg></button><span class="logo" aria-hidden="true"><svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="28.000000" height="28.000000" fill="none">
@@ -13201,7 +13204,7 @@ const APPEARANCE_STYLES={
   dark:{name:'深色',tone:'dark',tagline:'逐层提亮',description:'画布最暗、卡片逐层提亮；主按钮自动反转为浅色，状态色保持三重编码。'},
   liquid:{name:'流光',tone:'light',tagline:'液态玻璃 · 自定义配色',description:'个性化皮肤：双色渐变底，面板与浮层为半透明液态玻璃；配色可选预设或自定义。'},
   pixel:{name:'像素',tone:'dark',tagline:'终端 · 等宽 · 像素',description:'开发者皮肤：严格中性灰、等宽字体与像素标题，直角硬边；白色表示选中，橙红表示异常。'},
-  aurora:{name:'极光',tone:'light',tagline:'网格渐变 · 深色侧栏',description:'深色网格渐变侧栏 + 浅色柔光内容区，大圆角卡片与带光晕的强调色；强调色可选。'},
+  aurora:{name:'幻彩',tone:'light',tagline:'网格渐变 · 深浅可选',description:'深色网格渐变侧栏 + 浅色柔光内容区，大圆角卡片与带光晕的强调色；强调色可选。'},
   bento:{name:'Bento',tone:'light',tagline:'分块卡片 · 浅灰画布',description:'浅灰画布上，侧栏与每个内容区都是独立的大圆角白色卡片；胶囊标签、深色选中，主操作使用可选强调色。'}
 };
 const APPEARANCE_COLORS={
@@ -13915,6 +13918,7 @@ function settingsSet(key,value){
 function settingsRow(title,desc,control){return `<div class="settings-row"><div class="settings-row-copy"><b>${title}</b>${desc?`<small>${desc}</small>`:''}</div><div class="settings-row-control">${control}</div></div>`;}
 function settingsGroup(title,rows,note=''){return `<div class="settings-group">${title?`<h4>${title}</h4>`:''}<div class="settings-card">${rows}</div>${note?`<p class="settings-note">${note}</p>`:''}</div>`;}
 function settingsToggle(key,on,locked=false){return `<button class="as2-switch" role="switch" aria-checked="${on}" ${locked?'aria-disabled="true" title="由安全策略锁定"':`data-a="settings-toggle" data-v="${key}"`}><i></i></button>`;}
+function apSeg(action,value,options){return `<div class="as-seg" role="radiogroup">${options.map(([v,l])=>`<button role="radio" aria-checked="${value===v}" data-a="${action}" data-v="${v}">${l}</button>`).join('')}</div>`;}
 function settingsSeg(key,value,options){return `<div class="as-seg" role="radiogroup">${options.map(([v,l])=>`<button role="radio" aria-checked="${value===v}" data-a="settings-set" data-v="${key}|${v}">${l}</button>`).join('')}</div>`;}
 function settingsSelect(key,value,options,label){return `<select class="settings-select" data-setting="${key}" aria-label="${label}">${options.map(([v,l])=>`<option value="${esc(v)}" ${value===v?'selected':''}>${esc(l)}</option>`).join('')}</select>`;}
 const SETTINGS_MOCK='<span class="as-badge as-badge--mock">示例 · 未接入</span>';
@@ -13926,19 +13930,18 @@ function settingsPane(sec){
       settingsRow('时区','任务时间、定时触发按此时区计算','<span class="settings-value">Asia/Shanghai · UTC+8</span>'))+
     settingsGroup('入门',settingsRow('产品指引','重新浏览四种工作方式：工作台、个人助理、Thread、固定流程',btn('导航精灵','settings-guide','','sm')));
   if(sec==='appearance'){
-    const fam=style==='liquid'?'liquid':style==='pixel'?'pixel':style==='aurora'?(st.auroraMode==='light'?'aurora-light':'aurora'):style==='bento'?'bento':'minimal';
+    const fam=style==='liquid'?'liquid':style==='pixel'?'pixel':style==='aurora'?'aurora':'minimal';
     const lp=liquidPalettes().find(x=>x[0]===st.liquidPreset),la=lp?lp[2]:st.liquidA,lb=lp?lp[3]:st.liquidB;
-    const fams=[['minimal','极简','中性灰阶 · 墨色主按钮',style==='dark'?'dark':'light'],['liquid','液态玻璃','渐变光晕 · 半透明玻璃',''],['pixel','像素','网格蓝图 · 等宽 · 直角硬边',''],['aurora','极光','网格渐变 · 深色侧栏 · 光晕强调',''],['aurora-light','极光浅色','网格渐变 · 浅色侧栏 · 光晕强调',''],['bento','Bento','分块卡片 · 浅灰画布 · 胶囊标签','']];
-    const card=([key,name,tag,tone0])=>{const tone=key==='pixel'?(st.pixelMode==='dark'?'dark':'light'):key==='bento'?(st.bentoMode==='dark'?'dark':'light'):tone0;return`<button class="ap-style" role="radio" aria-checked="${fam===key}" data-a="appearance-family" data-v="${key}"><span class="ap-art ap-art2 ap-art--${key}" data-tone="${tone}" style="--a:${la};--b:${lb};--ink:${st.pixelInk||'#F2F2F2'}" aria-hidden="true"><i class="ap2-side"><b class="ap2-dot"></b><b class="ap2-nav on"></b><b class="ap2-nav"></b><b class="ap2-nav"></b></i><i class="ap2-main"><b class="ap2-h"></b><b class="ap2-tabs"><s class="on"></s><s></s><s></s></b><b class="ap2-cards"><s></s><s></s><s></s></b><b class="ap2-btn"></b></i></span><span class="ap-style-copy"><b>${name}</b><small>${tag}</small></span></button>`;};
+    const fams=[['minimal','极简','中性灰阶 · 经典 / Bento 两种布局',style==='dark'?'dark':'light'],['aurora','幻彩','网格渐变 · 深浅可选 · 光晕强调',''],['liquid','液态玻璃','渐变光晕 · 半透明玻璃',''],['pixel','像素','网格蓝图 · 等宽 · 直角硬边','']];
+    const card=([key,name,tag,tone0])=>{const art=key==='minimal'&&style==='bento'?'bento':key==='aurora'&&st.auroraMode==='light'?'aurora-light':key;const tone=key==='pixel'?(st.pixelMode==='dark'?'dark':'light'):art==='bento'?(st.bentoMode==='dark'?'dark':'light'):tone0;return`<button class="ap-style" role="radio" aria-checked="${fam===key}" data-a="appearance-family" data-v="${key}"><span class="ap-art ap-art2 ap-art--${art}" data-tone="${tone}" style="--a:${la};--b:${lb};--ink:${st.pixelInk||'#F2F2F2'}" aria-hidden="true"><i class="ap2-side"><b class="ap2-dot"></b><b class="ap2-nav on"></b><b class="ap2-nav"></b><b class="ap2-nav"></b></i><i class="ap2-main"><b class="ap2-h"></b><b class="ap2-tabs"><s class="on"></s><s></s><s></s></b><b class="ap2-cards"><s></s><s></s><s></s></b><b class="ap2-btn"></b></i></span><span class="ap-style-copy"><b>${name}</b><small>${tag}</small></span></button>`;};
     const sw=(a,v,on,label,bg)=>`<button class="ap-swatch" role="radio" aria-checked="${on}" data-a="${a}" data-v="${esc(v)}" title="${esc(label)}"><i style="background:${bg}"></i><span>${esc(label)}</span></button>`;
-    const colors=fam==='minimal'?sw('appearance-style','classic',style==='classic','浅色','linear-gradient(135deg,#FFFFFF 50%,#E5E5E5 50%)')+sw('appearance-style','dark',style==='dark','深色','linear-gradient(135deg,#2A2A2C 50%,#0C0C0D 50%)')
+    const colors=fam==='minimal'?(style==='bento'?bentoAccents().map(([c,n])=>sw('settings-set','bentoAccent|'+c,(st.bentoAccent||'#F2541B').toUpperCase()===c.toUpperCase(),n,`linear-gradient(135deg,${c} 55%,#E7E8EB 55%)`)).join(''):'')
       :fam==='liquid'?liquidPalettes().map(([id,name,c1,c2])=>sw('settings-set','liquidPreset|'+id,st.liquidPreset===id,name.split(' · ')[1],`linear-gradient(135deg,${c1},${c2})`)).join('')+sw('settings-set','liquidPreset|custom',st.liquidPreset==='custom','自定义',`conic-gradient(from 200deg,#FF7A45,#F5C842,#2AE9CB,#23ADFF,#A165FF,#FF7A45)`)
-      :fam==='bento'?bentoAccents().map(([c,n])=>sw('settings-set','bentoAccent|'+c,(st.bentoAccent||'#F2541B').toUpperCase()===c.toUpperCase(),n,`linear-gradient(135deg,${c} 55%,#E7E8EB 55%)`)).join('')
-      :(fam==='aurora'||fam==='aurora-light')?auroraAccents().map(([c,n])=>sw('settings-set','auroraAccent|'+c,(st.auroraAccent||'#3F6BFF').toUpperCase()===c.toUpperCase(),n,`linear-gradient(135deg,${c} 55%,#0B1020 55%)`)).join('')
+      :fam==='aurora'?auroraAccents().map(([c,n])=>sw('settings-set','auroraAccent|'+c,(st.auroraAccent||'#3F6BFF').toUpperCase()===c.toUpperCase(),n,`linear-gradient(135deg,${c} 55%,#0B1020 55%)`)).join('')
       :pixelInks().map(([c,n])=>sw('settings-set','pixelInk|'+c,(st.pixelInk||'').toUpperCase()===c.toUpperCase(),n,`linear-gradient(135deg,${c} 55%,${st.pixelMode==='dark'?'#0A0A0A':'#E4E4E4'} 55%)`)).join('');
     return settingsGroup('风格',`<div class="ap-styles" role="radiogroup" aria-label="风格">${fams.map(card).join('')}</div>`)+
-      settingsGroup('颜色',`<div class="ap-swatches" role="radiogroup" aria-label="颜色">${colors}</div>`+(fam==='bento'?settingsRow('明暗','浅色：浅灰画布 + 白色卡片；深色：近黑画布 + 深灰卡片',settingsSeg('bentoMode',st.bentoMode==='dark'?'dark':'light',[['light','浅色'],['dark','深色']])):'')+(fam==='pixel'?settingsRow('底色','浅色蓝图：灰底网格 + 橙色强调；深色终端：黑底等宽',settingsSeg('pixelMode',st.pixelMode==='dark'?'dark':'light',[['light','浅色 · 蓝图'],['dark','深色 · 终端']])):'')+(fam==='liquid'&&st.liquidPreset==='custom'?settingsRow('自定义颜色','主色用于选中、运行与背景上部；辅色用于等待、高亮与背景下部',`<span class="liquid-custom"><label class="liquid-color"><input type="color" value="${esc(st.liquidA)}" data-setting="liquidA" data-liquid-color="--lq-a" aria-label="主色">主色 <code>${esc(st.liquidA.toUpperCase())}</code></label><label class="liquid-color"><input type="color" value="${esc(st.liquidB)}" data-setting="liquidB" data-liquid-color="--lq-b" aria-label="辅色">辅色 <code>${esc(st.liquidB.toUpperCase())}</code></label></span>`):''),
-        fam==='liquid'?'背景渐变、选中底色与状态色都由所选的两种颜色自动推导。':fam==='pixel'?'强调色用于选中、主按钮与焦点；状态色保持不变。':(fam==='aurora'||fam==='aurora-light')?'强调色用于选中、主按钮与侧栏光晕；状态色保持不变。':fam==='bento'?'强调色用于主按钮、链接与进度；选中固定为深色胶囊；状态色保持不变。':'')+
+      settingsGroup('颜色',(fam==='minimal'?settingsRow('布局','经典：中性灰阶 · 通栏面板；Bento：浅灰画布上的分块卡片',apSeg('appearance-layout',style==='bento'?'bento':'classic',[['classic','经典'],['bento','Bento']]))+settingsRow('明暗','浅色 / 深色',apSeg('appearance-tone',(style==='dark'||(style==='bento'&&st.bentoMode==='dark'))?'dark':'light',[['light','浅色'],['dark','深色']])):'')+(fam==='aurora'?settingsRow('明暗','深色：深色网格侧栏；浅色：浅色网格侧栏',settingsSeg('auroraMode',st.auroraMode==='light'?'light':'dark',[['dark','深色'],['light','浅色']])):'')+(colors?`<div class="ap-swatches" role="radiogroup" aria-label="颜色">${colors}</div>`:'')+(fam==='pixel'?settingsRow('底色','浅色蓝图：灰底网格 + 橙色强调；深色终端：黑底等宽',settingsSeg('pixelMode',st.pixelMode==='dark'?'dark':'light',[['light','浅色 · 蓝图'],['dark','深色 · 终端']])):'')+(fam==='liquid'&&st.liquidPreset==='custom'?settingsRow('自定义颜色','主色用于选中、运行与背景上部；辅色用于等待、高亮与背景下部',`<span class="liquid-custom"><label class="liquid-color"><input type="color" value="${esc(st.liquidA)}" data-setting="liquidA" data-liquid-color="--lq-a" aria-label="主色">主色 <code>${esc(st.liquidA.toUpperCase())}</code></label><label class="liquid-color"><input type="color" value="${esc(st.liquidB)}" data-setting="liquidB" data-liquid-color="--lq-b" aria-label="辅色">辅色 <code>${esc(st.liquidB.toUpperCase())}</code></label></span>`):''),
+        fam==='liquid'?'背景渐变、选中底色与状态色都由所选的两种颜色自动推导。':fam==='pixel'?'强调色用于选中、主按钮与焦点；状态色保持不变。':fam==='aurora'?'强调色用于选中、主按钮与侧栏光晕；状态色保持不变。':(fam==='minimal'&&style==='bento')?'强调色用于主按钮、链接与进度；选中固定为深色胶囊；状态色保持不变。':'')+
       (fam==='liquid'?glassPaneHtml():'')+
       settingsGroup('显示',
         settingsRow('界面密度','紧凑模式收紧行高与间距，一屏显示更多任务与消息',settingsSeg('density',st.density,[['comfortable','舒适'],['compact','紧凑']]))+
@@ -14020,7 +14023,9 @@ function openSettings(section){
 }
 function settingsAction(a,v){
   if(a==='appearance-style'&&document.querySelector('#modalHost .settings-modal')){appearanceSelect('style',v);openSettings('appearance');return true;}
-  if(a==='appearance-family'){const cur=appearanceConfig().style;const next=v==='minimal'?(cur==='dark'||cur==='classic'?cur:'classic'):(v==='aurora-light'?'aurora':v);if(v==='aurora'||v==='aurora-light'){settingsConfig().auroraMode=v==='aurora-light'?'light':'dark';}appearanceSelect('style',next);settingsApply();openSettings('appearance');return true;}
+  if(a==='appearance-family'){const cur=appearanceConfig().style;const next=v==='minimal'?(['classic','dark','bento'].includes(cur)?cur:'classic'):v;appearanceSelect('style',next);settingsApply();openSettings('appearance');return true;}
+  if(a==='appearance-layout'){const cur=appearanceConfig().style,dark=cur==='dark'||(cur==='bento'&&settingsConfig().bentoMode==='dark');if(v==='bento'){appearanceSelect('style','bento');settingsConfig().bentoMode=dark?'dark':'light';}else appearanceSelect('style',dark?'dark':'classic');save();settingsApply();openSettings('appearance');return true;}
+  if(a==='appearance-tone'){const cur=appearanceConfig().style;if(cur==='bento'){settingsConfig().bentoMode=v==='dark'?'dark':'light';}else appearanceSelect('style',v==='dark'?'dark':'classic');save();settingsApply();openSettings('appearance');return true;}
   switch(a){
     case 'settings-section':openSettings(v);return true;
     case 'settings-toggle':{const st=settingsConfig();if(v==='railLabels'){const r=railConfig();settingsConfig().rail={labels:!r.labels,top:r.top,bottom:r.bottom,more:r.more};save();settingsApply();render();openSettings('nav');return true;}st[v]=!st[v];save();settingsApply();openSettings();return true;}
@@ -15431,11 +15436,10 @@ function umColorOptions(key){
   const st=settingsConfig(),ap=appearanceConfig().style;
   const o=(v,label,on,sw)=>`<button role="menuitemradio" aria-checked="${on}" class="um-opt" data-a="user-color" data-v="${key}|${v}">${sw||''}<span>${label}</span><i>${on?ico('check'):''}</i></button>`;
   const sep='<div class="as2-menu-sep"></div>';
-  if(key==='classic')return o('classic','浅色',ap==='classic',umSwatch('linear-gradient(135deg,#fff 50%,#E5E5E5 50%)',1))+o('dark','深色',ap==='dark',umSwatch('linear-gradient(135deg,#3A3A3E 50%,#0C0C0D 50%)'));
+  if(key==='minimal'){const dark=ap==='dark'||(ap==='bento'&&st.bentoMode==='dark');return o('layout:classic','经典布局',ap==='classic'||ap==='dark','')+o('layout:bento','Bento 布局',ap==='bento','')+sep+o('tone:light','浅色',!dark,umSwatch('linear-gradient(135deg,#fff 50%,#E5E5E5 50%)',1))+o('tone:dark','深色',dark,umSwatch('linear-gradient(135deg,#3A3A3E 50%,#0C0C0D 50%)'))+(ap==='bento'?sep+bentoAccents().map(([c,n])=>o('accent:'+c,n,String(st.bentoAccent||'#F2541B').toUpperCase()===c.toUpperCase(),umSwatch(c))).join(''):'');}
   if(key==='liquid')return liquidPalettes().map(([id,name,c1,c2])=>o('preset:'+id,name.split(' · ')[1]||name,ap==='liquid'&&st.liquidPreset===id,umSwatch(`linear-gradient(135deg,${c1},${c2})`))).join('');
   if(key==='pixel')return o('mode:light','浅色 · 蓝图',ap==='pixel'&&st.pixelMode!=='dark',umSwatch('linear-gradient(135deg,#F2F2F2 50%,#C8C8C8 50%)',1))+o('mode:dark','深色 · 终端',ap==='pixel'&&st.pixelMode==='dark',umSwatch('linear-gradient(135deg,#2A2A2A 50%,#0A0A0A 50%)'))+sep+pixelInks().map(([c,n])=>o('ink:'+c,n,ap==='pixel'&&String(st.pixelInk||'').toUpperCase()===c.toUpperCase(),umSwatch(c))).join('');
-  if(key==='aurora'||key==='aurora-light')return auroraAccents().map(([c,n])=>o('accent:'+c,n,ap==='aurora'&&(st.auroraMode==='light')===(key==='aurora-light')&&String(st.auroraAccent||'#3F6BFF').toUpperCase()===c.toUpperCase(),umSwatch(c))).join('');
-  if(key==='bento')return o('mode:light','浅色',ap==='bento'&&st.bentoMode!=='dark',umSwatch('linear-gradient(135deg,#fff 50%,#E8E9EC 50%)',1))+o('mode:dark','深色',ap==='bento'&&st.bentoMode==='dark',umSwatch('linear-gradient(135deg,#2C2F37 50%,#0D0E10 50%)'))+sep+bentoAccents().map(([c,n])=>o('accent:'+c,n,ap==='bento'&&String(st.bentoAccent||'#F2541B').toUpperCase()===c.toUpperCase(),umSwatch(c))).join('');
+  if(key==='aurora')return o('mode:dark','深色',ap==='aurora'&&st.auroraMode!=='light',umSwatch('linear-gradient(135deg,#2A3566 50%,#0B1020 50%)'))+o('mode:light','浅色',ap==='aurora'&&st.auroraMode==='light',umSwatch('linear-gradient(135deg,#FFFFFF 50%,#DDE5FA 50%)',1))+sep+auroraAccents().map(([c,n])=>o('accent:'+c,n,String(st.auroraAccent||'#3F6BFF').toUpperCase()===c.toUpperCase(),umSwatch(c))).join('');
   return '';
 }
 function userMenuHtml(){
@@ -15443,10 +15447,10 @@ function userMenuHtml(){
   const row=(a,v,icon,label,extra='')=>`<button role="menuitem" data-a="${a}" data-v="${v}">${ico(icon)}<span>${label}</span>${extra}</button>`;
   const opt=(a,v,label,on)=>`<button role="menuitemradio" aria-checked="${on}" class="um-opt" data-a="${a}" data-v="${v}"><span>${label}</span><i>${on?ico('check'):''}</i></button>`;
   const group=(key,icon,label,cur,opts)=>`<div class="um-item" data-open="${!!open[key]}"><button role="menuitem" aria-haspopup="menu" class="um-group" data-a="user-group" data-v="${key}" aria-expanded="${!!open[key]}">${ico(icon)}<span>${label}</span><em>${cur}</em><i>${ico('chevron')}</i></button><div class="um-fly" role="menu">${opts}</div></div>`;
-  const styles=[['classic','极简'],['liquid','液态玻璃'],['pixel','像素'],['aurora','极光'],['aurora-light','极光浅色'],['bento','Bento']];
-  const cur=style==='dark'?'classic':(style==='aurora'&&settingsConfig().auroraMode==='light'?'aurora-light':style);
-  const styleOpts=styles.map(([k,l])=>`<div class="um-style"><button role="menuitemradio" aria-haspopup="menu" aria-checked="${cur===k}" class="um-opt um-opt--style" data-a="user-style" data-v="${k}"><span class="um-ic" aria-hidden="true">${UM_STYLE_ICON[k]}</span><span>${l}</span><i>${cur===k?ico('check'):''}</i><u class="um-more">${ico('chevron')}</u></button><div class="um-fly um-fly2" role="menu" aria-label="${l} 颜色">${umColorOptions(k)}</div></div>`).join('');
-  const curLabel=({classic:'极简 · 浅色',dark:'极简 · 深色',liquid:'液态玻璃',pixel:'像素',aurora:(settingsConfig().auroraMode==='light'?'极光浅色':'极光'),bento:'Bento'})[style]||'';
+  const styles=[['minimal','极简'],['aurora','幻彩'],['liquid','液态玻璃'],['pixel','像素']];
+  const cur=['liquid','pixel','aurora'].includes(style)?style:'minimal';
+  const styleOpts=styles.map(([k,l])=>`<div class="um-style"><button role="menuitemradio" aria-haspopup="menu" aria-checked="${cur===k}" class="um-opt um-opt--style" data-a="user-style" data-v="${k}"><span class="um-ic" aria-hidden="true">${UM_STYLE_ICON[k==='minimal'?(style==='bento'?'bento':'classic'):k==='aurora'&&settingsConfig().auroraMode==='light'?'aurora-light':k]}</span><span>${l}</span><i>${cur===k?ico('check'):''}</i><u class="um-more">${ico('chevron')}</u></button><div class="um-fly um-fly2" role="menu" aria-label="${l} 颜色">${umColorOptions(k)}</div></div>`).join('');
+  const _st=settingsConfig(),curLabel=style==='liquid'?'液态玻璃':style==='pixel'?'像素':style==='aurora'?('幻彩 · '+(_st.auroraMode==='light'?'浅色':'深色')):('极简 · '+(style==='bento'?'Bento':'经典')+' · '+((style==='dark'||(style==='bento'&&_st.bentoMode==='dark'))?'深色':'浅色'));
   return `<div class="um-head"><span class="um-face" role="img" aria-label="Vinnie" style="${((window.AS2_AVATARS||{}).me)?'background-image:url(&quot;'+window.AS2_AVATARS.me+'&quot;)':''}"></span><b>Vinnie</b></div><div class="as2-menu-sep"></div>`
    +row('user-settings','','settings','设置')
    +group('appearance','spark','外观主题',curLabel,styleOpts)
@@ -15465,23 +15469,28 @@ function userMenuRefresh(){const m=document.querySelector('.user-menu');if(!m)re
 // 二级菜单选中一个颜色 / 明暗：必要时先切到该风格，再写入对应设置并立即生效（不打开设置弹窗）
 function userColorApply(v){
   const [key,rest]=String(v).split('|'),[kind,val]=rest.includes(':')?[rest.slice(0,rest.indexOf(':')),rest.slice(rest.indexOf(':')+1)]:['',rest];
-  if(key==='classic'){appearanceSelect('style',val);userMenuRefresh();return;}
-  const _real=key==='aurora-light'?'aurora':key;
-  if(key==='aurora'||key==='aurora-light')settingsConfig().auroraMode=key==='aurora-light'?'light':'dark';
-  if(appearanceConfig().style!==_real)appearanceSelect('style',_real);
-  const st=settingsConfig();if(key==='aurora'||key==='aurora-light')st.auroraMode=key==='aurora-light'?'light':'dark';  // 切换风格会重建 settings 对象，必须在切换之后再取
-  if(key==='liquid'){const p=liquidPalettes().find(x=>x[0]===val);st.liquidPreset=val;if(p){st.liquidA=p[2];st.liquidB=p[3];}}
-  else if(key==='pixel'){if(kind==='mode'){st.pixelMode=val;pixelInkNormalize(st);st.pixelInk=pixelInks(val)[0][0];}else if(kind==='ink')st.pixelInk=val;}
-  else if(key==='aurora'||key==='aurora-light')st.auroraAccent=val;
-  else if(key==='bento'){if(kind==='mode')st.bentoMode=val;else st.bentoAccent=val;}
-  save();appearanceApply();userMenuRefresh();
+  const cur=appearanceConfig().style;
+  if(key==='minimal'){
+    if(kind==='layout'){const dark=cur==='dark'||(cur==='bento'&&settingsConfig().bentoMode==='dark');if(val==='bento'){appearanceSelect('style','bento');settingsConfig().bentoMode=dark?'dark':'light';}else appearanceSelect('style',dark?'dark':'classic');}
+    else if(kind==='tone'){if(cur==='bento')settingsConfig().bentoMode=val==='dark'?'dark':'light';else appearanceSelect('style',val==='dark'?'dark':'classic');}
+    else if(kind==='accent'){if(cur!=='bento')appearanceSelect('style','bento');settingsConfig().bentoAccent=val;}
+  }else if(key==='aurora'){
+    if(cur!=='aurora')appearanceSelect('style','aurora');
+    const st=settingsConfig();if(kind==='mode')st.auroraMode=val==='light'?'light':'dark';else if(kind==='accent')st.auroraAccent=val;
+  }else{
+    if(cur!==key)appearanceSelect('style',key);
+    const st=settingsConfig();
+    if(key==='liquid'){const p=liquidPalettes().find(x=>x[0]===val);st.liquidPreset=val;if(p){st.liquidA=p[2];st.liquidB=p[3];}}
+    else if(key==='pixel'){if(kind==='mode'){st.pixelMode=val;pixelInkNormalize(st);st.pixelInk=pixelInks(val)[0][0];}else if(kind==='ink')st.pixelInk=val;}
+  }
+  save();appearanceApply();settingsApply();userMenuRefresh();
 }
 function userMenuAction(a,v){
   if(!a.startsWith('user-'))return false;
   if(a==='user-menu'){document.querySelector('.user-menu')?userMenuClose():userMenuOpen();return true;}
   if(a==='user-group')return true; // 子菜单只在悬停 / 键盘聚焦时展开（同一时间只会有一个），点击不再切换状态
   if(a==='user-appearance'){appearanceSelect('style',v);userMenuRefresh();return true;}
-  if(a==='user-style'){const cur=appearanceConfig().style;if(v==='aurora'||v==='aurora-light')settingsConfig().auroraMode=v==='aurora-light'?'light':'dark';appearanceSelect('style',v==='classic'?(cur==='dark'?'dark':'classic'):(v==='aurora-light'?'aurora':v));if(v==='aurora'||v==='aurora-light'){settingsConfig().auroraMode=v==='aurora-light'?'light':'dark';save();}settingsApply();userMenuRefresh();return true;}
+  if(a==='user-style'){const cur=appearanceConfig().style;appearanceSelect('style',v==='minimal'?(['classic','dark','bento'].includes(cur)?cur:'classic'):v);save();settingsApply();userMenuRefresh();return true;}
   if(a==='user-color'){userColorApply(v);return true;}
   if(a==='user-lang'){try{localStorage.setItem('as2-lang',v);}catch(e){}if(typeof i18nApplyAll==='function')i18nApplyAll();userMenuRefresh();return true;}
   if(a==='user-settings'){userMenuClose();openSettings();return true;}
